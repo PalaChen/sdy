@@ -1,0 +1,28 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ title }}——盛德业管理后台</title>
+    {% include 'master_b/_head.html' %}
+    {% block css %}{% endblock %}
+</head>
+<body>
+
+<div style="position: relative">
+    {# 头部内容 #}
+    {% include 'master_b/_nav.html' %}
+    {# 左边内容 #}
+    {% include "master_b/_aside.html" %}
+    {# 右边内容 #}
+    <div id="pg_content">
+        <p class="text-left"><h3>{{ title }}</h3></p>
+        {% block page_content %}{% endblock %}
+        {% include 'master_b/_pagination.html' %}
+    </div>
+</div>
+
+</body>
+
+<script src="/static/js/jquery-3.1.1.js"></script>
+<script src="/static/plugins/bootstrap/js/bootstrap.js"></script>
+{% block scripts %}{% endblock %}
+</html>

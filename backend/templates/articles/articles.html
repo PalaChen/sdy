@@ -1,0 +1,79 @@
+{% extends 'master_b/layout.html' %}
+
+
+
+{% block page_content %}
+
+
+    <div>
+        <a class="btn btn-primary" href="{% url 'articles_add' %}">添加</a>
+    </div>
+    <div style="margin: 10px 0; ">
+        <form method="post" action="{% url 'articles_serach' %}" class="form-inline">
+            <div class="form-group marR20">
+                <label>搜索：分类</label>
+                {{ form.category_id }}
+            </div>
+            <div class="form-group marR20">
+                <label>类型</label>
+                {{ form.status }}
+            </div>
+            <div class="form-group marR20">
+                <label>置顶</label>
+                <input type="checkbox" name="is_top" class="form-control">
+            </div>
+            <div class="form-group marR20">
+                <label class="sr-only">搜索内容</label>
+                <input type="text" class="form-control" placeholder="搜索内容">
+            </div>
+            <button type="submit" class="btn btn-default">提交</button>
+        </form>
+    </div>
+    <table class="table table-striped">
+        <thead>
+        <th></th>
+        <th>ID</th>
+        <th>栏目</th>
+        <th>标题</th>
+        <th>日期</th>
+        <th>作者</th>
+        <th>评论数</th>
+        <th>浏览数</th>
+        <th>状态</th>
+        <th>操作</th>
+        </thead>
+        <tbody>
+        {% for line in posts.object_list %}
+            <tr>
+                <td><input type="checkbox"></td>
+                <td for="id">{{ line.id }}</td>
+                <td for="category_id">{{ line.category.name }}</td>
+                <td for="title">{{ line.title }}</td>
+                <td>{{ line.creat_date|date:"Y-m-d H:i:s" }}</td>
+                <td>{{ line.author.name }}</td>
+                <td>{{ line.comments }}</td>
+                <td>{{ line.views }}</td>
+                <td for="status">
+                    {% if line.status == -1 %}
+                        审核
+                    {% elif line.status == 0 %}
+                        草稿
+                    {% else %}
+                        公开
+                    {% endif %}
+                </td>
+                <td>
+                    <a href="{% url 'articles_edit' line.id %}" class="initialize btn glyphicon glyphicon-pencil"></a>
+                    <a class="initialize btn glyphicon glyphicon-remove"></a>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+
+{% endblock %}
+
+{% block scripts %}
+    <script src="/static/js/admin_index.js"></script>
+{% endblock %}

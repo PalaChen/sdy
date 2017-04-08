@@ -1,0 +1,118 @@
+{% extends 'product/master/base.html' %}
+
+{% block page_content %}
+    <div class="minwidth overflowvisible">
+    <div class="product-intro clearfix">
+        <div class="product-item-preview floatLeft">
+            <div class="product-slider">
+                <ul id="productSlider" class="product-slider-content">
+                    <li style="opacity: 1">
+                        <p>
+                            <img src="/{{ product_obj.pro_image.all.first.ul_url }}"
+                                 alt="{{ product_obj.p_namem }}">
+                        </p>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="product-item-inner floatLeft">
+            <div class="name">
+                <h1>{{ product_obj.p_name }}</h1>
+                <p class="tips"></p>
+            </div>
+            <div id="productOnLine" style="display:block;">
+                <div class="price">
+                    <div id="costprice" class="market-price clearfix" style="">
+                        <div class="dt">市场价：</div>
+                        <div class="dd">
+                            <del id="costprice2">￥{{ product_obj.p_market_price }}</del>
+                        </div>
+                    </div>
+                    <div class="summary-price clearfix">
+                        <div class="dt">价 格：</div>
+                        <div class="dd">
+                                <span class="t-productprice">
+                                ￥
+                                <font>{{ product_obj.p_price }}</font>
+                                元
+                                </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="type clearfix">
+                    <div class="dt">类 型：</div>
+                    <div class="dd">
+                        <ul class="item-type clearfix">
+                            {% for line in service_obj %}
+                                <li class="item ">
+                                    <a href="/product/{{ line.products.id }}.html">{{ line.name }}</a>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+                <div class="region clearfix t-showarea" style="">
+                    <div class="dt">地 区：</div>
+                    <div class="dd">
+                        <div class="region-selector">
+                            <div class="text">
+                                <span class="t-pcatitle">四川省-成都市-高新区</span>
+                                <b></b>
+                            </div>
+                            <div class="content">
+                                <div class="stock-select">
+                                    <div class="spacer"></div>
+                                    <ul id="diqu1" class="stock-tab clearfix">
+                                        <li></li>
+                                    </ul>
+                                    <div class="stock-con">
+                                        <a class="stock-close" href=""></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="btn" style="">
+                    <a class="payment select-provider" target="_blank">购买</a>
+                </div>
+                <div id="productOffLine" class="product-offline" style="display:none;"></div>
+            </div>
+        </div>
+        <div class="wrapper">
+            <div class="product-main floatRight">
+                <div id="productDetail" class="product-detail">
+                    <div class="product-detail-tab">
+                        <div id="protabInner" class="clearfix">
+                            <ul class="detail-tab-trigger clearfix floatLeft">
+                                <li class="firstLi active">
+                                    <a href="javascript:;" data-href="#productDetail" rel="nofollow">服务介绍</a>
+                                </li>
+                                <li>
+                                    <a href="javascript:;" data-href="#proEvaluate" rel="nofollow">
+                                        用户评价
+                                        <em id="productEvaluationTotal">(5414)</em>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="product-detail-wrapper">
+                        <div class="product-details-content bdTopNo">
+                            {{ product_obj.p_details }}
+                        </div>
+                        {% include 'product/master/_comments.html' %}
+                    </div>
+                </div>
+            </div>
+            {% include 'product/master/_aside.html' %}
+
+
+        </div>
+    </div>
+{% endblock %}
+
+{% block scripts %}
+    <script src="/static/js/sdynav1.js"></script>
+
+{% endblock %}

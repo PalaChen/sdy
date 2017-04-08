@@ -1,0 +1,85 @@
+{% extends 'user/master/base.html' %}
+
+{% block head %}
+    <link type="text/css" rel="stylesheet" href="/static/plugins/bootstrap/css/bootstrap.min.css">
+{% endblock %}
+
+{% block content %}
+    <div class="uCont">
+        <ul class="uC">
+            <li class="panel">
+                <div class="tabWrap">
+                    <ul class="tables myProfile">
+                        <li>
+                            <a href="{% url 'user_info' %}">基本资料</a>
+                        </li>
+                        <li class="current">
+                            <a href="{% url 'user_edit_phone' %}">修改手机号</a>
+                        </li>
+                        <li>
+                            <a href="{% url 'user_edit_pwd' %}">修改密码</a>
+                        </li>
+                    </ul>
+                    <div class="tabCont">
+                        <div class="state current">
+                            <form id="mobileForm" class="myProfileForm" autocomplete="off" novalidate="novalidate">
+                                <ul class="inputLayout myProfile-panel form-panel">
+                                    <li>
+                                        <label class="group form-label">
+                                            <b>*</b>
+                                            登录密码：
+                                        </label>
+                                        <input class="form-input pass-input" name="password" value=""
+                                               type="password">
+                                    </li>
+                                    <li>
+                                        <label class="group form-label">
+                                            <b>*</b>
+                                            新手机号：
+                                        </label>
+                                        <input class="form-input pass-input" name="phone" value=""
+                                               type="text">
+                                    </li>
+                                    <li>
+                                        <label class="group form-label">
+                                            <b>*</b>
+                                            短信验证码：
+                                        </label>
+                                        <input class="form-input pass-input" style="width: 118px;"
+                                               name="verify_code" value="" type="text">
+                                        <a id="user_getcode" class="reg-click" style="width:86px;color: white;">点击获取</a>
+                                    </li>
+                                    <li>
+                                        <label class="group form-label"></label>
+                                        <a id="submitMobileButton" class="form-buttom" href="javascript:;">保存</a>
+                                    </li>
+                                </ul>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </li>
+        </ul>
+    </div>
+    <div class="modal fade bs-example-modal-sm" id="Model_result" tabindex="-1" role="dialog"
+         aria-labelledby="mySmallModalLabel">
+        <div class="modal-dialog modal-sm" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">修改手机号码</h4>
+                </div>
+                <div class="modal-body">
+
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block scripts %}
+    <script src="/static/js/jquery-3.1.1.js"></script>
+    <script src="/static/plugins/bootstrap/js/bootstrap.min.js"></script>
+    <script src="/static/js/user_index.js"></script>
+{% endblock %}

@@ -1,0 +1,51 @@
+{% extends 'master_b/layout.html' %}
+
+{% block page_content %}
+    <div class="col-md-4">
+        <form action="{% url 'p_service_add' %}" method="post">
+            {% csrf_token %}
+            <div class="form-group">
+                <label>服务名</label>
+                {{ form.name }}
+                {{ form.errors.name.0 }}
+            </div>
+            <div class="form-group">
+                <label>编号</label>
+                {{ form.number }}
+                {{ form.errors.number.0 }}
+            </div>
+            <div class="form-group">
+                <label>分类</label>
+                {{ form.category_id }}
+                {{ form.errors.category_id.0 }}
+            </div>
+            <div class="form-group">
+                <label>续费提醒</label>
+                {{ form.renewal_reminder }}
+                {{ form.errors.renewal_reminder.0 }}
+            </div>
+            <div class="form-group" style="margin-top: 40px">
+                <button name="submit" type="submit" class="btn btn-primary">添加业务</button>
+                <span class="btn btn-default" onclick="location.href='{% url 'p_service' %}'">取消</span>
+            </div>
+        </form>
+    </div>
+{% endblock %}
+
+{% block scripts %}
+    <script>
+        function add(ths) {
+            var $clone_obj = $(ths).parent().clone();
+
+            $clone_obj.children(':text').prop("value", "");
+            $clone_obj.children('.form-left').prop("name", "step_number");
+            $clone_obj.children('.form-right').prop("name", "step_name");
+            $clone_obj.children("span").removeClass('glyphicon glyphicon-plus').addClass('glyphicon glyphicon-minus').attr('onclick', 'remove_obj(this)');
+            $('[name="submit"]').before($clone_obj);
+        }
+        function remove_obj(self) {
+            $(self).parent().remove();
+        }
+
+    </script>
+{% endblock %}

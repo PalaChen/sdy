@@ -1,0 +1,93 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}{% endblock %} - 盛德业</title>
+    {% block head %}{% endblock %}
+    {% include 'news/master/_head.html' %}
+</head>
+<body>
+{% include 'news/master/_nav.html' %}
+<div class="minwidth">
+    <ul class="breadcrumb">
+        <li>
+            <a href="{% url 'news_index' %}">首页</a>
+        </li>
+        <li class="interval"></li>
+        <li class="active">{{ post.category.name }}</li>
+    </ul>
+</div>
+<div class="minwidth">
+    <div class="right-section floatRight">
+        <div class="article-author">
+            <div class="img percentRadius50">
+                <a href="" target="_blank">
+                    <img class="percentRadius50" src="">
+                </a>
+            </div>
+            <div class="name">
+                <a href="" target="_blank">{{ post.author.name }}</a>
+            </div>
+            <div class="brief">--</div>
+            <div class="number">
+                <p>
+                    <em>{{ post.author.counts }}</em>
+                    篇文章
+                </p>
+                <span>|</span>
+                <p>
+                    <em>{{ post.author.views }}</em>
+                    阅读量
+                </p>
+            </div>
+        </div>
+        <div class="article-newest borderFFF">
+            <h3 class="tit">
+                最新文章
+                <a class="more" href="/consultnews/articlelist/authorid/14.html" target="_blank">更多></a>
+            </h3>
+            <ul class="news-side-list">
+                {% for line in articles_obj %}
+                    <li class="firstLi">
+                        <label class="label">
+                            <b></b>
+                        </label>
+                        <div class="text">
+                            <p>
+                                <a href="/" target="_blank">{{ line.title }}</a>
+                            </p>
+                            <p class="time">{{ line.creat_date|date:'Y-m-d H:i:,' }}</p>
+                        </div>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+        {% include 'news/master/_aside.html' %}
+    </div>
+    <div class="news-content floatLeft bgWhite">
+        {% block page_content %}{% endblock %}
+{#        <div class="shareBut">#}
+{#            <a class="lickWeibo" href="javascript:void(0)">分享长微博</a>#}
+{#            <a class="sBRi lickWeixin" href="javascript:void(0)">分享到微信</a>#}
+{#        </div>#}
+        <div class="cPages" style="padding: 0 30px 0 40px">
+            <a class="group" href="/news/{{ post.category_id }}-{{ post.id }}.html">
+                <span>阅读上一篇</span>
+{#                <span class="cPagesText">广东省人社厅公布“十三五”规划...</span>#}
+            </a>
+            <a class="floatRight" href="/news/{{ post.category_id }}-{{ post.id }}.html">
+                <span>阅读下一篇</span>
+{#                <span class="cPagesText">公司注册类型是什么意思？初创公...</span>#}
+            </a>
+        </div>
+    </div>
+
+    {% include 'news/master/_footer.html' %}
+</div>
+</body>
+
+
+
+{% block scripts %}
+
+{% endblock %}
+</html>

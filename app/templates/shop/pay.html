@@ -1,0 +1,74 @@
+{% extends 'shop/master/base.html' %}
+
+{% block page_content %}
+    <div class="main padB26 greyf5f5f5">
+        <div class="minwidth marT40">
+            <ul class="buySerList">
+                <li>
+                    <div class="floatLeft listLe payListLe">
+                        <div class="payokWrap">
+                            <img src="/Public/Image/payok.png" alt="">
+                        </div>
+                    </div>
+                    <div class="floatLeft listRi payListRi odersIsOk">
+                        <h2>订单提交成功，请尽快支付！</h2>
+                        <ul class="clearfix marB20">
+                            <li>
+                                <span>订单号：</span>
+                                <div>
+                                    9170408458106
+                                    <a id="showDetails" class="showDetails cur" href="javascript:void(0)">
+                                        订单详情
+                                        <i></i>
+                                    </a>
+                                </div>
+                                <p></p>
+                            </li>
+                            <li id="infoDetails" style="display: list-item;">
+                                <span>详情：</span>
+                                <div>
+                                    <p>工商年报公示 X 1</p>
+                                </div>
+                            </li>
+                        </ul>
+                        <div class="orderPrice">
+                            应付总额：
+                            <em>199元</em>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="minwidth">
+        <form id="payform" action="/pay/248661" method="post" target="_blank"
+              onkeydown="if(event.keyCode==13){return false;}">
+            <input name="id" value="248661" type="hidden">
+            <div class="minwidth paywayCon">
+                <ul id="buyRadia-pay" class="buySerList buyBorder buyRadia-pay" style="margin-top:0">
+                    <li class="t-payonlineway">
+                        <h3 class="titleInside">微信/支付宝</h3>
+                        <div class="listBorder">
+                            <ol class="buyRadia overflowhidden payRadia">
+                                <li id="bd_alipay" class="t-bank">
+                                    <div class="radios radiosW marL40">
+                                        <input name="bankid" value="-1" type="radio">
+                                        <img alt="支付宝" src="/static/images/icon/icon-alipay.png">
+                                        支付宝支付
+                                    </div>
+                                </li>
+                                <li id="bd_weixin">
+                                    <div id="nativeCodePayBtn" class="radios radiosW marL40">
+                                        <input class="group" name="bankid" value="-2" type="radio">
+                                        <img alt="微信" src="/static/images/icon/icon-weixin.png">
+                                        微信支付
+                                    </div>
+                                </li>
+                            </ol>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </form>
+    </div>
+{% endblock %}

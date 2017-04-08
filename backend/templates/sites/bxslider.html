@@ -1,0 +1,146 @@
+{% extends 'master_b/layout.html' %}
+
+
+{% block page_content %}
+
+
+    <div style="position: absolute; left: 100px;right: 0">
+        <div>
+            <button type="button" class="btn btn-primary" id="add_bxslider">添加</button>
+        </div>
+        <table id="tb_content" class="table table-striped">
+            <thead>
+            <tr>
+                <th>id</th>
+                <th>图片</th>
+                <th>权重</th>
+                <th>状态</th>
+                <th>名字</th>
+                <th>日期</th>
+                <th>员工</th>
+                <th>操作</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for line in obj %}
+                <tr for="bxslider_edit" nid="{{ line.id }}">
+                    <td for="nid">{{ line.id }}</td>
+                    <td>
+                        <img src="/{{ line.img }}" style="width: 100px;height: 50px">
+                    </td>
+                    <td for="weight">{{ line.weight }}</td>
+                    <td for="status">
+                        {% if line.status == 0 %}
+                            下架
+                        {% else %}
+                            上架
+                        {% endif %}
+                    </td>
+                    <td for="name">{{ line.name }}</td>
+                    <td>{{ line.create_date }}</td>
+                    <td for="employee_id">员工姓名</td>
+                    <td>
+                        <a class="initialize btn glyphicon glyphicon-pencil initialize"></a>
+                        <a class="initialize btn glyphicon glyphicon-remove initialize"></a>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+
+    </div>
+    {% include 'master_b/_aside_second.html' %}
+
+    <div class="modal fade bs-example-modal-sm marT100" for="bxslider_add" id="Model_AddInfo" tabindex="-1"
+         role="dialog"
+         aria-labelledby="mySmallModalLabel">
+        <div class="modal-dialog modal-sm" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">添加主页轮播图</h4>
+                </div>
+                <div class="modal-body">
+                    <form id="fm_body" enctype="multipart/form-data" method="post">
+                        {% csrf_token %}
+
+                        <div class="form-group form-inline">
+                            <label>权重：</label>
+                            <input type="text" class="form-control" placeholder="数字越大越靠前" name="weight">
+                            {{ form.errors.weight.0 }}
+                        </div>
+
+                        <div class="form-group form-inline">
+                            <label>状态：</label>
+                            <label class="radio-inline">
+                                <input type="radio" name="status" value="1" checked="">上架
+                            </label>
+                            <label class="radio-inline">
+                                <input type="radio" name="status" value="0">下架
+                            </label>
+                        </div>
+
+                        <div class="form-group form-inline">
+                            <label>图片上传：</label>
+                            <input type="file" name="img" class="img_upload">
+                            {{ form.errors.img.0 }}
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                    <button type="button" class="btn btn-primary btn_Save">保存</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade bs-example-modal-sm marT100" id="Model_EditInfo" tabindex="-1" role="dialog"
+         aria-labelledby="mySmallModalLabel">
+        <div class="modal-dialog modal-sm" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">修改主页轮播图</h4>
+                </div>
+                <div class="modal-body">
+                    <form id="fm_body" enctype="multipart/form-data" method="post">
+                        {% csrf_token %}
+                        <input type="text" class="form-control hide" name="nid" value="">
+                        <div class="form-group form-inline">
+                            <label>权重：</label>
+                            <input type="text" class="form-control" placeholder="数字越大越靠前" name="weight">
+                            {{ form.errors.weight.0 }}
+                        </div>
+
+                        <div class="form-group form-inline">
+                            <label>状态：</label>
+                            <label class="radio-inline">
+                                <input type="radio" name="status" value="1">上架
+                            </label>
+                            <label class="radio-inline">
+                                <input type="radio" name="status" value="0">下架
+                            </label>
+                        </div>
+
+                        <div class="form-group form-inline">
+                            <label>图片上传：</label>
+                            <input type="file" name="img" class="img_upload">
+                            {{ form.errors.img.0 }}
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                    <button type="button" class="btn btn-primary btn_Save">保存</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% include  'master_b/_delSubmit.html' %}
+{% endblock %}
+
+{% block scripts %}
+    <script src="/static/js/admin_index.js"></script>
+{% endblock %}

@@ -1,0 +1,84 @@
+
+.section-title {
+    height: 40px;
+    margin: 0 auto 32px;
+    position: relative;
+    text-align: center;
+    width: 70%;
+}
+.section-title .line {
+    background: #30bef3 none repeat scroll 0 0;
+    height: 1px;
+    left: 0;
+    position: absolute;
+    top: 50%;
+    width: 100%;
+    z-index: 2;
+}
+
+.section-title .name {
+    background: #fff none repeat scroll 0 0;
+    color: #30bef3;
+    font-size: 30px;
+    font-weight: 700;
+    left: 50%;
+    margin-left: -120px;
+    padding: 0 30px;
+    position: absolute;
+    top: 0;
+    z-index: 3;
+}
+
+.grid-box::before {
+    content: "";
+    display: block;
+}
+.grid-box::after {
+    clear: both;
+    content: "";
+    display: table;
+}
+
+.grid-item {
+    border-bottom: 1px dashed #d8d8d8;
+    border-right: 1px dashed #d8d8d8;
+    float: left;
+    font-size: 14px;
+    text-align: center;
+    width: 24.9%;
+}
+
+.grid-item .pd {
+    padding: 24px 20px;
+}
+
+.grid-item .title {
+    color: #333;
+    margin-bottom: 14px;
+}
+
+.grid-item .des {
+    color: #666;
+    height: 38px;
+    margin-bottom: 30px;
+}
+
+.grid-item .price {
+    color: #ff8261;
+    font-size: 18px;
+    margin-bottom: 12px;
+}
+
+.grid-item .price span {
+    margin-right: 5px;
+}
+
+.btn-info {
+    background: #30bef3 none repeat scroll 0 0;
+    color: #fff;
+    cursor: pointer;
+    display: inline-block;
+    font-size: 14px;
+    padding: 4px 22px;
+    text-align: center;
+}

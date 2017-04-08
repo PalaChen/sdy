@@ -1,0 +1,28 @@
+<div class="right-section floatRight">
+    <div class="right-section-inner">
+        <div class="news-side">
+            <div class="news-side-tab clearfix">
+                <a class="tab active" >排行</a>
+            </div>
+            <div class="news-side-con">
+                <div class="news-side-box ps-container" style="display: block">
+                    <ul class="news-side-list">
+                        {% for line in hot_articles_obj %}
+                            <li class="firstLi">
+{#                                <label class="label">#}
+{#                                    <em class="top">1</em>#}
+{#                                </label>#}
+                                <div class="text">
+                                    <p>
+                                        <a href="/news/{{ line.category_id }}-{{ line.id }}.html">{{ line.title }}</a>
+                                    </p>
+                                    <p class="time">{{ line.creat_date|date:'Y-m-d H:i:m' }}</p>
+                                </div>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

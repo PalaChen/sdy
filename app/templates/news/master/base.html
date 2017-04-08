@@ -1,0 +1,26 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ title }}{% block title %}{% endblock %} - 盛德业</title>
+    {% block head %}{% endblock %}
+    {% include 'news/master/_head.html' %}
+</head>
+<body>
+{% include 'news/master/_nav.html' %}
+<div class="main bgWhite">
+    <div class="minwidth information-con clearfix">
+        {% include 'news/master/_aside.html' %}
+        {% block page_content %}{% endblock %}
+        {% include 'news/master/_articles_list.html' %}
+    </div>
+</div>
+{% include 'news/master/_footer.html' %}
+
+</body>
+
+
+
+{% block scripts %}
+
+{% endblock %}
+</html>

@@ -1,0 +1,116 @@
+{% extends 'user/master/base.html' %}
+
+{% block content %}
+
+    <div class="user-info">
+        <div class="user-info-head">
+            <img src="/static/images/user/uavatar.png" alt="">
+        </div>
+        <div class="user-info-status">
+            <h2>chen</h2>
+{#            <p class="rank">未开通法律顾问会员</p>#}
+{#            <p>#}
+{#                开通会员可享受不限次数问律师及9折优惠等4大特权#}
+{#                <a href="/legalvip/" target="_blank">了解详情</a>#}
+{#            </p>#}
+        </div>
+        <ul class="user-info-list clearfix">
+            <li>
+                <a href="/user/orders/index.html">
+                    <p class="icon">
+                        <span class="icon1"></span>
+                    </p>
+                    <p>
+                        待付款
+                        <em>
+                            {% if pending_pay %}
+                                {{ pending_pay }}
+                            {% else %}
+                                0
+                            {% endif %}
+                        </em>
+                        个
+                    </p>
+                </a>
+            </li>
+            <li>
+                <a href="/user/evaluated/index.html">
+                    <p class="icon">
+                        <span class="icon2"></span>
+                    </p>
+                    <p>
+                        待评价
+                        <em>0</em>
+                        个
+                    </p>
+                </a>
+            </li>
+            <li>
+                <a href="/user/coupon/index.html">
+                    <p class="icon">
+                        <span class="icon3"></span>
+                    </p>
+                    <p>
+                        优惠券
+                        <em>0</em>
+                        张
+                    </p>
+                </a>
+            </li>
+            <li>
+                <a href="/user/balance/index.html">
+                    <p class="icon">
+                        <span class="icon4"></span>
+                    </p>
+                    <p>
+                        余额
+                        <em>0.00</em>
+                        元
+                    </p>
+                </a>
+            </li>
+        </ul>
+    </div>
+    <div class="uCont">
+        <div class="uTop">
+            <h1>我的消息</h1>
+            <ul class="utopBtn clearfix">
+                <li>
+                    <a class="currentTab" href="/user/index/index/type/unread">未读</a>
+                </li>
+                <li>
+                    <a href="/user/index/index/type/read">已读</a>
+                </li>
+            </ul>
+        </div>
+        <div class="uC">
+            <div class="panel">
+                <div class="imitTab">
+                    <ul class="imitTabLists">
+                        <li>
+                            <div class="messageTit">
+                                <h3>
+                                    <img class="head" src="http://cdn.kuaifawu.com/default/pm.png" alt="">
+                                    系统提醒: 欢迎来到德盛业！
+                                </h3>
+                                <span class="time">2017-04-01 11:43</span>
+                                <a class="close" href="javascript:void(0)"
+                                   onclick="showReadHref('none',1714015,'unread');"></a>
+                            </div>
+                            <div class="messageInfo">
+                                <p class="info"> 德盛业: 您的个人资料还没有完善，去填写一下个人资料吧</p>
+                                <a href="{% url 'user_info' %}">点击查看详情></a>
+                            </div>
+                        </li>
+                    </ul>
+                    <div class="wrapPage shownow">
+                        <div class="pagesm">
+                            <span class="rows">共 1 条</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

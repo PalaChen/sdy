@@ -1,0 +1,34 @@
+{% load staticfiles %}
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ title }}</title>
+    {% include 'master/_head.html' %}
+    <link type="text/css" rel="stylesheet" href="{% static 'css/product.css' %}">
+    <link type="text/css" rel="stylesheet" href="{% static 'css/sdepop.css' %}">
+
+</head>
+<body>
+{% include 'master/_nav.html' %}
+<div class="main bgWhite">
+    <div class="minwidth">
+        <ul class="breadcrumb">
+            <li>
+                <a href="/">首页</a>
+            </li>
+            <li class="interval"></li>
+            <li class="active">{{ product_obj.p_category.cate_name }}</li>
+        </ul>
+    </div>
+    {% block page_content %}{% endblock %}
+
+</div>
+{% include 'master/footer/_footer_product.html' %}
+
+</body>
+<script src="/static/js/jquery-3.1.1.js"></script>
+<script src="/static/js/city.js"></script>
+{% block scripts %}
+{% endblock %}
+</html>

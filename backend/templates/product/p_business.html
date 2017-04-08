@@ -1,0 +1,33 @@
+{% extends 'master_b/layout.html' %}
+
+
+{% block page_content %}
+    <p>
+        <a class="btn btn-primary" href="{% url 'p_business_add' %}">添加业务</a>
+    </p>
+    <div class="container" style="width: auto">
+        {% for post in posts %}
+            <div class="category" nid="{{ post.id }}" for="process">
+                <div class="category-head">
+                    <span class="category-title">{{ post.name }}</span>
+                    <a class="initialize btn category-close glyphicon glyphicon-remove " onclick="del(this)"></a>
+                </div>
+                <div class="category-body">
+                    <div class="category-list">
+                        {% for step in processsep_obj %}
+                            {% if post.id == step.p_name_id %}
+                                <div class="category-list-content">
+                                    <div class="categoryList-row categoryList-L">{{ step.number }}</div>
+                                    <div class="categoryList-row categoryList-R">{{ step.name }}</div>
+                                </div>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                </div>
+                <div class="category-button">
+                    <a class="category-edit" href="{% url 'p_business_edit' post.id %}">修改</a>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}

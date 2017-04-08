@@ -1,0 +1,52 @@
+{% extends 'master_b/layout.html' %}
+
+
+{% block page_content %}
+    <p>
+        <a class="btn btn-primary" href="{% url 'product_add' %}">添加产品</a>
+    </p>
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th></th>
+            <th>产品图片</th>
+            <th>产品名称</th>
+            <th>价格</th>
+            <th>市场价格</th>
+            <th>上架</th>
+            <th>分类名称</th>
+            <th>服务名称</th>
+            <th>业务名称</th>
+            <th>员工姓名</th>
+            <th>更新时间</th>
+            <th>操作</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for line in posts.object_list %}
+            <tr>
+                <td>
+                    <input type="checkbox">
+                </td>
+                <td>
+                    <img src="\{{ line.pro_image.all.first.ul_url }}" style="width: 100px;height: 50px">
+                </td>
+                <td>{{ line.p_name }}</td>
+                <td>{{ line.p_price }}</td>
+                <td>{{ line.p_market_price }}</td>
+                <td>{{ line.get_p_putaway_display }}</td>
+                <td>{{ line.p_category.cate_name }}</td>
+                <td>{{ line.p_serivce.name }}</td>
+                <td>{{ line.p_business.name }}</td>
+                <td>{{ line.p_employee.name }}</td>
+                <td>{{ line.p_ctime|date:'Y-m-d H:i:m' }}</td>
+                <td>
+                    <a class="initialize btn glyphicon glyphicon-search" target="_blank" href="{% url 'product_index' line.id %}"></a>
+                    <a class="initialize btn glyphicon glyphicon-pencil" href="{% url 'product_edit' line.id %}"></a>
+                    <a class="initialize btn glyphicon glyphicon-remove" href="{% url 'product_del' line.id %}"></a>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

@@ -1,0 +1,82 @@
+<div id="productEvaluatonInfo">
+    <div class="product-details-content" style="margin-bottom: 0;border-bottom: none">
+        <span id="proEvaluate" class="targetPos" style="top: 4px;"></span>
+        <h2 class="detailTit">用户评价</h2>
+        <div class="product-evaluate">
+            <div class="user-eval clearfix">
+                <div class="floatLeft user-eval-le">
+                    <div class="floatLeft eval-le1">
+                        <h3 class="marT15 marB15">98.5%</h3>
+                        <span>好评率</span>
+                    </div>
+                    <div class="floatLeft eval-le2">
+                        <ul>
+                            <li>
+                                <span class="le2-1">好评（98.5%）</span>
+                            <span class="le2-2">
+                            <em style="width:98.5%"></em>
+                            </span>
+                            </li>
+                            <li>
+                                <span class="le2-1">中评（0.8%）</span>
+                            <span class="le2-2">
+                            <em style="width:0.8%"></em>
+                            </span>
+                            </li>
+                            <li>
+                                <span class="le2-1">差评（0.6%）</span>
+                            <span class="le2-2">
+                            <em style="width:0.6%"></em>
+                            </span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="floatLeft user-eval-center">
+                    <span></span>
+                </div>
+                <div class="floatLeft user-eval-ri">
+                    <span>客户印象</span>
+                    <ul>
+                        <li>服务态度好(1603)</li>
+                        <li>办事效率高(1376)</li>
+                        <li>响应速度快(1222)</li>
+                        <li>专业程度高(1216)</li>
+                        <li>服务周到(1174)</li>
+                        <li>主动热情(1094)</li>
+                        <li>细心脾气好(3)</li>
+                        <li>大力推荐(2)</li>
+                        <li>小美女(2)</li>
+                        <li>态度、效率好(2)</li>
+                        <li>服务热情仔细(2)</li>
+                        <li>人很实在(2)</li>
+                    </ul>
+                </div>
+            </div>
+            <ul class="user-eval-tab clearfix">
+                <li class="active" onclick="getEvaluation('all', this);">
+                    <a href="javascript:void(0)">全部评价</a>
+                </li>
+                <li onclick="getEvaluation('good', this);">
+                    <a href="javascript:void(0)">
+                        好评
+                        <em>(3266)</em>
+                    </a>
+                </li>
+                <li onclick="getEvaluation('middle', this);">
+                    <a href="javascript:void(0)">
+                        中评
+                        <em>(28)</em>
+                    </a>
+                </li>
+                <li onclick="getEvaluation('bad', this);">
+                    <a href="javascript:void(0)">
+                        差评
+                        <em>(21)</em>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    {% include 'product/master/_comment_body.html' %}
+</div>

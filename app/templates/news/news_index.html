@@ -1,0 +1,27 @@
+{% extends 'news/master/base.html' %}
+
+{% block title %}
+    {% for line in category_boj %}
+        {% if category_id == line.id %}
+            {{ line.name }}
+        {% endif %}
+    {% endfor %}
+{% endblock %}
+
+{% block page_content %}
+    <div class="news-content floatLeft">
+        <div class="news-list-nav selectList">
+            {% if category_id == 0 %}
+                <a class="tab active djxsList" href="{% url 'news_index' %}">最新文章</a>
+            {% else %}
+                <a class="tab djxsList" href="{% url 'news_index' %}">最新文章</a>
+            {% endif %}
+            {% for row in category_boj %}
+                {% if row.id == category_id %}
+                    <a class="tab active djxsList" href="{% url 'news_category' row.id %}">{{ row.name }}</a>
+                {% else %}
+                    <a class="tab djxsList " href="{% url 'news_category' row.id %}">{{ row.name }}</a>
+                {% endif %}
+            {% endfor %}
+        </div>
+{% endblock %}

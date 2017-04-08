@@ -1,0 +1,66 @@
+{% extends 'master_b/layout.html' %}
+
+{% block page_content %}
+    <div class="col-md-4">
+        <form  method="post">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="exampleInputEmail1">进程名</label>
+                <input type="text" class="form-control" placeholder="进程名" name="name"
+                       value="{{ process_obj.0.process_name }}" required="">
+            </div>
+            <div class="form-group">
+                <label class="li_left">编号</label>
+                &nbsp&nbsp&nbsp&nbsp&nbsp
+                <label class="li_left">步骤</label>
+            </div>
+            {% for line in process_obj %}
+                <div class="form-group float-left">
+
+                    <input name="step_number" type="text" value="{{ line.number }}" class="form-control_add form-left"
+                           required=''>
+                    <input name="step_name" type="text" value="{{ line.name }}" class="form-control_add form-right"
+                           required=''>
+                    <span class="glyphicon glyphicon-plus add-process" onclick="add(this)"></span>
+                </div>
+            {% endfor %}
+            {% if error %}
+                <div style="color: red">
+                    {{ error }}
+                </div>
+            {% endif %}
+            <button name="submit" type="submit" class="btn btn-primary">修改业务</button>
+            <span class="btn btn-default" onclick="location.href='{% url 'p_business' %}'">取消</span>
+        </form>
+    </div>
+{% endblock %}
+
+{% block scripts %}
+    <script>
+        $(document).ready(function () {
+            var c_list = $('.add-process');
+            console.log(c_list.length);
+            for (var i = 0; i < c_list.length - 1; i++) {
+                c_list.eq(i).siblings('.form-left').prop("name", "step_number");
+                c_list.eq(i).siblings('.form-right').prop("name", "step_name");
+                c_list.eq(i).removeClass('glyphicon glyphicon-plus').addClass('glyphicon glyphicon-minus');
+                c_list.eq(i).attr('onclick', 'remove_obj(this)')
+            }
+        });
+
+
+        function add(self) {
+            var $clone_obj = $(self).parent().clone();
+
+            $clone_obj.children(':text').prop("value", "");
+            $clone_obj.children('.form-left').prop("name", "step_number");
+            $clone_obj.children('.form-right').prop("name", "step_name");
+            $clone_obj.children("span").removeClass('glyphicon glyphicon-plus').addClass('glyphicon glyphicon-minus').attr('onclick', 'remove_obj(this)');
+            $('[name="submit"]').before($clone_obj);
+        }
+
+        function remove_obj(self) {
+            $(self).parent().remove();
+        }
+    </script>
+{% endblock %}

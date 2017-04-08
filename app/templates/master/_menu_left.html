@@ -1,0 +1,35 @@
+<div class="floatLeft kfwNaSub headerOverflowInherit">
+    <a href="javascript:;" style="cursor: default" rel="nofollow">全部服务分类</a>
+    <div class="kfwNaSubSub kfwNaSubSubIsHome hide">
+        <div class="floatLeft headerOverflowInherit kfwISubNav">
+            <ul class="iNav overflowhidden headerOverflowInherit">
+                {% for row in cate_dic %}
+                    <li>
+                        <i></i>
+                        <h4>{{ row.1 }}</h4>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+        <div class="floatLeft iSubNav">
+            <!-- 我要开公司 -->
+            {% for k,v in cate_dic.items %}
+                <div class="kfwanimate">
+                    <ul class="floatLeft iSubNavLe overflowhidden">
+                        {% for k1,v1 in v.items %}
+                            <li>
+                                <a><h5>{{ k1.1 }}</h5></a>
+                                <div class="kfwNavOne">
+                                    {% for k1,v1 in v1 %}
+                                        <a href="/product/{{ k1 }}.html">{{ v1 }}</a>
+                                    {% endfor %}
+                                </div>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            {% endfor %}
+            <!-- 我要开公司 -->
+        </div>
+    </div>
+</div>

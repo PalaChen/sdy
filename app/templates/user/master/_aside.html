@@ -1,0 +1,65 @@
+<div class="uLe">
+    <div class="figure">
+        <ul class="uList">
+            <li class="tit">订单管理</li>
+            <li>
+                <a href="{% url 'user_order' %}">我的订单</a>
+            </li>
+            {% if pending_pay %}
+                <li>
+                    <a href="{% url 'order_query' 1 %}">
+                        待付款
+                        <span class="tipnum">({{ pending_pay }})</span>
+                    </a>
+                </li>
+            {% endif %}
+            {% if to_be_service %}
+                <li>
+                    <a href="{% url 'order_query' 5 %}">
+                        待服务
+                        <span class="tipnum">({{ to_be_service }})</span>
+                    </a>
+
+                </li>
+            {% endif %}
+            {% if in_service %}
+                <li>
+                    <a href="{% url 'order_query' 15 %}">
+                        服务中
+                        <span class="tipnum">({{ in_service }})</span>
+                    </a>
+
+                </li>
+            {% endif %}
+            {% if service_completed %}
+                <li>
+                    <a href="{% url 'order_query' 25 %}">
+                        服务完成
+                        <span class="tipnum">({{ service_completed }})</span>
+                    </a>
+                </li>
+            {% endif %}
+        </ul>
+        <ul class="uList">
+            <li class="tit">客户服务</li>
+            <li>
+                <a href="">退款</a>
+            </li>
+        </ul>
+        <ul class="uList">
+            <li class="tit">我的评价</li>
+            <li>
+                <a href="">待评价</a>
+                <a href="">已评价</a>
+            </li>
+        </ul>
+        <ul class="uList">
+            <li class="tit">资产中心</li>
+            <li>
+                <a href="">优惠卷</a>
+                <a href="">余额</a>
+                <a href="">发票</a>
+            </li>
+        </ul>
+    </div>
+</div>

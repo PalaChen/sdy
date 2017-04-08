@@ -1,0 +1,118 @@
+{% extends 'user/master/base.html' %}
+
+{% block head %}
+    <link type="text/css" rel="stylesheet" href="/static/plugins/bootstrap/css/bootstrap.min.css">
+{% endblock %}
+
+{% block content %}
+    <div class="uCont">
+        <ul class="uC">
+            <li class="panel">
+                <div class="tabWrap">
+                    <ul class="tables myProfile">
+                        <li class="current">
+                            <a href="{% url 'user_info' %}">基本资料</a>
+                        </li>
+                        <li>
+                            <a href="{% url 'user_edit_phone' %}">修改手机号</a>
+                        </li>
+                        <li>
+                            <a href="{% url 'user_edit_pwd' %}">修改密码</a>
+                        </li>
+                    </ul>
+                    <div class="tabCont">
+                        <div class="state current">
+                            <form id="userinfoForm" class="myProfileForm" autocomplete="off">
+                                <ul class="inputLayout myProfile-panel form-panel">
+                                    <li>
+                                        <label class="group form-label">
+                                            <b>*</b>
+                                            手机号码：
+                                        </label>
+                                        {% csrf_token %}
+                                        <span>{{ user_info.phone }}</span>
+                                        <a class="modify" href="{% url 'user_edit_phone' %}">修改</a>
+                                    </li>
+                                    <li>
+                                        <label class="group form-label">
+                                            <b>*</b>
+                                            常用邮箱：
+                                        </label>
+                                        <p>
+                                            <input class="form-input pass-input" name="email"
+                                                   value="{{ user_info.email }}" type="text">
+                                        </p>
+                                    </li>
+                                    <li>
+                                        <label class="group form-label">
+                                            <b>*</b>
+                                            姓名或称呼：
+                                        </label>
+                                        <p>
+                                            <input class="form-input pass-input" name="name"
+                                                   value="{{ user_info.name }}"
+                                                   type="text">
+                                        </p>
+                                    </li>
+                                    <li>
+                                        <label class="group form-label">邮寄地址：</label>
+                                        <p>
+                                            <input class="form-input pass-input" name="adddress"
+                                                   value="{{ user_info.address }}" type="text">
+                                        </p>
+                                    </li>
+                                    <h5>寄送发票等资料时的收件地址</h5>
+{#                                    <li>#}
+{#                                        <label class="group form-label select-label">所在城市：</label>#}
+{#                                        <div id="areas" class="group">#}
+{#                                            <select></select>#}
+{#                                        </div>#}
+{#                                    </li>#}
+                                    <li>
+                                        <label class="group form-label">您是怎么知道快法务的：</label>
+                                        <p>
+                                            <select class="selHeight" name="know" style="width: 140px;">
+                                                <option class="optHeight" value="0" selected="">请选择方式</option>
+                                                <option class="optHeight" value="1">搜索引擎</option>
+                                                <option class="optHeight" value="2">线下活动</option>
+                                                <option class="optHeight" value="3">微信微博</option>
+                                                <option class="optHeight" value="4">朋友推荐</option>
+                                                <option class="optHeight" value="5">名片传单</option>
+                                                <option class="optHeight" value="6">其他</option>
+                                            </select>
+                                        </p>
+                                    </li>
+                                    <li>
+                                        <label class="group form-label"></label>
+                                        <a id="submitButton" class="form-buttom">保存</a>
+                                    </li>
+                                </ul>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </li>
+        </ul>
+    </div>
+    <div class="modal fade bs-example-modal-sm" id="Model_result" tabindex="-1" role="dialog"
+         aria-labelledby="mySmallModalLabel">
+        <div class="modal-dialog modal-sm" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">修改资料</h4>
+                </div>
+                <div class="modal-body">
+
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block scripts %}
+    <script src="/static/js/jquery-3.1.1.js"></script>
+    <script src="/static/plugins/bootstrap/js/bootstrap.min.js"></script>
+    <script src="/static/js/user_index.js"></script>
+{% endblock %}

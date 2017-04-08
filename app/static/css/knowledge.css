@@ -1,0 +1,1249 @@
+
+input {
+    box-sizing: border-box;
+}
+body {
+    background: #ffffff none repeat scroll 0 0;
+}
+.lesslistDiv {
+    position: relative;
+    width: 100%;
+}
+.lesslistDiv .floatRight {
+    bottom: 80px;
+    left: 50%;
+    margin-left: -212px;
+    position: absolute;
+    z-index: 8;
+}
+.lesslistDiv .floatRight.ri1 {
+    bottom: 232px;
+    height: 100px;
+    margin-left: -240px;
+    position: absolute;
+    width: 480px;
+}
+.lesslistDiv .ri1 .kh2, .lesslistDiv .ri1 h3 {
+    color: #ffffff;
+    text-align: center;
+}
+.lesslistDiv .ri1 .kh2 {
+    font-size: 46px;
+    font-weight: bold;
+    margin-top: 43px;
+}
+.lesslistDiv .ri1 h3 {
+    font-size: 24px;
+    line-height: 1.6;
+}
+.lawyerCont .textImgSeparation > div.ted {
+    padding: 0 !important;
+}
+.stCont.sc > .currenta:hover h3, .stCont.sc > .currenta:hover {
+    color: #00c9ff;
+}
+.imgLayer {
+    background: rgba(0, 0, 0, 0) url("../Image/Knowledge/knowledgeindex-text.png") no-repeat scroll 388px 277px;
+    bottom: 0;
+    height: 600px;
+    left: 50%;
+    margin: 0 auto 0 -590px;
+    min-width: 1180px;
+    position: absolute;
+    width: 1180px;
+    z-index: 6;
+}
+.noImgCurrent, .currentNotice, .lesslist {
+    min-width: 1180px;
+    position: relative;
+    width: 100%;
+    z-index: 5;
+}
+.currentNotice {
+    margin-top: -100px;
+    min-height: 460px;
+}
+.noImgCurrent {
+    float: left;
+    min-height: 5px;
+}
+.lesslist {
+    margin-top: -100px;
+    min-height: 520px;
+}
+.mine {
+    float: left;
+    height: auto;
+    min-width: 1180px;
+    width: 100%;
+}
+.knowMine {
+    height: auto;
+    margin: 0 auto;
+    text-align: center;
+    width: 1060px;
+}
+.shareBut {
+    float: left;
+    margin: 40px 0;
+    text-align: center;
+    width: 100%;
+}
+.shareBut a {
+    background: rgba(0, 0, 0, 0) url("../images/icon/line.png") no-repeat scroll 20px 7px;
+    border: 1px solid #e64949;
+    color: #e64949;
+    display: inline-block;
+    height: 40px;
+    line-height: 40px;
+    padding: 0 20px 0 52px;
+}
+.shareBut a:hover {
+    background-color: #e64949;
+    background-position: 20px -79px;
+    color: #ffffff;
+}
+.shareBut .sBRi {
+    background-position: 20px -33px;
+    border: 1px solid #81ac55;
+    color: #81ac55;
+    margin-left: 20px;
+}
+.shareBut .sBRi:hover {
+    background-color: #81ac55;
+    background-position: 20px -123px;
+}
+.knowMine h3, .knowMine h5 {
+    text-align: center;
+    width: 100%;
+}
+.knowMine h3 {
+    color: #595758;
+    font-size: 24px;
+    line-height: 2;
+}
+.knowMine h5 {
+    color: #727171;
+    font-weight: normal;
+    margin-top: 11px;
+}
+.knowMine h5 span {
+    display: inline-block;
+}
+.knowMine h5 span em {
+    display: inline-block;
+    margin-left: 16px;
+}
+.reading {
+    margin-left: 73px;
+}
+.line {
+    background: #dddddd none repeat scroll 0 0;
+    display: block;
+    height: 1px;
+    margin: 30px 0 0;
+    width: 100%;
+}
+.contBlock {
+    border-bottom: 1px solid #dddddd;
+    border-top: 1px solid #dddddd;
+    height: auto;
+    margin-top: 28px;
+    overflow-wrap: break-word;
+    text-align: left;
+    width: 100%;
+}
+.contBlock, contBlock p {
+    color: #666;
+    font-size: 14px;
+    line-height: 30px;
+    padding-bottom: 30px;
+}
+.cPages {
+    float: left;
+    font-size: 14px;
+    height: 50px;
+    margin-bottom: 20px;
+    width: 100%;
+}
+.cPages span {
+    color: #898989;
+    display: block;
+    line-height: 1;
+    text-align: left;
+}
+.cPages .floatRight span, .cPages .floatRight a {
+    text-align: right;
+}
+.cPages .cPagesText {
+    color: #595758;
+    display: inline-block;
+    margin-top: 10px;
+    text-align: left;
+}
+.cPages a:hover span {
+    color: #00c9ff;
+}
+.cPages .group, .cPages .floatRight {
+    height: 100%;
+}
+.cPages .group {
+    background: rgba(0, 0, 0, 0) url("../Image/Knowledge/prevnext.png") no-repeat scroll left 0;
+    padding-left: 40px;
+}
+.cPages .floatRight {
+    background: rgba(0, 0, 0, 0) url("../Image/Knowledge/prevnext.png") no-repeat scroll right -100px;
+    padding-right: 50px;
+}
+.relPro {
+    color: #595758;
+    float: left;
+    font-size: 14px;
+    height: auto;
+    width: 100%;
+}
+.relPro > a {
+    display: inline-block;
+    margin-bottom: 20px;
+}
+.relPro > img {
+    margin-bottom: 20px;
+}
+.relPro h5 {
+    margin: 25px 0 22px;
+    text-align: left;
+}
+.nav-index .searchLe span {
+    color: #f14b4b;
+    font-size: 14px;
+}
+.nav-index .searchLe span i {
+    font-style: inherit;
+    margin: 0 11px;
+}
+.ri .search-form {
+    background-color: #fff;
+    border: 1px solid #dddddd;
+    border-radius: 5px;
+    float: left;
+    width: 424px;
+}
+.ri .search-text {
+    border: 0 none;
+    float: left;
+    height: 27px;
+    line-height: 27px;
+    margin: 5px;
+    outline: medium none;
+    width: 350px;
+}
+.ri .search-button {
+    -moz-border-bottom-colors: none;
+    -moz-border-left-colors: none;
+    -moz-border-right-colors: none;
+    -moz-border-top-colors: none;
+    background: rgba(0, 0, 0, 0) url("../Image/Knowledge/search.png") no-repeat scroll center center;
+    border-color: -moz-use-text-color -moz-use-text-color -moz-use-text-color #dddddd;
+    border-image: none;
+    border-style: none none none solid;
+    border-width: medium medium medium 1px;
+    cursor: pointer;
+    float: left;
+    height: 38px;
+    width: 60px;
+}
+.ri .search-text:hover, .ri .search-text:focus {
+    border: medium none !important;
+}
+.ri .search-button:hover {
+    border-bottom: medium none !important;
+    border-left: 1px solid #dddddd;
+    border-right: medium none !important;
+    border-top: medium none !important;
+}
+.seachCont {
+    float: left;
+    height: auto;
+    text-align: left;
+    width: 100%;
+}
+.borTop, .sc, .sc h3, .sc p {
+    overflow-wrap: break-word;
+}
+.borTop {
+    border-top: 1px solid #dddddd;
+}
+.sc {
+    border-bottom: 1px solid #dddddd;
+    color: #595758;
+    height: auto;
+    padding: 32px 0 37px;
+    width: 100%;
+}
+.sc h1 a {
+    color: #595758;
+}
+.sc h3 {
+    font-size: 24px;
+    line-height: 1.7;
+    text-align: left;
+}
+.sc h3 a {
+    color: #595758;
+}
+.sc h3 a:hover, .sc h3 a:hover em {
+    color: #00c9ff;
+}
+.sc em {
+    color: #f14b4b;
+}
+.sc p {
+    font-size: 14px;
+    line-height: 1.7;
+}
+.sc span {
+    color: #dddddd;
+    display: inline-block;
+    font-size: 14px;
+    line-height: 2;
+    margin-top: 3px;
+}
+.sc i {
+    font-style: inherit;
+    margin-left: 18px;
+}
+.lessMine {
+    width: 1180px;
+}
+.currentNotice h4, .not-Top h4 {
+    color: #595758;
+    font-size: 24px;
+}
+.not-Top {
+    margin-bottom: 60px;
+    width: 100%;
+}
+.not-Top .group, .aside, .nav-index .group {
+    margin-left: 40px;
+}
+.not-Top .floatRight {
+    text-align: center;
+    width: 820px;
+}
+.not-Top .floatRight h4 {
+    display: inline-block;
+    font-weight: normal;
+}
+.not-Top .floatRight a {
+    background: #00c9ff none repeat scroll 0 0;
+    color: #ffffff;
+    display: inline-block;
+    height: 40px;
+    line-height: 40px;
+    margin-left: 45px;
+    padding: 0 60px;
+}
+.not-Top .floatRight a:hover {
+    background: #00aad7 none repeat scroll 0 0;
+}
+.noticeCont {
+    float: left;
+    height: auto;
+    width: 100%;
+}
+.aside {
+    height: auto;
+    text-align: left;
+    width: 280px;
+}
+.a1 img {
+    border-radius: 50%;
+    height: 80px;
+    width: 80px;
+}
+.aText {
+    height: 80px;
+    padding: 20px 0 20px 20px;
+}
+.aText h3 {
+    color: #595758;
+    font-size: 18px;
+    line-height: 1.1;
+}
+.aText span {
+    color: #b5b5b5;
+    font-size: 16px;
+}
+.spCont {
+    color: #595758;
+    font-size: 14px;
+    line-height: 2;
+    margin-top: 11px;
+}
+.aside p {
+    color: #b5b5b5;
+    font-size: 14px;
+    line-height: 1.6;
+}
+.aside > div {
+    float: left;
+    height: auto;
+    margin-bottom: 48px;
+    width: 100%;
+}
+.reviewPast {
+    border: 1px solid #dddddd;
+    font-size: 12px;
+    padding: 20px 20px 0;
+    text-align: center;
+    width: 100%;
+}
+.reviewPast .group {
+    background: #00c9ff none repeat scroll 0 0;
+    color: #ffffff;
+    height: 20px;
+    line-height: 20px;
+    margin: 0;
+    padding: 0 30px 0 5px;
+    position: relative;
+}
+.reviewPast em {
+    border-color: transparent -moz-use-text-color transparent #00c9ff;
+    border-style: solid none solid solid;
+    border-width: 10px medium 10px 10px;
+    display: inline-block;
+    height: 0;
+    position: absolute;
+    right: -10px;
+    top: 0;
+    width: 0;
+}
+.reviewPast a {
+    border-top: 1px solid #dddddd;
+    color: #595758;
+    display: block;
+    float: left;
+    font-size: 18px;
+    line-height: 1.5;
+    padding: 19px 0;
+    text-align: left;
+    width: 100%;
+}
+.reviewPast .floatRight > a:hover, .reviewPast a:hover {
+    color: #00c9ff;
+}
+.reviewPast .floatRight > a {
+    border: medium none;
+    color: #9fa1a0;
+    font-size: 12px;
+    margin: 0;
+    padding: 0;
+}
+.noBorTop {
+    border-top: medium none !important;
+}
+.reviewPast img {
+    margin-bottom: 14px;
+    width: auto !important;
+}
+.reviewPast span {
+    color: #00c9ff;
+    display: block;
+    font-size: 14px;
+    line-height: 1.5;
+    width: 100%;
+}
+.reviewPast.weiRe {
+    margin-bottom: 0;
+    padding: 20px;
+}
+.reviewPast.review {
+    margin-bottom: 20px;
+}
+.theme {
+    color: #595758;
+    height: auto;
+    margin-left: 40px;
+    text-align: left;
+    width: 820px;
+}
+.lessMine .theme {
+    text-align: center;
+}
+.lessMine .theme1 {
+    border-bottom: 1px solid #dddddd;
+    border-top: 1px solid #dddddd;
+    height: auto;
+    padding: 0 40px 13px;
+    text-align: left;
+}
+.theme h5, .theme h4 {
+    float: left;
+    text-align: left;
+    width: 100%;
+}
+.theme h5 {
+    color: #595758;
+    font-weight: bold;
+    margin-top: 40px;
+}
+.theme h4 {
+    font-size: 24px;
+    margin: 33px 0;
+}
+.th1 {
+    clear: both;
+    font-size: 14px;
+    margin: 0 0 29px;
+    width: 100%;
+}
+.th1 p {
+    line-height: 1.6;
+    text-align: left;
+}
+.theme .noMarTop {
+    margin-top: 0;
+}
+.th1 > div {
+    float: left;
+    margin-top: 15px;
+    width: 100%;
+}
+.topTh1 {
+    clear: both;
+    color: #595758;
+    font-size: 14px;
+    line-height: 1.6;
+    margin-top: 37px;
+    text-align: left;
+}
+.not-Top .floatRight .hasEnd, .not-Top .floatRight .hasEnd:hover {
+    background: #e4e4e4 none repeat scroll 0 0;
+}
+.knoSquareNav {
+    background: #1d2737 none repeat scroll 0 0;
+    height: auto;
+    min-width: 1180px;
+    width: 100%;
+}
+.squareNavIn {
+    height: 100px;
+    margin: 0 auto;
+    position: relative;
+    width: 1180px;
+    z-index: 1;
+}
+.sn, .snRi {
+    display: inline-block;
+    height: 100%;
+}
+.sn {
+    background: rgba(0, 0, 0, 0) url("../Image/Knowledge/squareNavInimgle.png") no-repeat scroll center 22px;
+    width: 100px;
+}
+.sn:hover {
+    background-position: center -122px;
+}
+.snRi {
+    background: rgba(0, 0, 0, 0) url("../Image/Knowledge/squareNavInimgri.png") no-repeat scroll center 26px;
+    display: block;
+    position: relative;
+    width: 170px;
+}
+.snRi:hover {
+    background-position: center -74px;
+}
+.snRiPop {
+    background: #ffffff none repeat scroll 0 0;
+    border: 1px solid #c5c5c5;
+    display: none;
+    height: 102px;
+    padding: 27px 0 0 30px;
+    position: absolute;
+    right: 0;
+    top: 90px;
+    width: 160px;
+    z-index: 100;
+}
+.snRiPop em, .sqNav li .snRiPop em {
+    background: rgba(0, 0, 0, 0) url("../Image/Knowledge/triangle.png") no-repeat scroll center 1px;
+    border: medium none;
+    height: 7px;
+    left: 50%;
+    margin-left: -7px;
+    position: absolute;
+    top: -7px;
+    width: 14px;
+}
+.snRiPop span {
+    color: #5d5d5d;
+    display: inline-block;
+    font-size: 14px;
+    height: 25px;
+    line-height: 25px;
+    width: 100%;
+}
+.snRiPop span a {
+    background: #ed5a5a none repeat scroll 0 0;
+    color: #ffffff;
+    display: inline-block;
+    font-size: 12px;
+    height: 20px;
+    line-height: 20px;
+    margin-left: 5px;
+    padding: 0 4px;
+}
+.snRiPop span .s-a {
+    background: rgba(0, 0, 0, 0) none repeat scroll 0 0;
+    color: #5d5d5d;
+}
+.snRiPop span .s-a:hover {
+    color: #00c9ff;
+}
+.issueList {
+    clear: both;
+    height: auto;
+    margin-top: 2px;
+    width: 100%;
+}
+.sqNav {
+    margin: 30px 0 0 10px;
+}
+.sqNav li {
+    float: left;
+    height: 40px;
+    margin-right: 20px;
+    position: relative;
+}
+.sqNav .noMarRr {
+    margin-right: 0;
+}
+.sqNav li a {
+    color: #ffffff;
+    display: inline-block;
+    font-size: 18px;
+    height: 40px;
+    line-height: 40px;
+    padding: 0 30px 0 18px;
+}
+.sqNav li a:hover {
+    background: #00c9ff none repeat scroll 0 0;
+}
+.sqNav .snRiPop {
+    background: #ffffff none repeat scroll 0 0;
+    display: none;
+    height: auto;
+    left: -40px;
+    padding: 22px 30px 22px 10px;
+    top: 57px;
+    width: 444px;
+    z-index: 999999;
+}
+.sqNav li .snRiPop em {
+    margin-left: -137px;
+}
+.sqNav li .snRiPop.sli2 em {
+    margin-left: -108px;
+}
+.sqNav .snRiPop li, .sqNav .snRiPop li a {
+    height: auto;
+    line-height: normal;
+}
+.sqNav .snRiPop li {
+    margin: 0 0 0 20px;
+}
+.sqNav .snRiPop li a {
+    background: rgba(0, 0, 0, 0) none repeat scroll 0 0;
+    color: #5d5d5d;
+    font-size: 14px;
+    line-height: 2;
+    padding: 0;
+    width: 114px;
+}
+.sqNav .snRiPop li a:hover {
+    color: #00c9ff;
+}
+.snRiPop.sli1 > ul {
+    overflow: hidden;
+}
+.sqNav li em {
+    border-color: -moz-use-text-color -moz-use-text-color #ffffff transparent;
+    border-style: none none solid solid;
+    border-width: medium medium 7px 7px;
+    cursor: pointer;
+    display: inline-block;
+    height: 0;
+    position: absolute;
+    right: 20px;
+    top: 20px;
+    width: 0;
+}
+.iList {
+    clear: both;
+    margin-bottom: 40px;
+}
+.iList.noMarBot, .noMar.stCont {
+    margin-bottom: 0;
+}
+.issueList .iList .group {
+    height: 260px;
+    position: relative;
+    width: 260px;
+}
+.iList span {
+    background: rgba(0, 0, 0, 0) url("../Image/Knowledge/lessle.png") no-repeat scroll 15px center;
+    display: inline-block;
+    height: 70px;
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: 100%;
+}
+.issueList .iList .lessThCont {
+    -moz-border-bottom-colors: none;
+    -moz-border-left-colors: none;
+    -moz-border-right-colors: none;
+    -moz-border-top-colors: none;
+    border-color: #dddddd #dddddd #dddddd -moz-use-text-color;
+    border-image: none;
+    border-style: solid solid solid none;
+    border-width: 1px 1px 1px medium;
+    padding: 33px 40px 37px;
+    width: 920px;
+}
+.lessThCont {
+    position: relative;
+}
+.lessThCont a {
+    border: 1px solid #dddddd;
+    color: #5d5d5d;
+    display: inline-block;
+    font-size: 14px;
+    height: 40px;
+    line-height: 40px;
+    padding: 0 35px;
+    position: absolute;
+    right: 40px;
+    top: 40px;
+}
+.lessThCont a:hover {
+    background: #00c9ff none repeat scroll 0 0;
+    border: 1px solid #00c9ff;
+    color: #ffffff;
+}
+.lessThCont p, .lessThCont h4 {
+    color: #595758;
+    text-align: left;
+}
+.lessThCont h4 {
+    font-size: 24px;
+    margin-bottom: 28px;
+}
+.lessThCont p {
+    font-size: 14px;
+    line-height: 1.6;
+    margin-top: 5px;
+}
+.waterfall, .waterLess {
+    width: 1208px;
+}
+.waterfall {
+    clear: both;
+    height: auto;
+    position: relative;
+}
+.pin {
+    border: 1px solid #dddddd;
+    float: left;
+    height: auto;
+    margin: 0 0 20px 20px;
+    width: 282px;
+}
+.box {
+    padding: 20px;
+}
+.entry {
+    color: #ffffff;
+    font-size: 12px;
+    height: 20px;
+    line-height: 20px;
+    text-align: left;
+    width: 100%;
+}
+.entry span {
+    display: inline-block;
+    height: 20px;
+    line-height: 20px;
+    padding: 0 6px;
+    position: relative;
+}
+.entry span em {
+    border-bottom: 10px solid transparent;
+    border-right: medium none;
+    border-top: 10px solid transparent;
+    cursor: pointer;
+    display: inline-block;
+    height: 0;
+    position: absolute;
+    right: -10px;
+    top: 0;
+    width: 0;
+}
+.enNav span {
+    background: #ea5f49 none repeat scroll 0 0;
+}
+.enNav span em {
+    border-left: 10px solid #ea5f49;
+}
+.synthesize span {
+    background: #56c5a9 none repeat scroll 0 0;
+}
+.synthesize span em {
+    border-left: 10px solid #56c5a9;
+}
+.box li {
+    margin-top: 20px;
+}
+.box li a {
+    background: #fff3eb none repeat scroll 0 0;
+    color: #935c54;
+    display: inline-block;
+    font-size: 18px;
+    height: 60px;
+    line-height: 60px;
+    text-align: center;
+    width: 100%;
+}
+.box h4 {
+    font-weight: normal;
+    line-height: 1.4;
+    margin-top: 20px;
+    overflow-wrap: break-word;
+    text-align: left;
+}
+.box h4 a {
+    color: #595758;
+    font-size: 18px;
+    font-weight: normal;
+}
+.time, .box p {
+    color: #9e9e9e;
+    font-size: 14px;
+    text-align: left;
+}
+.time {
+    display: inline-block;
+    margin-top: 10px;
+    text-align: left;
+    width: 100%;
+}
+.time i {
+    font-style: inherit;
+    margin-left: 10px;
+}
+.box img {
+    margin-top: 20px;
+    width: 280px;
+}
+.box p {
+    line-height: 1.6;
+    margin-top: 20px;
+    overflow-wrap: break-word;
+    text-align: left;
+}
+.waterfall.indexWF {
+    margin-top: 40px;
+}
+.box.banner {
+    border: 1px solid #dddddd;
+    margin-bottom: 20px;
+    padding: 0 0 60px;
+}
+.box .fPic img {
+    margin-top: 0;
+}
+.pin .reviewPast.review {
+    border-bottom: 1px solid #dddddd;
+    border-top: medium none;
+    clear: both;
+    margin-bottom: 0;
+}
+.pin .reviewPast {
+    border-bottom: medium none;
+    border-left: medium none;
+    border-right: medium none;
+}
+.reviewPast.weiRe {
+    border-top: 1px solid #ddd;
+    margin-bottom: 0;
+    padding: 20px;
+}
+.box.pass {
+    border: 1px solid #dddddd;
+    padding: 0;
+}
+.box.pass1 {
+    border: 1px solid #dddddd;
+    margin-top: 20px;
+}
+.box .refresh {
+    background: rgba(0, 0, 0, 0) url("../Image/Knowledge/refresh.png") no-repeat scroll 89px center;
+    clear: both;
+    color: #595758;
+    display: inline-block;
+    font-size: 14px;
+    height: 60px;
+    line-height: 60px;
+    width: 100%;
+}
+.pass1 .reviewPast.weiRe {
+    border-top: medium none;
+    margin-top: -20px;
+    padding: 0;
+}
+.box > a {
+    display: inline-block;
+    width: 240px;
+}
+.focus {
+    background-color: #000;
+    float: left;
+    height: 280px;
+    position: relative;
+    width: 280px;
+}
+.focus img {
+    height: 280px;
+    width: 280px;
+}
+.focus .shadow .title {
+    height: 65px;
+    padding-left: 30px;
+    padding-top: 20px;
+    width: 260px;
+}
+.focus .shadow .title a {
+    color: #fff;
+    font-size: 14px;
+    font-weight: bolder;
+    overflow: hidden;
+    text-decoration: none;
+}
+.focus .btn {
+    bottom: 34px;
+    left: 510px;
+    overflow: hidden;
+    position: absolute;
+}
+.focus .btn a {
+    background: #b2efff none repeat scroll 0 0;
+    border-radius: 7px;
+    color: #b0b0b0;
+    display: inline;
+    float: left;
+    font: 12px/15px "宋体";
+    height: 13px;
+    margin: 0 5px;
+    outline: 0 none;
+    position: relative;
+    text-align: center;
+    text-decoration: none;
+    width: 13px;
+}
+.focus .btn a:hover, .focus .btn a.current {
+    background: #00c9ff none repeat scroll 0 0;
+    cursor: pointer;
+}
+.focus .fPic {
+    left: 0;
+    position: absolute;
+    top: 0;
+}
+.focus .D1fBt {
+    height: 16px;
+    overflow: hidden;
+    z-index: 10;
+}
+.focus .shadow {
+    background: rgba(0, 0, 0, 0.6) none repeat scroll 0 0;
+    bottom: 0;
+    display: block;
+    height: 40px;
+    left: 0;
+    line-height: 40px;
+    position: absolute;
+    text-align: left;
+    width: 100%;
+    z-index: 10;
+}
+.focus .shadow a {
+    color: #fff;
+    display: inline-block;
+    font-family: "微软雅黑";
+    font-size: 18px;
+    margin-left: 10px;
+    overflow: hidden;
+    text-align: center;
+    text-decoration: none;
+    width: 100%;
+}
+.focus .fcon {
+    background: #000 none repeat scroll 0 0;
+    display: none;
+    float: left;
+    position: relative;
+    width: 100%;
+}
+.focus .fcon img {
+    display: block;
+}
+.focus .fbg {
+    bottom: -42px;
+    height: 21px;
+    position: absolute;
+    right: 90px;
+    text-align: center;
+    z-index: 200;
+}
+.focus .fbg div {
+    height: 14px;
+    margin: 4px auto 0;
+    overflow: hidden;
+}
+.focus .D1fBt a {
+    background: #b2efff none repeat scroll 0 0;
+    border-radius: 7px;
+    color: #b0b0b0;
+    display: inline;
+    float: left;
+    font: 12px/15px "宋体";
+    height: 12px;
+    margin: 0 5px;
+    outline: 0 none;
+    position: relative;
+    text-align: center;
+    text-decoration: none;
+    width: 12px;
+}
+.focus .D1fBt .current, .focus .D1fBt a:hover {
+    background: #00c9ff none repeat scroll 0 0;
+}
+.focus .D1fBt img {
+    display: none;
+}
+.focus .D1fBt i {
+    display: none;
+    font-style: normal;
+}
+.story {
+    color: #595758;
+    height: auto;
+    margin-left: 40px;
+    text-align: left;
+    width: 820px;
+}
+.stCont {
+    border: 1px solid #dddddd;
+    color: #595758;
+    height: auto;
+    margin-bottom: 40px;
+    padding: 31px 40px 35px;
+    position: relative;
+}
+.stCont h3 {
+    font-size: 24px;
+    text-align: left;
+}
+.stCont.sc span {
+    color: #727171;
+    margin-top: 8px;
+}
+.stCont img {
+    margin: 30px 0;
+    text-align: center;
+}
+.fallImgCurrent {
+    background: rgba(0, 0, 0, 0) url("../Image/Knowledge/pingpaigushi.jpg") no-repeat scroll center center;
+    float: left;
+    height: 400px;
+    width: 100%;
+}
+.stCont.sc > em {
+    background: rgba(0, 0, 0, 0) url("../Image/Knowledge/zhiding.png") no-repeat scroll center center;
+    display: inline-block;
+    height: 61px;
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 61px;
+}
+.group.gCenter {
+    margin-left: 155px;
+}
+.gCenter ul {
+    height: auto;
+    margin-top: 1px;
+    overflow: hidden;
+    padding: 0;
+}
+.gCenter li {
+    float: left;
+    margin-left: 7px;
+}
+.gCenter li, .gCenter li a {
+    font-size: 12px;
+    height: 20px;
+    line-height: 20px;
+    text-align: center;
+}
+.gCenter li a {
+    display: inline-block;
+    padding: 0 7px;
+}
+.gCenter li a:hover, .gCenter li a.current {
+    background: #00c9ff none repeat scroll 0 0;
+    border-radius: 4px;
+    color: #ffffff;
+}
+.loading-wrap {
+    margin: 20px 0;
+    text-align: center;
+}
+.loading {
+    background: rgba(0, 0, 0, 0) url("../Image/Knowledge/lodding.png") no-repeat scroll center center;
+    display: inline-block;
+    height: 237px;
+    margin: 0 auto;
+    width: 305px;
+}
+.waterfallms {
+    background: rgba(0, 0, 0, 0) url("../Image/Knowledge/waterfall.png") no-repeat scroll center center;
+    display: inline-block;
+    height: 312px;
+    margin: 20px 0;
+    width: 480px;
+}
+.noFind {
+    background: rgba(0, 0, 0, 0) url("../Image/Knowledge/nofind.png") no-repeat scroll center center;
+    border-bottom: 1px solid #dddddd;
+    border-top: 1px solid #dddddd;
+    height: 540px;
+    margin: 0 auto 80px;
+    width: 100%;
+}
+#mask {
+    background: #000000 none repeat scroll 0 0;
+    left: 0;
+    opacity: 0.7;
+    position: absolute;
+    top: 0;
+    z-index: 99998;
+}
+.knowPoper {
+    background: #ffffff none repeat scroll 0 0;
+    display: none;
+    height: 520px;
+    left: 50%;
+    margin-left: -290px;
+    margin-top: -260px;
+    position: fixed;
+    text-align: center;
+    top: 50%;
+    width: 580px;
+    z-index: 999999;
+}
+.knowPoper h4 {
+    color: #595758;
+    font-size: 14px;
+    margin-top: 115px;
+    text-align: center;
+}
+.knowPoper img {
+    margin-top: 21px;
+    width: 250px;
+}
+.colse {
+    background: rgba(0, 0, 0, 0) url("../Image/Knowledge/close.png") no-repeat scroll center center;
+    cursor: pointer;
+    display: inline-block;
+    height: 21px;
+    position: absolute;
+    right: 30px;
+    top: 30px;
+    width: 21px;
+}
+.knowPoper h2 {
+    color: #686667;
+    font-size: 24px;
+    margin: 53px 0 16px;
+    text-align: center;
+}
+#knowPoperwb img {
+    margin: 20px 0;
+}
+#knowPoperwb p {
+    color: #686667;
+    font-size: 14px;
+    line-height: 1.8;
+    text-align: left;
+}
+#knowPoperwb h3 {
+    font-size: 16px;
+    margin: 30px 0;
+    text-align: left;
+}
+#knowPoperwb > div {
+    height: 298px;
+    overflow-x: hidden;
+    padding: 0 30px;
+    width: 100%;
+}
+#knowPoperwb > div img {
+    width: auto;
+}
+#knowPoperwb .knowPButOut {
+    background: #ffffff none repeat scroll 0 0;
+    bottom: 0;
+    height: auto;
+    left: 0;
+    margin: 0;
+    overflow-y: hidden;
+    padding: 0;
+    position: absolute;
+    text-align: center;
+    width: 100%;
+}
+#knowPoperwb .knowPBut {
+    background: #f14b4b none repeat scroll 0 0;
+    color: #ffffff;
+    display: inline-block;
+    font-size: 18px;
+    height: 60px;
+    line-height: 60px;
+    margin: 30px 0;
+    width: 240px;
+}
+#knowPoperwb .knowPBut:hover {
+    background: #00c9ff none repeat scroll 0 0;
+}
+.knowMine iframe {
+    margin-bottom: 43px;
+}
+#noticelist .refresh {
+    background: rgba(0, 0, 0, 0) url("../Image/Knowledge/refresh.png") no-repeat scroll 72px center;
+    clear: both;
+    color: #595758;
+    display: inline-block;
+    font-size: 14px;
+    height: 60px;
+    line-height: 60px;
+    padding: 0;
+    text-align: center;
+    width: 100%;
+}
+.t-youyan {
+    clear: both;
+    content: ".";
+    display: block;
+    padding-top: 25px;
+}

@@ -1,0 +1,17 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}{% endblock %}</title>
+    {% include 'master/_head.html' %}
+    {% block css %}{% endblock %}
+</head>
+<body>
+    {% include 'master/_nav.html' %}
+    {% block page_content %}{% endblock %}
+
+
+</body>
+    <script src="/static/js/jquery-3.1.1.js"></script>
+    <script src="/static/js/sdynav.js"></script>
+    {% block scripts %}{% endblock %}
+</html>

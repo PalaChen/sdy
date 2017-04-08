@@ -1,0 +1,86 @@
+<html>
+<head>
+    <title>注册-盛德业</title>
+    <meta charset="UTF-8"/>
+    <link rel="stylesheet" type="text/css" href="/static/css/user_admin.css">
+</head>
+<body>
+<div class="index-navbar min-list-navbar">
+    <div class="min-navbar">
+        <div class="container clearfix topbar">
+            <div class="pull-left clearfix">
+                <img class="min-logo pull-left" src="/static/images/logo_small.png">
+                <a class="pull-left ml10" href="{% url 'web_index' %}">返回首页</a>
+                <div class="site-nav pull-left clearfix ml10">
+                    <div class="pull-left line-1">|</div>
+
+
+                </div>
+            </div>
+            <div class="pull-right clearfix"></div>
+        </div>
+    </div>
+</div>
+<div class="register-content-text">
+    <div class="container register-ct">
+        <div class="register-main">
+            <div class="modal-header">
+                <h4 id="myModalLabel" class="modal-title pt10 pb10 clearfix">
+                    <a href="{% url 'login' %}">登录</a>
+                    <a class="re" href="{% url 'register' %}">注册</a>
+                </h4>
+            </div>
+            <div class="modal-body">
+                <div class="login-popup">
+                    <div class="register">
+                        <form id="registForm" method="post">
+                            <ul>
+                                {% csrf_token %}
+                                <li class="clearfix mb20">
+                                    <input class="pull-left mobile-num" placeholder="手机号" required="" name="phone"
+                                           type="text">
+                                </li>
+                                <li class="clearfix mb20">
+                                    <input class="pull-left mobile-num" placeholder="密码" required="" name="password"
+                                           type="password">
+                                </li>
+                                <li class="clearfix mb20">
+                                    <input class="pull-left mobile-num" placeholder="密码" required=""
+                                           name="password2" type="password">
+                                </li>
+                                <li class="clearfix mb20">
+                                    <input class="pull-left mobile-num" style="width: 60%" placeholder="验证码" required=""
+                                           name="code" type="text">
+                                    <img src="{% url 'get_captcha' %}" onclick="changeImg(this);">
+
+                                </li>
+                            </ul>
+                            {% if errors %}
+                                <div style="color: red">
+                                    {% for k,error in errors.items %}
+                                        {{ error }}
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                            <div class="forget clearfix pb20">
+                                <label class="pull-left">
+                                    <input class="pull-left" checked="checked" name="protocol" type="checkbox">
+                                    我已阅读并同意
+                                </label>
+                                <a class="pull-left" target="_blank" href="">《盛德业服务协议》</a>
+                            </div>
+                            <input class="btn login-btn mb20" name="submit" value="注册" type="submit">
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+<script>
+    function changeImg(ths) {
+        ths.src = ths.src + '?'
+    }
+</script>
+</html>

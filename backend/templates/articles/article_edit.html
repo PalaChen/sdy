@@ -1,0 +1,87 @@
+{% extends 'master_b/layout.html' %}
+
+
+
+{% block page_content %}
+
+    <form method="post"  style="margin-left: 20px">
+        <div class="col-sm-10" style="float:left">
+            {% if error %}
+                <div style="color: red">
+                    <h3>{{ error }}</h3>
+                </div>
+            {% endif %}
+            <div class="form-group">
+                <label>标题</label>
+                <input name="title" type="text" value="{{ article_info.title }}" class="form-control" required="">
+            </div>
+            <div class="form-group">
+                <label>正文</label>
+                <textarea id="content" name="content" class="form-control"
+                          style="height: 400px">{{ article_info.articlesdetails.content }}
+                </textarea>
+                {#                {{ form.content }}#}
+            </div>
+            <div class="form-group">
+                <label>摘要</label>
+                <textarea name="summary" required="" class="form-control"
+                          style="height: 80px">{{ article_info.summary }}"</textarea>
+            </div>
+            <div class="form-group">
+                <label>关键词(逗号分割)</label>
+                <input name="keyword" type="text" class="form-control" style="width: 70%">
+            </div>
+        </div>
+        <div style="width: 150px; position: absolute;right: 0">
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary" style="width: 100%">保存</button>
+            </div>
+            <div class="form-inline form-group">
+                <label for="exampleInputName2">分类</label>
+                {{ form.category_id }}
+            </div>
+            <div class="form-inline form-group">
+                <label for="exampleInputName2">状态</label>
+                {{ form.status }}
+            </div>
+            <div class="form-inline form-group">
+                <label for="exampleInputName2">状态</label>
+                {{ form.is_top }}
+            </div>
+
+        </div>
+
+    </form>
+
+
+
+{% endblock %}
+
+{% block scripts %}
+    <script src="/static/js/admin_index.js"></script>
+    <script src="/static/plugins/kindeditor/kindeditor-all.js"></script>
+    <script>
+        $(function () {
+            initKindEditor();
+        });
+
+        function initKindEditor() {
+            var kind = KindEditor.create('#content', {
+                width: '100%',       // 文本框宽度(可以百分比或像素)
+                allowPreviewEmoticons: true,
+                allowImageUpload: true,
+                items: [
+                    'source', '|', 'undo', 'redo', '|', 'preview', 'template', 'code', 'cut', 'copy', 'paste',
+                    'plainpaste', 'wordpaste', '|', 'justifyleft', 'justifycenter', 'justifyright',
+                    'justifyfull', 'insertorderedlist', 'insertunorderedlist', 'indent', 'outdent', 'subscript',
+                    'superscript', 'clearhtml', 'quickformat', 'selectall', '|', 'fullscreen', '/',
+                    'formatblock', 'fontname', 'fontsize', '|', 'forecolor', 'hilitecolor', 'bold',
+                    'italic', 'underline', 'strikethrough', 'lineheight', 'removeformat', '|', 'image', 'multiimage',
+                    'flash', 'media', 'insertfile', 'table', 'hr', 'emoticons', 'baidumap', 'pagebreak',
+                    'anchor', 'link', 'unlink',
+                ]
+
+            });
+        }
+    </script>
+{% endblock %}

@@ -1,0 +1,160 @@
+{% extends 'user/master/base.html' %}
+
+{% if id == 5 or id == 15 %}
+    {% block head %}
+        <link type="text/css" rel="stylesheet" href="/static/plugins/bootstrap/css/bootstrap.min.css">
+    {% endblock %}
+{% endif %}
+
+{% block content %}
+    <div class="uTop">
+        <span></span>
+        <h1> 订单管理 </h1>
+    </div>
+    <div class="uCont">
+        <div class="tabWrap">
+            <ul class="tables myProfile">
+
+                <li {% if id == 0 %}class="current"{% endif %}>
+                    <a href="{% url 'user_order' %}">全部订单</a>
+                </li>
+                <li {% if id == 1 %}class="current"{% endif %}>
+                    <a href="{% url 'order_query' 1 %}">
+                        待付款
+                        {% if pending_pay %}
+                            （
+                            <span style="color: red">{{ pending_pay }}</span>
+                            ）
+                        {% endif %}
+                    </a>
+                </li>
+                <li {% if id == 5 %}class="current"{% endif %}>
+                    <a href="{% url 'order_query' 5 %}">
+                        待服务
+                        {% if to_be_service %}
+                            （
+                            <span style="color: red">{{ to_be_service }}</span>
+                            ）
+                        {% endif %}
+                    </a>
+                </li>
+                <li {% if id == 15 %}class="current"{% endif %}>
+                    <a href="{% url 'order_query' 15 %}">
+                        服务中
+                        {% if in_service %}
+                            （
+                            <span style="color: red">{{ in_service }}</span>
+                            ）
+                        {% endif %}
+                    </a>
+                </li>
+                <li {% if id == 25 %}class="current"{% endif %}>
+                    <a href="{% url 'order_query' 25 %}">
+                        服务完成
+                        {% if service_completed %}
+                            （
+                            <span style="color: red">{{ service_completed }}</span>
+                            ）
+                        {% endif %}
+                    </a>
+                </li>
+            </ul>
+            <div class="tabCont">
+                <table class="orderManage">
+                    <thead>
+                    <tr>
+                        <td width="12%">订单编号</td>
+                        <td width="16%">产品信息</td>
+                        <td width="16%">地区</td>
+                        <td width="12%">支付信息</td>
+                        <td width="12%">下单时间</td>
+                        <td width="10%">当前状态</td>
+                        <td width="10%">操作</td>
+                    </tr>
+                    </thead>
+                    <tbody id="tb_content">
+                    {% if order_obj %}
+                        {% for post in order_obj %}
+                            <tr for="{{ post.id }}">
+                                <td>{{ post.order_code }}</td>
+                                <td>
+                                    <div class="ml20">
+                                        <div>{{ post.product_name }}</div>
+                                        <div>{{ post.cprice }}元</div>
+                                        <div>x{{ post.number }}</div>
+                                    </div>
+                                </td>
+                                <td>北京</td>
+                                <td>
+                                    <div class="verAlign">
+                                        <div>优惠信息:-{{ post.coupon }}{{ post.voucher }}元</div>
+                                        <div>支付金额：{{ post.total_price }}</div>
+                                    </div>
+                                </td>
+                                <td>{{ post.order_date|date:"Y-m-d H:i:s" }}</td>
+                                <td>【 {{ post.order_state }} 】</td>
+                                <td>
+                                    {% if id == 0 or id == 1 %}
+                                        <a class="toPay" href="">去付款</a>
+                                        <br>
+                                        <span class="fc-curp relative cancelOrder">
+                                        取消订单
+                                        <div class="popShadow newWL" style="display: none;">
+                                            <div>你确定要取消订单吗？</div>
+                                            <div class="mt10">
+                                                <a class="colorBg1 mr10 popBtn" href="javascript:void(0)"
+                                                   onclick="cancelOrders(455293);">确定</a>
+                                                <a class="colorBg2 cancelBtn popBtn" href="javascript:void(0)">取消</a>
+                                            </div>
+                                            <i class="arrow" style="top:-7px;right:26px;"></i>
+                                        </div>
+                                        </span>
+                                    {% elif id == 5 or id == 15 %}
+                                        <a class="glyphicon glyphicon-search" href="javascript:void(0)"></a>
+                                    {% else %}
+
+                                    {% endif %}
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    {% else %}
+                        <tr>
+                            <td colspan="7">暂无数据</td>
+                        </tr>
+                    {% endif %}
+                    </tbody>
+                </table>
+            </div>
+            <div class="wrapPage">
+                <div class="pagesm"></div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade bs-example-modal-sm" id="Model_process" tabindex="-1" role="dialog"
+         aria-labelledby="mySmallModalLabel" style="margin-top: 100px">
+        <div class="modal-dialog modal-sm" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel"></h4>
+                </div>
+                <div class="modal-body">
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% if id == 5 or id == 15 %}
+    {% block scripts %}
+        <script src="/static/js/jquery-3.1.1.js"></script>
+        <script src="/static/plugins/bootstrap/js/bootstrap.min.js"></script>
+        <script src="/static/js/user_index.js"></script>
+    {% endblock %}
+{% endif %}

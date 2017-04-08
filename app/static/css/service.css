@@ -1,0 +1,144 @@
+
+.serSysOut {
+    float: left;
+    margin: 20px 0;
+    width: 100%;
+}
+.serSys {
+    background: #f8f8f8 none repeat scroll 0 0;
+    clear: both;
+    margin: 0 auto;
+    width: 1140px;
+}
+.serSys img {
+    float: left;
+}
+.ss-info {
+    background: #ffffff none repeat scroll 0 0;
+    width: 100%;
+}
+.info-in {
+    background: rgba(0, 0, 0, 0) url("../Image/Service/info-in.png") no-repeat scroll 59px 147px;
+    clear: both;
+    margin: 0 182px 74px 180px;
+}
+.info-in li {
+    float: left;
+    margin: 58px 0 0;
+}
+.info-in h2 {
+    color: #666666;
+    font-size: 34px;
+    margin: 6px 0 9px;
+}
+.info-in p {
+    color: #a6a6a6;
+    font-size: 16px;
+    line-height: 1.5;
+    max-width: 589px;
+}
+.info-in p em {
+    color: #ff791c;
+}
+.textImgSeparation {
+    padding-left: 130px;
+}
+.serCom, .serhandl, .serway {
+    background: #f8f8f8 none repeat scroll 0 0;
+    clear: both;
+    padding: 60px 0 100px;
+    width: 100%;
+}
+.serhandl h3, .serCom h3, .serway h3 {
+    color: #666666;
+    font-size: 34px;
+    text-align: center;
+}
+.serhandl h5, .serCom h5 {
+    color: #cacaca;
+    font-size: 20px;
+    text-align: center;
+}
+.serCom ul {
+    margin: 0 auto 0 83px;
+    overflow: hidden;
+    position: relative;
+}
+.serCom ul.serComList1 {
+    left: 0;
+    margin: -19px auto 0 83px;
+    position: absolute;
+    z-index: 100;
+}
+.serCom {
+    position: relative;
+    z-index: 1;
+}
+.serCom h5 {
+    margin-bottom: 78px;
+}
+.serCom ul.serComList1 li {
+    border: 4px solid transparent;
+    height: 63px;
+    margin: 0 44px;
+}
+.serCom ul.serComList1 li span {
+    background: #f8f8f8 url("../Image/Service/serCombg.png") no-repeat scroll 0 center;
+    color: #14b8f3;
+    display: inline-block;
+    float: left;
+    font-size: 24px;
+    font-weight: bold;
+    height: 63px;
+    margin-left: -7px;
+    padding-top: 10px;
+    text-indent: 66px;
+    width: 185px;
+}
+.serCom li {
+    border: 4px solid #e2e2e2;
+    float: left;
+    margin: 0 44px;
+    width: 236px;
+}
+.serCom p {
+    color: #989898;
+    font-size: 18px;
+    font-weight: bold;
+    line-height: 1.5;
+    padding: 42px 25px 10px;
+}
+.serhandl {
+    background: #ffffff none repeat scroll 0 0;
+    padding-bottom: 28px;
+    text-align: center;
+}
+.serhandl h3 {
+    margin-bottom: 16px;
+}
+.serhandl h5 {
+    font-size: 18px;
+    line-height: 1.3;
+}
+.serhandl span {
+    color: #d1d1d1;
+    display: inline-block;
+    font-size: 12px;
+    text-align: center;
+    width: 100%;
+}
+.serSys .serhandl img {
+    padding: 50px 63px 55px;
+}
+.serway {
+    height: auto;
+    overflow: hidden;
+    padding: 50px 51px 65px;
+    text-align: center;
+}
+.serway h3 {
+    padding-bottom: 54px;
+}
+.serway img {
+    margin-left: 28px;
+}

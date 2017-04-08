@@ -1,0 +1,35 @@
+{% extends 'master_b/layout.html' %}
+{% block page_content %}
+    <p>
+        <a class="btn btn-primary" href="{% url 'p_service_add' %}">添加服务</a>
+    </p>
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>服务名称</th>
+            <th>服务编号</th>
+            <th>服务分类</th>
+            <th>服务续费提醒</th>
+            <th>员工姓名</th>
+            <th>更新时间</th>
+            <th>操作</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for line in posts.object_list %}
+            <tr>
+                <td>{{ line.name }}</td>
+                <td>{{ line.number }}</td>
+                <td>{{ line.category.cate_name }}</td>
+                <td>{{ line.get_renewal_reminder_display }}</td>
+                <td>{{ line.employee.name }}</td>
+                <td>{{ line.ctime|date:'Y-m-d H:i:m' }}</td>
+                <td>
+                    <a class="initialize btn glyphicon glyphicon-pencil" href="{% url 'p_service_edit' line.id %}"></a>
+                    <a class="initialize btn glyphicon glyphicon-remove" href="{% url 'p_service_del' line.id %}"></a>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

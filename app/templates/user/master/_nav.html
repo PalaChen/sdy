@@ -1,0 +1,33 @@
+{% include 'user/master/_nav_top.html' %}
+<div class="user-top">
+    <div class="user-top-inner">
+        <div class="user-logo">
+            <div class="user-tab">
+                <ul>
+                    <li class="tab1 active">
+                        <a href="{% url 'user_index' %}">我的主页</a>
+                        <span class="arrow"></span>
+                    </li>
+                    {% if id == 5 or id == 15 %}
+                        <li class="tab2" style="margin-top: 7px">
+                    {% else %}
+                        <li class="tab2">
+                    {% endif %}
+                        <dl>
+                            <dt>
+                                <span>账号设置</span>
+                                <b></b>
+                            </dt>
+                            <dd>
+                                <a href="{% url 'user_info' %}">个人资料</a>
+                                <a href="{% url 'user_edit_phone' %}">修改手机号</a>
+                                <a href="{% url 'user_edit_pwd' %}">修改密码</a>
+                            </dd>
+                        </dl>
+                        <span class="arrow"></span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>

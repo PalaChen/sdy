@@ -1,0 +1,48 @@
+{% extends 'master_b/layout.html' %}
+
+{% block page_content %}
+    <div class="col-md-4">
+        <form action="{% url 'p_business_add' %}" method="post">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="exampleInputEmail1">进程名</label>
+                <input type="text" class="form-control" placeholder="进程名" name="name" required="">
+            </div>
+            <div class="form-group">
+                <label class="li_left">编号</label>
+                &nbsp&nbsp&nbsp&nbsp&nbsp
+                <label class="li_left">步骤</label>
+            </div>
+            <div class="form-group float-left">
+                <input name="step_number" type="text" class="form-control_add form-left" required=''>
+                <input name="step_name" type="text" class="form-control_add form-right" required=''>
+                <span class="glyphicon glyphicon-plus" onclick="add(this)"></span>
+            </div>
+            {% if error %}
+                <div style="color: red">
+                    {{ error }}
+                </div>
+            {% endif %}
+            <button name="submit" type="submit" class="btn btn-primary">添加业务</button>
+            <span class="btn btn-default" onclick="location.href='{% url 'p_business' %}'">取消</span>
+        </form>
+    </div>
+{% endblock %}
+
+{% block scripts %}
+    <script>
+        function add(ths) {
+            var $clone_obj = $(ths).parent().clone();
+
+            $clone_obj.children(':text').prop("value", "");
+            $clone_obj.children('.form-left').prop("name", "step_number");
+            $clone_obj.children('.form-right').prop("name", "step_name");
+            $clone_obj.children("span").removeClass('glyphicon glyphicon-plus').addClass('glyphicon glyphicon-minus').attr('onclick', 'remove_obj(this)');
+            $('[name="submit"]').before($clone_obj);
+        }
+        function remove_obj(self) {
+            $(self).parent().remove();
+        }
+
+    </script>
+{% endblock %}
