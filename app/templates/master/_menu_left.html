@@ -21,7 +21,7 @@
                                 <a><h5>{{ k1.1 }}</h5></a>
                                 <div class="kfwNavOne">
                                     {% for k1,v1 in v1 %}
-                                        <a href="/product/{{ k1 }}.html">{{ v1 }}</a>
+                                        <a href="{% url 'p_category_index' k1 %}">{{ v1 }}</a>
                                     {% endfor %}
                                 </div>
                             </li>

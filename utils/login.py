@@ -10,3 +10,5 @@ def login_required(func):
             return redirect(reverse('login'))
 
     return inner
+
+

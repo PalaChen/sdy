@@ -19,8 +19,7 @@ def login(req):
                 ret = redirect(reverse('web_index'))
                 ret.set_cookie('user', phone, max_age=3600,
                                expires=datetime.datetime.utcnow() + datetime.timedelta(5))
-                req.session['user_id'] = res[0]
-                req.session['user_info'] = phone
+                req.session['user_info'] = {'phone': phone, 'id': res['id'], 'name': res['name']}
                 req.session['is_login'] = 'true'
                 return ret
 

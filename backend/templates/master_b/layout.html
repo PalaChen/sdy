@@ -14,7 +14,8 @@
     {% include "master_b/_aside.html" %}
     {# 右边内容 #}
     <div id="pg_content">
-        <p class="text-left"><h3>{{ title }}</h3></p>
+        <p class="text-left">
+        <h3>{{ title }}</h3></p>
         {% block page_content %}{% endblock %}
         {% include 'master_b/_pagination.html' %}
     </div>
@@ -24,5 +25,27 @@
 
 <script src="/static/js/jquery-3.1.1.js"></script>
 <script src="/static/plugins/bootstrap/js/bootstrap.js"></script>
+<script src="/static/js/admin_index.js"></script>
+<script>
+    $(function () {
+        ClickpullBack();
+        ClickExpansion();
+    });
+    function ClickpullBack() {
+        $('#aside').on('click', '.glyphicon-minus', function () {
+            $(this).parent().parent().next().addClass('hide');
+            $(this).removeClass('glyphicon-minus');
+            $(this).addClass('glyphicon-plus');
+        })
+    }
+    function ClickExpansion() {
+        $('#aside').on('click', '.glyphicon-plus', function () {
+            $(this).removeClass('glyphicon-plus');
+            $(this).addClass('glyphicon-minus');
+            $(this).parent().parent().next().removeClass('hide');
+        })
+
+    }
+</script>
 {% block scripts %}{% endblock %}
 </html>

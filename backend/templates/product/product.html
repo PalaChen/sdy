@@ -5,7 +5,7 @@
     <p>
         <a class="btn btn-primary" href="{% url 'product_add' %}">添加产品</a>
     </p>
-    <table class="table table-striped">
+    <table class="table table-striped" id="tb_content">
         <thead>
         <tr>
             <th></th>
@@ -24,7 +24,7 @@
         </thead>
         <tbody>
         {% for line in posts.object_list %}
-            <tr>
+            <tr for="product" nid="{{ line.id }}">
                 <td>
                     <input type="checkbox">
                 </td>
@@ -43,10 +43,16 @@
                 <td>
                     <a class="initialize btn glyphicon glyphicon-search" target="_blank" href="{% url 'product_index' line.id %}"></a>
                     <a class="initialize btn glyphicon glyphicon-pencil" href="{% url 'product_edit' line.id %}"></a>
-                    <a class="initialize btn glyphicon glyphicon-remove" href="{% url 'product_del' line.id %}"></a>
+                    <a class="initialize btn glyphicon glyphicon-remove"></a>
                 </td>
             </tr>
         {% endfor %}
         </tbody>
     </table>
+    {% include 'master_b/_delSubmit.html' %}
+{% endblock %}
+
+{% block scripts %}
+    <script src="/static/js/admin_index.js"></script>
+
 {% endblock %}

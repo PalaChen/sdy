@@ -1,17 +1,7 @@
 <div class="floatLeft kfwNavs">
     <!--<a href="/">首页</a>-->
-    <a href="/product/company.html">公司注册
-
-    </a>
-    <a href="/product/kssb.html">商标注册
-
-    </a>
-    <a href="/product/annualreport.html?utm_source=daohang3&utm_medium=zhannei&utm_term=170213579268&utm_content=工商年报&utm_campaign=工商年报"
-       target="_blank">工商年报
-    </a>
-    <a href="/trsearch/index.html">免费商标查询</a>
-    <a href="/product/gerenshebaogongjijin.html">个人社保</a>
-    <a href="/legalvip/lawgather">律师服务</a>
-    <a href="/moreservice">更多服务</a>
+    {% for line in nav_list %}
+        <a href="{{ line.url }}">{{ line.name }}</a>
+    {% endfor %}
     <span class="floatRight telephone">400-6683-666    </span>
 </div>

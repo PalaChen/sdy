@@ -9,7 +9,7 @@
         </h1>
         <p class="author">
             <a href="" target="_blank">{{ post.author.name }}</a>
-            <span class="time">{{ post.creat_date|date:'Y-m-d H:i:s' }}</span>
+            <span class="time">{{ post.ctime|date:'Y-m-d H:i:s' }}</span>
             <span class="visit"> 阅读数：{{ post.views }} </span>
         </p>
     </div>
@@ -17,7 +17,7 @@
         <div class="article-content">
             <div>
                 <p>
-                    {{ post.articlesdetails.content }}
+                    {{ post.articlesdetails.content|safe }}
                 </p>
             </div>
         </div>

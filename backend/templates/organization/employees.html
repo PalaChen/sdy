@@ -1,0 +1,45 @@
+{% extends 'master_b/layout.html' %}
+
+
+
+{% block page_content %}
+    {% include 'master_b/_aside_second_1.html' %}
+    <div style="position: absolute; left: 100px;right: 0">
+        <p>
+            <button type="button" class="btn btn-primary">新增</button>
+        </p>
+
+        <table class="table table-bordered">
+            <thead>
+            <tr>
+                <td><input type="checkbox"></td>
+                <td>操作</td>
+                <td>员工编号</td>
+                <td>姓名</td>
+                <td>手机号码</td>
+                <td>邮箱</td>
+                <td>所属部门</td>
+                <td>职位</td>
+                <td>性别</td>
+            </tr>
+            </thead>
+            {% for line in employee_obj %}
+                <tr>
+                    <td><input type="checkbox"></td>
+                    <td>{{ line.job_number }}</td>
+                    <td>{{ line.name }}</td>
+                    <td>{{ line.phone }}</td>
+                    <td>{{ line.email }}</td>
+                    <td>{{ line.department }}</td>
+                    <td>{{ line.position }}</td>
+                    <td>{{ line.gender }}</td>
+                    <td>
+                        <a href="" class="btn btn-primary btn-xs">重置密码</a>
+                        <a href="" class="btn btn-primary btn-xs">编辑</a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </table>
+    </div>
+
+{% endblock %}

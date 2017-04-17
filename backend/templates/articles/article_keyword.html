@@ -6,7 +6,7 @@
     <div>
         <button id="add_category" type="button" class="btn btn-primary">添加</button>
     </div>
-    <table class="table table-striped">
+    <table class="table table-striped" id="tb_content">
         <thead>
         <th></th>
         <th>ID</th>
@@ -17,7 +17,7 @@
         </thead>
         <tbody>
         {% for line in posts.object_list %}
-            <tr>
+            <tr for="keyword" nid="{{ line.id }}">
                 <td><input type="checkbox"></td>
                 <td for="id">{{ line.id }}</td>
                 <td for="name">{{ line.name }}</td>
@@ -56,7 +56,7 @@
             </div>
         </div>
     </div>
-
+    {% include 'master_b/_delSubmit.html' %}
 
 {% endblock %}
 

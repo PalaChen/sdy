@@ -3,8 +3,6 @@
 
 
 {% block page_content %}
-
-
     <div>
         <a class="btn btn-primary" href="{% url 'articles_add' %}">添加</a>
     </div>
@@ -49,20 +47,16 @@
                 <td for="id">{{ line.id }}</td>
                 <td for="category_id">{{ line.category.name }}</td>
                 <td for="title">{{ line.title }}</td>
-                <td>{{ line.creat_date|date:"Y-m-d H:i:s" }}</td>
+                <td>{{ line.ctime|date:"Y-m-d H:i:s" }}</td>
                 <td>{{ line.author.name }}</td>
                 <td>{{ line.comments }}</td>
                 <td>{{ line.views }}</td>
                 <td for="status">
-                    {% if line.status == -1 %}
-                        审核
-                    {% elif line.status == 0 %}
-                        草稿
-                    {% else %}
-                        公开
-                    {% endif %}
+                    {{ line.get_status_display }}
                 </td>
                 <td>
+                    <a class="initialize btn glyphicon glyphicon-search" target="_blank"
+                       href="{% url 'news_article' line.category_id line.id %}"></a>
                     <a href="{% url 'articles_edit' line.id %}" class="initialize btn glyphicon glyphicon-pencil"></a>
                     <a class="initialize btn glyphicon glyphicon-remove"></a>
                 </td>

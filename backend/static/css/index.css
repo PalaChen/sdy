@@ -112,6 +112,10 @@
     color: #fff;
     background: #3e76b1 none repeat scroll 0 0;
 }
+.menu_active a{
+    color: white;
+    background: #3e76b1 none repeat scroll 0 0;
+}
 
 .row_second {
     float: left;
@@ -365,4 +369,8 @@ ul li {
 #id_renewal_reminder li {
     float: left;
     display: inline-block;
+}
+
+.table .tb_checkbook {
+    margin-right: 4px;
 }

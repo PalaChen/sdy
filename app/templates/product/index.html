@@ -1,118 +1,326 @@
 {% extends 'product/master/base.html' %}
 
+{% block css %}
+    <link type="text/css" rel="stylesheet" href="/static/plugins/bootstrap/css/bootstrap.css">
+{% endblock %}
+
 {% block page_content %}
     <div class="minwidth overflowvisible">
-    <div class="product-intro clearfix">
-        <div class="product-item-preview floatLeft">
-            <div class="product-slider">
-                <ul id="productSlider" class="product-slider-content">
-                    <li style="opacity: 1">
-                        <p>
-                            <img src="/{{ product_obj.pro_image.all.first.ul_url }}"
-                                 alt="{{ product_obj.p_namem }}">
-                        </p>
-                    </li>
-                </ul>
+        <div class="product-intro clearfix">
+            <div class="product-item-preview floatLeft">
+                <div class="product-slider">
+                    <ul id="productSlider" class="product-slider-content">
+                        <li style="opacity: 1">
+                            <p>
+                                <img src="/{{ product_obj.pro_image.all.first.ul_url }}"
+                                     alt="{{ product_obj.p_name }}">
+                            </p>
+                        </li>
+                    </ul>
+                </div>
             </div>
-        </div>
-        <div class="product-item-inner floatLeft">
-            <div class="name">
-                <h1>{{ product_obj.p_name }}</h1>
-                <p class="tips"></p>
-            </div>
-            <div id="productOnLine" style="display:block;">
-                <div class="price">
-                    <div id="costprice" class="market-price clearfix" style="">
-                        <div class="dt">市场价：</div>
-                        <div class="dd">
-                            <del id="costprice2">￥{{ product_obj.p_market_price }}</del>
+            <div class="product-item-inner floatLeft">
+                <div class="name">
+                    <h1>{{ product_obj.p_name }}</h1>
+                    <p class="tips"></p>
+                </div>
+                <div id="productOnLine" style="display:block;">
+                    <div class="price">
+                        <div id="costprice" class="market-price clearfix" style="">
+                            <div class="dt">市场价：</div>
+                            <div class="dd">
+                                <del id="costprice2">￥{{ product_obj.p_market_price }}</del>
+                            </div>
                         </div>
-                    </div>
-                    <div class="summary-price clearfix">
-                        <div class="dt">价 格：</div>
-                        <div class="dd">
+                        <div class="summary-price clearfix">
+                            <div class="dt">价 格：</div>
+                            <div class="dd">
                                 <span class="t-productprice">
                                 ￥
                                 <font>{{ product_obj.p_price }}</font>
                                 元
                                 </span>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="type clearfix">
-                    <div class="dt">类 型：</div>
-                    <div class="dd">
-                        <ul class="item-type clearfix">
-                            {% for line in service_obj %}
-                                <li class="item ">
-                                    <a href="/product/{{ line.products.id }}.html">{{ line.name }}</a>
-                                </li>
-                            {% endfor %}
-                        </ul>
+                    <div class="type clearfix">
+                        <div class="dt">类 型：</div>
+                        <div class="dd">
+                            <ul class="item-type clearfix">
+                                {% for line in service_obj %}
+                                    {% if line.id == product_obj.p_service_id %}
+                                        <li class="item active">
+                                            <a href="/product/{{ line.products.id }}.html">{{ line.name }}</a>
+                                        </li>
+                                    {% else %}
+                                        <li class="item ">
+                                            <a href="/product/{{ line.products.id }}.html">{{ line.name }}</a>
+                                        </li>
+                                    {% endif %}
+                                {% endfor %}
+                            </ul>
+                        </div>
                     </div>
-                </div>
-                <div class="region clearfix t-showarea" style="">
-                    <div class="dt">地 区：</div>
-                    <div class="dd">
-                        <div class="region-selector">
-                            <div class="text">
-                                <span class="t-pcatitle">四川省-成都市-高新区</span>
-                                <b></b>
-                            </div>
-                            <div class="content">
-                                <div class="stock-select">
-                                    <div class="spacer"></div>
-                                    <ul id="diqu1" class="stock-tab clearfix">
-                                        <li></li>
-                                    </ul>
-                                    <div class="stock-con">
-                                        <a class="stock-close" href=""></a>
+                    <div class="region clearfix t-showarea" style="">
+                        <div class="dt">地 区：</div>
+                        <div class="dd">
+                            <div class="region-selector">
+                                <div class="text">
+                                    <span class="t-pcatitle">四川省-成都市-高新区</span>
+                                    <b></b>
+                                </div>
+                                <div class="content">
+                                    <div class="stock-select">
+                                        <div class="spacer"></div>
+                                        <ul id="diqu1" class="stock-tab clearfix">
+                                            <li></li>
+                                        </ul>
+                                        <div class="stock-con">
+                                            <a class="stock-close" href=""></a>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
+                    <div class="btn" style="">
+                        <a class="payment btn_buy"
+                           onclick="bugProduct('/product/buy.html?pid={{ product_obj.id }}','buy')">购买</a>
+                        <a class="consult" onclick="bugProduct('/product/buy.html?pid={{ product_obj.id }}','cart')">放入购物车</a>
+                    </div>
+
                 </div>
-                <div class="btn" style="">
-                    <a class="payment select-provider" target="_blank">购买</a>
+            </div>
+            <div class="wrapper">
+                <div class="product-main floatRight">
+                    <div id="productDetail" class="product-detail">
+                        <div class="product-detail-tab">
+                            <div id="protabInner" class="clearfix">
+                                <ul class="detail-tab-trigger clearfix floatLeft">
+                                    <li class="firstLi active">
+                                        <a href="javascript:;" data-href="#productDetail" rel="nofollow">服务介绍</a>
+                                    </li>
+                                    <li>
+                                        <a href="javascript:;" data-href="#proEvaluate" rel="nofollow">
+                                            用户评价
+                                            <em id="productEvaluationTotal">(5414)</em>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="product-detail-wrapper">
+                            <div class="product-details-content bdTopNo">
+                                {{ product_obj.p_details }}
+                            </div>
+                            {% include 'product/master/_comments.html' %}
+                        </div>
+                    </div>
                 </div>
-                <div id="productOffLine" class="product-offline" style="display:none;"></div>
+                {% include 'product/master/_aside.html' %}
+
+
             </div>
         </div>
-        <div class="wrapper">
-            <div class="product-main floatRight">
-                <div id="productDetail" class="product-detail">
-                    <div class="product-detail-tab">
-                        <div id="protabInner" class="clearfix">
-                            <ul class="detail-tab-trigger clearfix floatLeft">
-                                <li class="firstLi active">
-                                    <a href="javascript:;" data-href="#productDetail" rel="nofollow">服务介绍</a>
-                                </li>
-                                <li>
-                                    <a href="javascript:;" data-href="#proEvaluate" rel="nofollow">
-                                        用户评价
-                                        <em id="productEvaluationTotal">(5414)</em>
-                                    </a>
-                                </li>
-                            </ul>
+    </div>
+
+    <div class="modal fade" id="Modal_Login" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">登陆</h4>
+                </div>
+                <div class="modal-body">
+                    <div>
+                        <div class="group">
+                            <form class="form-horizontal">
+                                <div style="padding-left: 100px">
+                                    <div class="register-li register-li-line">
+                                        <label class="register-li-span">手机号码</label>
+                            <span>
+                                <input type="text" name="phone">
+                            </span>
+                                    </div>
+                                    <div class="register-li register-li-line">
+                                        <label class="register-li-span">密码</label>
+                            <span>
+                                <input type="password" name="password">
+                            </span>
+                                    </div>
+                                    <div class="register-li-checkbox">
+                                        <label>
+                                            <input name="user[autologin]" value="1" type="checkbox">
+                                            <label style="margin-top: 8px;margin-left: 3px">一周内自动登录</label>
+                                        </label>
+                                        <a class="forget-pass" href="/communal/forgetpass.html"
+                                           target="_blank">忘记密码？</a>
+                                    </div>
+                                    <div class="register-li register-li-line">
+                                        <a id="loginButton" class="reg-now">登录</a>
+                                    </div>
+                                </div>
+                            </form>
                         </div>
-                    </div>
-                    <div class="product-detail-wrapper">
-                        <div class="product-details-content bdTopNo">
-                            {{ product_obj.p_details }}
+                        <div class="group" style="margin-left:50px;">
+                            <p>还没有盛德业账号？</p>
+                            <p class="reg-login-p">
+                                <a id="toRegister" class="reg-login">立即注册 >></a>
+                            </p>
+                            {#                            <p>或使用以下账号快速登录：</p>#}
+                            {#                            <p class="reg-login-zhanghao-p">#}
+                            {#                                <a class="reg-login-zhanghao" href="/signup/authorize/type/sina.html">#}
+                            {#                                    <img src="/Public/Image/Login/weibo.png" alt="新浪登录">#}
+                            {#                                </a>#}
+                            {#                                <a class="reg-login-zhanghao" href="/signup/authorize/type/qq.html">#}
+                            {#                                    <img src="/Public/Image/Login/qqq.png" alt="qq登录">#}
+                            {#                                </a>#}
+                            {#                            </p>#}
                         </div>
-                        {% include 'product/master/_comments.html' %}
                     </div>
                 </div>
+
             </div>
-            {% include 'product/master/_aside.html' %}
+        </div>
+    </div>
+    <div class="modal fade" id="Modal_Register" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">注册</h4>
+                </div>
+                <div class="modal-body">
+                    <div>
+                        <div class="group">
+                            <form class="form-horizontal">
+                                <div style="padding-left: 100px">
+                                    <div class="register-li register-li-line">
+                                        <span>
+                                            <input type="text" name="phone" placeholder="手机号码">
+                                        </span>
+                                    </div>
+                                    <div class="register-li register-li-line">
+                                        <span>
+                                            <input type="verifyCode" class="reg-yzm translateX" name="text"
+                                                   placeholder="验证码">
+                                        </span>
+                                        <img id="verifyCode" class="yzimg" src="">
+                                        <img class="reimg" src="" alt="">
+                                    </div>
+                                    <div class="register-li register-li-line">
+                                        <span>
+                                            <input type="password" class="reg-dxyzm translateX" name="text"
+                                                   placeholder="短信验证码">
+                                        </span>
+                                        <a class="reg-click" href="javascript:;">点击获取</a>
+                                    </div>
+                                    <div class="register-li register-li-line">
+                                        <span>
+                                            <input type="email" name="phone" placeholder="邮箱">
+                                        </span>
+                                    </div>
+                                    <div class="register-li register-li-line">
+                                        <span>
+                                            <input type="text" name="name" placeholder="姓名/称呼">
+                                        </span>
+                                    </div>
+                                    <div class="register-li register-li-line">
+                                        <span>
+                                            <input type="password" name="password" placeholder="密码">
+                                        </span>
+                                    </div>
 
+                                    <div class="register-li register-li-line">
+                                        <a id="loginButton" class="reg-now">立即注册</a>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="group" style="margin-left:50px;">
+                            <p>已有德盛业账号？</p>
+                            <p class="reg-login-p">
+                                <a id="toLogin" class="reg-login">直接登录 >></a>
+                            </p>
+                            {#                            <p>或使用以下账号快速登录：</p>#}
+                            {#                            <p class="reg-login-zhanghao-p">#}
+                            {#                                <a class="reg-login-zhanghao" href="/signup/authorize/type/sina.html">#}
+                            {#                                    <img src="/Public/Image/Login/weibo.png" alt="新浪登录">#}
+                            {#                                </a>#}
+                            {#                                <a class="reg-login-zhanghao" href="/signup/authorize/type/qq.html">#}
+                            {#                                    <img src="/Public/Image/Login/qqq.png" alt="qq登录">#}
+                            {#                                </a>#}
+                            {#                            </p>#}
+                        </div>
+                    </div>
+                </div>
 
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="Modal_Cart" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">X</span></button>
+                </div>
+                <div class="modal-body">
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">继续购物</button>
+                    {#                    <button type="button" class="btn btn-primary">去购物车结算</button>#}
+                </div>
+            </div>
         </div>
     </div>
 {% endblock %}
 
 {% block scripts %}
     <script src="/static/js/sdynav1.js"></script>
+    <script src="/static/plugins/bootstrap/js/bootstrap.js"></script>
+    <script>
+        $(function () {
+            BindModel()
+        });
+        function BindModel() {
+            $('#toRegister').click(function () {
+                $('#Modal_Login').modal('hide');
+                $('#Modal_Register').modal('show');
+            });
+            $('#toLogin').click(function () {
+                $('#Modal_Register').modal('hide');
+                $('#Modal_Login').modal('show');
+            });
+        }
+        function bugProduct(url, type) {
+            $.ajax({
+                url: url,
+                type: 'GET',
+                data: '',
+                dataType: "json",
+                success: function (arg) {
+                    console.log(arg);
+                    if (arg['status'] == 200) {
+                        if (type == 'buy') {
+                            window.location.replace(arg['url'])
+                        }
+                        else if (type == 'cart') {
+                        }
 
+                    }
+                    else {
+                        $('#Modal_Register').modal('show');
+                    }
+                }
+            });
+            {#            $('#Modal_Login').modal('show');#}
+        }
+
+
+
+    </script>
 {% endblock %}

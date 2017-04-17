@@ -12,66 +12,66 @@
             <span class="float-right">操作</span>
         </div>
         <div class="panel-body">
-                    <ul class="list-group" id="tb_content">
-                        {% for row in cate_r_list %}
-                            <li class="list-group-item" for="category" nid="{{ row.id }}"
-                                prev_id="{{ row.cate_rootid }}">
+            <ul class="list-group" id="tb_content">
+                {% for row in cate_r_list %}
+                    <li class="list-group-item" for="p_category_edit" nid="{{ row.id }}"
+                        prev_id="{{ row.cate_rootid }}">
+                        <div>
+                            <span class="category_name glyphicon glyphicon-triangle-bottom"
+                                  for="cate_name">
+                                {{ row.cate_name }}
+                            </span>
+                            <span class="category_name1" for="cate_sort">{{ row.cate_sort }}</span>
+                            <a class="initialize btn  btn_edit glyphicon glyphicon-pencil"></a>
+                            <a class="initialize btn  glyphicon glyphicon-remove btn_del"
+                               onclick="del(this)"></a>
+                        </div>
+                    </li>
+                    {% for row_p in cate_p_list %}
+                        {% if row_p.cate_rootid == row.id %}
+                            <li class="list-group-item" for="p_category_edit" nid="{{ row_p.id }}"
+                                prev_id="{{ row_p.cate_rootid }}">
                                 <div>
-                                        <span class="category_name glyphicon glyphicon-triangle-bottom"
-                                              for="cate_Name">
-                                            {{ row.cate_name }}
-                                        </span>
-                                    <span class="category_name1" for="cate_Sort">{{ row.cate_sort }}</span>
-                                    <a class="initialize btn  btn_edit glyphicon glyphicon-pencil"></a>
-                                    <a class="initialize btn  glyphicon glyphicon-remove btn_del"
+                                    <span class="category_name_1 glyphicon glyphicon-triangle-bottom"
+                                          for="cate_name">    {{ row_p.cate_name }}</span>
+                                    <span class="category_name1" for="cate_sort">{{ row_p.cate_sort }}</span>
+                                    <a class="initialize btn glyphicon glyphicon-pencil btn_edit"></a>
+                                    <a class="initialize btn glyphicon glyphicon-remove btn_del"
                                        onclick="del(this)"></a>
                                 </div>
                             </li>
-                            {% for row_p in cate_p_list %}
-                                {% if row_p.cate_rootid == row.id %}
-                                    <li class="list-group-item" for="cat_serivce" nid="{{ row_p.id }}"
-                                        prev_id="{{ row_p.cate_rootid }}">
+                            {% for row_c in cate_c_list %}
+                                {% if row_c.cate_parentid == row_p.id %}
+                                    <li class="list-group-item" for="p_category_edit" nid="{{ row_c.id }}"
+                                        prev_id="{{ row_c.cate_parentid }}">
                                         <div>
-                                        <span class="category_name_1 glyphicon glyphicon-triangle-bottom"
-                                              for="service_Name">    {{ row_p.cate_name }}</span>
-                                            <span class="category_name1"></span>
+                                        <span class="category_name_2 glyphicon glyphicon-triangle-right"
+                                              for="cate_name">    {{ row_c.cate_name }}</span>
+                                            <span class="category_name1" for="cate_sort">{{ row_c.cate_sort }}</span>
                                             <a class="initialize btn glyphicon glyphicon-pencil btn_edit"></a>
                                             <a class="initialize btn glyphicon glyphicon-remove btn_del"
                                                onclick="del(this)"></a>
                                         </div>
                                     </li>
-                                    {% for row_c in cate_c_list %}
-                                        {% if row_c.cate_parentid == row_p.id %}
-                                            <li class="list-group-item" for="cat_business" nid="{{ row_c.id }}"
-                                                prev_id="{{ row_c.cate_parentid }}">
-                                                <div>
-                                        <span class="category_name_2 glyphicon glyphicon-triangle-right"
-                                              for="business_Name">    {{ row_c.cate_name }}</span>
-                                                    <span class="category_name1"></span>
-                                                    <a class="initialize btn glyphicon glyphicon-pencil btn_edit"></a>
-                                                    <a class="initialize btn glyphicon glyphicon-remove btn_del"
-                                                       onclick="del(this)"></a>
-                                                </div>
-                                            </li>
-                                        {% endif %}
-                                    {% endfor %}
                                 {% endif %}
                             {% endfor %}
-                        {% endfor %}
-                    </ul>
-                </div>
+                        {% endif %}
+                    {% endfor %}
+                {% endfor %}
+            </ul>
+        </div>
     </div>
     <div class="modal fade bs-example-modal-sm model_marigin" id="Model_CategoryAddInfo" tabindex="-1" role="dialog"
-         aria-labelledby="mySmallModalLabel" for="category_bussiness">
+         aria-labelledby="mySmallModalLabel" for="category_add">
         <div class="modal-dialog modal-sm" role="document">
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
                             aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title">添加业务</h4>
+                    <h4 class="modal-title">添加分类</h4>
                 </div>
                 <div class="modal-body">
-                    <form id="fm3_add" method="post" action="{% url 'p_category' %}">
+                    <form id="fm3_add" method="post" action="{% url 'p_category_add' %}">
                         {% csrf_token %}
                         <div class="form-group">
                             <label>编号</label>
@@ -95,8 +95,45 @@
             </div>
         </div>
     </div>
+    <div class="modal fade bs-example-modal-sm model_marigin" id="Model_EditInfo" tabindex="-1" role="dialog"
+         aria-labelledby="mySmallModalLabel" for="p_category_edit">
+        <div class="modal-dialog modal-sm" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">修改分类</h4>
+                </div>
+                <div class="modal-body">
+                    <form id="fm4_add" method="post" action="{% url 'p_category_edit' %}">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            <label>编号</label>
+                            <input type="text" class="form-control hide" name="nid">
+                            <input type="text" class="form-control" placeholder="数字越大，排序越靠前" name="cate_sort"
+                                   required="">
+                        </div>
+                        <div class="form-group">
+                            <label>分类名称</label>
+                            <input type="text" class="form-control" name="cate_name" required="">
+                        </div>
+                        <div class="form-group">
+                            <label>选择服务</label>
+                            {{ form.cate_rootid }}
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                    <button type="button" class="btn btn-primary btn_send_add" name="submit">确定</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% include 'master_b/_delSubmit.html' %}
 {% endblock %}
 
 {% block scripts %}
     <script src="/static/js/admin_index.js"></script>
+
 {% endblock %}

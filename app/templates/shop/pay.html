@@ -16,7 +16,7 @@
                             <li>
                                 <span>订单号：</span>
                                 <div>
-                                    9170408458106
+                                    {{ order_code }}
                                     <a id="showDetails" class="showDetails cur" href="javascript:void(0)">
                                         订单详情
                                         <i></i>
@@ -27,7 +27,9 @@
                             <li id="infoDetails" style="display: list-item;">
                                 <span>详情：</span>
                                 <div>
-                                    <p>工商年报公示 X 1</p>
+                                    {% for line in order_obj %}
+                                        <p>{{ line.product_name }} X {{ line.number }}</p>
+                                    {% endfor %}
                                 </div>
                             </li>
                         </ul>

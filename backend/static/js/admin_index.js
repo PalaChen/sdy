@@ -8,8 +8,9 @@ $(function () {
 });
 
 clickState = 0;//初始化点击状态
-
+// 发送一次请求
 function bindOnlyClick() {
+    // 添加文章栏目信息确认按钮
     $('#Add_Ariticle_Info .btn_save').click(function () {
         if (clickState == 1) {                //如果状态为1就什么都不做
         } else {
@@ -26,6 +27,51 @@ function bindOnlyClick() {
             }
             setTimeout(send_Ajax_AddInfo(url, data, modal), 3000);
         }
+    });
+    // 添加分类信息确认按钮
+    $("#Model_CategoryAddInfo .btn_send_add").click(function () {
+        if (clickState == 1) {                //如果状态为1就什么都不做
+        } else {
+            clickState = 1;  //如果状态不是1  则添加状态 1
+            modal = $('#Model_CategoryAddInfo');
+            type = modal.attr('for');
+
+            if (type == 'category_add') {
+                url = '/admin/product/category_add.html';
+                data = $('#fm3_add');
+            }
+            setTimeout(send_Ajax_AddInfo(url, data, modal), 3000);
+        }
+    });
+    // 通用添加信息
+    $('#Model_AddInfo .btn_save').click(function () {
+        if (clickState == 1) {                //如果状态为1就什么都不做
+        } else {
+            clickState = 1;
+            modal = $('#Model_AddInfo');
+            type = modal.attr('for');
+            data = $('#fm_body');
+            if (type == 'nav_add') {
+                url = '/admin/site/nav_add.html';
+            }
+
+            setTimeout(send_Ajax_AddInfo(url, data, modal), 3000);
+        }
+    });
+    // 修改分类信息确认按钮
+    $('#Model_EditInfo .btn_send_add').click(function () {
+        if (clickState == 1) {                //如果状态为1就什么都不做
+        } else {
+            clickState = 1;  //如果状态不是1  则添加状态 1
+            modal = $('#Model_EditInfo');
+            type = modal.attr('for');
+
+            if (type == 'p_category_edit') {
+                url = '/admin/product/category_edit.html';
+                data = $('#fm4_add');
+            }
+            setTimeout(send_Ajax_AddInfo(url, data, modal), 3000);
+        }
     })
 }
 
@@ -33,41 +79,74 @@ function bindOnlyClick() {
 function bindShowModal() {
     // 上传轮播图
     $("#add_bxslider").click(function () {
-        $("#Model_AddInfo").modal('show');
-        var type = $("#Model_AddInfo").attr('for');
-        var modal = "#Model_AddInfo";
+        $("#Model_UploadInfo").modal('show');
+        var type = $("#Model_UploadInfo").attr('for');
+        var modal = "#Model_UploadInfo";
         bindUploadSave(modal, type)
     });
+    // 文章分类模态框
     $('#add_category').click(function () {
         $('#Add_Ariticle_Info').modal('show');
     });
+    // 通用模态框打开
+    $('#add_Info').click(function () {
+        $('#Model_AddInfo').modal('show');
+    });
     // 产品分类模态框
-    $('#cat_add').click(function(){
+    $('#cat_add').click(function () {
         $('#Model_CategoryAddInfo').modal('show');
     });
-
+    // 修改图片模态框
     $('#tb_content').on('click', '.glyphicon-pencil', function () {
 
         var type = $(this).parent().parent().attr('for');
-        $("#Model_EditInfo").modal('show');
-
-        get_Modal_Info($(this), type)
+        if (type == 'bxslider_edit') {
+            $("#Model_UploadEditInfo").modal('show');
+            get_Modal_Info($(this), type)
+        }
+        else if (type == 'p_category_edit') {
+            var model = '#Model_EditInfo';
+            $(model).modal('show');
+        }
+        get_Modal_Edit_Info($(this), model, type)
     });
-
+    // 删除模态框
     $('#tb_content').on('click', '.glyphicon-remove', function () {
         $('#submit_del_con').modal('show');
 
         var type = $(this).parent().parent().attr('for');
         var nid = $(this).parent().parent().attr('nid');
         var modal = '#submit_del_con';
-        Del_Confirm_Sub(modal, type, nid)
+
+        Del_Confirm_Sub(modal, type, nid, $(this));
+
     })
 
 }
-// 从表单获取信息填充到修改模态框中
+
+// 获取将要修改的信息到模态框
+function get_Modal_Edit_Info(ths, modal, type) {
+    if (type == 'p_category_edit') {
+        ths.prevAll().each(function () {
+            if (ths.attr('for') != 'undefined') {
+                var v = $(this).text().trim();
+                var k = $(this).attr('for');
+                console.log(k, v);
+                $(modal + " input[name='" + k + "']").val(v);
+            }
+        });
+        var v1 = ths.parent().parent().attr('prev_id');
+        $(modal + " select[name='cate_rootid']").val(v1);
+        var v2 = ths.parent().parent().attr('nid');
+        $(modal + " input[name='nid']").val(v2);
+    }
+}
+
+
+// 从表单获取信息填充到修改图片模态框中
 function get_Modal_Info(ths, type) {
     var tds = ths.parent().siblings();
-    var modal = "#Model_EditInfo";
+    var modal = "#Model_UploadEditInfo";
     for (var i = 0; i < tds.length - 1; i++) {
         k = tds.eq(i).attr('for');
         v = tds.eq(i).text().trim();
@@ -145,28 +224,48 @@ function send_Add_Ajax_Info(url, data, modal) {
 }
 
 // 删除确认
-function Del_Confirm_Sub(modal, type, nid) {
-    if (type == 'bxslider_upload') {
-        url = '/admin/site/bxslider_del/' + nid;
+function Del_Confirm_Sub(modal, type, nid, ths) {
+    if (type == 'bxslider_edit') {
+        url = '/admin/site/bxslider_del/' + nid + '.html';
+    }
+    else if (type == 'category') {
+        url = '/admin/category_del/' + nid + '.html';
+    }
+    else if (type == 'keyword') {
+        url = '/admin/keyword_del/' + nid + '.html';
+    }
+    else if (type == 'p_category_edit') {
+        url = '/admin/product/category_del/' + nid + '.html';
+    }
+    else if (type == 'product') {
+        url = '/admin/product_del/' + nid + '.html';
     }
     $(modal + ' .btn-danger').click(function () {
-        bindOnlyClick(send_Del_Ajax_Info(modal));
+        if (clickState == 1) {
+        }
+        else {
+            clickState = 1;
+            setTimeout(send_Del_Ajax_Info(modal, url, ths), 5000);
+        }
     })
 }
 
 // 发送删除信息
-function send_Del_Ajax_Info(modal) {
+function send_Del_Ajax_Info(modal, url, ths) {
     $.ajax({
         url: url,
         type: 'GET',
         success: function (arg) {
             if (arg == '成功') {
                 alert('删除成功');
-                $(modal).modal('hide')
+                $(modal).modal('hide');
+                ths.parent().parent().addClass('hide');
+
             }
             else {
                 alert('非法操作')
             }
+            clickState = 0
         }
     })
 
@@ -177,17 +276,18 @@ function send_Ajax_AddInfo(url, data, modal) {
     $.ajax({
         url: url,
         type: 'POST',
-        data: data.serialize(),
+        data: $(data).serialize(),
         success: function (arg) {
             if (arg['status'] == 200) {
                 modal.modal('hide');
-                alert('添加成功');
+                alert(arg['message']);
                 window.location.reload();
             } else {
                 alert(arg['message'])
             }
+            clickState = 0;
         }
     });
-    clickState = 0
+
 
 }

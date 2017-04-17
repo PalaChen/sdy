@@ -2,13 +2,16 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>{{ title }}-盛德业</title>
     {% include 'master/_head.html' %}
+    {% block css %}{% endblock %}
     <link type="text/css" rel="stylesheet" href="{% static 'css/bug.css' %}">
 </head>
 <body>
 {% include 'shop/master/_nav.html' %}
 {% block page_content %}{% endblock %}
 {% include 'master/footer/_footer_pay.html' %}
+{% block scripts %}
+{% endblock %}
 </body>
 </html>

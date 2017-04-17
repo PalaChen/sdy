@@ -25,7 +25,7 @@ res = {
 
 @login_required
 def index(req):
-    phone = req.session.get('user_info')
+    phone = req.session.get('user_info')['phone']
     pending_pay, to_be_service, in_service, service_completed = order_counts(phone)
     return render(req, 'user/user_index.html', {'title': title['index'],
                                                 'pending_pay': pending_pay,
@@ -36,7 +36,7 @@ def index(req):
 
 @login_required
 def order(req):
-    phone = req.session.get('user_info')
+    phone = req.session.get('user_info')['phone']
     order_obj = models.Orders.objects.filter(phone=phone).all()
     pending_pay, to_be_service, in_service, service_completed = order_counts(phone)
     return render(req, 'user/order.html', {'order_obj': order_obj,
@@ -51,7 +51,7 @@ def order(req):
 
 @login_required
 def order_query(req, id):
-    phone = req.session.get('user_info')
+    phone = req.session.get('user_info')['phone']
     id = int(id)
     pending_pay, to_be_service, in_service, service_completed = order_counts(phone)
     if id == 1:
@@ -80,7 +80,6 @@ def order_process_query(req, id):
         order_boj = models.Process.objects.filter(order_id=id).values_list('process_name', 'step_name',
                                                                            'date').order_by('date')
         if order_boj:
-            print(order_boj)
             # res['data'] = order_boj
             return JsonResponse(res)
         # 如果没有进展信息，返回默认值
@@ -92,7 +91,7 @@ def order_process_query(req, id):
 @login_required
 def info(req):
     form = EditProfileForm(req.POST or None)
-    phone = req.session.get('user_info')
+    phone = req.session.get('user_info')['phone']
     user_info = models.Users.objects.filter(phone=phone).values('phone', 'email',
                                                                 'name', 'province',
                                                                 'city', 'area', 'address').first()
@@ -119,7 +118,7 @@ def info(req):
 @login_required
 def edit_phone(req):
     form = EditPhoneForm(req.POST or None)
-    phone = req.session.get('user_info')
+    phone = req.session.get('user_info')['phone']
 
     if req.method == 'POST':
         if form.is_valid():
@@ -158,12 +157,12 @@ def edit_pwd(req):
     form = EditPwdForm(req.POST or None)
     if req.method == 'POST':
         if form.is_valid():
-            phone = req.session.get('user_info')
+            phone = req.session.get('user_info')['phone']
             password = req.POST.get('password')
             models.Users.objects.filter(phone=phone).update(password=password)
             res['message'] = '请使用新密码重新登录'
         else:
-            print(form.errors)
+
             res['status'] = False
             res['message'] = list(form.errors.values())[0][0]
 
@@ -184,8 +183,8 @@ def message_read(req):
 
 def send_verify_code(req):
     if req.method == 'GET':
-        phone = req.session.get('user_info')
-        # ret = send_verification_code(phone)
-        ret = True
+        phone = req.session.get('user_info')['phone']
+        ret = send_verification_code(phone)
+        # ret = True
         if ret:
             return JsonResponse(res)

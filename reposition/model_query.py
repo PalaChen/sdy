@@ -4,7 +4,7 @@ from . import models
 def login_user_query(obj):
     phone = obj.cleaned_data.get('phone')
     password = obj.cleaned_data.get('password')
-    user_obj = models.Users.objects.filter(phone=phone, password=password).values_list('id').first()
+    user_obj = models.Users.objects.filter(phone=phone, password=password).values('id', 'name').first()
     if user_obj:
         return user_obj
 
@@ -12,7 +12,8 @@ def login_user_query(obj):
 def login_employee_query(obj):
     email = obj.get('email')
     password = obj.get('password')
-    employee_obj = models.Employees.objects.filter(email=email, password=password).values_list('id').first()
+    employee_obj = models.Employees.objects.filter(email=email, password=password).values('id', 'email', 'name').first()
+
     if employee_obj:
         return employee_obj
 

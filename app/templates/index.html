@@ -155,66 +155,14 @@
                 <div class="knowledge-details clearfix" style="display: block;">
                     <div class="knowledge-quick floatLeft">
                         <ul class="knowledge-quick-list">
-                            <li>
-                                <b></b>
-                                <p>
-                                    <a href="/consultnews/information?urlkey=gssb" target="_blank">攻略｜“年入12万申报...</a>
-                                </p>
-                            </li>
-                            <li>
-                                <b></b>
-                                <p>
-                                    <a href="/consultnews/information?urlkey=gssb" target="_blank">攻略｜“年入12万申报...</a>
-                                </p>
-                            </li>
-                            <li>
-                                <b></b>
-                                <p>
-                                    <a href="/consultnews/information?urlkey=gssb" target="_blank">攻略｜“年入12万申报...</a>
-                                </p>
-                            </li>
-                            <li>
-                                <b></b>
-                                <p>
-                                    <a href="/consultnews/information?urlkey=gssb" target="_blank">攻略｜“年入12万申报...</a>
-                                </p>
-                            </li>
-                            <li>
-                                <b></b>
-                                <p>
-                                    <a href="/consultnews/information?urlkey=gssb" target="_blank">攻略｜“年入12万申报...</a>
-                                </p>
-                            </li>
-                            <li>
-                                <b></b>
-                                <p>
-                                    <a href="/consultnews/information?urlkey=gssb" target="_blank">攻略｜“年入12万申报...</a>
-                                </p>
-                            </li>
-                            <li>
-                                <b></b>
-                                <p>
-                                    <a href="/consultnews/information?urlkey=gssb" target="_blank">攻略｜“年入12万申报...</a>
-                                </p>
-                            </li>
-                            <li>
-                                <b></b>
-                                <p>
-                                    <a href="/consultnews/information?urlkey=gssb" target="_blank">攻略｜“年入12万申报...</a>
-                                </p>
-                            </li>
-                            <li>
-                                <b></b>
-                                <p>
-                                    <a href="/consultnews/information?urlkey=gssb" target="_blank">攻略｜“年入12万申报...</a>
-                                </p>
-                            </li>
-                            <li>
-                                <b></b>
-                                <p>
-                                    <a href="/consultnews/information?urlkey=gssb" target="_blank">攻略｜“年入12万申报...</a>
-                                </p>
-                            </li>
+                            {% for line in articles_list %}
+                                <li>
+                                    <b></b>
+                                    <p>
+                                        <a href="/news/{{ line.category_id }}-{{ line.id }}.html" target="_blank">{{ line.title|slice:"11" }}.....</a>
+                                    </p>
+                                </li>
+                            {% endfor %}
                         </ul>
                     </div>
                     <ul class="knowledge-list article-list clearfix">

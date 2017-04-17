@@ -26,15 +26,17 @@ urlpatterns = [
     url(r'news/(\d+)-(\d+).html', views.news.article, name='news_article'),
 
     url(r'product/(\d+).html', views.product.index, name='product_index'),
+    url(r'product/buy.html', views.product.buy, name='product_buy'),
+    url(r'p_category/(\d+).html', views.product.p_c_index, name='p_category_index'),
 
 
+    url(r'cart.html', views.pay.cart, name='shopping_cart'),
+    url(r'cart_number.html', views.pay.cart_number, name='shopping_cart_number'),
+    url(r'cart_del/(\d+).html', views.pay.cart_del, name='shopping_cart_del'),
 
-    url(r'shop.html', views.pay.index, name='shopping_index'),
+    url(r'pay.html', views.pay.pay, name='shopping_pay'),
 
     # url(r'news/-(/d+)-(/d+).html', views.news.article, name='news_article'),
-
-
-
 
     url(r'', views.index.index, name='web_index'),
 

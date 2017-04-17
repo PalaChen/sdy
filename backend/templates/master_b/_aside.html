@@ -5,57 +5,62 @@
                 <i class="glyphicon glyphicon-minus"></i>
             </span>
     </div>
-    <div>
-        <div class="manageBanner">
+    {% if not menu_string %}
+        <div>
+            <div class="manageBanner">
             	<span class="icon">
                 	<i class="glyphicon glyphicon-plus"></i>
                 </span>
-            <span>我的工作台</span>
+                <span>我的工作台</span>
+            </div>
+            <ul class="list-unstyled hide">
+                <li class="manageItem"><a href="{% url 'my_task' %}">我的任务</a></li>
+                <li class="manageItem"><a href="{% url 'my_client' %}">我的客户</a></li>
+            </ul>
         </div>
-        <ul class="list-unstyled">
-            <li class="manageItem"><a href="{% url 'product_add' %}">我的任务</a></li>
-            <li class="manageItem"><a href="{% url 'product_add' %}">我的客户</a></li>
-        </ul>
-    </div>
-    <div>
-        <div class="manageBanner">
+        <div>
+            <div class="manageBanner">
             	<span class="icon">
                 	<i class="glyphicon glyphicon-plus"></i>
                 </span>
-            <span>产品管理</span>
+                <span>产品管理</span>
+            </div>
+            <ul class="list-unstyled hide">
+                <li class="manageItem"><a href="{% url 'p_category' %}">分类管理</a></li>
+                <li class="manageItem"><a href="{% url 'p_service' %}">服务管理</a></li>
+                <li class="manageItem"><a href="{% url 'p_business' %}">业务管理（进展管理）</a></li>
+                <li class="manageItem"><a href="{% url 'attribute_all' %}">属性管理</a></li>
+                <li class="manageItem"><a href="{% url 'product_all' %}">我的产品</a></li>
+                <li class="manageItem"><a href="{% url 'product_add' %}">我的套餐</a></li>
+                <li class="manageItem"><a href="{% url 'product_add' %}">优惠卷</a></li>
+            </ul>
         </div>
-        <ul class="list-unstyled">
-            <li class="manageItem"><a href="{% url 'p_category' %}">分类管理</a></li>
-            <li class="manageItem"><a href="{% url 'p_service' %}">服务管理</a></li>
-            <li class="manageItem"><a href="{% url 'p_business' %}">业务管理（进展管理）</a></li>
-            <li class="manageItem"><a href="{% url 'attribute_all' %}">属性管理</a></li>
-            <li class="manageItem"><a href="{% url 'product_all' %}">我的产品</a></li>
-            <li class="manageItem"><a href="{% url 'product_add' %}">我的套餐</a></li>
-            <li class="manageItem"><a href="{% url 'product_add' %}">优惠卷</a></li>
-        </ul>
-    </div>
-    <div>
-        <div class="manageBanner">
+        <div>
+            <div class="manageBanner">
             	<span class="icon">
                 	<i class="glyphicon glyphicon-plus"></i>
                 </span>
-            <span>系统配置</span>
+                <span>新闻资讯</span>
+            </div>
+            <ul class="list-unstyled hide">
+                <li class="manageItem"><a href="{% url 'articles_all' %}">文章管理</a></li>
+                <li class="manageItem"><a href="{% url 'category_all' %}">栏目管理</a></li>
+                <li class="manageItem"><a href="{% url 'keyword_all' %}">标签管理</a></li>
+            </ul>
         </div>
-        <ul class="list-unstyled">
-            <li class="manageItem"><a href="{% url 'site_manage' %}">站点管理</a></li>
-        </ul>
-    </div>
-    <div>
-        <div class="manageBanner">
+        <div>
+            <div class="manageBanner">
             	<span class="icon">
                 	<i class="glyphicon glyphicon-plus"></i>
                 </span>
-            <span>新闻资讯</span>
+                <span>系统配置</span>
+            </div>
+            <ul class="list-unstyled hide">
+                <li class="manageItem"><a href="{% url 'organization_index' %}">组织机构</a></li>
+                <li class="manageItem"><a href="{% url 'site_manage' %}">站点管理</a></li>
+            </ul>
         </div>
-        <ul class="list-unstyled">
-            <li class="manageItem"><a href="{% url 'articles_all' %}">文章</a></li>
-            <li class="manageItem"><a href="{% url 'category_all' %}">栏目</a></li>
-            <li class="manageItem"><a href="{% url 'keyword_all' %}">标签</a></li>
-        </ul>
-    </div>
+    {% else %}
+        {{ menu_string|safe }}
+    {% endif %}
 </div>

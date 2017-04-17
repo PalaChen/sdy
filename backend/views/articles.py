@@ -3,8 +3,11 @@ from django.http import JsonResponse
 from backend.forms.forms_site import BxsilderForm
 from backend.forms.forms_article import ArticleForm, CategoryForm, KeywordForm, ArticleSearchForm
 from reposition import models
-from reposition import model_query, model_add
+from reposition import model_query, model_add, modal_del
 from utils.pager import paginator
+from utils.upload_image import ckedit_upload_image
+from utils.login_admin import login_required,permission
+
 
 web_title = {'articles': '文章管理',
              'article_add': '添加文章',
@@ -16,17 +19,21 @@ web_title = {'articles': '文章管理',
 
 result_dict = {'status': 200, 'message': None, 'data': 'None'}
 
-
-def articles(req):
+@login_required
+@permission
+def articles(req,*args, **kwargs):
+    action_list = kwargs.get('action_list')
+    menu_string = kwargs.get('menu_string')
     form = ArticleSearchForm()
-    articles_obj = models.Articles.objects.all().order_by('-creat_date')
+    articles_obj = models.Articles.objects.all().order_by('-ctime')
     posts = paginator(req, articles_obj)
     return render(req, 'articles/articles.html', {'posts': posts,
+                                                  'menu_string': menu_string,
                                                   'title': web_title['articles'],
                                                   'form': form,
                                                   })
 
-
+@login_required
 def articles_search(req):
     form = ArticleSearchForm(req.POST or None)
     if req.method == 'POST':
@@ -55,7 +62,7 @@ def article_model(req, form):
 
     return content, article_info
 
-
+@login_required
 def article_add(req):
     form = ArticleForm(req.POST or None)
     error = None
@@ -72,7 +79,7 @@ def article_add(req):
                                                      'title': web_title['article_add'],
                                                      })
 
-
+@login_required
 def article_edit(req, article_id):
     article_info = models.Articles.objects.filter(id=article_id).select_related('articlesdetails').first()
     form = ArticleForm(req.POST or None)
@@ -90,52 +97,75 @@ def article_edit(req, article_id):
                                                       'article_info': article_info,
                                                       'title': web_title['article_edit'],})
 
+@login_required
+def article_image(req):
+    res_dict = ckedit_upload_image(req, 'article')
+    return JsonResponse(res_dict)
 
-def category(req):
+@login_required
+@permission
+def category(req, *args, **kwargs):
+    action_list = kwargs.get('action_list')
+    menu_string = kwargs.get('menu_string')
     form = CategoryForm()
     category_obj = model_query.query_all(models.ArticlesCategory)
     posts = paginator(req, category_obj)
     return render(req, 'articles/article_category.html', {'title': web_title['category'],
+                                                          'menu_string': menu_string,
                                                           'form': form,
                                                           'posts': posts,
                                                           })
 
-
+@login_required
 def category_add(req):
     if req.method == 'POST':
         form = CategoryForm(req.POST)
         if form.is_valid():
-            name = req.POST.get('name')
-            sort = req.POST.get('sort')
-            root_id = req.POST.get('parent_id')
-            id = req.session.get('employee_id')
-            models.ArticlesCategory.objects.create(name=name, sort=sort, root_id=root_id, author_id=id)
+            data = form.cleaned_data
+            data['author_id'] = req.session.get('employee_id')
+            models.ArticlesCategory.objects.create(**data)
+            result_dict['message'] = '文章分类添加成功'
             return JsonResponse(result_dict)
         else:
             result_dict['message'] = list(form.errors.values())[0][0]
     result_dict['status'] = 201
     return JsonResponse(result_dict)
 
+@login_required
+def category_del(req, id):
+    res = modal_del.query_del(req, models.ArticlesCategory, id)
+    return HttpResponse(res)
 
-def keywords(req):
+@login_required
+@permission
+def keywords(req, *args, **kwargs):
+    action_list = kwargs.get('action_list')
+    menu_string = kwargs.get('menu_string')
     form = KeywordForm()
     keyword_obj = model_query.query_all(models.ArticlesTag)
     posts = paginator(req, keyword_obj)
     return render(req, 'articles/article_keyword.html', {'title': web_title['keywords'],
+                                                         'menu_string': menu_string,
                                                          'form': form,
                                                          'posts': posts,
                                                          })
 
-
+@login_required
 def keyword_add(req):
     if req.method == 'POST':
         form = KeywordForm(req.POST)
         if form.is_valid():
-            name = req.POST.get('name')
-            id = req.session.get('employee_id')
-            models.ArticlesTag.objects.create(name=name, author_id=id)
+            data = form.cleaned_data
+            data['author_id'] = req.session.get('employee_id')
+            models.ArticlesTag.objects.create(**data)
+            result_dict['message'] = '文章标签添加成功'
             return JsonResponse(result_dict)
         else:
             result_dict['message'] = list(form.errors.values())[0][0]
     result_dict['status'] = 201
     return JsonResponse(result_dict)
+
+@login_required
+def keyword_del(req, id):
+    res = modal_del.query_del(req, models.ArticlesTag, id)
+    return HttpResponse(res)

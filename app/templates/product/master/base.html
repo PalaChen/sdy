@@ -3,8 +3,9 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>{{ title }}</title>
+    <title>{{ product_obj.p_name }}-盛德业</title>
     {% include 'master/_head.html' %}
+    {% block css %}{% endblock %}
     <link type="text/css" rel="stylesheet" href="{% static 'css/product.css' %}">
     <link type="text/css" rel="stylesheet" href="{% static 'css/sdepop.css' %}">
 

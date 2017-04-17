@@ -1,0 +1,12 @@
+{% extends 'master_b/layout.html' %}
+
+
+
+{% block page_content %}
+    {% include 'organization/master/_aside.html' %}
+    <div style="position: absolute; left: 100px;right: 0">
+        {% block content %}
+        {% endblock %}
+    </div>
+{% endblock %}
+

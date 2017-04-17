@@ -22,7 +22,7 @@ def paginator(req, obj):
 
 def index(req):
     category_id = 0
-    articles_obj = models.Articles.objects.all().order_by('-creat_date')
+    articles_obj = models.Articles.objects.all().order_by('-ctime')
     posts = paginator(req, articles_obj)
     category_boj = models.ArticlesCategory.objects.all()
     return render(req, 'news/news_index.html', {'posts': posts,
@@ -34,7 +34,7 @@ def index(req):
 
 
 def category(req, category_id):
-    articles_obj = models.Articles.objects.filter(category_id=category_id).order_by('-creat_date')
+    articles_obj = models.Articles.objects.filter(category_id=category_id).order_by('-ctime')
     posts = paginator(req, articles_obj)
     category_boj = models.ArticlesCategory.objects.all()
     return render(req, 'news/news_index.html', {'posts': posts,
@@ -44,7 +44,7 @@ def category(req, category_id):
 
 
 def author(req, author_id):
-    articles_obj = models.Articles.objects.filter(author_id=author_id).order_by('-creat_date')
+    articles_obj = models.Articles.objects.filter(author_id=author_id).order_by('-ctime')
     posts = paginator(req, articles_obj)
     author_obj = models.Author.objects.filter(id=author_id).first()
     return render(req, 'news/news_author.html', {'posts': posts,
@@ -54,7 +54,7 @@ def author(req, author_id):
 
 def article(req, category_id, article_id):
     article_obj = models.Articles.objects.filter(id=article_id).select_related('articlesdetails').first()
-    articles_obj = models.Articles.objects.order_by('-creat_date')[0:4]
+    articles_obj = models.Articles.objects.order_by('-ctime')[0:4]
     article_obj.views += 1
     article_obj.save()
 

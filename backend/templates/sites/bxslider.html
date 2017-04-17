@@ -15,6 +15,7 @@
                 <th>图片</th>
                 <th>权重</th>
                 <th>状态</th>
+                <th>URL</th>
                 <th>名字</th>
                 <th>日期</th>
                 <th>员工</th>
@@ -36,8 +37,9 @@
                             上架
                         {% endif %}
                     </td>
+                    <td for="url">{{ line.url }}</td>
                     <td for="name">{{ line.name }}</td>
-                    <td>{{ line.create_date }}</td>
+                    <td>{{ line.create_date|date:"Y-m-d H:i:s" }}</td>
                     <td for="employee_id">员工姓名</td>
                     <td>
                         <a class="initialize btn glyphicon glyphicon-pencil initialize"></a>
@@ -51,7 +53,7 @@
     </div>
     {% include 'master_b/_aside_second.html' %}
 
-    <div class="modal fade bs-example-modal-sm marT100" for="bxslider_add" id="Model_AddInfo" tabindex="-1"
+    <div class="modal fade bs-example-modal-sm marT100" for="bxslider_add" id="Model_UploadInfo" tabindex="-1"
          role="dialog"
          aria-labelledby="mySmallModalLabel">
         <div class="modal-dialog modal-sm" role="document">
@@ -70,7 +72,11 @@
                             <input type="text" class="form-control" placeholder="数字越大越靠前" name="weight">
                             {{ form.errors.weight.0 }}
                         </div>
-
+                        <div class="form-group form-inline">
+                            <label>URL：</label>
+                            <input type="text" class="form-control" name="url">
+                            {{ form.errors.url.0 }}
+                        </div>
                         <div class="form-group form-inline">
                             <label>状态：</label>
                             <label class="radio-inline">
@@ -95,7 +101,8 @@
             </div>
         </div>
     </div>
-    <div class="modal fade bs-example-modal-sm marT100" id="Model_EditInfo" tabindex="-1" role="dialog"
+    <div class="modal fade bs-example-modal-sm marT100" for="bxslider_edit" id="Model_UploadEditInfo" tabindex="-1"
+         role="dialog"
          aria-labelledby="mySmallModalLabel">
         <div class="modal-dialog modal-sm" role="document">
             <div class="modal-content">
@@ -113,7 +120,11 @@
                             <input type="text" class="form-control" placeholder="数字越大越靠前" name="weight">
                             {{ form.errors.weight.0 }}
                         </div>
-
+                        <div class="form-group form-inline">
+                            <label>URL：</label>
+                            <input type="text" class="form-control" name="url">
+                            {{ form.errors.url.0 }}
+                        </div>
                         <div class="form-group form-inline">
                             <label>状态：</label>
                             <label class="radio-inline">
@@ -141,6 +152,3 @@
     {% include  'master_b/_delSubmit.html' %}
 {% endblock %}
 
-{% block scripts %}
-    <script src="/static/js/admin_index.js"></script>
-{% endblock %}

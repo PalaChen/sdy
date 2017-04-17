@@ -5,7 +5,7 @@ $(function () {
 function initKindEditor() {
     var kind = KindEditor.create('#content', {
         width: '100%', // 文本框宽度(可以百分比或像素)
-
+        uploadJson: '/admin/articles/upload_image.html',
         allowPreviewEmoticons: true,
         allowImageUpload: true,
         items: [

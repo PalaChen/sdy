@@ -72,9 +72,10 @@ class CategoryForm(forms.Form):
         }
     )
     parent_id = fields.IntegerField(
-        widget=widgets.Select(),
+        required=False,
+        widget=widgets.Select(attrs={'class': 'form-control'}),
         error_messages={
-            'required': '不能为空',
+            'required': '分类不能为空',
             'invalid': '非法数据,请重新输入',
         }
     )
