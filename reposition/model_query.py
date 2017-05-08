@@ -24,21 +24,18 @@ def query_all(tb_name):
 
 
 def order_counts(phone):
-    pending_pay = None
-    to_be_service = None
-    in_service = None
-    service_completed = None
+    data = {}
     order_count = models.Orders.objects.raw(
-        """SELECT id,COUNT(id) as count,order_state FROM orders WHERE phone=phone GROUP BY order_state""")
+        """SELECT t.id,t.order_state,COUNT(t.id) AS counts  FROM (SELECT id,order_code,order_state FROM orders WHERE phone=phone GROUP BY order_state,order_code) AS t  GROUP BY order_state""")
     for line in order_count:
-        if line.order_state == '待付款':
-            pending_pay = line.count
-        elif line.order_state == '待服务':
-            to_be_service = line.count
-        elif line.order_state == '服务中':
-            in_service = line.count
-        elif line.order_state == '服务完成':
-            service_completed = line.count
+        if line.order_state == 0:
+            data['pending_pay'] = line.counts
+        elif line.order_state == 1:
+            data['to_be_service'] = line.counts
+        elif line.order_state == 2:
+            data['in_service'] = line.counts
+        elif line.order_state == 3:
+            data['service_completed'] = line.counts
         else:
             pass
-    return pending_pay, to_be_service, in_service, service_completed
+    return data

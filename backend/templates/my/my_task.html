@@ -1,0 +1,141 @@
+{% extends 'master_b/layout.html' %}
+
+
+{% block page_content %}
+    {% if common_info.add_url %}
+        <p>
+            <a class="btn btn-primary" href="{% url common_info.add_url %}">添加</a>
+        </p>
+    {% endif %}
+    {% include 'my/master/_table_obj_list.html' %}
+
+
+    {# 订单业务管理模态框 #}
+    <div class="modal fade" tabindex="-1" role="dialog" id="Model_AddInfo" for="order_business"
+         style="margin-top: 100px">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">X</span></button>
+                    <h4 class="modal-title">订单业务管理</h4>
+                </div>
+                <div class="modal-body">
+                    <form id="fm_body">
+                        {% csrf_token %}
+                        <input type="hidden" name="nid" value="">
+                        <input type="hidden" name="order" value="">
+                        <input type="hidden" name="process_name" value="">
+                        <input type="hidden" name="employee" value="">
+                        <input type="hidden" name="employee_name" value="">
+
+                        <div class="form-inline">
+                            <div class="form-group">
+                                <label>业务步骤</label>
+                                <select id="p_business" name="step_name" class="form-control">
+                                    <option>111</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>姓名</label>
+                                <select name="employee" class="form-control">
+                                    <option>--------</option>
+                                    {% for line in common_info.employee_obj %}
+                                        <option value="{{ line.id }}">{{ line.name }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+                    </form>
+                    <table class="table table-bordered table-hover" style="margin-top: 20px">
+                        <thead>
+                        <tr>
+                            <td>分类</td>
+                            <td>节点</td>
+                            <td>员工</td>
+                            <td>时间</td>
+                        </tr>
+                        </thead>
+                        <tbody id="p_business_info">
+                        </tbody>
+                    </table>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                    <button type="button" class="btn btn-primary btn_save">保存</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block scripts %}
+    <script>
+        clickState_1 = 0;
+        $(document).ready(function () {
+            $('#tb_content').on('click', '.glyphicon-pencil', function () {
+                if (clickState_1 == 1) {
+                }
+                else {
+                    clickState_1 = 1;
+                    var model_type = $(this).parent().parent().attr('for');
+                    if (model_type == 'my_task') {
+                        var nid = $(this).parent().parent().attr('nid');
+                        $('#fm_body input[name="nid"]').val(nid);
+                        var order_id = $(this).parent().parent().children().first().text();
+                        $('#fm_body input[name="order"]').val(order_id);
+                        var url = '/admin/my_task/order_business/' + order_id + '.html';
+                        $.ajax({
+                            type: 'GET',
+                            url: url,
+                            dataType: 'json',
+                            success: function (arg) {
+                                console.log(arg['status']);
+                                if (arg['status']) {
+                                    $('#p_business').empty();
+                                    $('#p_business_info').empty();
+                                    $('#p_business').append('<option>--------</option>');
+                                    var employee = arg['employee'];
+                                    var employee_name = arg['employee_name'];
+                                    $('#fm_body input[name="employee"]').val(employee);
+                                    $('#fm_body input[name="employee_name"]').val(employee_name);
+
+                                    for (var i = 0; i < arg['data'].length; i++) {
+                                        var process_name = arg['data'][i]['process_name'];
+                                        var name = arg['data'][i]['name'];
+                                        $('#fm_body input[name="process_name"]').val(process_name);
+                                        $('#p_business').append('<option value=' + name + '>' + name + '</option>')
+                                    }
+                                    if (arg['tbbody']) {
+                                        for (var i = 0; i < arg['tbbody'].length; i++) {
+                                            var tr_ele = document.createElement('tr');
+                                            var td1 = document.createElement('td');
+                                            td1.innerHTML = arg['tbbody'][i]['process_name'];
+                                            var td2 = document.createElement('td');
+                                            td2.innerHTML = arg['tbbody'][i]['step_name'];
+                                            var td3 = document.createElement('td');
+                                            td3.innerHTML = arg['tbbody'][i]['employee_name'];
+                                            var td4 = document.createElement('td');
+                                            td4.innerHTML = arg['tbbody'][i]['date'];
+                                            tr_ele.append(td1);
+                                            tr_ele.append(td2);
+                                            tr_ele.append(td3);
+                                            tr_ele.append(td4);
+                                            $('#p_business_info').append(tr_ele)
+                                        }
+                                    }
+                                    $('#Model_AddInfo').modal('show');
+
+                                }
+                                clickState_1 = 0
+                            }
+                        });
+
+                    }
+                }
+            });
+        });
+    </script>
+{% endblock %}

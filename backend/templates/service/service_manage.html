@@ -1,0 +1,76 @@
+{% extends 'master_b/layout.html' %}
+
+
+{% block page_content %}
+    {% include 'service/master/_table_obj_list.html' %}
+    <div class="modal fade bs-example-modal-sm" id="Model_AddInfo" tabindex="-1" role="dialog"
+         style="margin-top: 100px" for="service_manage">
+        <div class="modal-dialog modal-sm" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">X</span></button>
+                    <h4 class="modal-title">分配任务</h4>
+                </div>
+                <div class="modal-body">
+                    <form id="fm_body" style="height: 60px">
+                        {% csrf_token %}
+                        <input type="hidden" name="order_serice" value="">
+                        <input type="hidden" name="order" value="">
+                        <div class="col-sm-11">
+                            <label class="col-sm-3 control-label">员工</label>
+                            <div class="col-sm-9">
+                                <select class="form-control" name="employee">
+                                    {% if common_info.employee_obj %}
+                                        {% for line in common_info.employee_obj %}
+                                            <option value="{{ line.id }}">{{ line.name }}</option>
+                                        {% endfor %}
+                                    {% endif %}
+                                </select>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                    <button type="button" class="btn btn-primary btn_save">保存</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" tabindex="-1" role="dialog" id="Model_ToView" for="service_order_business"
+         style="margin-top: 100px">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">X</span></button>
+                    <h4 class="modal-title">订单业务管理</h4>
+                </div>
+                <div class="modal-body">
+                    <table class="table table-bordered table-hover" style="margin-top: 20px">
+                        <thead>
+                        <tr>
+                            <td>分类</td>
+                            <td>节点</td>
+                            <td>员工</td>
+                            <td>时间</td>
+                        </tr>
+                        </thead>
+                        <tbody id="p_business_info">
+                        </tbody>
+                    </table>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                    <button type="button" class="btn btn-primary btn_save">保存</button>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block scripts %}
+
+
+{% endblock %}

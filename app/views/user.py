@@ -5,6 +5,7 @@ from reposition import models
 from reposition.model_query import order_counts
 from utils.login import login_required
 from utils.sms_message import send_verification_code
+from utils.serialize import DateTypeJSONEncoder
 from datetime import datetime, timezone
 from django.utils import timezone
 import json
@@ -16,7 +17,7 @@ title = {
     'edit_phone': '修改手机号码',
     'edit_pwd': '修改密码',
 }
-res = {
+res_dict = {
     'status': True,
     'message': None,
     'data': None,
@@ -25,51 +26,60 @@ res = {
 
 @login_required
 def index(req):
-    phone = req.session.get('user_info')['phone']
-    pending_pay, to_be_service, in_service, service_completed = order_counts(phone)
+    user_info = req.session.get('user_info')
+    counts_dict = order_counts(user_info['phone'])
     return render(req, 'user/user_index.html', {'title': title['index'],
-                                                'pending_pay': pending_pay,
-                                                'to_be_service': to_be_service,
-                                                'in_service': in_service,
-                                                'service_completed': service_completed,})
+                                                'user_info': user_info,
+                                                'counts_dict': counts_dict,})
 
 
 @login_required
 def order(req):
-    phone = req.session.get('user_info')['phone']
-    order_obj = models.Orders.objects.filter(phone=phone).all()
-    pending_pay, to_be_service, in_service, service_completed = order_counts(phone)
+    user_info = req.session.get('user_info')
+    order_obj = models.Orders.objects.filter(phone=user_info['phone']).order_by('-ctime').all()
+    counts_dict = order_counts(user_info['phone'])
     return render(req, 'user/order.html', {'order_obj': order_obj,
-                                           'pending_pay': pending_pay,
-                                           'to_be_service': to_be_service,
-                                           'in_service': in_service,
-                                           'service_completed': service_completed,
+                                           'user_info': user_info,
+                                           'counts_dict': counts_dict,
                                            'title': title['order'],
                                            'id': 0,
                                            })
 
 
 @login_required
+def order_topay(request, nid):
+    if request.method == 'GET':
+        phone = request.session.get('user_info')['phone']
+        order_dict = models.Orders.objects.filter(id=nid, phone=phone).values('order_code').all()
+        if order_dict:
+            # print(order_dict['order_code'])
+            pay_dict = models.OrderPayment.objects.filter(order_code=order_dict['order_code']).values('id').first()
+            if pay_dict:
+                
+                return redirect('shopping_pay', pay_dict['id'])
+    return redirect('user_order')
+
+
+@login_required
 def order_query(req, id):
-    phone = req.session.get('user_info')['phone']
+    user_info = req.session.get('user_info')
+    phone = user_info['phone']
     id = int(id)
-    pending_pay, to_be_service, in_service, service_completed = order_counts(phone)
+    counts_dict = order_counts(phone)
     if id == 1:
-        order_obj = models.Orders.objects.filter(phone=phone, order_state='待付款').all()
+        order_obj = models.Orders.objects.filter(phone=phone, order_state=0).order_by('-ctime').all()
     elif id == 5:
-        order_obj = models.Orders.objects.filter(phone=phone, order_state='待服务').all()
+        order_obj = models.Orders.objects.filter(phone=phone, order_state=1).order_by('-ctime').all()
     elif id == 15:
-        order_obj = models.Orders.objects.filter(phone=phone, order_state='服务中').all()
+        order_obj = models.Orders.objects.filter(phone=phone, order_state=2).order_by('-ctime').all()
     elif id == 25:
-        order_obj = models.Orders.objects.filter(phone=phone, order_state='服务完成').all()
+        order_obj = models.Orders.objects.filter(phone=phone, order_state=3).order_by('-ctime').all()
     else:
         return redirect(reverse('user_index'))
     return render(req, 'user/order.html', {'title': title['order'],
+                                           'user_info': user_info,
                                            'order_obj': order_obj,
-                                           'pending_pay': pending_pay,
-                                           'to_be_service': to_be_service,
-                                           'in_service': in_service,
-                                           'service_completed': service_completed,
+                                           'counts_dict': counts_dict,
                                            'id': id,
                                            })
 
@@ -77,15 +87,14 @@ def order_query(req, id):
 @login_required
 def order_process_query(req, id):
     if req.method == 'GET':
-        order_boj = models.Process.objects.filter(order_id=id).values_list('process_name', 'step_name',
-                                                                           'date').order_by('date')
-        if order_boj:
-            # res['data'] = order_boj
-            return JsonResponse(res)
-        # 如果没有进展信息，返回默认值
+        order_obj = models.Process.objects.filter(order_id=id).values('step_name', 'date').order_by('date').all()
+        if order_obj:
+            res_dict['data'] = list(order_obj)
         else:
-            res['message'] = '确认订单，等待分配'
-            return JsonResponse(res)
+            res_dict['status'] = False
+            res_dict['message'] = '暂无数据'
+
+    return JsonResponse(res_dict, encoder=DateTypeJSONEncoder)
 
 
 @login_required
@@ -102,12 +111,12 @@ def info(req):
             address = req.POST.get('address')
             know = req.POST.get('know')
             models.Users.objects.filter(phone=phone).update(email=email, name=name, address=address, know=know)
-            res['message'] = '修改成功'
+            res_dict['message'] = '修改成功'
         else:
-            res['status'] = False
-            res['message'] = list(form.errors.values())[0][0]
+            res_dict['status'] = False
+            res_dict['message'] = list(form.errors.values())[0][0]
 
-        return JsonResponse(res)
+        return JsonResponse(res_dict)
 
     return render(req, 'user/profile.html', {'title': title['info'],
                                              'form': form,
@@ -118,7 +127,8 @@ def info(req):
 @login_required
 def edit_phone(req):
     form = EditPhoneForm(req.POST or None)
-    phone = req.session.get('user_info')['phone']
+    user_info = req.session.get('user_info')
+    phone = user_info['phone']
 
     if req.method == 'POST':
         if form.is_valid():
@@ -126,49 +136,52 @@ def edit_phone(req):
             password = req.POST.get('password')
             verify_code = req.POST.get('verify_code')
             verify_info = \
-                models.MessagesVerifyCode.objects.filter(m_phone=phone,
-                                                         ).values_list('m_verifycode',
-                                                                       'm_send_date').order_by('-m_send_date').first()
+                models.MessagesVerifyCode.objects.filter(m_phone=phone, ).values_list('m_verifycode',
+                                                                                      'm_send_date').order_by(
+                    '-m_send_date').first()
             user_info = models.Users.objects.filter(phone=phone, password=password).first()
-            if user_info:
+            if user_info and verify_info:
                 if int(verify_code) == verify_info[0]:
                     if (timezone.now() - verify_info[1]).seconds <= 1800:
                         phone_info = models.Users.objects.filter(phone=new_phone).first()
                         if not phone_info:
                             models.Users.objects.filter(phone=phone).update(phone=new_phone)
-                            res['message'] = '修改手机号码成功'
+                            res_dict['message'] = '修改手机号码成功'
                         else:
-                            res['message'] = '该手机号码已被使用'
+                            res_dict['message'] = '该手机号码已被使用'
                     else:
-                        res['message'] = '验证码超时，请重新获取'
+                        res_dict['message'] = '验证码超时，请重新获取'
                 else:
-                    res['message'] = '验证码输入错误，请重新输入'
+                    res_dict['message'] = '验证码输入错误，请重新输入'
             else:
-                res['message'] = '非法操作'
+                res_dict['message'] = '非法操作'
         else:
-            res['message'] = list(form.errors.values())[0][0]
-        res['status'] = False
-        return JsonResponse(res)
-    return render(req, 'user/edit_phone.html', {'title': title['edit_phone']})
+            res_dict['message'] = list(form.errors.values())[0][0]
+        res_dict['status'] = False
+        return JsonResponse(res_dict)
+    return render(req, 'user/edit_phone.html', {'title': title['edit_phone'],
+                                                'user_info': user_info})
 
 
 @login_required
 def edit_pwd(req):
+    user_info = req.session.get('user_info')
     form = EditPwdForm(req.POST or None)
     if req.method == 'POST':
         if form.is_valid():
-            phone = req.session.get('user_info')['phone']
+            phone = user_info['phone']
             password = req.POST.get('password')
             models.Users.objects.filter(phone=phone).update(password=password)
-            res['message'] = '请使用新密码重新登录'
+            res_dict['message'] = '请使用新密码重新登录'
         else:
 
-            res['status'] = False
-            res['message'] = list(form.errors.values())[0][0]
+            res_dict['status'] = False
+            res_dict['message'] = list(form.errors.values())[0][0]
 
-        return JsonResponse(res)
+        return JsonResponse(res_dict)
 
-    return render(req, 'user/edit_password.html', {'title': title['edit_pwd']})
+    return render(req, 'user/edit_password.html', {'title': title['edit_pwd'],
+                                                   'user_info': user_info})
 
 
 @login_required
@@ -183,8 +196,35 @@ def message_read(req):
 
 def send_verify_code(req):
     if req.method == 'GET':
-        phone = req.session.get('user_info')['phone']
-        ret = send_verification_code(phone)
+        phone = req.GET.get('phone')
+        type = req.GET.get('type')
+        print(phone)
+        if phone:
+            if len(phone) != 11:
+                res_dict['status'] = False
+                res_dict['message'] = '手机号码长度不对'
+                return JsonResponse(res_dict)
+
+            if not phone.isdigit():
+                res_dict['status'] = False
+                res_dict['message'] = '请输入正确手机号码'
+                return JsonResponse(res_dict)
+
+            if not type:
+                type = 'register'
+
+            elif type == 'forgetpass':
+                user_obj = models.Users.objects.filter(phone=phone).first()
+                if not user_obj:
+                    res_dict['status'] = False
+                    res_dict['message'] = '该手机号码未注册'
+                    return JsonResponse(res_dict)
+
+        else:
+            type = 'edit'
+            phone = req.session.get('user_info')['phone']
+
+        ret = send_verification_code(phone, type)
         # ret = True
-        if ret:
-            return JsonResponse(res)
+        # if ret:
+        return JsonResponse(res_dict)

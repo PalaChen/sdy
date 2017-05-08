@@ -36,11 +36,12 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-                            aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title"> 添加栏目</h4>
+                            aria-hidden="true">X</span></button>
+                    <h4 class="modal-title">添加栏目</h4>
                 </div>
                 <div class="modal-body">
                     <form id="fm_keyword_add" method="post" class="form-horizontal">
+                        {% csrf_token %}
                         <div class="form-group">
                             <label class="col-sm-3 control-label">名称</label>
                             <div class="col-sm-8">
@@ -52,6 +53,33 @@
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
                     <button type="button" class="btn btn-primary btn_save">保存</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade bs-example-modal-sm" id="Model_EditInfo" for="keyword_edit" tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-sm" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">X</span></button>
+                    <h4 class="modal-title"> 修改栏目</h4>
+                </div>
+                <div class="modal-body">
+                    <form id="fm_edit" method="post" class="form-horizontal">
+                        {% csrf_token %}
+                        <input type="hidden" name="id" value="">
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">名称</label>
+                            <div class="col-sm-8">
+                                <input type="text" class="form-control" name="name">
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                    <button type="button" class="btn btn-primary btn_send_add">保存</button>
                 </div>
             </div>
         </div>

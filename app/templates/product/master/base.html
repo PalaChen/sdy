@@ -19,7 +19,7 @@
                 <a href="/">首页</a>
             </li>
             <li class="interval"></li>
-            <li class="active">{{ product_obj.p_category.cate_name }}</li>
+            <li class="active">{{ product_obj.p_category.name }}</li>
         </ul>
     </div>
     {% block page_content %}{% endblock %}
@@ -29,7 +29,7 @@
 
 </body>
 <script src="/static/js/jquery-3.1.1.js"></script>
-<script src="/static/js/city.js"></script>
+{#<script src="/static/js/city.js"></script>#}
 {% block scripts %}
 {% endblock %}
 </html>

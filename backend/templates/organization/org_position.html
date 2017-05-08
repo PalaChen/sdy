@@ -1,0 +1,47 @@
+{% extends 'organization/master/base.html' %}
+
+{% block page_content %}
+    {% include 'organization/master/_aside.html' %}
+    <div style="position: absolute;padding: 10px; left: 200px;right: 0;">
+        <div class="float-left" style="margin-top: 10px;margin-bottom: 10px">
+            <a href="{% url 'org_employees' %}" style="margin-bottom: 0">员工列表</a>&nbsp;&nbsp;&nbsp;
+            <a href="{% url 'org_position' %}" class="title_border">职位列表</a>
+        </div>
+        <div style="border: 1px solid #b5b4b3;padding: 10px;min-height: 485px">
+            <p>
+                {#                <a class="btn btn-primary" href="{% url common_info.add_url %}">添加</a>#}
+                <a class="btn btn-primary" id="add_Info_1">添加</a>
+            </p>
+            {% include 'organization/master/_table_obj_list.html' %}
+            <div class="modal fade" tabindex="-1" role="dialog" id="Model_AddInfo_1" for="position">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                    aria-hidden="true">X</span></button>
+                            <h4 class="modal-title">部门职位添加</h4>
+                        </div>
+                        <div class="modal-body">
+                            <form id="fm_body_1" class="form-horizontal" style="height: 330px">
+                                {% csrf_token %}
+                                {% for field in common_info.form_obj %}
+                                    <div class="col-sm-11">
+                                        <label class="col-sm-3 control-label">{{ field.label }}</label>
+                                        <div class="col-sm-9">
+                                            {{ field }}
+                                            <span style="color: red;">{{ field.errors.0 }}</span>
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                            <button type="button" class="btn btn-primary btn_save">保存</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

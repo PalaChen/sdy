@@ -1,0 +1,15 @@
+{% extends 'master_b/layout.html' %}
+
+
+{% block page_content %}
+    <p>
+        <a class="btn btn-primary" href="{% url 'product_add' %}">添加用户</a>
+    </p>
+    {% include 'master_b/_table_obj_change_component.html' %}
+
+{% endblock %}
+
+{% block scripts %}
+    <script src="/static/js/admin_index.js"></script>
+
+{% endblock %}

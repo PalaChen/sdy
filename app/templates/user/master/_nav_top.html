@@ -16,7 +16,7 @@
             <li class="asj">
                 <a class="noBorder" href="{% url 'user_index' %}">
                     <i class="mykfw floatRight"></i>
-                    chen
+                    {{ user_info.name }}
                 </a>
                 <div class="aimationKfw iMyInfo iMyInfoOk">
                     <em style="width: 58px;"></em>
@@ -29,7 +29,7 @@
                     <a href="">
                         <span> 我的评价 </span>
                     </a>
-                    <a href="">
+                    <a href="{% url 'logout' %}">
                         <span style="border:none;padding-bottom: 14px;"> 退出登录 </span>
                     </a>
                 </div>
@@ -39,7 +39,7 @@
                 <a href="{% url 'user_order' %}">我的订单</a>
             </li>
             <li>
-                <a class="welcome1" href="">
+                <a class="welcome1" href="{% url 'shopping_cart' %}">
                     <i class="gw floatLeft"></i>
                     购物车
                     <em>0</em>

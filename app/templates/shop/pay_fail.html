@@ -1,0 +1,85 @@
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>提示跳转页面-德盛业</title>
+    <style type="text/css">
+        body {
+            margin: 0;
+            padding: 0;
+        }
+
+        .user-body {
+            background: #f1f2f6;
+        }
+
+        .prompt-jump {
+            width: 1140px;
+            margin: 0 auto;
+            height: 582px;
+            margin-top: -25px;
+            font-size: 18px;
+            font-weight: normal;
+        }
+
+        .prompt-jump-in {
+            left: 50%;
+            margin-left: -114px;
+            position: relative;
+            text-indent: 9px;
+            top: 129px;
+            width: 300px;
+        }
+
+        .prompt-jump a, .prompt-jump span {
+            display: block;
+            width: 100%;
+        }
+
+        .prompt-jump .prompt-jump-in h4 {
+            color: #777;
+            font-weight: 600;
+            padding-bottom: 26px;
+        }
+
+        .prompt-jump .prompt-jump-in span {
+            color: #4b4b4b;
+            margin: 7px 0;
+        }
+
+        .prompt-jump .prompt-jump-in a {
+            text-decoration: none;
+            color: #3b8449;
+        }
+
+        .prompt-jump .prompt-jump-in a:hover {
+            color: #00a9e0;
+        }
+    </style>
+    <script type="text/javascript" src="/static/js/jquery-3.1.1.js"></script>
+</head>
+<body class="user-body">
+<!--用户中心首页结构-->
+<div class="prompt-jump">
+    <div class="prompt-jump-in">
+        <h4>提示信息：</h4>
+			<span style="color:red;font-weight: bold;font-size:24px;">
+									付款失败			</span>
+        <span><b id="wait">3</b> 秒后自动跳转，没有自动跳转请</span>
+        <a href="/pay/{{ nid }}.html" id="href" class="manual_skip">点击立即跳转</a>
+    </div>
+</div>
+<script type="text/javascript">
+    $(function () {
+        var wait = document.getElementById('wait'), href = document.getElementById('href').href;
+        var interval = setInterval(function () {
+            var time = --wait.innerHTML;
+            if (time <= 0) {
+                location.href = href;
+                clearInterval(interval);
+            }
+        }, 1000);
+    });
+</script>
+</body>
+</html>

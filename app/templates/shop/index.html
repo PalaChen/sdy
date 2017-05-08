@@ -7,92 +7,110 @@
 
 {% block page_content %}
     <div class="main greyf5f5f5">
-        <form id="cartForm">
-            <div class="minwidth marT40">
-                <ul class="buySerList bordere0e0e0">
-                    <li class="shopp-list">
-                        <div class="shoppTitle">
-                            <ol class="shoppFirst">
-                                <li class="goods">商品信息</li>
-                                <li class="unit-price">单价</li>
-                                <li class="shopp-num">数量</li>
-                                <li class="shopp-subtotal">小计</li>
-                                <li class="operation">操作</li>
-                            </ol>
-                        </div>
-                        {% for k,v in shop_list.items %}
-                            {% if v.name %}
-                                <ol>
-                                    <li class="goods">
-                                        <div class="textImgSeparation goods-text">
-                                            <div>
-                                                <span>{{ v.name.p_name }}</span>
-                                            </div>
-                                            <div class="area">
-                                                <em>地区：</em>
-                                                <span>北京-朝阳区</span>
-                                            </div>
-                                        </div>
-                                    </li>
-                                    <li class="unit-price">
-                                        <span>{{ v.name.p_price }}元</span>
-                                    </li>
-                                    <li class="shopp-num">
-                                        <div class="numAddSubtract overflowhidden">
-                                            <a class="subtract notChoose productReduce">-</a>
-                                            <input class="t-productNum" value="{{ v.number }}" name="number"
-                                                   style="width:40px;"
-                                                   category="product" p_price="{{ v.name.p_price }}" vprice="0"
-                                                   nid="{{ k }}" type="text">
-                                            <a class="productAdd">+</a>
-                                        </div>
-                                    </li>
-                                    <li class="shopp-subtotal">
-                                        <span class="productTotalPrice">{% widthratio v.number 1 v.name.p_price %}元</span>
-                                    </li>
-                                    <li class="operation">
-                                        <a class="shop_delete" nid="{{ k }}">删除</a>
-                                    </li>
-                                </ol>
-                            {% endif %}
-                        {% endfor %}
-                    </li>
-                </ul>
-            </div>
-            <div class="minwidth">
+        {% if shop_list %}
+            <form id="cartForm" method="post">
                 {% csrf_token %}
-                <div class="floatRight marT30 checkoutWrap marB40" style="position:relative;">
-                    <ul class="checkout floatRight">
-                        <li>
-                            <span class="checkout-le">金额合计：</span>
-                            <span id="totalPrice" class="checkout-ri">元</span>
-                        </li>
-                        <li>
-                            <span class="checkout-le">代金券抵扣：</span>
-                            <span id="couponPrice" class="checkout-ri">0元</span>
-                        </li>
-                        <li>
-                            <span class="checkout-le">应付总额：</span>
-                        <span class="checkout-ri">
-                        <em id="totalPayPrice">{{ shop_list.price }}元</em>
-                        </span>
+                <div class="minwidth marT40">
+                    <ul class="buySerList bordere0e0e0">
+                        <li class="shopp-list">
+                            <div class="shoppTitle">
+                                <ol class="shoppFirst">
+                                    <li class="goods">商品信息</li>
+                                    <li class="unit-price">单价</li>
+                                    <li class="shopp-num">数量</li>
+                                    <li class="shopp-subtotal">小计</li>
+                                    <li class="operation">操作</li>
+                                </ol>
+                            </div>
+                            {% for k,v in shop_list.items %}
+                                {% if v.info %}
+                                    <ol>
+                                        <li class="goods">
+                                            <div class="textImgSeparation goods-text">
+                                                <div>
+                                                    <span>{{ v.info.p_name }}</span>
+                                                </div>
+                                                <div class="area">
+                                                    <em>地区：</em>
+                                                    <span>北京-朝阳区</span>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <li class="unit-price">
+                                            <span class="productCprice">{{ v.info.p_price }}元</span>
+                                        </li>
+                                        <li class="shopp-num">
+                                            <div class="numAddSubtract overflowhidden">
+                                                <a class="subtract notChoose productReduce">-</a>
+                                                <input class="t-productNum" value="{{ v.info.number }}" name="number"
+                                                       style="width:40px;"
+                                                       category="product" p_price="{{ v.info.p_price }}" vprice="0"
+                                                       nid="{{ k }}" type="text">
+                                                <a class="productAdd">+</a>
+                                            </div>
+                                        </li>
+                                        <li class="shopp-subtotal">
+                                            <span class="productTotalPrice"></span>
+                                        </li>
+                                        <li class="operation">
+                                            <a class="shop_delete" nid="{{ k }}">删除</a>
+                                        </li>
+                                    </ol>
+                                {% endif %}
+                            {% endfor %}
                         </li>
                     </ul>
-                    <div class="marT30 floatRight">
-                        <a id="orderButton" class="butpadding64 inlineBlock floatRight butRed"
-                           href="{% url 'shopping_pay' %}">去结账</a>
-                        <a class="butpadding21 inlineBlock floatRight butWhiteGreyborder marR20">继续购物</a>
-                    </div>
-                    <div class="invoiceWrap">
-                        <div class="invoiceTip">
-                            如何获取发票？
-                            <div class="invoiceInner" style="display: none">
+                </div>
+                <div class="minwidth">
+                    <div class="floatRight marT30 checkoutWrap marB40" style="position:relative;">
+                        <ul class="checkout floatRight">
+                            <li>
+                                <span class="checkout-le">金额合计：</span>
+                            <span class="checkout-ri">
+                                <span id="totalPrice"></span>元
+                            </span>
+                            </li>
+                            <li>
+                                <span class="checkout-le">代金券抵扣：</span>
+                            <span class="checkout-ri">
+                                <span id="couponPrice">0</span>元
+                            </span>
+                            </li>
+                            <li>
+                                <span class="checkout-le">应付总额：</span>
+                            <span class="checkout-ri">
+                                <em id="totalPayPrice">{{ shop_list.price }}</em>元
+                            </span>
+                            </li>
+                        </ul>
+                        <div class="marT30 floatRight">
+                            <a id="orderButton" class="butpadding64 inlineBlock floatRight butRed">去结账</a>
+                            <a class="butpadding21 inlineBlock floatRight butWhiteGreyborder marR20">继续购物</a>
+                        </div>
+                        <div class="invoiceWrap">
+                            <div class="invoiceTip">
+                                如何获取发票？
+                                <div class="invoiceInner" style="display: none">
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
+            </form>
+        {% else %}
+            <div class="minwidth">
+                <div class="cart-empty">
+                    <h3>您的购物车还是空的！</h3>
+                    <div class="btn">
+                        <a class="inlineBlock butBlue" href="/">马上去购物</a>
+                <span class="inlineBlock" style="font-size: 12px;color: #333;padding-top: 8px;vertical-align: top;">
+                或查看
+                <a href="{% url 'user_order' %}" style="font-size: 12px;">订单记录</a>
+                </span>
+                    </div>
+                </div>
             </div>
-        </form>
+        {% endif %}
     </div>
 {% endblock %}
 
@@ -100,29 +118,49 @@
     <script src="/static/js/jquery-3.1.1.js"></script>
     <script src="/static/js/layer/layer.js"></script>
     <script>
+
+
         $(function () {
+            BindProductTotalPrice();
             BindAddNumber();
             BindReduceNumber();
-            BindTotalPrice();
             BindProductNumber();
             BindHover();
-            BindDelete()
+            BindDelete();
+            BindTotalPrice();
+            BindBuySub();
 
         });
+        // 计算当个商品总价
+        function BindProductTotalPrice() {
+            var counts = $('.productTotalPrice').length;
+            for (var i = 0; i <= counts - 1; i++) {
+                var cprice = $('.productCprice').eq(i).html();
+                cprice = cprice.substring(0, cprice.length - 1);
+                var number = $('.t-productNum').eq(i).val();
+                var totalPrice = ( cprice * number).toFixed(2);
+                $('.productTotalPrice').eq(i).text(totalPrice + '元')
+            }
+            {#            }#}
+        }
+
         // 自动计算总价
         function BindTotalPrice(product_id, number) {
             var p_sum = 0;
+            // 获取每一笔订单小计金额
             $('.productTotalPrice').each(function () {
-                var c_price = $(this).text();
-                c_price = c_price.substring(0, c_price.length - 1);
-                p_sum += c_price * 1;
+                var c_price = $(this).parent().prevAll().eq(1).children().text();
+                var number = parseInt($(this).parent().prev().children().children().eq(1).val());
+                c_price = parseFloat(c_price.substring(0, c_price.length - 1));
+                p_sum += c_price * number;
             });
-            $('#totalPrice').text(p_sum + '元');
+            p_sum = p_sum.toFixed(2);
+            $('#totalPrice').text(p_sum);
             var p_total = 0;
-            p_total = $('#totalPrice').text().replace('元', '') * 1 + $('#couponPrice').text().replace('元', '') * 1
-            $('#totalPayPrice').text(p_total + '元');
-            data = {'product_id': product_id, 'number': number, 'price': p_total};
-            {#            data = {'price': p_total};#}
+            p_total = $('#totalPrice').text() * 1 + $('#couponPrice').text() * 1;
+            $('#totalPayPrice').text(p_total);
+            var csrfmiddlewaretoken = $('input[name="csrfmiddlewaretoken"]').val();
+            data = {'product_id': product_id, 'number': number, 'csrfmiddlewaretoken': csrfmiddlewaretoken};
             SendAjax(data)
 
         }
@@ -137,7 +175,7 @@
                 else {
                     number = number * 1 - 1;
                     $(this).next('.t-productNum').val(number);
-                    $(this).parent().parent().next('.shopp-subtotal').children('.productTotalPrice').text(cprice * 1 * number + '元')
+                    $(this).parent().parent().next('.shopp-subtotal').children('.productTotalPrice').text((cprice * 1 * number).toFixed(2) + '元');
                     BindTotalPrice(product_id, number);
                 }
             })
@@ -150,8 +188,9 @@
                 var cprice = $(this).prev('.t-productNum').attr('p_price');
 
                 number = number * 1 + 1;
+
                 $(this).prev('.t-productNum').val(number);
-                $(this).parent().parent().next('.shopp-subtotal').children('.productTotalPrice').text(cprice * 1 * number + '元')
+                $(this).parent().parent().next('.shopp-subtotal').children('.productTotalPrice').text((cprice * 1 * number).toFixed(2) + '元');
                 BindTotalPrice(product_id, number);
             })
         }
@@ -161,10 +200,12 @@
             $('.shopp-list').on('input propertychange', '.t-productNum', function () {
                 var number = $(this).val();
                 var cprice = $(this).attr('p_price');
-                $(this).parent().parent().next('.shopp-subtotal').children('.productTotalPrice').text(cprice * 1 * number + '元')
+
+                $(this).parent().parent().next('.shopp-subtotal').children('.productTotalPrice').text((cprice * 1 * number).toFixed(2) + '元')
                 BindTotalPrice()
             })
         }
+
 
         // tips
         var differentindex = '';
@@ -197,24 +238,66 @@
 
         // 购物车删除
         function BindDelete() {
+            var clickState = 0;
             $('#cartForm').on('click', '.shop_delete', function () {
-                id = $(this).attr('nid');
-                url = '/cart_del/' + id + '.html';
-                var ths = this;
-                $.ajax({
-                    url: url,
-                    type: 'GET',
-                    success: function (arg) {
-                        console.log(arg['status']);
-                        console.log(arg['status'] == 200);
-                        if (arg['status'] == 200) {
-                            console.log($(ths).parent().parent());
-                            $(ths).parent().parent().attr('class', 'hide')
+                if (clickState == 1) {}
+                else {
+                    clickState = 1;
+                    id = $(this).attr('nid');
+                    url = '/cart_del/' + id + '.html';
+                    var ths = this;
+                    $.ajax({
+                        url: url,
+                        type: 'GET',
+                        success: function (arg) {
+                            if (arg['status'] == 200) {
+                                location.href = '/cart.html'
+                            }
+                            clickState = 0
                         }
-                    }
 
-                })
+                    })
+                }
             })
+        }
+
+        // 发送总价格信息
+        function BindBuySub() {
+            var clickState = 0;
+            $('#orderButton').click(function () {
+                if (clickState == 1) {
+                }
+                else {
+                    clickState = 1;
+                    var total_price = $('#totalPrice').text().trim();
+                    var coupon_price = $('#couponPrice').text().trim();
+                    var pay_price = $('#totalPayPrice').text().trim();
+                    var csrfmiddlewaretoken = $('input[name="csrfmiddlewaretoken"]').val();
+                    data = {
+                        'total_price': total_price,
+                        'coupon_price': coupon_price,
+                        'pay_price': pay_price,
+                        'csrfmiddlewaretoken': csrfmiddlewaretoken
+                    };
+                    url = '/buy_info.html';
+                    $.ajax({
+                        url: url,
+                        type: 'POST',
+                        data: data,
+                        dataType: "json",
+                        success: function (arg) {
+                            if (arg['status'] == 200) {
+                                location.href = arg['url']
+                            }
+                            else if (arg['status'] == 501) {
+                                location.href = arg['url']
+                            }
+                            clickState = 0
+                        }
+                    })
+                }
+
+            });
         }
     </script>
 {% endblock %}

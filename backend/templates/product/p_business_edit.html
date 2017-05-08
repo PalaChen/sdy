@@ -2,7 +2,7 @@
 
 {% block page_content %}
     <div class="col-md-4">
-        <form  method="post">
+        <form method="post">
             {% csrf_token %}
             <div class="form-group">
                 <label for="exampleInputEmail1">进程名</label>
@@ -15,13 +15,13 @@
                 <label class="li_left">步骤</label>
             </div>
             {% for line in process_obj %}
-                <div class="form-group float-left">
-
+                <div class="form-group float-left p_step_info">
                     <input name="step_number" type="text" value="{{ line.number }}" class="form-control_add form-left"
                            required=''>
                     <input name="step_name" type="text" value="{{ line.name }}" class="form-control_add form-right"
-                           required=''>
+                           required="">
                     <span class="glyphicon glyphicon-plus add-process" onclick="add(this)"></span>
+                    <span class="glyphicon glyphicon-minus add-process" onclick="remove_obj(this)"></span>
                 </div>
             {% endfor %}
             {% if error %}
@@ -37,30 +37,33 @@
 
 {% block scripts %}
     <script>
-        $(document).ready(function () {
-            var c_list = $('.add-process');
-            console.log(c_list.length);
-            for (var i = 0; i < c_list.length - 1; i++) {
-                c_list.eq(i).siblings('.form-left').prop("name", "step_number");
-                c_list.eq(i).siblings('.form-right').prop("name", "step_name");
-                c_list.eq(i).removeClass('glyphicon glyphicon-plus').addClass('glyphicon glyphicon-minus');
-                c_list.eq(i).attr('onclick', 'remove_obj(this)')
-            }
-        });
+        {#        $(function () {#}
+        {#            bindSendInfo()#}
+        {#        });#}
+{#        $(document).ready(function () {#}
+{#            var c_list = $('.add-process');#}
+{#            for (var i = 0; i < c_list.length; i++) {#}
+{#                c_list.eq(i).removeClass('glyphicon glyphicon-plus').addClass('glyphicon glyphicon-minus');#}
+{#                c_list.eq(i).attr('onclick', 'remove_obj(this)');#}
+{#                if (i == c_list.length-1) {#}
+{#                    var obj = c_list.eq(i).clone();#}
+{#                    c_list.eq(i).after(obj);#}
+{#                    c_list.eq(i).removeClass('glyphicon glyphicon-minus').addClass('glyphicon glyphicon-plus');#}
+{#                    c_list.eq(i).attr('onclick', 'add(this)');#}
+{#                }#}
+{#            }#}
+{#        });#}
 
 
         function add(self) {
             var $clone_obj = $(self).parent().clone();
-
             $clone_obj.children(':text').prop("value", "");
-            $clone_obj.children('.form-left').prop("name", "step_number");
-            $clone_obj.children('.form-right').prop("name", "step_name");
-            $clone_obj.children("span").removeClass('glyphicon glyphicon-plus').addClass('glyphicon glyphicon-minus').attr('onclick', 'remove_obj(this)');
-            $('[name="submit"]').before($clone_obj);
+            $(self).parent().after($clone_obj);
         }
 
         function remove_obj(self) {
             $(self).parent().remove();
         }
+
     </script>
 {% endblock %}

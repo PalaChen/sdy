@@ -9,6 +9,7 @@ body {
     line-height: 1;
 }
 .index-fo-info i, .link-weixi i, .posit i, .z2 i, .kfwHot i, .s-uebut i {
+    background: rgba(0, 0, 0, 0) url("../images/icon/index.png") no-repeat scroll left 0;
     display: inline-block;
 }
 .link-th span, .link-th h3, .link-th h5, .index-fo-link h5, .index-fo-info li, .usere-text p, .z2 h3, .z1 .indexEnd, .kfwHot h4 {
@@ -1145,12 +1146,11 @@ body {
     -moz-border-left-colors: none;
     -moz-border-right-colors: none;
     -moz-border-top-colors: none;
-    border-top-color: #009be1;
     border-color: -moz-use-text-color #009be1 #009be1;
     border-image: none;
     border-style: none solid solid;
     border-width: medium 1px 1px;
-    height: 380px;
+    height: 238px;
     padding-top: 15px;
 }
 .knowledge-quick-list li {

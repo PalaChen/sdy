@@ -12,15 +12,23 @@
                     <b></b>
                 </dd>
             </dl>
-            <dl class="normal doing">
-                <dt class="s-num">2</dt>
-                <dd class="s-text">
-                    2.我的购物车
-                    <s></s>
-                    <b></b>
-                </dd>
+            {% if title == '购物车' %}
+                <dl class="normal doing">
+            {% else %}
+                <dl class="normal done">
+            {% endif %}
+            <dt class="s-num">2</dt>
+            <dd class="s-text">
+                2.我的购物车
+                <s></s>
+                <b></b>
+            </dd>
             </dl>
-            <dl class="normal last">
+            {% if title == '支付' %}
+                <dl class="normal doing">
+            {% else %}
+                <dl class="normal done">
+            {% endif %}
                 <dt class="s-num">3</dt>
                 <dd class="s-text">
                     3.提交订单并支付

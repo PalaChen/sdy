@@ -48,7 +48,6 @@ function bindShowModal() {
         var modal = "#Model_EditInfo";
         get_Modal_Info($(this), modal, type)
     });
-
     $('#tb_content').on('click', '.glyphicon-remove', function () {
         $('#submit_del_con').modal('show');
 

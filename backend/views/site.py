@@ -16,7 +16,7 @@ title_dict = {'nav': '首页导航', 'nav_add': '添加导航', 'nav_edit': '修
 
 
 @login_required
-@permission
+# @permission
 def site_manage(req, *args, **kwargs):
     action_list = kwargs.get('action_list')
     menu_string = kwargs.get('menu_string')
@@ -26,13 +26,16 @@ def site_manage(req, *args, **kwargs):
 
 
 @login_required
-def bxslider(req):
+# @permission
+def bxslider(req, *args, **kwargs):
     title = '站点配置-首页轮播图'
     form = BxsilderForm()
+    # menu_string = kwargs.get('menu_string')
     obj = model_query.query_all(models.Bxslider)
     return render(req, 'sites/bxslider.html', {'title': title,
                                                'form': form,
                                                'obj': obj,
+                                               # 'menu_string': menu_string
                                                })
 
 
@@ -55,7 +58,7 @@ def bxslider_upload(req):
             data['size'] = img.size
             data['name'] = name
             data['img'] = file_path
-            data['employee_id'] = req.session.get('employee_id')
+            data['employee_id'] = req.session.get('user_info')['employee_id']
 
             models.Bxslider.objects.create(**data)
             result_dict['message'] = '图片上传成功'
@@ -85,7 +88,7 @@ def bxslider_edit(req):
                 data.img = file_path
             data.status = req.POST.get('status')
             data.weight = req.POST.get('weight')
-            data['url'] = req.POST.get('url')
+            data.url = req.POST.get('url')
             data.save()
             result_dict['message'] = '信息修改成功'
             return JsonResponse(result_dict)
@@ -108,12 +111,14 @@ def bxslider_del(req, id):
 
 
 @login_required
-def nav(req):
+def nav(req, *args, **kwargs):
     form = NavForm()
+    menu_string = kwargs.get('menu_string')
     nav_obj = models.IndexNav.objects.all()
     return render(req, 'sites/index_nav.html', {'title': title_dict['nav'],
                                                 'nav_obj': nav_obj,
                                                 'form': form,
+                                                'menu_string': menu_string,
                                                 })
 
 
@@ -123,7 +128,7 @@ def nav_add(req):
         form = NavForm(req.POST)
         if form.is_valid():
             data = form.cleaned_data
-            data['employee_id'] = req.session.get('employee_id')
+            data['employee_id'] = req.session.get('user_info')['employee_id']
             nav_obj = models.IndexNav.objects.filter(name=data['name']).first()
             if not nav_obj:
                 models.IndexNav.objects.create(**data)

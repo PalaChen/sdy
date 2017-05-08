@@ -3,11 +3,16 @@ from app import views
 
 urlpatterns = [
     url(r'login.html', views.account.login, name='login'),
+    url(r'login_ajax.html', views.account.login_ajax, ),
+    url(r'logout.html', views.account.logout, name='logout'),
     url(r'register.html', views.account.register, name='register'),
+    url(r'register_ajax.html', views.account.register_ajax, ),
+    url(r'forgetpass.html', views.account.forgetpass, name='forgetpass'),
     url(r'get_captcha.html', views.account.get_captcha, name='get_captcha'),
 
     url(r'user$', views.user.index, name='user_index'),
     url(r'user/order.html', views.user.order, name='user_order'),
+    url(r'user/order/topay/(\d+).html', views.user.order_topay, name='user_order_topay'),
 
     url(r'user/order/(\d+).html$', views.user.order_query, name='order_query'),
     url(r'user/order_process/(\d+).html$', views.user.order_process_query),
@@ -27,14 +32,22 @@ urlpatterns = [
 
     url(r'product/(\d+).html', views.product.index, name='product_index'),
     url(r'product/buy.html', views.product.buy, name='product_buy'),
+    url(r'get_city.html', views.product.get_city, ),
+    url(r'get_town/(\d+).json', views.product.get_town, ),
     url(r'p_category/(\d+).html', views.product.p_c_index, name='p_category_index'),
-
 
     url(r'cart.html', views.pay.cart, name='shopping_cart'),
     url(r'cart_number.html', views.pay.cart_number, name='shopping_cart_number'),
     url(r'cart_del/(\d+).html', views.pay.cart_del, name='shopping_cart_del'),
 
-    url(r'pay.html', views.pay.pay, name='shopping_pay'),
+    url(r'buy_info.html', views.pay.buy_info, name='shopping_buy'),
+    url(r'pay/(\d+).html', views.pay.pay, name='shopping_pay'),
+    url(r'pay/success/(\d+).html', views.pay.pay_judgment, name='pay_judgment'),
+    url(r'pay/pay_fail.html', views.pay.pay_fail),
+    url(r'payment_method.html', views.pay.payment_method, name='payment_method'),
+
+    url(r'alipay/return/', views.pay.alipay_return_url, name='alipay_return_url'),
+    url(r'alipay/notify/', views.pay.alipay_notify_url, name='alipay_notify_url'),
 
     # url(r'news/-(/d+)-(/d+).html', views.news.article, name='news_article'),
 

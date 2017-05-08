@@ -1,0 +1,86 @@
+{% load cxmadmin_tags %}
+
+<div>
+    <div style="margin: 10px 0; ">
+        {# 搜索查询   #}
+        <form method="post" class="form-inline">
+            {% csrf_token %}
+            <input type="text" class="form-control" name="_q" value="{{ admin_class.search_key }}"
+                   placeholder="{% for s in admin_class.search_fields %}{{ s }},{% endfor %}">
+            <input type="submit" value="搜索" class="btn btn-default">
+
+            {% for k,v in admin_class.filter_condtions.items %}
+                <input type="hidden" name="{{ k }}" value="{{ v }}">
+            {% endfor %}
+        </form>
+    </div>
+    <div style="margin: 10px 0; ">
+        {# 判断你是否有筛选查询 #}
+        {% if admin_class.list_filter %}
+            {# 筛选查询 #}
+            <form method="get" class="form-inline">
+                {% for filter_column in admin_class.list_filter %}
+                    {% build_filter_ele filter_column admin_class %}
+                {% endfor %}
+                {# 获取当前被排序的列 #}
+                <input type="hidden" name="_o" value="{% get_current_sorted_column_index sorted_column %}">
+                <input class="btn btn-success" type="submit" value="过滤">
+            </form>
+        {% endif %}
+    </div>
+
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <td>订单ID</td>
+            <td>客户姓名</td>
+            <td>客户手机</td>
+            <td>产品名称</td>
+            <td>服务名称</td>
+            {#  表头显示的字段  #}
+            {% if admin_class.list_display %}
+                {% for column in admin_class.list_display %}
+                    <th>
+                        <a href="?_o=
+
+                                {% get_sorted_column column sorted_column forloop.counter0 %}{% render_filtered_args admin_class %}">
+                            {% get_column_verboseName column admin_class %}
+                            {% render_sorted_arrow column sorted_column %}
+                        </a></th>
+                {% endfor %}
+            {% else %}
+                {#  如果没有表头显示的字段，显示类名大写  #}
+                <th>{% get_model_name admin_class %}</th>
+            {% endif %}
+            <th>操作</th>
+        </tr>
+        </thead>
+        <tbody id="tb_content">
+        {#  具体数据  #}
+        {% for obj in querysets %}
+            <tr for="my_task" nid="{{ obj.id }}">
+                <td>{{ obj.order.id }}</td>
+                <td>{{ obj.order.name }}</td>
+                <td>{{ obj.order.phone }}</td>
+                <td>{{ obj.order.product_name }}</td>
+                <td>{{ obj.order.category }}</td>
+                {% build_table_row obj admin_class %}
+                <td>
+                    {% if  common_info.edit_url %}
+                        <a href="{% url common_info.edit_url obj.id %}">修改</a>
+                    {% else %}
+                        <a class="initialize btn glyphicon glyphicon-pencil"></a>
+                    {% endif %}
+
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+
+    </table>
+    <nav aria-label="Page navigation">
+        {% render_paginator querysets admin_class sorted_column %}
+    </nav>
+</div>
+
+

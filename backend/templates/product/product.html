@@ -14,6 +14,7 @@
             <th>价格</th>
             <th>市场价格</th>
             <th>上架</th>
+            <th>城市</th>
             <th>分类名称</th>
             <th>服务名称</th>
             <th>业务名称</th>
@@ -35,8 +36,9 @@
                 <td>{{ line.p_price }}</td>
                 <td>{{ line.p_market_price }}</td>
                 <td>{{ line.get_p_putaway_display }}</td>
-                <td>{{ line.p_category.cate_name }}</td>
-                <td>{{ line.p_serivce.name }}</td>
+                <td>{{ line.city.name }}</td>
+                <td>{{ line.p_category.name }}</td>
+                <td>{{ line.p_service.name }}</td>
                 <td>{{ line.p_business.name }}</td>
                 <td>{{ line.p_employee.name }}</td>
                 <td>{{ line.p_ctime|date:'Y-m-d H:i:m' }}</td>

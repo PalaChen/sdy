@@ -8,6 +8,7 @@
     </div>
     <div style="margin: 10px 0; ">
         <form method="post" action="{% url 'articles_serach' %}" class="form-inline">
+            {% csrf_token %}
             <div class="form-group marR20">
                 <label>搜索：分类</label>
                 {{ form.category_id }}

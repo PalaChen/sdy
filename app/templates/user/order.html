@@ -1,5 +1,6 @@
 {% extends 'user/master/base.html' %}
 
+
 {% if id == 5 or id == 15 %}
     {% block head %}
         <link type="text/css" rel="stylesheet" href="/static/plugins/bootstrap/css/bootstrap.min.css">
@@ -21,40 +22,32 @@
                 <li {% if id == 1 %}class="current"{% endif %}>
                     <a href="{% url 'order_query' 1 %}">
                         待付款
-                        {% if pending_pay %}
-                            （
-                            <span style="color: red">{{ pending_pay }}</span>
-                            ）
+                        {% if counts_dict.pending_pay %}
+                            （<span style="color: red">{{ counts_dict.pending_pay }}</span>）
                         {% endif %}
                     </a>
                 </li>
                 <li {% if id == 5 %}class="current"{% endif %}>
                     <a href="{% url 'order_query' 5 %}">
                         待服务
-                        {% if to_be_service %}
-                            （
-                            <span style="color: red">{{ to_be_service }}</span>
-                            ）
+                        {% if counts_dict.to_be_service %}
+                            （<span style="color: red">{{ counts_dict.to_be_service }}</span>）
                         {% endif %}
                     </a>
                 </li>
                 <li {% if id == 15 %}class="current"{% endif %}>
                     <a href="{% url 'order_query' 15 %}">
                         服务中
-                        {% if in_service %}
-                            （
-                            <span style="color: red">{{ in_service }}</span>
-                            ）
+                        {% if counts_dict.in_service %}
+                            （<span style="color: red">{{ counts_dict.in_service }}</span>）
                         {% endif %}
                     </a>
                 </li>
                 <li {% if id == 25 %}class="current"{% endif %}>
                     <a href="{% url 'order_query' 25 %}">
                         服务完成
-                        {% if service_completed %}
-                            （
-                            <span style="color: red">{{ service_completed }}</span>
-                            ）
+                        {% if counts_dict.service_completed %}
+                            （<span style="color: red">{{ counts_dict.service_completed }}</span>）
                         {% endif %}
                     </a>
                 </li>
@@ -84,31 +77,43 @@
                                         <div>x{{ post.number }}</div>
                                     </div>
                                 </td>
-                                <td>北京</td>
+                                <td></td>
                                 <td>
                                     <div class="verAlign">
-                                        <div>优惠信息:-{{ post.coupon }}{{ post.voucher }}元</div>
-                                        <div>支付金额：{{ post.total_price }}</div>
+                                        <div>优惠信息:{{ post.coupon }}元</div>
+                                        <div>支付金额：{{ post.total_price }}元</div>
                                     </div>
                                 </td>
-                                <td>{{ post.order_date|date:"Y-m-d H:i:s" }}</td>
-                                <td>【 {{ post.order_state }} 】</td>
+                                <td>{{ post.ctime|date:"Y-m-d H:i:s" }}</td>
+                                <td>【{{ post.get_order_state_display }}】</td>
                                 <td>
+                                    {# id=0 全部订单 #}
+                                    {# id=1 待付款 #}
                                     {% if id == 0 or id == 1 %}
-                                        <a class="toPay" href="">去付款</a>
-                                        <br>
-                                        <span class="fc-curp relative cancelOrder">
-                                        取消订单
-                                        <div class="popShadow newWL" style="display: none;">
-                                            <div>你确定要取消订单吗？</div>
-                                            <div class="mt10">
-                                                <a class="colorBg1 mr10 popBtn" href="javascript:void(0)"
-                                                   onclick="cancelOrders(455293);">确定</a>
-                                                <a class="colorBg2 cancelBtn popBtn" href="javascript:void(0)">取消</a>
+                                        {% if post.order_state == 0 %}
+                                            <a class="toPay" href="{% url 'user_order_topay' post.id %}">去付款</a>
+                                            <br>
+                                            <span class="fc-curp relative cancelOrder">
+                                            取消订单
+                                            <div class="popShadow newWL" style="display: none;">
+                                                <div>你确定要取消订单吗？</div>
+                                                <div class="mt10">
+                                                    <a class="colorBg1 mr10 popBtn" href="javascript:void(0)"
+                                                       onclick="cancelOrders(455293);">确定</a>
+                                                    <a class="colorBg2 cancelBtn popBtn"
+                                                       href="javascript:void(0)">取消</a>
+                                                </div>
+                                                <i class="arrow" style="top:-7px;right:26px;"></i>
                                             </div>
-                                            <i class="arrow" style="top:-7px;right:26px;"></i>
-                                        </div>
-                                        </span>
+                                            </span>
+                                        {% elif post.order_state == 1 %}
+                                            <span>正在分配员工为您服务</span>
+                                        {% elif post.order_state == 2 %}
+                                            <a class="glyphicon glyphicon-search">查看进展</a>
+                                        {% elif post.order_state == 3 %}
+                                            <a class="toPay">评价</a>
+
+                                        {% endif %}
                                     {% elif id == 5 or id == 15 %}
                                         <a class="glyphicon glyphicon-search" href="javascript:void(0)"></a>
                                     {% else %}
@@ -130,20 +135,22 @@
             </div>
         </div>
     </div>
-    <div class="modal fade bs-example-modal-sm" id="Model_process" tabindex="-1" role="dialog"
-         aria-labelledby="mySmallModalLabel" style="margin-top: 100px">
-        <div class="modal-dialog modal-sm" role="document">
+    <div class="modal fade" tabindex="-1" role="dialog" id="Model_process" style="margin-top: 100px">
+        <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-                            aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title" id="myModalLabel"></h4>
+                            aria-hidden="true">X</span></button>
+                    <h4 class="modal-title">办理进度</h4>
                 </div>
                 <div class="modal-body">
-
+                    <div style="margin-left: 30px">
+                        <ul id="orderlist-check-processlist" class="ocps-list"></ul>
+                    </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                    <button type="button" class="btn btn-primary btn_save">保存</button>
                 </div>
             </div>
         </div>

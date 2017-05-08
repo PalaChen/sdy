@@ -1,0 +1,396 @@
+{% extends 'product/master/base.html' %}
+
+{% block css %}
+    <link type="text/css" rel="stylesheet" href="/static/css/bootstrap.css">
+    <style type="text/css">
+        * {
+            -ms-word-wrap: break-word;
+            word-wrap: break-word;
+        }
+
+        html {
+            -webkit-text-size-adjust: none;
+            text-size-adjust: none;
+        }
+
+        html, body {
+            height: 100%;
+            width: 100%;
+        }
+
+        html, body, h1, h2, h3, h4, h5, h6, div, ul, ol, li, dl, dt, dd, iframe, textarea, input, button, p, strong, b, i, a, span, del, pre, table, tr, th, td, form, fieldset, .pr, .pc {
+            margin: 0;
+            padding: 0;
+            word-wrap: break-word;
+            font-family: verdana, Microsoft YaHei, Tahoma, sans-serif;
+            *font-family: Microsoft YaHei, verdana, Tahoma, sans-serif;
+        }
+
+        body, ul, ol, li, dl, dd, p, h1, h2, h3, h4, h5, h6, form, fieldset, .pr, .pc, em, del {
+            font-style: normal;
+            font-size: 100%;
+        }
+
+        ul, ol, dl {
+            list-style: none;
+        }
+
+        ._citys {
+            width: 450px;
+            display: inline-block;
+            border: 2px solid #eee;
+            padding: 5px;
+            position: relative;
+            background-color: white;
+        }
+
+        ._citys span {
+            color: #56b4f8;
+            height: 15px;
+            width: 15px;
+            line-height: 15px;
+            text-align: center;
+            border-radius: 3px;
+            position: absolute;
+            right: 10px;
+            top: 10px;
+            border: 1px solid #56b4f8;
+            cursor: pointer;
+        }
+
+        ._citys0 {
+            width: 100%;
+            height: 34px;
+            display: inline-block;
+            border-bottom: 2px solid #56b4f8;
+            padding: 0;
+            margin: 0;
+        }
+
+        ._citys0 li {
+            display: inline-block;
+            line-height: 34px;
+            font-size: 15px;
+            color: #888;
+            width: 80px;
+            text-align: center;
+            cursor: pointer;
+        }
+
+        .citySel {
+            background-color: #56b4f8;
+            color: #fff !important;
+        }
+
+        ._citys1 {
+            width: 100%;
+            display: inline-block;
+            padding: 10px 0;
+        }
+
+        ._citys1 a {
+            width: 83px;
+            height: 35px;
+            display: inline-block;
+            background-color: #f5f5f5;
+            color: #666;
+            margin-left: 6px;
+            margin-top: 3px;
+            line-height: 35px;
+            text-align: center;
+            cursor: pointer;
+            font-size: 13px;
+            overflow: hidden;
+        }
+
+        ._citys1 a:hover {
+            color: #fff;
+            background-color: #56b4f8;
+        }
+
+        .AreaS {
+            background-color: #56b4f8 !important;
+            color: #fff !important;
+        }
+    </style>
+{% endblock %}
+
+{% block page_content %}
+    <div class="minwidth overflowvisible">
+        <div class="product-intro clearfix">
+            <div class="product-item-preview floatLeft">
+                <div class="product-slider">
+                    <ul id="productSlider" class="product-slider-content">
+                        <li style="opacity: 1;">
+                            <p style="">
+                                <img src="/{{ product_obj.pro_image.all.first.ul_url }}" alt="{{ product_obj.p_name }}">
+                            </p>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            {# 价格信息 #}
+            <div class="product-item-inner floatLeft">
+                <div class="name">
+                    <h1>{{ product_obj.p_name }}</h1>
+                    <p class="tips"></p>
+                </div>
+                <div id="productOnLine" style="display:block;">
+                    <div class="price">
+                        <div id="costprice" class="market-price clearfix" style="">
+                            <div class="dt">市场价：</div>
+                            <div class="dd">
+                                <del id="costprice2">￥{{ product_obj.p_market_price }}</del>
+                            </div>
+                        </div>
+                        <div class="summary-price clearfix">
+                            <div class="dt">价 格：</div>
+                            <div class="dd">
+                                <span class="t-productprice">
+                                ￥
+                                <font>{{ product_obj.p_price }}</font>
+                                元
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    {% if  service_obj %}
+                        <div class="type clearfix">
+                            <div class="dt">类 型：</div>
+                            <div class="dd">
+                                <ul class="item-type clearfix">
+                                    {% for line in service_obj %}
+                                        {% if line.id == product_obj.p_service_id %}
+                                            <li class="item active">
+                                                <a href="/product/{{ line.products.id }}.html">{{ line.name }}</a>
+                                            </li>
+                                        {% else %}
+                                            <li class="item ">
+                                                <a href="/product/{{ line.products.id }}.html">{{ line.name }}</a>
+                                            </li>
+                                        {% endif %}
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        </div>
+                    {% endif %}
+                    {# 地区 #}
+                    <div class="region clearfix t-showarea" style="">
+                        <div class="dt">地 区：</div>
+                        <div class="dd">
+                            <div class="region-selector">
+
+                                <input id="city" class="text t-pcatitle">
+                                <b></b>
+
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="btn" style="">
+                        <a class="payment btn_buy"
+                           onclick="bugProduct('/product/buy.html?pid={{ product_obj.id }}','buy')">购买</a>
+                        <a class="consult"
+                           onclick="bugProduct('/product/buy.html?pid={{ product_obj.id }}','cart')">放入购物车</a>
+                    </div>
+
+                </div>
+            </div>
+            <div class="wrapper">
+                <div class="product-main floatRight">
+                    <div id="productDetail" class="product-detail">
+                        <div class="product-detail-tab">
+                            <div id="protabInner" class="clearfix">
+                                <ul class="detail-tab-trigger clearfix floatLeft">
+                                    <li class="firstLi active">
+                                        <a href="javascript:;" data-href="#productDetail" rel="nofollow">服务介绍</a>
+                                    </li>
+                                    <li>
+                                        <a href="javascript:;" data-href="#proEvaluate" rel="nofollow">
+                                            用户评价
+                                            <em id="productEvaluationTotal">(5414)</em>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="product-detail-wrapper">
+                            <div class="product-details-content bdTopNo">
+                                {{ product_obj.p_details|safe }}
+                            </div>
+                            {% include 'product/master/_comments.html' %}
+                        </div>
+                    </div>
+                </div>
+                {% include 'product/master/_aside.html' %}
+            </div>
+        </div>
+    </div>
+
+    {# 登陆 #}
+    <div class="modal fade" id="Modal_Login" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">登陆</h4>
+                </div>
+                <div class="modal-body">
+                    <div>
+                        <div class="group">
+                            <form class="form-horizontal" id="fm_body">
+                                {% csrf_token %}
+                                <div style="padding-left: 100px">
+                                    <div class="register-li register-li-line">
+                                        <label class="register-li-span">手机号码</label>
+                                        <span>
+                                            <input type="text" name="phone">
+                                        </span>
+                                    </div>
+                                    <div class="register-li register-li-line">
+                                        <label class="register-li-span">密码</label>
+                                        <span>
+                                            <input type="password" name="password">
+                                        </span>
+                                    </div>
+                                    <div class="register-li register-li-line">
+                                        <p class="login_error" style="color: #f55f57;"></p>
+                                    </div>
+                                    <div class="register-li-checkbox">
+                                        <label>
+                                            <input name="remember" value="1" type="checkbox">
+                                            <label style="margin-top: 8px;margin-left: 3px">一周内自动登录</label>
+                                        </label>
+                                        <a class="forget-pass" href="{% url 'forgetpass' %}" target="_blank">忘记密码？</a>
+                                    </div>
+                                    <div class="register-li register-li-line">
+                                        <a id="loginButton" class="reg-now">登录</a>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="group" style="margin-left:50px;">
+                            <p>还没有盛德业账号？</p>
+                            <p class="reg-login-p">
+                                <a class="reg-login" href="{% url 'register' %}">立即注册 >></a>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block scripts %}
+    <script src="/static/js/sdynav1.js"></script>
+    <script type="text/javascript" src="/static/js/jquery-3.1.1.js"></script>
+    <script type="text/javascript" src="/static/js/cityJson.js"></script>
+    <script type="text/javascript" src="/static/js/citySet.js"></script>
+    <script type="text/javascript" src="/static/js/Popt.js"></script>
+    {#    <script src="/static/js/city.js"></script>#}
+    {#    <script src="/static/js/user_index.js"></script>#}
+    <script src="/static/plugins/bootstrap/js/bootstrap.js"></script>
+    {#    <script type="text/javascript" src="/static/js/jquery.citys.js"></script>#}
+
+    <script>
+        $("#city").click(function (e) {
+            SelCity(this, e);
+        });
+
+
+        $(function () {
+            BindModel();
+        });
+        {#        function BindModel() {#}
+        {#            $('.region-selector').hover(function () {#}
+        {#                $('.region-selector').addClass('hover')#}
+        {#            }, function () {#}
+        {#                $('.region-selector').removeClass('hover')#}
+        {#            })#}
+        {#        }#}
+        function bugProduct(url, type) {
+            $.ajax({
+                url: url,
+                type: 'GET',
+                data: '',
+                dataType: "json",
+                success: function (arg) {
+                    console.log(arg);
+                    if (arg['status'] == 200) {
+                        if (type == 'buy') {
+                            window.location.replace(arg['url'])
+                        }
+                        else if (type == 'cart') {
+                        }
+
+                    }
+                    else {
+                        $('#Modal_Login').modal('show');
+                    }
+                }
+            });
+            {#            $('#Modal_Login').modal('show');#}
+        }
+        clickState = 1;
+        // 模态框
+        function bindOnlyClick() {
+            $('#loginButton').click(function () {
+
+                var data = $('#fm_body');
+                var url = '/login_ajax.html';
+                var modal = 'Modal_Login';
+                console.log(url);
+                send_Ajan_Info(url, data, modal)
+            });
+            $('#user_getcode').click(function () {
+                if (clickState == 1) {
+                }
+                else {
+                    clickState = 1;
+                    var phone = $('#Modal_Register input[name="phone"]').val();
+                    var url = "user/get_verify_code.html?" + "phone=" + phone;
+                    setTimeout(Send_Ajax_VerifyCode(url, this), 60000);
+                }
+            });
+        }
+        function send_Ajan_Info(url, data, modal) {
+            $.ajax({
+                url: url,
+                type: 'POST',
+                data: $(data).serialize(),
+                success: function (arg) {
+                    console.log(arg);
+                    if (arg['status']) {
+                        window.location.reload();
+                        {#                        $(modal).modal('hide');#}
+                    } else {
+                        console.log(arg['message']);
+                        $('.login_error').text(arg['message'])
+                    }
+                    clickState = 0;
+                }
+            });
+        }
+        function Send_Ajax_VerifyCode(url, ths) {
+            $.ajax({
+                url: url,
+                type: 'GET',
+                success: function (arg) {
+                    if (arg) {
+                        $(ths).parent().append('<span class="verCodePrompt">已发送，1分钟后可重新获取。</span>')
+                        curCount = count;
+                        $("#user_getcode").text(curCount + "秒后重发");
+                        InterValObj = window.setInterval(SetRemainTime, 1000);
+                    }
+                    clickState = 0
+                }
+            });
+
+        }
+    </script>
+
+
+{% endblock %}

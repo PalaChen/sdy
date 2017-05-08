@@ -5,37 +5,37 @@
             <li>
                 <a href="{% url 'user_order' %}">我的订单</a>
             </li>
-            {% if pending_pay %}
+            {% if counts_dict.pending_pay %}
                 <li>
                     <a href="{% url 'order_query' 1 %}">
                         待付款
-                        <span class="tipnum">({{ pending_pay }})</span>
+                        <span class="tipnum">({{ counts_dict.pending_pay }})</span>
                     </a>
                 </li>
             {% endif %}
-            {% if to_be_service %}
+            {% if counts_dict.to_be_service %}
                 <li>
                     <a href="{% url 'order_query' 5 %}">
                         待服务
-                        <span class="tipnum">({{ to_be_service }})</span>
+                        <span class="tipnum">({{ counts_dict.to_be_service }})</span>
                     </a>
 
                 </li>
             {% endif %}
-            {% if in_service %}
+            {% if counts_dict.in_service %}
                 <li>
                     <a href="{% url 'order_query' 15 %}">
                         服务中
-                        <span class="tipnum">({{ in_service }})</span>
+                        <span class="tipnum">({{ counts_dict.in_service }})</span>
                     </a>
 
                 </li>
             {% endif %}
-            {% if service_completed %}
+            {% if counts_dict.service_completed %}
                 <li>
                     <a href="{% url 'order_query' 25 %}">
                         服务完成
-                        <span class="tipnum">({{ service_completed }})</span>
+                        <span class="tipnum">({{ counts_dict.service_completed }})</span>
                     </a>
                 </li>
             {% endif %}

@@ -1,6 +1,6 @@
 
 .product-next-button, .product-previous-button, .product-item-inner .name .share, .region-selector .text b, .region-selector .stock-close, .stock-select .stock-tab li a i, .servicer-intro .serInfo .name .qq, .goods-list-item .categoryTit b, .ev-le .name .nice a, .customer-service .cu-icon, .qa-nice a, .pika-textnav a {
-    background: rgba(0, 0, 0, 0) url("../Image/Product_new/productIcon.png") no-repeat scroll 0 0;
+    background: rgba(0, 0, 0, 0) url("../images/icon/productIcon.png") no-repeat scroll 0 0;
 }
 .w85 {
     width: 85px;
@@ -54,7 +54,7 @@
     display: block;
 }
 .product-slider-content li img {
-    height: 403px;
+    height: 350px;
     width: 550px;
 }
 .slider--animated .slidizle-content > .active ~ .slidizle-slide {

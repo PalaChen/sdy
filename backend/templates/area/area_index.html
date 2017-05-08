@@ -1,0 +1,62 @@
+{% extends 'area/master/base.html' %}
+
+{% block css %}
+
+{% endblock %}
+
+{% block page_content %}
+    {% include 'area/master/_table_obj_list.html' %}
+    <div class="modal fade" id="Model_AddInfo" for="area_add" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">X</span></button>
+                    <h4 class="modal-title">添加城市</h4>
+                </div>
+                <div class="modal-body">
+                    <form id="fm_body" method="post" class="form-inline">
+                        {% csrf_token %}
+                        <div id="demo2" class="citys">
+                            <div class="form-group">
+                                <select type="text" class="form-control" name="province"></select>
+                            </div>
+                            <div class="form-group">
+                                <select type="text" class="form-control" name="city"></select>
+                            </div>
+                            <div class="form-group">
+                                <select type="text" class="form-control" name="area"></select>
+                            </div>
+                            <p id="place" style="font-size: 14px;margin-top: 20px">请选择地区</p>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                    <button type="button" class="btn btn-primary btn_save">保存</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+{% endblock %}
+
+{% block scripts %}
+
+
+    <script type="text/javascript" src="/static/js/jquery.citys.js"></script>
+    <script type="text/javascript">
+        $('#demo2').citys({
+            required:false,
+            nodata:'disabled',
+            onChange: function (data) {
+                var text = data['direct'] ? '(直辖市)' : '';
+                $('#place').text('当前选中地区：' + data['province'] + text + ' ' + data['city'] + ' ' + data['area']);
+            }
+        });
+    </script>
+{% endblock %}

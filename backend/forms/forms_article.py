@@ -71,18 +71,18 @@ class CategoryForm(forms.Form):
             'invalid': '请输入数字',
         }
     )
-    parent_id = fields.IntegerField(
-        required=False,
-        widget=widgets.Select(attrs={'class': 'form-control'}),
-        error_messages={
-            'required': '分类不能为空',
-            'invalid': '非法数据,请重新输入',
-        }
-    )
+    # parent_id = fields.IntegerField(
+    #     required=False,
+    #     widget=widgets.Select(attrs={'class': 'form-control'}),
+    #     error_messages={
+    #         'required': '分类不能为空',
+    #         'invalid': '非法数据,请重新输入',
+    #     }
+    # )
 
-    def __init__(self, *args, **kwargs):
-        super(CategoryForm, self).__init__(*args, **kwargs)
-        self.fields['parent_id'].widget.choices = models.ArticlesCategory.objects.values_list('id', 'name')
+    # def __init__(self, *args, **kwargs):
+    #     super(CategoryForm, self).__init__(*args, **kwargs)
+    #     self.fields['parent_id'].widget.choices = models.ArticlesCategory.objects.values_list('id', 'name')
 
 
 class KeywordForm(forms.Form):

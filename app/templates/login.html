@@ -1,95 +1,74 @@
-<html>
+{% load staticfiles %}
 <head>
+    <meta charset="UTF-8">
     <title>登陆-盛德业</title>
-    <meta charset="UTF-8"/>
-    <link rel="stylesheet" type="text/css" href="/static/css/user_admin.css">
+    <link type="text/css" rel="stylesheet" href="{% static 'css/login_baseold.css' %}">
+    <link type="text/css" rel="stylesheet" href="{% static 'css/login_home.css' %}">
+    <link type="text/css" rel="stylesheet" href="{% static 'css/ui-dialog.css' %}">
+    <link type="text/css" rel="stylesheet" href="{% static 'css/header.css' %}">
+
 </head>
+
 <body>
-<div class="index-navbar min-list-navbar">
-    <div class="min-navbar">
-        <div class="container clearfix topbar">
-            <div class="pull-left clearfix">
-                <img class="min-logo pull-left" src="/static/images/logo_small.png">
-                <a class="pull-left ml10" href="{% url 'web_index' %}">返回首页</a>
-                <div class="site-nav pull-left clearfix ml10">
-                    <div class="pull-left line-1">|</div>
-
-
-                </div>
-            </div>
-            <div class="pull-right clearfix"></div>
+{% include 'master/_nav_top.html' %}
+<!-- 导航 -->
+<div class="main bgWhite border000 headerOverflowInherit" style="z-index: 10;">
+    <!-- logo -->
+    <div class="minwidth kfwLogo">
+        <a class="floatLeft" href="/">
+            <img src="/static/images/icon/index_logo.jpg" alt="德盛业">
+        </a>
+        <div class="logo-sub">登陆</div>
+    </div>
+</div>
+<!-- 导航 -->
+<div class="loginLayout">
+    <div class="llMain">
+        <div class="group mlLe paddingTop">
+            <form method="post">
+                {% csrf_token %}
+                <ul class="relative" style="left:100px;">
+                    <li class="register-li">
+                            <span>
+                            <input id="usermobile" maxlength="11" name="phone" type="text">
+                            </span>
+                        <label class="register-li-span" for="usermobile">手机号码</label>
+                        <div class="register-li-1 tishi-1" style="display: none">请输入手机号</div>
+                        <div class="register-li-3 chenggong-1"></div>
+                    </li>
+                    <li class="register-li">
+                        <span>
+                        <input id="password" name="password" type="password">
+                        </span>
+                        <label class="register-li-span" for="password">密码</label>
+                        <div class="register-li-1 tishi-2" style="display: none">请输入密码</div>
+                        <div class="register-li-3 chenggong-2"></div>
+                    </li>
+                    <input name="returnUrl" value="" type="hidden">
+                    <li class="register-li-checkbox">
+                        <label for="">
+                            <input name="remember" value="1" type="checkbox">
+                            一周内自动登录
+                        </label>
+                        <a class="forget-pass" href="{% url 'forgetpass' %}" target="_blank">忘记密码？</a>
+                    </li>
+                    <li class="register-li">
+                        <button id="regButton" class="reg-now" type="submit">登录</button>
+                    </li>
+                </ul>
+            </form>
+        </div>
+        <div class="group mlRi mlRibg2">
+            <p>还没有盛德业账号？</p>
+            <p class="reg-login-p">
+                <a class="reg-login" href="{% url 'register' %}">立即注册 >></a>
+            </p>
         </div>
     </div>
 </div>
-<div class="login-content-text">
-    <div id="js-login-ct" class="container login-ct">
-        <div id="js-login-main" class="login-main">
-            <div class="modal-header">
-                <h4 id="myModalLabel" class="modal-title pt10 pb10 clearfix">
-                    <a class="re" href="{% url 'login' %}">登录</a>
-                    <a href="{% url 'register' %}">注册</a>
-                </h4>
-            </div>
-            <div class="modal-body">
-                <div class="login-popup">
-                    <div class="login">
-                        <form method="POST" enctype="multipart/form-data">
-                            {% csrf_token %}
-                            <ul class="mb15">
-                                <li class="clearfix login-name">
-                                    <i class="pull-left"></i>
-                                    <input class="pull-left pl15" placeholder="手机号码" required="" name="phone"
-                                           type="text">
-                                </li>
-                                <li class="clearfix login-password">
-                                    <i class="pull-left"></i>
-                                    <input class="pull-left pl15" placeholder="密码" required="" name="password"
-                                           type="password">
-
-                                </li>
-
-                            </ul>
-                            <div style="color: red">
-                                {{ form.errors.phone.0 }}
-                                {{ form.errors.password.0 }}
-                            </div>
-                            <div class="forget clearfix pb15">
-                                <label class="pull-left">
-                                    <input class="pull-left" autocomplete="off" value="0" name="remember_me"
-                                           type="checkbox">
-                                    自动登录
-                                </label>
-                                <a class="pull-right" href="">忘记密码？</a>
-                            </div>
-                            <input class="btn login-btn mb20" name="submit" value="登录" type="submit">
-                        </form>
-                        <div class="other clearfix mb20">
-                            <a class="pull-right" href="/registered.html">免费注册 ></a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+<div class="footer">
+    <div class="footer-inner minwidth">
+        <p>Copyright © 1998-2017 shengdeye All Rights Reserved 版权所有：广东顺德拾梦科技有限公司 粤ICP备17019085号-2</p>
     </div>
 </div>
-<footer>
-    <div class="index-footer">
-        <div class="container">
-            <div class="friendly-link pb20">
-                <div class="friendly-link pb20">
-                    <h5>
-                        <a href="" target="_blank" style="font-weight:700">友情链接</a>
-                    </h5>
-                    <p class="clearfix">
-                        <a href="http://www.shengdeye.com/">盛德业</a>
-                    </p>
-                </div>
-            </div>
-            <div class="footer-bq clearfix">
-                <span class="pl10">Copyright © 1998-2017 shengdeye All Rights Reserved 版权所有：广东顺德拾梦科技有限公司 粤ICP备17019085号-2 </span>
-            </div>
-        </div>
-    </div>
-</footer>
 </body>
-</html>

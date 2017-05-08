@@ -24,7 +24,7 @@
                 <td for="sort">{{ line.sort }}</td>
                 <td for="name">{{ line.name }}</td>
                 <td for="employee_id">{{ line.author.name }}</td>
-                <td >{{ line.ctime|date:"Y-m-d H:i:s" }}</td>
+                <td>{{ line.ctime|date:"Y-m-d H:i:s" }}</td>
                 <td>
                     <a class="initialize btn glyphicon glyphicon-pencil"></a>
                     <a class="initialize btn glyphicon glyphicon-remove"></a>
@@ -33,16 +33,18 @@
         {% endfor %}
         </tbody>
     </table>
+    {# 添加分类信息 #}
     <div class="modal fade bs-example-modal-sm" id="Add_Ariticle_Info" for="category_add" tabindex="-1" role="dialog">
         <div class="modal-dialog modal-sm" role="document">
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-                            aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title"> 添加栏目</h4>
+                            aria-hidden="true">X</span></button>
+                    <h4 class="modal-title">添加栏目</h4>
                 </div>
                 <div class="modal-body">
                     <form id="fm_category_add" method="post" class="form-horizontal">
+                        {% csrf_token %}
                         <div class="form-group">
                             <label class="col-sm-3 control-label">名称</label>
                             <div class="col-sm-8">
@@ -55,17 +57,56 @@
                                 <input type="text" name="sort" class="form-control" placeholder="数字越大越排前">
                             </div>
                         </div>
-                        <div class="form-group">
-                            <label class="col-sm-3  control-label">父栏目</label>
-                            <div class="col-sm-8">
-                                {{ form.parent_id }}
-                            </div>
-                        </div>
+                        {#                        <div class="form-group">#}
+                        {#                            <label class="col-sm-3  control-label">父栏目</label>#}
+                        {#                            <div class="col-sm-8">#}
+                        {#                                {{ form.parent_id }}#}
+                        {#                            </div>#}
+                        {#                        </div>#}
                     </form>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
                     <button type="button" class="btn btn-primary btn_save">保存</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade bs-example-modal-sm" id="Model_EditInfo" for="category_edit" tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-sm" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">X;</span></button>
+                    <h4 class="modal-title">修改栏目</h4>
+                </div>
+                <div class="modal-body">
+                    <form id="fm_edit" method="post" class="form-horizontal">
+                        {% csrf_token %}
+                        <input type="hidden" name="id" value="">
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">名称</label>
+                            <div class="col-sm-8">
+                                <input type="text" class="form-control" name="name">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">排序</label>
+                            <div class="col-sm-8">
+                                <input type="text" name="sort" class="form-control" placeholder="数字越大越排前">
+                            </div>
+                        </div>
+                        {#                        <div class="form-group">#}
+                        {#                            <label class="col-sm-3  control-label">父栏目</label>#}
+                        {#                            <div class="col-sm-8">#}
+                        {#                                {{ form.parent_id }}#}
+                        {#                            </div>#}
+                        {#                        </div>#}
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                    <button type="button" class="btn btn-primary btn_send_add">保存</button>
                 </div>
             </div>
         </div>

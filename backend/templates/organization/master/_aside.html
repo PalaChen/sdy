@@ -1,3 +1,81 @@
-<div class="row_second" style="position: absolute;left:0">
+<div class="row_second1" style="position: absolute;left:0">
+    <h5>组织架构</h5>
+    <div>
+        <button type="button" id="add_Info" class="btn btn-default">新增</button>
+        <button type="button" id="Edit_Icon" class="btn btn-default" for="true" onclick="bindClickEditIcon(this)">编辑
+        </button>
+        <button type="button" class="btn btn-default" for="true" onclick="bindClickDelIcon(this)">删除</button>
+    </div>
+    <hr>
+    <div>
+        <label class="glyphicon glyphicon-home font_14"> 盛德业</label>
+    </div>
+    <div id="department_info">
+        {% for line in common_info.department_obj %}
+            <div style="margin-top: 5px">
+                <label class="label_for glyphicon glyphicon-menu-hamburger font_14" nid="{{ line.id }}" for="department">
+                    {{ line.name }}
+                </label>
+                <a class="initialize btn glyphicon glyphicon-pencil hide"></a>
+                <a class="initialize btn glyphicon glyphicon-remove hide"></a>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+<script>
+    function bindClickEditIcon(ths) {
+        var type = $(ths).attr('for');
+        console.log(type);
+        if (type == 'true') {
+            $("#department_info .glyphicon-pencil").removeClass('hide');
+            $(ths).attr('for', 'false')
+        }
+        else {
+            $("#department_info .glyphicon-pencil").addClass('hide');
+            $(ths).attr('for', 'true')
+        }
 
+    }
+    function bindClickDelIcon(ths) {
+        var type = $(ths).attr('for');
+        if (type == 'true') {
+            $("#department_info .glyphicon-remove").removeClass('hide');
+            $(ths).attr('for', 'false')
+        }
+        else {
+            $("#department_info .glyphicon-remove").addClass('hide');
+            $(ths).attr('for', 'true')
+        }
+
+    }
+</script>
+
+<div id="Model_AddInfo" class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog"
+     aria-labelledby="mySmallModalLabel" for="org_add" style="margin-top: 100px">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                        aria-hidden="true">X</span></button>
+                <h4 class="modal-title" id="myModalLabel">添加部门</h4>
+            </div>
+
+            <div class="modal-body" style="height: 70px">
+                <form class="form-horizontal" id="fm_body">
+                    {% csrf_token %}
+                    <div class="col-sm-11">
+                        <label class="col-sm-3 control-label">部门</label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control" name="name" placeholder="部门">
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                <button type="button" class="btn btn-primary btn_save">保存</button>
+            </div>
+        </div>
+    </div>
 </div>

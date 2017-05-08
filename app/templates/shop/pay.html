@@ -1,5 +1,9 @@
 {% extends 'shop/master/base.html' %}
 
+{% block css %}
+    <link type="text/css" rel="stylesheet" href="/static/plugins/bootstrap/css/bootstrap.css">
+{% endblock %}
+
 {% block page_content %}
     <div class="main padB26 greyf5f5f5">
         <div class="minwidth marT40">
@@ -7,7 +11,7 @@
                 <li>
                     <div class="floatLeft listLe payListLe">
                         <div class="payokWrap">
-                            <img src="/Public/Image/payok.png" alt="">
+                            <img src="/static/images/icon/payok.png" alt="">
                         </div>
                     </div>
                     <div class="floatLeft listRi payListRi odersIsOk">
@@ -16,15 +20,15 @@
                             <li>
                                 <span>订单号：</span>
                                 <div>
-                                    {{ order_code }}
-                                    <a id="showDetails" class="showDetails cur" href="javascript:void(0)">
+                                    {{ pay_obj.order_code }}
+                                    <a id="showDetails" class="showDetails">
                                         订单详情
                                         <i></i>
                                     </a>
                                 </div>
                                 <p></p>
                             </li>
-                            <li id="infoDetails" style="display: list-item;">
+                            <li id="infoDetails" style="display: none;">
                                 <span>详情：</span>
                                 <div>
                                     {% for line in order_obj %}
@@ -35,42 +39,116 @@
                         </ul>
                         <div class="orderPrice">
                             应付总额：
-                            <em>199元</em>
+                            <em>{{ pay_obj.pay_price }}元</em>
                         </div>
                     </div>
                 </li>
             </ul>
         </div>
+        <div class="minwidth">
+            <form id="payform" action="{% url 'payment_method' %}" method="post" target="_blank">
+                {% csrf_token %}
+                <input name="id" value="{{ pay_obj.id }}" type="hidden">
+                <div class="minwidth paywayCon">
+                    <ul id="buyRadia-pay" class="buySerList buyBorder buyRadia-pay" style="margin-top:0">
+                        <li class="t-payonlineway">
+                            <h3 class="titleInside">微信/支付宝</h3>
+                            <div class="listBorder">
+                                <ol class="buyRadia overflowhidden payRadia">
+                                    <li id="bd_alipay" class="t-bank">
+                                        <div class="radios radiosW marL40">
+                                            <input name="bankid" value="0" type="radio">
+                                            <img alt="支付宝" src="/static/images/icon/icon-alipay.png">
+                                            支付宝支付
+                                        </div>
+                                    </li>
+                                    <li id="bd_weixin">
+                                        <div id="nativeCodePayBtn" class="radios radiosW marL40">
+                                            <input class="group" name="bankid" value="1" type="radio">
+                                            <img alt="微信" src="/static/images/icon/icon-weixin.png">
+                                            微信支付
+                                        </div>
+                                    </li>
+                                </ol>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </form>
+        </div>
     </div>
-    <div class="minwidth">
-        <form id="payform" action="/pay/248661" method="post" target="_blank"
-              onkeydown="if(event.keyCode==13){return false;}">
-            <input name="id" value="248661" type="hidden">
-            <div class="minwidth paywayCon">
-                <ul id="buyRadia-pay" class="buySerList buyBorder buyRadia-pay" style="margin-top:0">
-                    <li class="t-payonlineway">
-                        <h3 class="titleInside">微信/支付宝</h3>
-                        <div class="listBorder">
-                            <ol class="buyRadia overflowhidden payRadia">
-                                <li id="bd_alipay" class="t-bank">
-                                    <div class="radios radiosW marL40">
-                                        <input name="bankid" value="-1" type="radio">
-                                        <img alt="支付宝" src="/static/images/icon/icon-alipay.png">
-                                        支付宝支付
-                                    </div>
-                                </li>
-                                <li id="bd_weixin">
-                                    <div id="nativeCodePayBtn" class="radios radiosW marL40">
-                                        <input class="group" name="bankid" value="-2" type="radio">
-                                        <img alt="微信" src="/static/images/icon/icon-weixin.png">
-                                        微信支付
-                                    </div>
-                                </li>
-                            </ol>
-                        </div>
-                    </li>
-                </ul>
+    <div class="modal fade" tabindex="-1" role="dialog" id="Model_Info">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                        aria-hidden="true">X</span></button>
+                <h4 class="modal-title">在线付款</h4>
             </div>
-        </form>
+            <div class="modal-body">
+                <div id="content:alert" class="ui-dialog-content" i="content" style="width: 580px; height: 180px;">
+                    <div id="pay-confirm" class="pay-confirm">
+                        <span class="icon"></span>
+                        <h3>请在新打开的页面完成支付后视情况选择</h3>
+                        <div class="btn-pay-div">
+                            <a class="btn-pay-success" href="javascript:void(0)"
+                               onclick="paySuccess('/pay/success/{{ pay_obj.id }}.html');">支付成功</a>
+                            <a class="btn-pay-error" href="/help/support.html" target="_blank">支付遇到问题</a>
+                        </div>
+                        <p class="back">
+                            <a href="javascript:void(0)" data-dismiss="modal">返回选择其他支付方式</a>
+                        </p>
+                        <p>如遇到超过限额无法支付，建议通过自助转账的方式。</p>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
+{% endblock %}
+
+{% block scripts %}
+    <script type="text/javascript" src="/static/js/jquery-3.1.1.js"></script>
+    <script type="text/javascript" src="/static/plugins/bootstrap/js/bootstrap.js"></script>
+    <script>
+        $(function () {
+            bindClickSendInfo();
+            ShowOrder();
+        });
+        function bindClickSendInfo() {
+            $('#payform').on('click', '.radios', function () {
+                var form = $('#payform');
+                form.submit();
+                $('#Model_Info').modal('show')
+            })
+        }
+        function paySuccess(url) {
+
+            $.ajax({
+                url: url,
+                type: 'GET',
+                success: function (arg) {
+                    if (arg['status']) {
+                        location.href = arg['url']
+                    }
+                    else {
+                        location.href = arg['url']
+                    }
+                }
+            })
+        }
+        // 是否显示订单详情
+        function ShowOrder() {
+            $('#showDetails').click(function () {
+                if ($(this).attr('class') == 'showDetails') {
+                    $('#infoDetails').attr('style', 'display: list-item');
+                    $(this).addClass('cur');
+
+                }
+                else if ($(this).attr('class') == 'showDetails cur') {
+                    $(this).removeClass('cur');
+                    $('#infoDetails').attr('style', 'display: none');
+                }
+            })
+        }
+    </script>
 {% endblock %}

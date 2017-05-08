@@ -1,0 +1,661 @@
+@charset "utf-8";
+.wrap_company,.news-1{clear: both;}
+body{
+    background: #f5f5f5;
+}
+.page {
+    margin: 20px auto 20px -570px;
+    width: 1140px;
+    clear: both;
+    position: relative;
+    float: left;
+    left: 50%;
+}
+/*************************************************************************************/
+.main{
+    width: 100%;
+    height: auto;
+    clear: both;
+    min-width: 1180px;
+    position: relative;
+}
+.m-index{
+    width: 1180px;
+    height: auto;
+    margin: 0 auto;
+}
+/***閫夐」鍗″潡h1鐨勫叕鐢�**/
+.m-i-h h3{
+    text-align: center;
+    padding: 70px 0 42px 0;
+    color: #595757;
+}
+
+/*************鏂版氮鍜屽井淇�*******************/
+.nav-index{
+    width: 100%;
+    float: left;
+    height: auto;
+    padding: 35px 0 37px;
+    background: #ffffff;
+}
+.le em{
+    height: 14px;
+    line-height: 14px;
+    position: relative;
+    top: 1px;
+    margin: 0 2px 0 7px;
+}
+.nav-index a{
+    font-size: 14px;
+    color: #5d5d5d;
+    display: inline-block;
+}
+.nav-index a:hover,.nav-index .current{
+    color: #00c9ff;
+}
+.stCont.sc > .currenta:hover h1,.stCont.sc > .currenta:hover{
+    color: #00c9ff;
+}
+.ri a{
+    width: 40px;
+    height: 31px;
+    background: url("../images/icon/web.png") no-repeat scroll 5px 5px;
+}
+.ri a:hover{
+    background-position: 3px -39px;
+}
+.ri .ffRI{background-position: 5px -85px;margin-left: 13px;}
+.ri .ffRI:hover{
+    background-position: 4px -131px;
+}
+
+/*鎼滅储椤典笂涓€涓嬪拰涓嬩竴椤�*/
+.sePage{
+    float: left;
+    width: 100%;
+    margin: 40px 0 40px 0;
+}
+.sePage a{
+    border: 1px solid #dddddd;
+    height: 40px;
+    line-height: 40px;
+    padding: 0 80px;
+    font-size: 14px;
+    color: #dddddd;
+    background: url("../images/icon/pagebut.png") no-repeat scroll 13px 10px;
+}
+.sePage .current{
+    background-position: 13px -69px;
+    color: #595758;
+    border: 1px solid #595758;
+}
+.sePage .current:hover,.sePage .floatRight.current:hover{
+    background-color: #00c9ff;
+    color: #ffffff;
+    border: 1px solid #00c9ff;
+}
+.sePage .current:hover{
+    background-position: 13px -205px;
+}
+.sePage .floatRight{
+    background-position: 176px -113px;
+}
+.sePage .floatRight.current{
+    background-position: 176px -25px;
+    color: #595758;
+    border: 1px solid #595758;
+}
+.sePage .floatRight.current:hover{
+    background-position: 176px -159px;
+}
+
+/*************************璁㈠崟宸叉彁浜わ紝璇蜂粯娆�****************************/
+/*璁㈠崟宸叉彁浜わ紝璇蜂粯娆�*/
+.pay-box {
+    background-color: #fafafa;
+    border: 1px solid #e1e1e1;
+}
+.pay-box-left {
+    float: left;
+    font-size: 12px;
+    line-height: 20px;
+    padding: 30px 15px;
+    width: 235px;
+}
+.pay-box-right {
+    background-color: #fff;
+    margin-left: 235px;
+    padding: 30px;
+}
+.pay-order-info dt {
+    color: #333;
+    font-size: 22px;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+.pay-order-info dd {
+    color: #666;
+    font-size: 14px;
+    line-height: 25px;
+}
+.color-red {
+    color: #f96e3c;
+}
+.invoicem {
+    color: #666666;
+    display: inline-block;
+    float: right;
+    font-size: 14px;
+    line-height: 25px;
+    text-align: left;
+    width: 797px;
+}
+/*閫夋嫨鏀粯鏂瑰紡*/
+.pay-box-left b {
+    display: block;
+    font-size: 14px;
+    margin-bottom: 5px;
+}
+.balance {
+    background: #ffffff;
+    color: #666;
+    padding: 15px 0 15px 8px;
+}
+.btn-pay-ok, .btn-pay-ok:hover {
+    border: medium none !important;
+}
+.btn-pay-ok {
+    background-color: #fa4d00;
+    color: #fff;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: bold;
+    padding: 12px;
+    width: 140px;
+}
+.balance input {
+    vertical-align: 0;
+    margin-left: 20px;
+}
+.zhifuxiane {
+    color: green;
+    font-size: 14px;
+}
+.topline {
+    border-top: 1px solid #e1e1e1;
+}
+.bank-list li {
+    border: 1px solid #fff;
+    float: left;
+    margin-bottom: 20px;
+    margin-right: 5px;
+    padding-left: 5px;
+    padding-top: 5px;
+    width: 160px;
+}
+.bank-list li input {
+    float: left;
+    margin-top: 10px;
+}
+#alipay-transfer {
+    background: url("/Public/Image/bank/icon-alipay.png") no-repeat scroll 5px center;
+}
+#bank-transfer {
+    background: url("/Public/Image/bank/icon-cmb.png") no-repeat scroll 5px center;
+    margin-left: 30px;
+}
+#alipay-transfer, #bank-transfer {
+    border: 1px solid #e1e1e1;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: bold;
+    padding: 6px 10px 6px 45px;
+}
+.bank-list li input{float:left;margin-top:10px;}
+.bank-list li:hover{border:1px solid #e1e1e1;cursor:pointer;}
+.bank-list li.on{border:1px solid #ccc;}
+/*鑷姪杞处*/
+.alipay-info {
+    background-color: #fafafa;
+    width: 600px;
+}
+.alipay-info table {
+    margin: 10px;
+}
+.alipay-info .tit {
+    border-bottom: 1px solid #ccc;
+    font-size: 12px;
+    font-weight: bold;
+    padding: 10px;
+}
+.alipay-info table tr td {
+    border-width: 0;
+    font-size: 12px;
+}
+#alipay-info td,#bank-info td {
+    display: inline-block;
+    margin: 2px 5px;
+}
+
+/*鏂囧瓧鍓嶇殑绾㈣壊鍥炬爣**/
+.det10 {background-position: 53px 12px;}
+.det9 {background-position: 33px 12px;}
+.det8 {background-position: 39px 10px;}
+
+
+/*********************************璇勪环鎴戜滑鐨勫０闊�********************************/
+.comm-bk {
+    background: none repeat scroll 0 0 #58be89;
+    height: 560px;
+    padding-top: 70px;
+}
+.come-on {
+    background: #ffffff;
+    color: #6b6b6b;
+    font-size: 42px;
+    height: 177px;
+    line-height: 150px;
+    text-align: center;
+}
+.comm-bk h3 {
+    color: #fff;
+    font-size: 48px;
+    font-weight: normal;
+    margin: 0 0 50px;
+    text-align: center;
+}
+.comm-bk .user-list {
+    margin: 0 auto;
+    position: relative;
+    width: 830px;
+}
+.comm-bk .user-list {
+    margin: 0 auto;
+    padding-bottom: 20px;
+    position: relative;
+    width: 830px;
+}
+.scrollList {
+    color: #666666;
+    margin: 0 auto;
+    overflow: hidden;
+    position: relative;
+    width: 758px;
+}
+.scrollList ul {
+    position: relative;
+    width: 2355px;
+}
+.scrollList ul li {
+    display: block;
+    float: left;
+    width: 785px;
+}
+.scrollList ul li ul {
+    display: block;
+    width: 785px;
+}
+.scrollList ul li ul li {
+    background-color: #fff;
+    float: left;
+    height: 263px;
+    overflow: hidden;
+    padding: 25px;
+    width: 361px;
+}
+.scrollList ul li ul li.scrLeftMar {
+    margin-left: 36px;
+}
+.scrollList img.floatImg {
+    width: 100px;
+}
+.pCont {
+    float: left;
+    font-size: 14px;
+    line-height: 20px;
+    margin-top: 15px;
+    width: 100%;
+}
+.theCurrent {
+    float: left;
+}
+.textImgSeparation.conterList p {
+    font-size: 14px;
+    padding-left: 18px;
+}
+.positms {
+    height: 30px;
+    line-height: 30px;
+    margin-top: 20px;
+    text-align: center;
+}
+.positms span {
+    background: none repeat scroll 0 0 #fff;
+    border-radius: 50%;
+    -weblit-border-radius: 50%;
+    -moz-border-radius: 50%;
+    -o-border-radius: 50%;
+    -ms-border-radius: 50%;
+    height: 10px;
+    display: inline-block;
+    text-align: center;
+    width: 10px;
+    cursor: pointer;
+    opacity: 0.8;
+    *margin-left: 5px;
+    filter: alpha(opacity=80)
+}
+.positms span.opcity-1-1 {
+    opacity: 1;
+    filter: alpha(opacity=100)
+}
+.posit {
+    background-color: #fff;
+    -webkit-border-radius: 40px;
+    -moz-border-radius: 40px;
+    -o-border-radius: 40px;
+    -ms-border-radius: 40px;
+    border-radius: 40px;
+    color: #58be89;
+    cursor: pointer;
+    font-family: "simsun";
+    font-size: 70px;
+    font-weight: bold;
+    height: 72px;
+    line-height: 72px;
+    margin-top: -27.5%;
+    opacity: 0.8;
+    filter: alpha(opacity=80);
+    text-align: center;
+    width: 72px
+}
+.posit1 {
+    margin-left: -70px
+}
+.posit2 {
+    margin-right: -70px
+}
+.floatLeft,.floatImg {
+    float: left;
+}
+.textImgSeparation {
+    display: table-cell;
+    *display: inline-block;
+}
+.positms span:hover,.posit:hover {
+    opacity: 1;
+    filter: alpha(opacity=100)
+}
+
+
+
+/*******************鐧诲綍************************/
+.loginLayout{
+    height: auto;
+    width: 100%;
+    clear: both;
+    padding-top: 40px;
+}
+.llMain{
+    margin:0 auto;
+    height: auto;
+    overflow: hidden;
+    width: 1105px;
+    background: #ffffff;
+    border-radius:10px;
+    position: relative;
+    padding: 60px 0px 50px;
+    border:1px solid #e1e1e1;
+}
+.llMain  h1{
+    font-size: 16px;
+    color: #000000;
+    font-weight: normal;
+    position: absolute;
+    left: 148px;
+    top: 52px;
+}
+/*left*/
+.mlLe{
+    width: 620px;
+    height: auto;
+    overflow: hidden;
+    margin-left: 100px;
+}
+.mlCheckbox,.mlBut{
+    padding: 0;
+    border: none;
+}
+.mlCheckbox{
+    font-size: 12px;
+}
+.mlCheckbox a{
+    float: right;
+    color: #00abe3;
+}
+.mlBut a{
+    width: 175px;
+    height: 35px;
+    text-align: center;
+    line-height: 35px;
+    font-size: 16px;
+    color: #ffffff;
+    background: #9bbe69;
+    display: inline-block;
+}
+/*right*/
+.mlRi{
+    width: 264px;
+    font-size: 14px;
+    padding-left: 50px;
+}
+.mlRibg1{
+    background: url("../images/icon/reg-right.png") no-repeat scroll -24px center;
+}
+.mlRibg2{
+    background: url("../images/icon/reg-right1.png") no-repeat scroll -24px center;
+}
+.mlRi p{
+    margin-bottom: 15px;
+}
+.mlRi p .reg-login{
+    color:#007bc7;
+    font-size: 16px;
+}
+.mlRi .reg-login-p{
+    margin-bottom: 35px;
+}
+.mlRi .reg-login-zhanghao{
+    display: inline-block;
+}
+.mlRi .reg-login-zhanghao-p{
+    margin-bottom: 220px;
+}
+.paddingTop{
+    padding-top: 50px;
+}
+/*.mlRi div{*/
+    /*position: absolute;
+    /*left: 0;
+    bottom: 0;*/
+   /* height: 140px;
+    width: auto;
+    padding-left: 75px; */
+/*}
+.mlRi span{
+    display: block;
+    font-size: 14px;
+    color: #000000;
+    line-height: 1.7;
+    width: 100%;
+    text-align: left;
+}
+.mlRi .mlReg{
+    color: #d73838;
+    cursor: pointer;
+}
+.mlRi span a:hover{
+    color: #00abe3;
+}
+.mlRi .mla{
+    display: inline-block;
+    width: 52px;
+    height: 52px;
+    float: left;
+    text-align: center;
+    position: relative;
+    margin-top: 10px;
+    background: url("../Image/Login/qqweixinbg.png") no-repeat scroll center center;
+}
+.mla-ri{
+    margin-left: 25px;
+}*/
+/*.mla img{*/
+   /* position: absolute;
+    top: 50%;
+    left: 50%;*/
+   /* margin-top: -18.5px;
+    margin-left: -16px;
+}
+
+.mlRi.dengLu{
+    height: 305px;
+    background: url("../Image/Login/login.png") no-repeat scroll left center;
+}
+.mlRi.zhuCei{
+    height: 421px;
+    background: url("../Image/Login/reg.png") no-repeat scroll left center;
+}
+.ser-aget{
+    font-size: 12px;
+    display: block;
+    width: 100%;
+    text-align: left;
+}
+.ser-aget a{
+   color: #00abe3;
+}*/
+
+/*鎵惧洖瀵嗙爜*/
+.web-login-pass a.pass-3.pass-33 {background: url("../Image/Password/pass-33.png") no-repeat scroll 30px 8px;}
+.web-login-pass a.pass-3 {background: url("../Image/Password/pass-3.png") no-repeat scroll 30px 8px;}
+.web-login-pass a.pass-4.pass-44 {background: url("../Image/Password/pass-okk.png") no-repeat scroll 30px 8px;}
+.web-login-pass a.pass-4 {background: url("../Image/Password/pass-ok.png") no-repeat scroll 30px 8px;}
+.web-login-pass a.pass-1.pass-11 {background: url("../Image/Password/pass-11.png") no-repeat scroll 30px 8px;border-bottom: 2px solid #00abe3;color: #00abe3;}
+.web-login-pass a.pass-1 {background: url("../Image/Password/pass-1.png") no-repeat scroll 30px 8px;}
+.web-login-pass a.pass-2 {background: url("../Image/Password/pass-22.png") no-repeat scroll 30px 8px;border-bottom: medium none;color: #dbdbdb;}
+.web-login-pass a.pass-3 {background: url("../Image/Password/pass-3.png") no-repeat scroll 30px 8px;}
+.web-login-pass a.pass-4 {background: url("../Image/Password/pass-ok.png") no-repeat scroll 30px 8px;}
+.back-panel .form-buttom{
+    margin-top: 50px;
+    background: #0eadd8;
+}
+.back-panel .form-buttom:hover,.notSee.notSee-hw:hover{
+    background: #00c9ff;
+}
+.notSee.notSee-hw{
+    padding: 0 25px;
+    background: #0eadd8;
+    margin-left: 25px;
+    color: #ffffff;
+}
+.isOk{
+    width: 100%;
+    height: auto;
+    overflow: hidden;
+    text-align: center;
+}
+.isOk h2,.isOk h4{
+    line-height: 1;
+}
+.isOk h2{
+    font-size: 22px;
+    color: #333333;
+    margin-top: 22px;
+}
+.isOk h4{
+    font-weight: normal;
+    font-size: 16px;
+    color: #c2c2c2;
+    margin-top: 14px;
+}
+/**/
+.afterLog{
+    width: 630px;
+    height: auto;
+    overflow: hidden;
+    margin: 0 auto;
+    min-height: 100px;
+    background: url("../Image/Login/afterLog.png") no-repeat scroll center 90px;
+}
+.after-in{
+    width: 240px;
+    margin: 0 auto;
+    min-height: 91px;
+}
+.after-in img{
+    width: 60px;
+    height: 60px;
+    border: 3px solid #e1e1e1;
+    height: 60px;
+    width: 60px;
+    -webkit-border-radius: 8px;
+    -moz-border-radius: 8px;
+    -ms-border-radius: 8px;
+    -o-border-radius: 8px;
+    border-radius: 8px;
+}
+.after-in .after-text{
+    padding-left: 20px;
+}
+.after-in h2,.after-in h4{
+    text-align: left;
+    line-height: 1;
+}
+.after-in h2{
+    font-size: 24px;
+    color: #000000;
+    margin:2px 0 16px 0;
+}
+.after-in h4{
+    font-size: 16px;
+    color: #939393;
+    font-weight: normal;
+}
+.afterLog p{
+    text-align: center;
+    height: 35px;
+    line-height: 35px;
+    margin-top: 18px;
+}
+.afterLog label{
+    font-size: 16px;
+    color: #666666;
+    display: inline-block;
+    cursor: pointer;
+}
+.afterLog input{
+    vertical-align: inherit;
+    *position: relative;
+    *top: -2px;
+}
+.ai-ri{
+    margin-left: 70px;
+}
+.afterLog-ok{
+    padding-left: 115px;
+    display: none;
+}
+.afterLog-ok.current{
+    display: block;
+}
+.afterLog-ok h2{
+    text-indent: 26px;
+    color: #000000;
+    font-size: 16px;
+    text-align: left;
+    font-weight: normal;
+    line-height: 1;
+    margin-top: 25px;
+}

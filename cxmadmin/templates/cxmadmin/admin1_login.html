@@ -1,0 +1,31 @@
+{% extends 'cxmadmin/index.html' %}
+
+{% block extra-css %}
+    <link href="/static/css/signin.css" rel="stylesheet">
+{% endblock %}
+
+
+{% block body %}
+    <div class="container">
+
+        <form class="form-signin" method="post">
+            {% csrf_token %}
+            <h2 class="form-signin-heading">盛德业</h2>
+            <label class="sr-only">邮箱</label>
+            <input type="text"  name="email" class="form-control" placeholder="邮箱" required autofocus>
+            <label for="inputPassword" class="sr-only">密码</label>
+            <input type="password" name="password" class="form-control" placeholder="密码" required>
+            <span style="color: red">{{ error_msg }}</span>
+            <div class="checkbox">
+                <label>
+                    <input type="checkbox" value="remember-me"> 一周自动登陆
+                </label>
+            </div>
+            <button class="btn btn-lg btn-primary btn-block" type="submit">登陆</button>
+        </form>
+
+    </div> <!-- /container -->
+
+
+
+{% endblock %}

@@ -1,12 +1,49 @@
-{% extends 'master_b/layout.html' %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>
+        {% if title %}{{ title }}{% else %}{{ common_info.title }}{% endif %}——盛德业管理后台</title>
+    {% include 'master_b/_head.html' %}
+    {% block css %}{% endblock %}
+</head>
+<body>
 
-
-
-{% block page_content %}
-    {% include 'organization/master/_aside.html' %}
-    <div style="position: absolute; left: 100px;right: 0">
-        {% block content %}
-        {% endblock %}
+<div style="position: relative">
+    {# 头部内容 #}
+    {% include 'master_b/_nav.html' %}
+    {# 左边内容 #}
+    {% include "master_b/_aside.html" %}
+    {# 右边内容 #}
+    <div id="pg_content">
+        {% block page_content %}{% endblock %}
     </div>
-{% endblock %}
+</div>
 
+</body>
+
+<script src="/static/js/jquery-3.1.1.js"></script>
+<script src="/static/plugins/bootstrap/js/bootstrap.js"></script>
+<script src="/static/js/admin_index.js"></script>
+<script>
+    $(function () {
+        ClickpullBack();
+        ClickExpansion();
+    });
+    function ClickpullBack() {
+        $('#aside').on('click', '.glyphicon-minus', function () {
+            $(this).parent().parent().next().addClass('hide');
+            $(this).removeClass('glyphicon-minus');
+            $(this).addClass('glyphicon-plus');
+        })
+    }
+    function ClickExpansion() {
+        $('#aside').on('click', '.glyphicon-plus', function () {
+            $(this).removeClass('glyphicon-plus');
+            $(this).addClass('glyphicon-minus');
+            $(this).parent().parent().next().removeClass('hide');
+        })
+
+    }
+</script>
+{% block scripts %}{% endblock %}
+</html>

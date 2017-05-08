@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'backend',
     'reposition',
     'utils',
+    'cxmadmin',
 
 ]
 
@@ -46,7 +47,7 @@ MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
-    # 'django.middleware.csrf.CsrfViewMiddleware',
+    'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
@@ -82,7 +83,7 @@ DATABASES = {
         'NAME': 'sdy',
         'USER': 'root',
         'PASSWORD': 'root',
-        'POST': '',
+        'HOST': '',
         'PORT': '3306',
     }
 }
@@ -116,7 +117,7 @@ USE_I18N = True
 
 USE_L10N = True
 
-USE_TZ = True
+USE_TZ = False
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.10/howto/static-files/
@@ -127,10 +128,12 @@ STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'static'),
     os.path.join(BASE_DIR, 'app/static'),
     os.path.join(BASE_DIR, 'backend/static'),
+    os.path.join(BASE_DIR, 'cxmadmin/statics'),
 )
 TEMPLATES_DIRS = (
     os.path.join(BASE_DIR, 'app/templates'),
     os.path.join(BASE_DIR, 'backend/templates'),
+    os.path.join(BASE_DIR, 'cxmadmin/templates'),
 )
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'static/ueditor')

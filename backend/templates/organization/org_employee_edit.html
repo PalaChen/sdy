@@ -1,0 +1,16 @@
+{% extends 'organization/master/base.html' %}
+
+{% block page_content %}
+    {% include 'organization/master/_aside.html' %}
+    <div style="position: absolute;padding: 10px; left: 200px;right: 0;float: left">
+        <div class="float-left" style="margin-top: 10px;margin-bottom: 10px">
+            <ol class="breadcrumb">
+                <li><a href="{% url 'org_employees' %}">员工列表</a></li>
+                <li class="active">员工信息修改</li>
+            </ol>
+        </div>
+        <div style="border: 1px solid #b5b4b3;padding: 10px;">
+            {% include 'organization/master/_table_obj_change_component.html' %}
+        </div>
+    </div>
+{% endblock %}

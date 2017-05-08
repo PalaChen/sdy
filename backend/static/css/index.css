@@ -122,6 +122,17 @@
     width: 90px;
     margin-right: 5px;
 }
+.row_second1 {
+    float: left;
+    width: 200px;
+    padding: 10px;
+}
+.font_16 {
+    font-size: 16px;
+}
+.font_14 {
+    font-size: 14px;
+}
 .adminItem{
     height: 23px;
     line-height: 23px;
@@ -373,4 +384,24 @@ ul li {
 
 .table .tb_checkbook {
     margin-right: 4px;
+}
+
+.label_for{
+    margin-left: 25px;
+    margin-right: 10px;
+}
+
+.input_info {
+    margin-left: 25px;
+    width: 90px;
+    margin-right: 10px;
+}
+
+.title_border{
+    padding: 10px;
+    border-top: 1px solid #b5b4b3;
+    border-right: 1px solid #b5b4b3;
+    border-left: 1px solid #b5b4b3;
+    border-bottom: 1px solid white;
+    margin-bottom: 0;
 }

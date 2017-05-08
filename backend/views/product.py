@@ -6,6 +6,8 @@ from utils.upload_image import save_image
 from utils.pager import paginator
 from utils.upload_image import ckedit_upload_image
 from utils.login_admin import login_required, permission
+from cxmadmin import base
+from django.db.models import Q
 
 res_dict = {'status': 200, 'data': None, 'message': None}
 title_dict = {
@@ -29,20 +31,20 @@ title_dict = {
 
 
 # 产品分类管理
-@login_required
-@permission
+# @login_required
+# @permission
 def p_category(req, *args, **kwargs):
     action_list = kwargs.get('action_list')
     menu_string = kwargs.get('menu_string')
-    form = ProCategoryForm(req.POST or None)
+    form = ProCategoryForm()
     category_obj = models.ProductCategory.objects.all()
     cate_r_list = []
     cate_p_list = []
     cate_c_list = []
     for row in category_obj:
-        if row.cate_rootid == 0 and row.cate_parentid != 0:
+        if row.root_id == 0 and row.parent_id != 0:
             cate_c_list.append(row)
-        elif row.cate_rootid == 0:
+        elif row.root_id == 0:
             cate_r_list.append(row)
         else:
             cate_p_list.append(row)
@@ -56,26 +58,27 @@ def p_category(req, *args, **kwargs):
 
 
 # 产品分类添加
-@login_required
+# @login_required
 def p_category_add(req):
     if req.method == 'POST':
         form = ProCategoryForm(req.POST)
 
         if form.is_valid():
             data = form.cleaned_data
-            data['cate_employee_id'] = req.session.get('employee_id')
-            id = data['cate_rootid']
-            category_obj = models.ProductCategory.objects.filter(id=id).values('id', 'cate_rootid',
-                                                                               'cate_parentid').first()
+
+            data['employee_id'] = req.session.get('user_info')['employee_id']
+            id = data['root_id']
+            category_obj = models.ProductCategory.objects.filter(id=id).values('id', 'root_id',
+                                                                               'parent_id').first()
             # 判断category_obj是否为空
             if category_obj:
-                if category_obj['cate_rootid'] == 0 and category_obj['cate_parentid'] == 0:
-                    data['cate_rootid'] = id
+                if category_obj['root_id'] == 0 and category_obj['parent_id'] == 0:
+                    data['root_id'] = id
                 else:
-                    data['cate_rootid'] = 0
-                    data['cate_parentid'] = id
+                    data['root_id'] = 0
+                    data['parent_id'] = id
             else:
-                data['cate_rootid'] = 0
+                data['root_id'] = 0
             try:
                 models.ProductCategory.objects.create(**data)
                 res_dict['message'] = '分类添加成功'
@@ -86,6 +89,7 @@ def p_category_add(req):
             error = list(form.errors.values())[0][0]
             res_dict['message'] = error
             res_dict['status'] = 400
+    print(form.errors)
     return JsonResponse(res_dict)
 
 
@@ -96,17 +100,18 @@ def p_category_edit(req):
         form = ProCategoryForm(req.POST)
         if form.is_valid():
             data = form.cleaned_data
+            print(data)
             nid = req.POST.get('nid')
             category_obj = models.ProductCategory.objects.filter(id=nid).first()
             if category_obj:
-                data['cate_employee_id'] = req.session.get('employee_id')
-                id = data['cate_rootid']
-                root_id = models.ProductCategory.objects.filter(cate_rootid=0).values('id')
+                data['employee_id'] = req.session.get('user_info')['employee_id']
+                id = data['root_id']
+                root_id = models.ProductCategory.objects.filter(root_id=0).values('id')
                 if id in root_id:
-                    data['cate_rootid'] = 0
+                    data['root_id'] = 0
                 else:
-                    data['cate_rootid'] = 0
-                    data['cate_parentid'] = id
+                    data['root_id'] = 0
+                    data['parent_id'] = id
                     try:
                         models.ProductCategory.objects.filter(id=nid).update(**data)
                         res_dict['message'] = '分类修改成功'
@@ -129,7 +134,7 @@ def p_category_del(req, id):
 
 # 服务管理
 @login_required
-@permission
+# @permission
 def p_service(req, *args, **kwargs):
     action_list = kwargs.get('action_list')
     menu_string = kwargs.get('menu_string')
@@ -141,16 +146,19 @@ def p_service(req, *args, **kwargs):
 
 
 # 服务添加
-@login_required
+# @login_required
 def p_service_add(req):
     form = ProServiceForm(req.POST or None)
+    select_obj = models.ProductService.objects.filter(Q(root_id=None)).values('id', 'name').all()
     if req.method == 'POST':
         if form.is_valid():
             data = form.cleaned_data
-            data['employee_id'] = req.session.get('employee_id')
+            data['employee_id'] = req.session.get('user_info')['employee_id']
             models.ProductService.objects.create(**data)
             return redirect('p_service')
+
     return render(req, 'product/p_service_add.html', {'form': form,
+                                                      'select_obj': select_obj,
                                                       'title': title_dict['p_service_add'],})
 
 
@@ -177,7 +185,7 @@ def p_service_del(req, id):
 
 # 业务管理
 @login_required
-@permission
+# @permission
 def p_business(req, *args, **kwargs):
     action_list = kwargs.get('action_list')
     menu_string = kwargs.get('menu_string')
@@ -198,14 +206,15 @@ def p_business_add(req):
     if req.method == 'POST':
         if form.is_valid():
             name = form.cleaned_data.get('name')
-            employee_id = req.session.get('employee_id')
+            user_info = req.session.get('user_info')
             name_obj = models.ProcessName.objects.filter(name=name).first()
             if not name_obj:
-                name_obj = models.ProcessName.objects.create(name=name, employee_id=employee_id)
+                name_obj = models.ProcessName.objects.create(name=name, employee_id=user_info['employee_id'])
                 step_number = req.POST.getlist('step_number')
                 step_name = req.POST.getlist('step_name')
                 for step_number, step_name in zip(step_number, step_name):
-                    data = {'employee_id': employee_id, 'p_name_id': name_obj.id, 'process_name': name}
+                    data = {'employee_id': user_info['employee_id'],
+                            'p_name_id': name_obj.id, 'process_name': name,}
                     data.update({'number': step_number, 'name': step_name})
                     models.ProcessStep.objects.create(**data)
                 return redirect('p_business')
@@ -222,24 +231,53 @@ def p_business_add(req):
 def p_business_edit(req, id):
     form = ProBusinessForm(req.POST or None)
     error = None
-    process_obj = models.ProcessStep.objects.filter(p_name_id=id).all()
-
+    process_obj = models.ProcessStep.objects.filter(p_name_id=id).values('id', 'number', 'process_name', 'name',
+                                                                         'p_name_id').all()
+    step_exist_list = []
+    for line in process_obj:
+        step_exist_list.append(line['number'])
     if req.method == 'POST':
         if form.is_valid():
             name = form.cleaned_data.get('name')
-            employee_id = req.session.get('employee_id')
-            name_obj = models.ProcessName.objects.filter(id=id, name=process_obj[0].process_name).filter()
-            if name_obj:
-                name_obj = models.ProcessName.objects.filter(id=id).update(name=name)
-                models.ProcessStep.objects.filter(p_name_id=id).all().delete()
-                step_number = req.POST.getlist('step_number')
-                step_name = req.POST.getlist('step_name')
+            employee_id = req.session.get('user_info')['employee_id']
 
-                for step_number, step_name in zip(step_number, step_name):
-                    data = {'employee_id': employee_id, 'p_name_id': id, 'process_name': name}
-                    data.update({'number': step_number, 'name': step_name})
-                    models.ProcessStep.objects.create(**data)
-                return redirect('p_business')
+            name_obj = models.ProcessName.objects.filter(id=id).first()
+            if name_obj:
+                name_obj.name = name
+                name_obj.save()
+            step_number = req.POST.getlist('step_number')
+            step_name = req.POST.getlist('step_name')
+
+            data_dict = {}
+            for step_number, step_name, in zip(step_number, step_name, ):
+                data_dict.update(
+                    {int(step_number): {'employee_id': employee_id, 'p_name_id': id, 'process_name': name}})
+                data_dict[int(step_number)].update({'number': step_number, 'name': step_name})
+            step_new_list = list(data_dict.keys())
+
+            # 交集
+            intersection = set(step_exist_list) & set(step_new_list)
+            if intersection:
+                for i in intersection:
+                    for line in process_obj:
+                        if i == line['number']:
+                            if data_dict[i]['name'] == line['name']:
+                                pass
+                            else:
+                                models.ProcessStep.objects.filter(p_name_id=id, number=i).update(**data_dict[i])
+            # 左交集
+            left_intersection = set(step_exist_list) - set(step_new_list)
+            if left_intersection:
+                for i in left_intersection:
+                    models.ProcessStep.objects.filter(p_name_id=id, number=i).delete()
+
+            right_intersection = set(step_new_list) - set(step_exist_list)
+            # 右交集
+            if right_intersection:
+                for i in right_intersection:
+                    models.ProcessStep.objects.create(**data_dict[i])
+
+            return redirect('p_business')
         else:
             error = list(form.errors.values())[0][0]
     return render(req, 'product/p_business_edit.html', {'title': title_dict['p_business_edit'],
@@ -252,12 +290,11 @@ from django.db import connection
 
 
 @login_required
-@permission
+# @permission
 def product(req, *args, **kwargs):
     action_list = kwargs.get('action_list')
     menu_string = kwargs.get('menu_string')
-    product_obj = models.Products.objects.order_by('-p_ctime')
-    # product_obj = models.Products.objects.all().order_by('-p_ctime')
+    product_obj = models.Products.objects.all().order_by('-p_ctime')
     posts = paginator(req, product_obj)
 
     return render(req, 'product/product.html', {'title': title_dict['product'],
@@ -268,25 +305,53 @@ def product(req, *args, **kwargs):
 
 # 添加产品
 @login_required
-def product_add(req):
+def product_add(req, *args, **kwargs):
     form = ProductForm(req.POST or None)
-    error = ''
-    if form.is_valid():
-        p_service_id = form.cleaned_data.get('p_serivce_id')
-        product_obj = models.Products.objects.filter(p_service_id=p_service_id).first()
-        if not product_obj:
-            data = form.cleaned_data
-            id = data.pop('p_t_imgae')
-            data['p_employee_id'] = req.session.get('employee_id')
-            product_obj = models.Products.objects.create(**form.cleaned_data)
-            models.ProductTImage.objects.filter(id=id).update(ul_product=product_obj)
-            return redirect('product_all')
+    business_obj = models.ProcessName.objects.values('id', 'name').all()
+    service_obj = models.ProductService.objects.values('id', 'name', 'root_id').order_by('root_id').all()
+    city_obj = models.RegionalManagement.objects.values('id', 'name').all()
+    service_list = []
+
+    for line in service_obj:
+        if not line['root_id']:
+            service_list.append((line, []))
         else:
-            error = '一个产品只能对应一个服务,该服务已绑定产品，请选择其他服务'
+            for index, l in enumerate(service_list):
+                if line['root_id'] == l[0]['id']:
+                    service_list[index][1].append(line)
+
+    error = ''
+    if req.method == 'POST':
+        if form.is_valid():
+            p_service_id = form.cleaned_data.get('p_service_id')
+            product_obj = models.Products.objects.filter(p_service_id=p_service_id).first()
+            if not product_obj:
+                data = form.cleaned_data
+                id = data.pop('p_t_imgae')
+                data['p_employee_id'] = req.session.get('user_info')['employee_id']
+                product_obj = models.Products.objects.create(**data)
+                models.ProductTImage.objects.filter(id=id).update(ul_product=product_obj)
+                return redirect('product_all')
+            else:
+                error = '一个产品只能对应一个服务,该服务已绑定产品，请选择其他服务'
+        else:
+            error = list(form.errors.values())[0][0]
     return render(req, 'product/product_add.html', {'form': form,
                                                     'title': title_dict['product_add'],
+                                                    'business_obj': business_obj,
+                                                    'service_list': service_list,
+                                                    'city_obj': city_obj,
                                                     'error': error
                                                     })
+
+
+def get_city_info(request):
+    if request.method == 'GET':
+        city_obj = models.RegionalManagement.objects.all().values_list('code', 'name').order_by('city_id')
+        city_dict = {}
+        for code, name in city_obj:
+            city_dict.update({code: name})
+        return JsonResponse(city_dict)
 
 
 # 产品头图片上传
@@ -300,7 +365,7 @@ def product_image_upload(req):
             img = req.FILES.get('img')
             data = save_image(img)
             if data:
-                data['ul_employee_id'] = req.session.get('employee_id')
+                data['ul_employee_id'] = req.session.get('user_info')['employee_id']
                 image_obj = models.ProductTImage.objects.create(**data)
                 res_dict['data'] = data['ul_url']
                 res_dict['message'] = image_obj.id
@@ -326,7 +391,7 @@ def product_edit(req, id):
         if form.is_valid():
             data = form.cleaned_data
             image_id = data.pop('p_t_imgae')
-            data['p_employee_id'] = req.session.get('employee_id')
+            data['p_employee_id'] = req.session.get('user_info')['employee_id']
             models.Products.objects.filter(id=id).update(**data)
             models.ProductCImage.objects.filter(id=image_id).update(ul_product_id=id)
             return redirect('product_all')

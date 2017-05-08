@@ -22,6 +22,7 @@ urlpatterns = [
     # url(r'^admin/', admin.site.urls),
     url(r'^index', index.index),
     url(r'^admin/', include('backend.urls')),
+    url(r'^cxmadmin/', include('cxmadmin.urls')),
     url(r'', include('app.urls')),
 
 ]

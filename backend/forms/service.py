@@ -1,5 +1,5 @@
 from django import forms
-from django.forms import fields, widgets
+from django.forms import ModelForm, fields, widgets
 from reposition import models
 from django.db.models import Q
 
@@ -15,3 +15,12 @@ class OrderAddForm(forms.Form):
     name = fields.CharField(error_messages={'required': '姓名不能为空'})
     phone = fields.IntegerField(error_messages={'required': '手机号码不能为空'})
     payment = fields.ChoiceField(choices=((0, '支付宝'), (1, '微信'), (2, '线下支付'), (3, '网银支付')))
+
+
+class AssignEmployeeForm(ModelForm):
+    def __new__(cls, *args, **kwargs):
+        return ModelForm.__new__(cls)
+
+    class Meta:
+        model = models.MyTask
+        fields = ['order', 'employee', 'order_serice']

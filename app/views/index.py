@@ -9,6 +9,7 @@ from utils.menu import get_cate_dic
 
 
 def index(req):
+    user_info = req.session.get('user_info')
     is_login = None
     if req.method == 'GET':
         bxSlider = models.Bxslider.objects.filter(status=1).order_by('weight').all()
@@ -20,4 +21,5 @@ def index(req):
 
         return render(req, 'index.html', {'bxSlider': bxSlider, 'cate_dic': cate_dic,
                                           'cookie': cookie, 'is_login': is_login,
-                                          'nav_list': nav_list, 'articles_list': articles_list})
+                                          'nav_list': nav_list, 'articles_list': articles_list,
+                                          'user_info': user_info,})

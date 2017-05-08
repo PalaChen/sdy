@@ -1,0 +1,85 @@
+{# 注册 #}
+    {#    <div class="modal fade" id="Modal_Register" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">#}
+    {#        <div class="modal-dialog" role="document">#}
+    {#            <div class="modal-content">#}
+    {#                <div class="modal-header">#}
+    {#                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span#}
+    {#                            aria-hidden="true">&times;</span></button>#}
+    {#                    <h4 class="modal-title" id="myModalLabel">注册</h4>#}
+    {#                </div>#}
+    {#                <div class="modal-body">#}
+    {#                    <div>#}
+    {#                        <div class="group">#}
+    {#                            <form class="form-horizontal" id="fm_body1">#}
+    {#                                {% csrf_token %}#}
+    {#                                <div style="padding-left: 100px">#}
+    {#                                    <div class="register-li register-li-line">#}
+    {#                                        <span>#}
+    {#                                            <input type="text" name="phone" placeholder="手机号码">#}
+    {#                                        </span>#}
+    {#                                    </div>#}
+    {# 图片验证码 #}
+    {#                                    <div class="register-li register-li-line">#}
+    {#                                        <span>#}
+    {#                                            <input type="text" class="reg-yzm translateX" name="code" placeholder="验证码">#}
+    {#                                        </span>#}
+    {#                                        <img class="yzimg" src="{% url 'get_captcha' %}" onclick="changeImg(this);">#}
+    {#                                        <img class="reimg" src="/static/images/icon/refresh.png"#}
+    {#                                             onclick="changeImg(this);">#}
+    {#                                    </div>#}
+    {#                                    <div class="register-li register-li-line">#}
+    {#                                        <span>#}
+    {#                                            <input type="text" class="reg-dxyzm translateX" name="verify_code"#}
+    {#                                                   placeholder="短信验证码">#}
+    {#                                        </span>#}
+    {#                                        <a id="user_getcode" for="register" class="reg-click">点击获取</a>#}
+    {#                                    </div>#}
+    {#                                    <div class="register-li register-li-line">#}
+    {#                                        <span>#}
+    {#                                            <input type="email" name="mail" placeholder="常用邮箱">#}
+    {#                                        </span>#}
+    {#                                    </div>#}
+    {#                                    <div class="register-li register-li-line">#}
+    {#                                        <span>#}
+    {#                                            <input type="text" name="name" placeholder="姓名/称呼">#}
+    {#                                        </span>#}
+    {#                                    </div>#}
+    {#                                    <div class="register-li register-li-line">#}
+    {#                                        <span>#}
+    {#                                            <input type="password" name="password" placeholder="设置密码">#}
+    {#                                        </span>#}
+    {#                                    </div>#}
+    {#                                    <div class="register-li register-li-line">#}
+    {#                                        <span>#}
+    {#                                            <input type="password" name="password2" placeholder="确认密码">#}
+    {#                                        </span>#}
+    {#                                    </div>#}
+    {##}
+    {#                                    <div class="register-li register-li-line">#}
+    {#                                        <a id="loginButton" class="reg-now">立即注册</a>#}
+    {#                                    </div>#}
+    {#                                </div>#}
+    {#                            </form>#}
+    {#                        </div>#}
+    {#                        <div class="group" style="margin-left:50px;">#}
+    {#                            <p>已有德盛业账号？</p>#}
+    {#                            <p class="reg-login-p">#}
+    {#                                <a id="toLogin" class="reg-login">直接登录 >></a>#}
+    {#                            </p>#}
+    {#                            <p>或使用以下账号快速登录：</p>#}
+    {#                            <p class="reg-login-zhanghao-p">#}
+    {#                                <a class="reg-login-zhanghao" href="/signup/authorize/type/sina.html">#}
+    {#                                    <img src="/Public/Image/Login/weibo.png" alt="新浪登录">#}
+    {#                                </a>#}
+    {#                                <a class="reg-login-zhanghao" href="/signup/authorize/type/qq.html">#}
+    {#                                    <img src="/Public/Image/Login/qqq.png" alt="qq登录">#}
+    {#                                </a>#}
+    {#                            </p>#}
+    {#                        </div>#}
+    {#                    </div>#}
+    {#                </div>#}
+    {##}
+    {#            </div>#}
+    {#        </div>#}
+    {#    </div>#}
+    {# 购物车 #}

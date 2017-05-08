@@ -1,0 +1,134 @@
+{% load staticfiles %}
+<head>
+    <meta charset="UTF-8">
+    <title>找回密码-盛德业</title>
+    <link type="text/css" rel="stylesheet" href="{% static 'css/login_baseold.css' %}">
+    <link type="text/css" rel="stylesheet" href="{% static 'css/login_home.css' %}">
+    <link type="text/css" rel="stylesheet" href="{% static 'css/ui-dialog.css' %}">
+    <link type="text/css" rel="stylesheet" href="{% static 'css/header.css' %}">
+
+</head>
+
+<body>
+{% include 'master/_nav_top.html' %}
+<!-- 导航 -->
+<div class="main bgWhite border000 headerOverflowInherit" style="z-index: 10;">
+    <!-- logo -->
+    <div class="minwidth kfwLogo">
+        <a class="floatLeft" href="/">
+            <img src="/static/images/icon/index_logo.jpg" alt="德盛业">
+        </a>
+        <div class="logo-sub">找回密码</div>
+    </div>
+</div>
+<!-- 导航 -->
+<div class="loginLayout">
+    <div class="llMain">
+        <div class="web-login-pass">
+            <a class="pass-1">输入手机号</a>
+            {#            <a class="pass-2">设置新密码</a>#}
+            <a class="pass-3 pass-33">完成</a>
+        </div>
+        <div class="back-pass" style="width: 53%;">
+            <ul id="forgetpassdiv" class="inputLayout back-panel form-panel relative" style="">
+                <li class="isOk">
+                    <img src="/static/images/icon/pass-0.png" alt="">
+                    <h2>恭喜，新密码已修改成功！</h2>
+                    <h4>现在，用新密码去登录吧！</h4>
+                </li>
+                <li class="login-li">
+                    <a class="" href="{% url 'login' %}">去登录</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+<div class="footer">
+    <div class="footer-inner minwidth">
+        <p>Copyright © 1998-2017 shengdeye All Rights Reserved 版权所有：广东顺德拾梦科技有限公司 粤ICP备17019085号-2</p>
+    </div>
+</div>
+<script src="/static/js/jquery-3.1.1.js"></script>
+{#<script src="/static/js/user_index.js"></script>#}
+<script>
+    clickState = 0;
+
+
+    $(function () {
+        ClickButton();
+
+    });
+
+    function ClickButton() {
+
+        $('#user_getcode').click(function () {
+            if (clickState == 1) {
+            }
+            else {
+                clickState = 1;
+                console.log(clickState);
+                var phone = $('#form1 input[name="phone"]').val();
+                console.log(phone);
+                if (phone) {
+                    var url = "user/get_verify_code.html?" + "phone=" + phone + '&type=forgetpass';
+                    setTimeout(Send_Ajax_VerifyCode(url, this), 60000);
+                }
+                else {
+                    var phone_error = $('#form1 input[name="phone"]').parent().siblings('.register-li-1');
+                    phone_error.attr('style', '');
+                    phone_error.text('');
+                    phone_error.text('请输入手机号码');
+                    clickState = 0
+                }
+            }
+        });
+        $('#submitbtn1').click(function () {
+            $('#form1').attr('style', 'display: none;');
+            $('.pass-1').removeClass('pass-11');
+            $('#form3').attr('style', '');
+            $('.pass-2').addClass('pass-22');
+        });
+        $('#submitbtn3').click(function () {
+            $('#form3').attr('style', 'display: none;');
+            $('.pass-2').removeClass('pass-22');
+            $('#forgetpassdiv').attr('style', '');
+            $('.pass-3').addClass('pass-33');
+        });
+
+    }
+    function Send_Ajax_Info() {
+        $.ajax({
+            url: url,
+            type: 'POST',
+            data: '',
+            success: function () {
+
+            }
+        })
+    }
+    function Send_Ajax_VerifyCode(url, ths) {
+        $.ajax({
+            url: url,
+            type: 'GET',
+            success: function (arg) {
+                console.log(arg);
+                if (arg['status']) {
+                    $(ths).parent().append('<span class="verCodePrompt">已发送，1分钟后可重新获取。</span>')
+                    curCount = count;
+                    {#                    $("#user_getcode").text(curCount + "秒后重发");#}
+                    {#                    InterValObj = window.setInterval(SetRemainTime, 1000);#}
+                }
+                else {
+                    var phone_error = $('#form1 input[name="phone"]').parent().siblings('.register-li-1');
+                    phone_error.attr('style', '');
+                    phone_error.text('');
+                    phone_error.text('请输入手机号码');
+                    phone_error.text(arg['message'])
+                }
+                clickState = 0
+            }
+        });
+
+    }
+</script>
+</body>
