@@ -10,6 +10,7 @@ register = Library()
 def build_filter_ele(filter_column, admin_class):
     column_obj = admin_class.model._meta.get_field(filter_column)
     # print("column obj:", column_obj)
+    # 获取别名
     filter_verboseName = get_column_verboseName(filter_column, admin_class)
     # print('filter_verboseName', filter_verboseName)
     filter_ele = "<div class='form-group marR20'><label class='marR10'>{}</label>".format(filter_verboseName)

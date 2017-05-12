@@ -51,6 +51,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'mid.citymiddleware.CityMid',
 ]
 
 ROOT_URLCONF = 'sdy.urls'
@@ -138,3 +140,5 @@ TEMPLATES_DIRS = (
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'static/ueditor')
 STATIC_STORAGE = 'django.contrib.staticfiles.storage.StaticFilesStorage'
+
+

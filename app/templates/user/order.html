@@ -91,7 +91,7 @@
                                     {# id=1 待付款 #}
                                     {% if id == 0 or id == 1 %}
                                         {% if post.order_state == 0 %}
-                                            <a class="toPay" href="{% url 'user_order_topay' post.id %}">去付款</a>
+                                            <a class="toPay" target="_blank" href="{% url 'user_order_topay' post.id %}">去付款</a>
                                             <br>
                                             <span class="fc-curp relative cancelOrder">
                                             取消订单

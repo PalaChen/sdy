@@ -14,13 +14,13 @@ result_dict = {'status': True, 'message': None, 'data': None,}
 def login(req):
     form = account.LoginForm(req.POST or None)
     error = ''
+    default_city = req.session.get('default_city')
     if req.method == 'POST':
         form = account.LoginForm(req.POST)
         if form.is_valid():
             phone = req.POST.get('phone')
             res = model_query.login_user_query(form)
             if res:
-                print(2222222)
                 ret = redirect(reverse('web_index'))
                 ret.set_cookie('user', phone, max_age=3600,
                                expires=datetime.datetime.utcnow() + datetime.timedelta(5))
@@ -32,12 +32,10 @@ def login(req):
                 error = '账号密码输入有误，请重新输入'
         else:
             error = list(form.errors.values())[0][0]
-    return render(req, 'login.html', {'form': form, 'error': error})
+    return render(req, 'login.html', {'form': form, 'error': error,'default_city':default_city})
 
 
 def login_ajax(request):
-    form = account.LoginForm(request.POST or None)
-
     if request.method == 'POST':
         form = account.LoginForm(request.POST)
         if form.is_valid():
@@ -70,11 +68,9 @@ def register(request):
     :param req:
     :return:
     """
+    default_city = request.session.get('default_city')
     form_obj = account.RegisterForm(request.POST or None)
-    if request.method == 'GET':
-        return render(request, 'register.html', {'form': form_obj})
-
-    elif request.method == 'POST':
+    if request.method == 'POST':
         if form_obj.is_valid():
             data = form_obj.cleaned_data
             form_obj, res = register_generate(data, request, form_obj, 'reister')
@@ -87,8 +83,7 @@ def register(request):
                     return redirect(reverse('web_index'))
                 else:
                     form_obj.errors['phone'] = ['手机号码已存在', ]
-    print(form_obj.errors)
-    return render(request, 'register.html', {'form': form_obj,})
+    return render(request, 'register.html', {'form': form_obj,'default_city':default_city})
 
 
 def register_ajax(request):
@@ -111,6 +106,7 @@ def register_ajax(request):
 
 
 def forgetpass(request):
+    default_city = request.session.get('default_city')
     form_obj = account.ForgetPassForm(request.POST or None)
     if form_obj.is_valid():
         data = form_obj.cleaned_data
@@ -118,7 +114,7 @@ def forgetpass(request):
         form_obj, res = register_generate(data, request, form_obj, 'forgetpass')
         if not res:
             return render(request, 'forgetpass_2.html')
-    return render(request, 'forgetpass.html', {'form': form_obj})
+    return render(request, 'forgetpass.html', {'form': form_obj,'default_city':default_city})
 
 
 def register_generate(data, request, form, type):

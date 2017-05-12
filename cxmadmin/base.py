@@ -79,7 +79,7 @@ def table_obj_list(request, app_name, model_name, common_info):
         querysets = admin_class.model.objects.all()
     else:
         querysets = admin_class.model.objects.filter(**filter_dict).all()
-    # 刷选字段
+    # 筛选字段
     querysets, filter_condtions = get_filter_result(request, querysets)
     admin_class.filter_condtions = filter_condtions
     # print('querysets-->', querysets)

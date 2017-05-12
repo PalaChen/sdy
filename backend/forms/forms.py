@@ -10,13 +10,13 @@ class LoginForm(forms.Form):
     """
     email = fields.EmailField(
         error_messages={
-            'required': '该字段不能为空',
+            'required': '邮箱不能为空',
             'invalid': '请输入正确的邮箱格式',
         }
     )
     password = fields.CharField(
         error_messages={
-            'required': '该字段不能为空',
+            'required': '密码不能为空',
         }
     )
 

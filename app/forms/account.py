@@ -10,7 +10,7 @@ class LoginForm(forms.Form):
     """
     phone = fields.IntegerField(
         required=True,
-        validators=[RegexValidator(r'^[1][358][0-9]{9}$', '请输入正确的手机号码')],
+        validators=[RegexValidator(r'^[1][3578][0-9]{9}$', '请输入正确的手机号码')],
         error_messages={
             'required': '手机号码不能为空',
             'invalid': '请输入正确的手机号码',
@@ -29,7 +29,7 @@ class RegisterForm(forms.Form):
         required=True,
         validators=[RegexValidator(r'^[1][3578][0-9]{9}$', '请输入正确的手机号码')],
         error_messages={
-            'required': '该字段不能为空',
+            'required': '手机号码不能为空',
             'invalid': '请输入正确的手机号码',
         }
     )
@@ -99,7 +99,7 @@ class ForgetPassForm(forms.Form):
         required=True,
         validators=[RegexValidator(r'^[1][358][0-9]{9}$', '请输入正确的手机号码')],
         error_messages={
-            'required': '该字段不能为空',
+            'required': '手机号码不能为空',
             'invalid': '请输入正确的手机号码',
         }
     )

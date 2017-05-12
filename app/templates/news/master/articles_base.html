@@ -21,7 +21,7 @@
         <div class="article-author">
             <div class="img percentRadius50">
                 <a href="" target="_blank">
-                    <img class="percentRadius50" src="">
+                    <img class="percentRadius50" src="/static/images/touxiang.jpg">
                 </a>
             </div>
             <div class="name">
@@ -43,7 +43,7 @@
         <div class="article-newest borderFFF">
             <h3 class="tit">
                 最新文章
-                <a class="more" href="/consultnews/articlelist/authorid/14.html" target="_blank">更多></a>
+                <a class="more" href="{% url 'news_author' post.author_id %}" target="_blank">更多></a>
             </h3>
             <ul class="news-side-list">
                 {% for line in articles_obj %}
@@ -53,7 +53,7 @@
                         </label>
                         <div class="text">
                             <p>
-                                <a href="/" target="_blank">{{ line.title }}</a>
+                                <a href="{% url 'news_article' line.category_id line.id %}" target="_blank">{{ line.title }}</a>
                             </p>
                             <p class="time">{{ line.ctime|date:'Y-m-d H:i:,' }}</p>
                         </div>
@@ -69,16 +69,16 @@
 {#            <a class="lickWeibo" href="javascript:void(0)">分享长微博</a>#}
 {#            <a class="sBRi lickWeixin" href="javascript:void(0)">分享到微信</a>#}
 {#        </div>#}
-        <div class="cPages" style="padding: 0 30px 0 40px">
-            <a class="group" href="/news/{{ post.category_id }}-{{ post.id }}.html">
-                <span>阅读上一篇</span>
+{#        <div class="cPages" style="padding: 0 30px 0 40px">#}
+{#            <a class="group" href="/news/{{ post.category_id }}-{{ post.id }}.html">#}
+{#                <span>阅读上一篇</span>#}
 {#                <span class="cPagesText">广东省人社厅公布“十三五”规划...</span>#}
-            </a>
-            <a class="floatRight" href="/news/{{ post.category_id }}-{{ post.id }}.html">
-                <span>阅读下一篇</span>
+{#            </a>#}
+{#            <a class="floatRight" href="/news/{{ post.category_id }}-{{ post.id }}.html">#}
+{#                <span>阅读下一篇</span>#}
 {#                <span class="cPagesText">公司注册类型是什么意思？初创公...</span>#}
-            </a>
-        </div>
+{#            </a>#}
+{#        </div>#}
     </div>
 
     {% include 'news/master/_footer.html' %}

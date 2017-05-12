@@ -9,26 +9,26 @@
 
 {% block page_content %}
     {% include 'master/_carousel.html' %}
-{#    <div class="statistics">#}
-{#        <ul class="w_1160">#}
-{#            <li>#}
-{#                <span>45590</span>#}
-{#                家企业已加入#}
-{#            </li>#}
-{#            <li>#}
-{#                <span id="zcgsCount">16160</span>#}
-{#                个注册公司用户#}
-{#            <li>#}
-{#            <li>#}
-{#                <span id="dljzCount">24645</span>#}
-{#                家选择记账报税#}
-{#            </li>#}
-{#            <li>#}
-{#                <span>2？？？？</span>#}
-{#                位即将成为多有米用户#}
-{#            </li>#}
-{#        </ul>#}
-{#    </div>#}
+    {#    <div class="statistics">#}
+    {#        <ul class="w_1160">#}
+    {#            <li>#}
+    {#                <span>45590</span>#}
+    {#                家企业已加入#}
+    {#            </li>#}
+    {#            <li>#}
+    {#                <span id="zcgsCount">16160</span>#}
+    {#                个注册公司用户#}
+    {#            <li>#}
+    {#            <li>#}
+    {#                <span id="dljzCount">24645</span>#}
+    {#                家选择记账报税#}
+    {#            </li>#}
+    {#            <li>#}
+    {#                <span>2？？？？</span>#}
+    {#                位即将成为多有米用户#}
+    {#            </li>#}
+    {#        </ul>#}
+    {#    </div>#}
     <div class="minwidth">
         <div class="section-title">
             <span class="line"></span>
@@ -36,113 +36,24 @@
         </div>
         <div class="section-body">
             <div class="grid-box">
-                <div class="grid-item">
-                    <div class="pd">
-                        <h4 class="title">公益注册公司</h4>
-                        <p class="des">按照工商流程为公司进行实名注册</p>
-                        <p class="price">
-                            <span>¥</span>
-                            1元
-                        </p>
-                        <div class="">
-                            <a class="btn-info detail" href="/product/registerCompany.html" target="_blank">查看详情</a>
+                {% for line in recommend_obj %}
+                    <div class="grid-item">
+                        <div class="pd">
+                            <h4 class="title">{{ line.p_name }}</h4>
+                            <p class="des">{{ line.p_seo_description }}</p>
+                            <p class="price">
+                                <span>¥</span>
+                                {{ line.p_price }}元
+                            </p>
+                            <div class="">
+                                <a class="btn-info detail" href="{% url 'product_index' line.id %}"
+                                   target="_blank">查看详情</a>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="grid-item">
-                    <div class="pd">
-                        <h4 class="title">公益注册公司</h4>
-                        <p class="des">按照工商流程为公司进行实名注册</p>
-                        <p class="price">
-                            <span>¥</span>
-                            1元
-                        </p>
-                        <div class="">
-                            <a class="btn-info detail" href="/product/registerCompany.html" target="_blank">查看详情</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="grid-item">
-                    <div class="pd">
-                        <h4 class="title">公益注册公司</h4>
-                        <p class="des">按照工商流程为公司进行实名注册</p>
-                        <p class="price">
-                            <span>¥</span>
-                            1元
-                        </p>
-                        <div class="">
-                            <a class="btn-info detail" href="/product/registerCompany.html" target="_blank">查看详情</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="grid-item">
-                    <div class="pd">
-                        <h4 class="title">公益注册公司</h4>
-                        <p class="des">按照工商流程为公司进行实名注册</p>
-                        <p class="price">
-                            <span>¥</span>
-                            1元
-                        </p>
-                        <div class="">
-                            <a class="btn-info detail" href="/product/registerCompany.html" target="_blank">查看详情</a>
-                        </div>
-                    </div>
-                </div>
+                {% endfor %}
             </div>
-            <div class="grid-box grid-box-last">
-                <div class="grid-item">
-                    <div class="pd">
-                        <h4 class="title">注册内资股份公司</h4>
-                        <p class="des">是指以国有资产、集体资产、国内个人资产投资创办的企业</p>
-                        <p class="price">
-                            <span>¥</span>
-                            2500元
-                        </p>
-                        <div class="">
-                            <a class="btn-info detail" href="/product/registerCompany.html" target="_blank">查看详情</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="grid-item">
-                    <div class="pd">
-                        <h4 class="title">注册内资股份公司</h4>
-                        <p class="des">是指以国有资产、集体资产、国内个人资产投资创办的企业</p>
-                        <p class="price">
-                            <span>¥</span>
-                            2500元
-                        </p>
-                        <div class="">
-                            <a class="btn-info detail" href="/product/registerCompany.html" target="_blank">查看详情</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="grid-item">
-                    <div class="pd">
-                        <h4 class="title">注册内资股份公司</h4>
-                        <p class="des">是指以国有资产、集体资产、国内个人资产投资创办的企业</p>
-                        <p class="price">
-                            <span>¥</span>
-                            2500元
-                        </p>
-                        <div class="">
-                            <a class="btn-info detail" href="/product/registerCompany.html" target="_blank">查看详情</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="grid-item">
-                    <div class="pd">
-                        <h4 class="title">注册内资股份公司</h4>
-                        <p class="des">是指以国有资产、集体资产、国内个人资产投资创办的企业</p>
-                        <p class="price">
-                            <span>¥</span>
-                            2500元
-                        </p>
-                        <div class="">
-                            <a class="btn-info detail" href="/product/registerCompany.html" target="_blank">查看详情</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
+
         </div>
     </div>
     <div class="minwidth">
@@ -154,12 +65,18 @@
             <div class="knowledge-content">
                 <div class="knowledge-details clearfix" style="display: block;">
                     <div class="knowledge-quick floatLeft">
+                        <div class="knowledge-quick-top">
+                            <span>高人带你飞</span>
+                            <h3>创业菜鸟攻略</h3>
+                            <p>是不是干货看看就知道</p>
+                        </div>
                         <ul class="knowledge-quick-list">
                             {% for line in articles_list %}
                                 <li>
                                     <b></b>
                                     <p>
-                                        <a href="/news/{{ line.category_id }}-{{ line.id }}.html" target="_blank">{{ line.title|slice:"11" }}.....</a>
+                                        <a href="/news/{{ line.category_id }}-{{ line.id }}.html"
+                                           target="_blank">{{ line.title|slice:"11" }}.....</a>
                                     </p>
                                 </li>
                             {% endfor %}

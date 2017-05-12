@@ -228,6 +228,7 @@ var Iput = {
     },
     rData: function (name) {
         var cache = window.top['_CACHE'];
+
         if (cache && cache[name]) delete cache[name];
     }
 }

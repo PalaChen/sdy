@@ -1,25 +1,27 @@
-{% for line in posts.object_list %}
-<div class="news-list" style="margin-top: 0;">
-    <div class="news-article clearfix">
-        <div class="news-article-img">
-            <a href="" target="_blank">
-                <img src="">
-            </a>
-            <a class="tag djxsList" categoryid="{{ line.category }}">{{ line.category.name }}</a>
-        </div>
-        <div class="news-article-desc">
-            <a class="title" href="/news/{{ line.category_id }}-{{ line.id }}.html"
-               target="_blank">{{ line.title }}</a>
-            <div class="author">
-                <a href="{% url 'news_author'  line.author_id %}" target="_blank">
-                    <img class="avatar" src="" alt="">
-                    <span class="name">{{ line.author.name }}</span>
-                </a>
-                <span class="time">{{ line.ctime|date:"Y-m-d H:i:s" }}</span>
+<div class="news-content floatLeft">
+    {% for line in posts.object_list %}
+        <div class="news-list" style="margin-top: 0;">
+            <div class="news-article clearfix">
+                <div class="news-article-img">
+                    <a href="" target="_blank">
+                        <img src="/static/images/88.jpg">
+                    </a>
+                    <a class="tag djxsList" categoryid="{{ line.category }}">{{ line.category.name }}</a>
+                </div>
+                <div class="news-article-desc">
+                    <a class="title" href="/news/{{ line.category_id }}-{{ line.id }}.html"
+                       target="_blank">{{ line.title }}</a>
+                    <div class="author">
+                        <a href="{% url 'news_author'  line.author_id %}" target="_blank">
+                            <img class="avatar" src="/static/images/touxiang.jpg" alt="">
+                            <span class="name">{{ line.author.name }}</span>
+                        </a>
+                        <span class="time">{{ line.ctime|date:"Y-m-d H:i:s" }}</span>
+                    </div>
+                    <div class="brief">{{ line.summary }}</div>
+                </div>
             </div>
-            <div class="brief">{{ line.summary }}</div>
         </div>
-    </div>
+    {% endfor %}
+    {% include 'master/_pagenation.html' %}
 </div>
-{% endfor %}
-{% include 'master/_pagenation.html' %}

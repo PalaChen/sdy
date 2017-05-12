@@ -1,2 +1,23 @@
-﻿var province = [{ "id": "440000", "name": "广东省", "city": [ { "id": "440600", "name": "佛山市" },{ "id": "441200", "name": "肇庆市" },] },]
-var area = [{ "id": "440606", "name": "顺德区", "pid": "440600" },{ "id": "440608", "name": "高明区", "pid": "440600" },{ "id": "440604", "name": "禅城区", "pid": "440600" },{ "id": "440605", "name": "南海区", "pid": "440600" },{ "id": "440607", "name": "三水区", "pid": "440600" }, ]
+﻿var province=[]
+var city=[]
+var area=[]
+
+
+$(function(){
+	$.ajax({
+		url:'/get_city.html',
+		type:'GET',
+		success:function(arg){
+			if (arg['status']==200){
+				console.log(arg['message'])
+				var message=arg['message']
+				province = message['province']
+				city = message['city']
+				area = message['area']
+			}
+		}
+	})
+})
+
+
+

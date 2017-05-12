@@ -8,6 +8,7 @@ from utils.sms_message import send_verification_code
 from utils.serialize import DateTypeJSONEncoder
 from datetime import datetime, timezone
 from django.utils import timezone
+
 import json
 
 title = {
@@ -26,46 +27,56 @@ res_dict = {
 
 @login_required
 def index(req):
+    default_city = req.session.get('default_city')
     user_info = req.session.get('user_info')
     counts_dict = order_counts(user_info['phone'])
     return render(req, 'user/user_index.html', {'title': title['index'],
                                                 'user_info': user_info,
-                                                'counts_dict': counts_dict,})
+                                                'counts_dict': counts_dict,
+                                                'default_city': default_city,})
 
 
 @login_required
 def order(req):
+    default_city = req.session.get('default_city')
     user_info = req.session.get('user_info')
     order_obj = models.Orders.objects.filter(phone=user_info['phone']).order_by('-ctime').all()
     counts_dict = order_counts(user_info['phone'])
+
     return render(req, 'user/order.html', {'order_obj': order_obj,
                                            'user_info': user_info,
                                            'counts_dict': counts_dict,
                                            'title': title['order'],
                                            'id': 0,
+                                           'default_city': default_city,
                                            })
 
 
-@login_required
+# @login_required
 def order_topay(request, nid):
     if request.method == 'GET':
         phone = request.session.get('user_info')['phone']
-        order_dict = models.Orders.objects.filter(id=nid, phone=phone).values('order_code').all()
+        order_dict = models.Orders.objects.filter(id=nid, phone=phone).all()
         if order_dict:
-            # print(order_dict['order_code'])
-            pay_dict = models.OrderPayment.objects.filter(order_code=order_dict['order_code']).values('id').first()
+            pay_dict = models.OrderPayment.objects.filter(order_code=list(order_dict)[0].order_code).first()
             if pay_dict:
-                
-                return redirect('shopping_pay', pay_dict['id'])
+                if pay_dict.status == 1:
+                    for line in order_dict:
+                        line.order_state = 1
+                        line.save()
+                else:
+                    return redirect('shopping_pay', pay_dict.id)
     return redirect('user_order')
 
 
 @login_required
 def order_query(req, id):
+    default_city = req.session.get('default_city')
     user_info = req.session.get('user_info')
     phone = user_info['phone']
     id = int(id)
     counts_dict = order_counts(phone)
+
     if id == 1:
         order_obj = models.Orders.objects.filter(phone=phone, order_state=0).order_by('-ctime').all()
     elif id == 5:
@@ -81,6 +92,7 @@ def order_query(req, id):
                                            'order_obj': order_obj,
                                            'counts_dict': counts_dict,
                                            'id': id,
+                                           'default_city': default_city,
                                            })
 
 
@@ -99,6 +111,7 @@ def order_process_query(req, id):
 
 @login_required
 def info(req):
+    default_city = req.session.get('default_city')
     form = EditProfileForm(req.POST or None)
     phone = req.session.get('user_info')['phone']
     user_info = models.Users.objects.filter(phone=phone).values('phone', 'email',
@@ -121,11 +134,13 @@ def info(req):
     return render(req, 'user/profile.html', {'title': title['info'],
                                              'form': form,
                                              'user_info': user_info,
+                                             'default_city': default_city,
                                              })
 
 
 @login_required
 def edit_phone(req):
+    default_city = req.session.get('default_city')
     form = EditPhoneForm(req.POST or None)
     user_info = req.session.get('user_info')
     phone = user_info['phone']
@@ -160,11 +175,13 @@ def edit_phone(req):
         res_dict['status'] = False
         return JsonResponse(res_dict)
     return render(req, 'user/edit_phone.html', {'title': title['edit_phone'],
+                                                'default_city': default_city,
                                                 'user_info': user_info})
 
 
 @login_required
 def edit_pwd(req):
+    default_city = req.session.get('default_city')
     user_info = req.session.get('user_info')
     form = EditPwdForm(req.POST or None)
     if req.method == 'POST':
@@ -181,6 +198,7 @@ def edit_pwd(req):
         return JsonResponse(res_dict)
 
     return render(req, 'user/edit_password.html', {'title': title['edit_pwd'],
+                                                   'default_city': default_city,
                                                    'user_info': user_info})
 
 

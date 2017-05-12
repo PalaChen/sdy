@@ -9,10 +9,12 @@ import os
 from sdy.settings import BASE_DIR
 from reposition import models
 from utils.login_admin import login_required, permission
+from cxmadmin import base
 
 result_dict = {'status': True, 'message': None, 'data': None}
 title_dict = {'nav': '首页导航', 'nav_add': '添加导航', 'nav_edit': '修改导航',
-              'nav_del': '删除导航', 'site_manage': '站点配置',}
+              'nav_del': '删除导航', 'site_manage': '站点配置',
+              'product_recommend': '首页产品推荐'}
 
 
 @login_required
@@ -142,10 +144,19 @@ def nav_add(req):
 
 
 @login_required
-def nav_edit(req):
+def nav_edit(request):
     pass
 
 
 @login_required
-def nav_del(req, id):
+def nav_del(request, id):
     pass
+
+
+def product_recommend(request, *arg, **kwargs):
+    common_info = {}
+    # models.ProcessStep.objects.filter(p_name=)
+    common_info['menu_string'] = kwargs.get('menu_string')
+    common_info['title'] = title_dict['product_recommend']
+    common_info['html_url'] = 'sites/product_recommend.html'
+    return base.table_obj_list(request, 'reposition', 'productrecommend', common_info)

@@ -50,8 +50,8 @@ class OrderPaymentAdmin(admin.BaseCxmAdmin):
 
 
 class OrderSericeAdmin(admin.BaseCxmAdmin):
-    list_display = ['order', 'status', 'allocation_status', 'ctime', 'start_time', 'end_time']
-    list_filter = ['status', 'allocation_status']
+    list_display = ['order', 'status', 'allocation_status', 'city', 'area', 'ctime', 'start_time', 'end_time']
+    list_filter = ['status', 'allocation_status', 'area']
     search_fields = ['order']
 
 
@@ -76,6 +76,11 @@ class PositionAdmin(admin.BaseCxmAdmin):
 
 class RegionalManagementAdmin(admin.BaseCxmAdmin):
     list_display = ['id', 'name']
+
+
+class ProductRecommendAdmin(admin.BaseCxmAdmin):
+    list_display = ['id', 'name', 'price', 'status', 'description']
+    list_filter = ['status']
 
 
 admin.site.register(models.MyTask, MyTaskAdmin)
@@ -109,3 +114,4 @@ admin.site.register(models.PaymengAlipy, )
 admin.site.register(models.IndexNav, IndexNavAdmin)
 admin.site.register(models.Position, PositionAdmin)
 admin.site.register(models.RegionalManagement, RegionalManagementAdmin)
+admin.site.register(models.ProductRecommend, ProductRecommendAdmin)

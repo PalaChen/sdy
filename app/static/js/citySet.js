@@ -6,11 +6,18 @@
         Iput.colse();
     });
     var tb_province = [];
+	// b是省数据
     var b = province;
+	// push 向数组后面添加元素
     for (var i = 0, len = b.length; i < len; i++) {
+		// b[i]['id']  省编号
+		// b[i]['name'] 省名字
         tb_province.push('<a data-level="0" data-id="' + b[i]['id'] + '" data-name="' + b[i]['name'] + '">' + b[i]['name'] + '</a>');
     }
+	// 每个省的链接添加到<div id='_citys0'>
     $("#_citys0").append(tb_province.join(""));
+	
+	// 点击省事件
     $("#_citys0 a").click(function () {
         var g = getCity($(this));
         $("#_citys1 a").remove();
@@ -83,13 +90,18 @@
                 }
                 var bc = $("#hcity").val();
                 var bp = $("#hproper").val();
+                // 广东省-佛山市-顺德区
                 ths.value = bc + "-" + bp + "-" + $(this).data("name");
+
                 Iput.colse();
             });
 
         });
     });
-    $("#_citysheng li").click(function () {
+    
+	
+	// 点击导航 省份、城市、区县
+	$("#_citysheng li").click(function () {
         $("#_citysheng li").removeClass("citySel");
         $(this).addClass("citySel");
         var s = $("#_citysheng li").index(this);
@@ -98,24 +110,26 @@
     });
 }
 
+
+// 获取城市信息
 function getCity(obj) {
     var c = obj.data('id');
-    var e = province;
+    var e = city;
     var f;
     var g = '';
+	// 循环获取这个省所属的城市信息
     for (var i = 0, plen = e.length; i < plen; i++) {
-        if (e[i]['id'] == parseInt(c)) {
-            f = e[i]['city'];
-            break
+        if (e[i]['pid'] == parseInt(c)) {
+            f = e[i];
+			g += '<a data-level="1" data-id="' + f['id'] + '" data-name="' + f['name'] + '" title="' + f['name'] + '">' + f['name'] + '</a>'
         }
     }
-    for (var j = 0, clen = f.length; j < clen; j++) {
-        g += '<a data-level="1" data-id="' + f[j]['id'] + '" data-name="' + f[j]['name'] + '" title="' + f[j]['name'] + '">' + f[j]['name'] + '</a>'
-    }
+	
     $("#_citysheng li").removeClass("citySel");
     $("#_citysheng li:eq(1)").addClass("citySel");
     return g;
 }
+// 获取区县信息
 function getArea(obj) {
     var c = obj.data('id');
     var e = area;
@@ -127,7 +141,7 @@ function getArea(obj) {
         }
     }
     for (var j = 0, clen = f.length; j < clen; j++) {
-        g += '<a data-level="1" data-id="' + f[j]['id'] + '" data-name="' + f[j]['name'] + '" title="' + f[j]['name'] + '">' + f[j]['name'] + '</a>'
+        g += '<a onclick="MonitorInput(this)" data-level="1" data-id="' + f[j]['id'] + '" data-name="' + f[j]['name'] + '" title="' + f[j]['name'] + '">' + f[j]['name'] + '</a>'
     }
 
     $("#_citysheng li").removeClass("citySel");

@@ -1,19 +1,22 @@
 {% load cxmadmin_tags %}
 
 <div>
-    <div style="margin: 10px 0; ">
-        {# 搜索查询   #}
-        <form method="post" class="form-inline">
-            {% csrf_token %}
-            <input type="text" class="form-control" name="_q" value="{{ admin_class.search_key }}"
-                   placeholder="{% for s in admin_class.search_fields %}{{ s }},{% endfor %}">
-            <input type="submit" value="搜索" class="btn btn-default">
+    {% if admin_class.search_fields %}
+        <div style="margin: 10px 0; ">
+            {# 搜索查询   #}
+            <form method="post" class="form-inline">
+                {% csrf_token %}
+                <input type="text" class="form-control" name="_q" value="{{ admin_class.search_key }}"
+                       placeholder="{% for s in admin_class.search_fields %}{{ s }},{% endfor %}">
+                <input type="submit" value="搜索" class="btn btn-default">
 
-            {% for k,v in admin_class.filter_condtions.items %}
-                <input type="hidden" name="{{ k }}" value="{{ v }}">
-            {% endfor %}
-        </form>
-    </div>
+                {% for k,v in admin_class.filter_condtions.items %}
+                    <input type="hidden" name="{{ k }}" value="{{ v }}">
+                {% endfor %}
+            </form>
+
+        </div>
+    {% endif %}
     <div style="margin: 10px 0; ">
         {# 判断你是否有筛选查询 #}
         {% if admin_class.list_filter %}
@@ -34,11 +37,13 @@
         <tr>
             {#  表头显示的字段  #}
             {% if admin_class.list_display %}
-                {% for column in admin_class.list_display %}<th>
-                    <a href="?_o={% get_sorted_column column sorted_column forloop.counter0 %}{% render_filtered_args admin_class %}">
-                        {% get_column_verboseName column admin_class %}
-                        {% render_sorted_arrow column sorted_column %}
-                    </a></th>
+                {% for column in admin_class.list_display %}
+                    <th>
+                        <a href="?_o=
+                                {% get_sorted_column column sorted_column forloop.counter0 %}{% render_filtered_args admin_class %}">
+                            {% get_column_verboseName column admin_class %}
+                            {% render_sorted_arrow column sorted_column %}
+                        </a></th>
                 {% endfor %}
             {% else %}
                 {#  如果没有表头显示的字段，显示类名大写  #}
@@ -54,7 +59,7 @@
                 {% build_table_row obj admin_class %}
                 <td>
                     {% if  common_info.edit_url %}
-                    <a href="{% url common_info.edit_url obj.id %}">修改</a>
+                        <a href="{% url common_info.edit_url obj.id %}">修改</a>
 
                     {% endif %}
                 </td>

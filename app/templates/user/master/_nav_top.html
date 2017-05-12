@@ -4,11 +4,15 @@
             <li class="navLocation">
                 <a class="locatinIcon" href="javascript:;">
                     <i class="mykfw floatRight"></i>
-                    北京市
+                    佛山市
                 </a>
                 <div class="locationLayer">
                     <em></em>
-                    <ul></ul>
+                    <ul>
+                        {% for line in city_obj %}
+                            <li><a href="">{{ line.name }}</a> </li>
+                        {% endfor %}
+                    </ul>
                 </div>
             </li>
         </ul>

@@ -1,0 +1,84 @@
+{% extends 'master_b/layout.html' %}
+
+
+
+{% block page_content %}
+
+
+    {% include 'master_b/_aside_second.html' %}
+
+    <div style="position: absolute; left: 100px;right: 0">
+        <button type="button" class="btn btn-primary" id="add_bxslider">添加</button>
+        {% include 'master_b/_table_obj_list.html' %}
+    </div>
+    <div class="modal fade bs-example-modal-sm model_marigin" id="Model_ProductRecommend" tabindex="-1" role="dialog"
+         aria-labelledby="mySmallModalLabel" for="category_add">
+        <div class="modal-dialog modal-sm" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">添加产品推荐</h4>
+                </div>
+                <div class="modal-body">
+                    <form id="fm3_add" method="post" action="{% url 'p_category_add' %}">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            <label>编号</label>
+                            <input type="text" class="form-control" placeholder="数字越大，排序越靠前" name="sort"
+                                   required="">
+                        </div>
+                        <div class="form-group">
+                            <label>分类名称</label>
+                            <input type="text" class="form-control" name="name" required="">
+                        </div>
+                        <div class="form-group">
+                            <label>选择服务</label>
+                            {{ form.root_id }}
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                    <button type="button" class="btn btn-primary btn_send_add" name="submit">确定</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade bs-example-modal-sm model_marigin" id="Model_EditInfo" tabindex="-1" role="dialog"
+         aria-labelledby="mySmallModalLabel" for="p_category_edit">
+        <div class="modal-dialog modal-sm" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">修改分类</h4>
+                </div>
+                <div class="modal-body">
+                    <form id="fm4_add" method="post" action="{% url 'p_category_edit' %}">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            <label>编号</label>
+                            <input type="text" class="form-control hide" name="nid">
+                            <input type="text" class="form-control" placeholder="数字越大，排序越靠前" name="sort"
+                                   required="">
+                        </div>
+                        <div class="form-group">
+                            <label>分类名称</label>
+                            <input type="text" class="form-control" name="name" required="">
+                        </div>
+                        <div class="form-group">
+                            <label>选择服务</label>
+                            {{ form.root_id }}
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                    <button type="button" class="btn btn-primary btn_send_add" name="submit">确定</button>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+

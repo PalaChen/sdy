@@ -2,16 +2,23 @@
 
 
 {% block page_content %}
-
-    <div style="float:left;width: 938px">
-        <form id="fm" class="form-horizontal" method="post" style="margin-top: 30px">
+    {% if error %}
+        <div class="form-group" style="padding-left: 20px">
+            <span style="color: red"><h4>{{ error }}</h4></span>
+        </div>
+    {% endif %}
+    <div style="float:left;width: 938px;position: relative">
+        <form id="fm" class="form-horizontal" method="post" style="margin-top: 30px" onsubmit="return submitFun(this);">
             {% csrf_token %}
             <input type="text" class="form-control hide" name="p_t_imgae" value="{{ product_obj.pro_image.all.first.id }}">
             <div class="form-group" style="padding-left: 5px">
                 <label class="col-sm-1 control-label">产品名称</label>
                 <div class="col-sm-10">
-                    <input type="text" class="form-control" value="{{ product_obj.p_name }}" name="p_name" required="">
-                    {{ form.errors.p_name.0 }}
+                    <input type="text" class="form-control" value="{{ form.data.p_name }}" name="p_name" required="">
+                    {% if form.errors %}
+                        <span style="color: red"><h4>{{ form.errors.p_name.0 }}</h4></span>
+                        <span style="color: red"><h4>{{ form.errors.p_t_imgae.0 }}</h4></span>
+                    {% endif %}
                 </div>
             </div>
             <div class="col-sm-8">
@@ -22,60 +29,106 @@
                     </div>
                     <label class="col-sm-2 pro_label">产品服务</label>
                     <div class="col-sm-4 pro_input">
-                        {{ form.p_service_id }}
+                        {#                        {{ form.p_service_id }}#}
+                        <select name="p_service_id" class="form-control">
+                            <option value="">--------------------</option>
+                            {% for line in service_list %}
+                                <option value="{{ line.0.id }}">{{ line.0.name }}</option>
+                                {% for row in line.1 %}
+                                    {% if product_obj.p_service_id == row.id %}
+                                        <option value="{{ row.id }}" selected="">
+                                            &nbsp&nbsp&nbsp&nbsp|-{{ row.name }}</option>
+                                    {% else %}
+                                        <option value="{{ row.id }}">&nbsp&nbsp&nbsp&nbsp|-{{ row.name }}</option>
+                                    {% endif %}
+                                {% endfor %}
+                            {% endfor %}
+                        </select>
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="col-sm-2 pro_label">业务类型</label>
                     <div class="col-sm-4 pro_input">
-                        {{ form.p_business_id }}
+                        <select name="p_business_id" class="form-control">
+                            <option value="">--------------------</option>
+                            {% for line in business_obj %}
+                                {% if product_obj.p_business_id == line.id %}
+                                    <option value="{{ line.id }}" selected>{{ line.name }}</option>
+                                {% else %}
+                                    <option value="{{ line.id }}">{{ line.name }}</option>
+                                {% endif %}
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group" id="demo">
+                    <label class="col-sm-2 pro_label">产品城市</label>
+                    <div class="col-sm-4 pro_input">
+                        <select name="city" class="form-control">
+                            {#                            <option value="">--------------------</option>#}
+                            {#                            {% for line in city_obj %}#}
+                            {#                                <option value="{{ line.code }}">{{ line.name }}</option>#}
+                            {#                            {% endfor %}#}
+                        </select>
+                    </div>
+                    <label class="col-sm-2 pro_label">产品地区</label>
+                    <div class="col-sm-4 pro_input">
+                        <select name="area" class="form-control">
+                            {#                            <option value="">--------------------</option>#}
+                            {#                            {% for line in city_obj %}#}
+                            {#                                <option value="{{ line.code }}">{{ line.name }}</option>#}
+                            {#                            {% endfor %}#}
+                        </select>
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="col-sm-2 pro_label">价格</label>
                     <div class="col-sm-4 pro_input">
-                        <input type="text" class="form-control" value="{{  product_obj.p_price}}" name="p_price" required="">
-                        {{ form.errors.p_price.0 }}
+                        <input type="text" class="form-control" value="{{ form.data.p_price }}" name="p_price"
+                               required="">
+                        {% if form.errors %}
+                            <span style="color: red"><h4>{{ form.errors.p_price.0 }}</h4></span>
+                        {% endif %}
                     </div>
                     <label class="col-sm-2 pro_label">市场价格</label>
                     <div class="col-sm-4 pro_input">
-                        <input type="text" class="form-control" name="p_market_price" value="{{  product_obj.p_market_price}}">
+                        <input type="text" class="form-control" value="{{ form.data.p_market_price }}"
+                               name="p_market_price">
                         {{ form.errors.p_market_price.0 }}
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="col-sm-2 pro_label">SEO标题</label>
+                    <label class="col-sm-2 pro_label">产品标签</label>
                     <div class="col-sm-10 pro_input">
-                        <input type="text" name="p_seo_title" class="form-control" value="{{  product_obj.p_seo_title}}">
-                        {{ form.errors.p_seo_title.0 }}
+                        <input type="text" name="p_seo_keyword" value="{{ form.data.p_seo_keyword }}" class="form-control">
+                        {% if form.errors %}
+                            <span style="color: red"><h4>{{ form.errors.p_seo_keyword.0 }}</h4></span>
+                        {% endif %}
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="col-sm-2 pro_label">关键词</label>
+                    <label class="col-sm-2 pro_label">产品描述</label>
                     <div class="col-sm-10 pro_input">
-                        <input type="text" name="p_seo_keyword" class="form-control" value="{{  product_obj.p_seo_keyword}}">
-                        {{ form.errors.p_seo_keyword.0 }}
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label class="col-sm-2 pro_label">SEP描述</label>
-                    <div class="col-sm-10 pro_input">
-					<textarea type="text" name="p_seo_description" class="form-control"  style="height: 50px">{{  product_obj.p_seo_description}}</textarea>
-                        {{ form.errors.p_seo_description.0 }}
+                        <textarea type="text" name="p_seo_description" class="form-control"
+                                  style="height: 50px">{{ form.data.p_seo_description }}</textarea>
+                        {% if form.errors %}
+                            <span style="color: red"><h4>{{ form.errors.p_seo_description.0 }}</h4></span>
+                        {% endif %}
                     </div>
                 </div>
 
                 <div class="form-group">
                     <label class="col-sm-1 control-label"
                            style="width: 80px;padding-left: 0;padding-right: 25px">产品描述</label>
-
                 </div>
 
             </div>
             <div class="form-group" style="margin-left: 10px">
-                {{ form.errors.p_details.0 }}
-                    <textarea id="content" name="p_details" required=""  style="width:930px;height:300px;">
-                        {{  product_obj.p_details}}
+                {% if form.errors %}
+                    <span style="color: red"><h4>{{ form.errors.p_details.0 }}</h4></span>
+                {% endif %}
+                <textarea id="content" name="p_details" required="" style="width:930px;height:300px;">
+                    {{ form.data.p_details }}
                     </textarea>
             </div>
             <div class="form-group" style="margin-left: 300px">
@@ -85,21 +138,22 @@
             </div>
         </form>
     </div>
-    <div style="position: absolute;right: 170px; top:180px">
+    <div style="position: absolute;right: 170px; top:140px">
         <div style="height: 250px;width: 250px;background-color: #EDEDED;">
             <iframe id="iframe_image" name="iframe_i" style="display: none"></iframe>
             <form id="fm1" action="{% url 'product_image' %}" target="iframe_i" method="POST"
                   enctype="multipart/form-data">
+                {% csrf_token %}
                 <div style="padding: 10px">
                     <div id="pro_image">
-                        <img class="pro_image" src="\{{ product_obj.pro_image.all.first.ul_url }}">
+                        <img src="/{{ product_obj.pro_image.all.first.ul_url }}" class="pro_image">
                     </div>
                     <span class="glyphicon glyphicon-remove hide" id="remove_image" title="移除"
                           style="visibility: visible; font-size: 15px" onclick="removeImg(this)"></span>
 
-                    <div id="pro_upload" class="hide">
+                    <div id="pro_upload">
                         <input class="p_upload_image" onchange="UploadImage()" type="file" name="img">
-                        <div class="noImgUploadButton"></div>
+{#                        <div class="noImgUploadButton"></div>#}
                     </div>
                 </div>
             </form>
@@ -109,8 +163,15 @@
 {% endblock %}
 
 {% block scripts %}
-{#    <script src="/static/js/ckeditor.js"></script>#}
+    {#    <script src="/static/js/ckeditor.js"></script>#}
     <script src="/static/plugins/kindeditor/kindeditor-all.js"></script>
+    <script type="text/javascript" src="/static/js/jquery.citys.js"></script>
+    <script type="text/javascript">
+        $('#demo').citys({
+            dataUrl: '/admin/get_city_info.html',
+        });
+    </script>
+
     <script>
         function UploadImage() {
             document.getElementById('iframe_image').onload = reloadIframe;
@@ -120,7 +181,7 @@
             var content = this.contentWindow.document.body.innerText;
             var obj = JSON.parse(content);
             var tag = document.createElement('img');
-            tag.src = '\\' + obj.data;
+            tag.src = '/' + obj.data;
             tag.className = 'pro_image';
             document.getElementById('pro_image').innerHTML = '';
             document.getElementById('pro_image').appendChild(tag);
@@ -132,6 +193,7 @@
             console.log($(ths))
         }
     </script>
+    {#  编辑框初始化 #}
     <script>
         $(function () {
             initKindEditor();
@@ -159,6 +221,12 @@
 
             });
         }
+        function submitFun() {
+            $('#fm select[name="area"]').attr('name', "area_code");
+            $('#fm select[name="city"]').attr('name', "city_code");
+            return true
+        }
 
     </script>
+
 {% endblock %}

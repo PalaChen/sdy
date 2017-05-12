@@ -43,10 +43,10 @@ def area_add(request):
                                 'code': china_obj.code,
                                 'name': china_obj.name}
                         if index == 0:
-                            data['rid'] = 0
+                            pass
                         elif index == 1:
-                            data['rid'] = province
+                            data['r_code'] = province
                         elif index == 2:
-                            data['pid'] = city
+                            data['p_code'] = city
                         models.RegionalManagement.objects.create(**data)
     return JsonResponse(result_dict)

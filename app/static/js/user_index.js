@@ -21,6 +21,31 @@ function bindOrderProcess() {
         setTimeout(Send_Ajax_Order_Process(url), 5000);
     })
 }
+
+String.prototype.format = function (args) {
+    var result = this;
+    if (arguments.length > 0) {
+        if (arguments.length == 1 && typeof (args) == "object") {
+            for (var key in args) {
+                if (args[key] != undefined) {
+                    var reg = new RegExp("({" + key + "})", "g");
+                    result = result.replace(reg, args[key]);
+                }
+            }
+        }
+        else {
+            for (var i = 0; i < arguments.length; i++) {
+                if (arguments[i] != undefined) {
+                    var reg = new RegExp("({[" + i + "]})", "g");
+                    result = result.replace(reg, arguments[i]);
+                }
+            }
+        }
+    }
+    return result;
+}
+
+
 function Send_Ajax_Order_Process(url) {
     $.ajax({
         url: url,
@@ -30,17 +55,13 @@ function Send_Ajax_Order_Process(url) {
                 console.log(arg['data']);
                 $('#orderlist-check-processlist').empty();
                 for (var i = 0; i < arg['data'].length; i++) {
-                    var li_ele = document.createElement('li');
-                    li_ele.setAttribute('class', 'posr clearfix select');
-                    var span_ele = document.createElement('span');
-                    span_ele.setAttribute('class', 'pull-left_1');
-                    var var_ele = document.createElement('var');
-                    var_ele.setAttribute('class', 'pull-right_1');
-                    span_ele.innerHTML = arg['data'][i]['date'];
-                    var_ele.innerHTML = arg['data'][i]['step_name'];
-                    li_ele.append(span_ele);
-                    li_ele.append(var_ele);
-                    $('#orderlist-check-processlist').append(li_ele)
+                    var result_ele = '<li class="posr clearfix select"><span class="pull-left_1">{time}</span>' +
+                        '<var class="pull-right_1">{status}}</var></li>';
+                    var a_ele = result_ele.format({
+                        time: arg['data'][i]['date'],
+                        status: arg['data'][i]['step_name']
+                    });
+                    $('#orderlist-check-processlist').append(a_ele)
                 }
                 $('#Model_process').modal('show')
             }
@@ -115,7 +136,7 @@ function bindOnlyClick() {
 }
 
 function Send_Ajax_Edit_Info(url, data) {
-    console.log(data.serialize());
+    //console.log(data.serialize());
     $.ajax({
         url: url,
         type: 'POST',

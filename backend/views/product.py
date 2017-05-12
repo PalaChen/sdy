@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect, HttpResponse
+from django.shortcuts import get_object_or_404
 from django.http import JsonResponse
 from reposition import models, modal_del
 from backend.forms.product import ProductForm, ProductImage, ProCategoryForm, ProBusinessForm, ProServiceForm
@@ -89,7 +90,7 @@ def p_category_add(req):
             error = list(form.errors.values())[0][0]
             res_dict['message'] = error
             res_dict['status'] = 400
-    print(form.errors)
+    # print(form.errors)
     return JsonResponse(res_dict)
 
 
@@ -166,15 +167,20 @@ def p_service_add(req):
 @login_required
 def p_service_edit(req, id):
     service_obj = models.ProductService.objects.filter(id=id).first()
+    select_obj = models.ProductService.objects.filter(Q(root_id=None)).values('id', 'name').all()
     form = ProServiceForm()
     if req.method == 'POST':
         form = ProServiceForm(req.POST)
         if form.is_valid():
             data = form.cleaned_data
+            data['employee_id'] = req.session.get('user_info')['employee_id']
+            models.ProductService.objects.filter(id=id).update(**data)
             return redirect('p_service')
             #
-    return render(req, 'product/p_service_add.html', {'title': title_dict['p_service_edit'],
-                                                      'form': form})
+    return render(req, 'product/p_service_edit.html', {'title': title_dict['p_service_edit'],
+                                                       'service_obj': service_obj,
+                                                       'select_obj': select_obj,
+                                                       'form': form})
 
 
 # 服务删除
@@ -307,33 +313,28 @@ def product(req, *args, **kwargs):
 @login_required
 def product_add(req, *args, **kwargs):
     form = ProductForm(req.POST or None)
-    business_obj = models.ProcessName.objects.values('id', 'name').all()
-    service_obj = models.ProductService.objects.values('id', 'name', 'root_id').order_by('root_id').all()
-    city_obj = models.RegionalManagement.objects.values('id', 'name').all()
-    service_list = []
-
-    for line in service_obj:
-        if not line['root_id']:
-            service_list.append((line, []))
-        else:
-            for index, l in enumerate(service_list):
-                if line['root_id'] == l[0]['id']:
-                    service_list[index][1].append(line)
-
+    business_obj, city_obj, service_list = product_general()
     error = ''
     if req.method == 'POST':
         if form.is_valid():
-            p_service_id = form.cleaned_data.get('p_service_id')
-            product_obj = models.Products.objects.filter(p_service_id=p_service_id).first()
-            if not product_obj:
-                data = form.cleaned_data
-                id = data.pop('p_t_imgae')
-                data['p_employee_id'] = req.session.get('user_info')['employee_id']
-                product_obj = models.Products.objects.create(**data)
-                models.ProductTImage.objects.filter(id=id).update(ul_product=product_obj)
-                return redirect('product_all')
-            else:
-                error = '一个产品只能对应一个服务,该服务已绑定产品，请选择其他服务'
+            # p_service_id = form.cleaned_data.get('p_service_id')
+            # product_obj = models.Products.objects.filter(p_service_id=p_service_id).first()
+            # if not product_obj:
+            data = form.cleaned_data
+            id = data.pop('p_t_imgae')
+            data['p_employee_id'] = req.session.get('user_info')['employee_id']
+            area_code = data.pop('area_code')
+            city_code = data.pop('city_code')
+            area_obj = get_object_or_404(models.RegionalManagement, code=area_code)
+            city_obj = get_object_or_404(models.RegionalManagement, code=city_code)
+
+            data['area_id'] = area_obj.id
+            data['city_id'] = city_obj.id
+            product_obj = models.Products.objects.create(**data)
+            models.ProductTImage.objects.filter(id=id).update(ul_product=product_obj)
+            return redirect('product_all')
+            # else:
+            #     error = '一个产品同一个地区只能对应一个服务,该服务已绑定产品，请选择其他服务'
         else:
             error = list(form.errors.values())[0][0]
     return render(req, 'product/product_add.html', {'form': form,
@@ -385,22 +386,45 @@ def product_ck_image(req):
 
 def product_edit(req, id):
     product_obj = models.Products.objects.filter(id=id).first()
+    product_dict = {'p_name': product_obj.p_name, 'p_category_id': product_obj.p_category_id,
+                    'p_service_id': product_obj.p_service_id, 'p_business_id': product_obj.p_business_id,
+                    'city_code': product_obj.city.code, 'area_code': product_obj.area.code,
+                    'p_price': product_obj.p_price, 'p_market_price': product_obj.p_market_price,
+                    'p_seo_keyword': product_obj.p_seo_keyword, 'p_seo_description': product_obj.p_seo_description,
+                    'p_details': product_obj.p_details,}
+    business_obj, city_obj, service_list = product_general()
+    form = ProductForm(data=product_dict, )
+    if req.method == 'GET':
+        # 错误信息为空，因为传入输入数据时form会进行数据验证，而p_t_imgae的值无法直接拿到
+        form._errors = ''
 
     if req.method == 'POST':
         form = ProductForm(req.POST)
         if form.is_valid():
             data = form.cleaned_data
             image_id = data.pop('p_t_imgae')
+            area_code = data.pop('area_code')
+            city_code = data.pop('city_code')
+
+            # 判断用户是否更改城市
+            if city_code != product_obj.city.code:
+                city_obj = get_object_or_404(models.RegionalManagement, code=city_code)
+                data['city_id'] = city_obj.id
+
+            # 判断用户是否更改地区
+            if area_code != product_obj.area.code:
+                area_obj = get_object_or_404(models.RegionalManagement, code=area_code)
+                data['area_id'] = area_obj.id
             data['p_employee_id'] = req.session.get('user_info')['employee_id']
             models.Products.objects.filter(id=id).update(**data)
             models.ProductCImage.objects.filter(id=image_id).update(ul_product_id=id)
             return redirect('product_all')
 
-    form = ProductForm(initial={'p_category_id': product_obj.p_category_id,
-                                'p_service_id': product_obj.p_service_id,
-                                'p_business_id': product_obj.p_business_id})
     return render(req, 'product/product_edit.html', {'title': title_dict['product_add'],
                                                      'form': form,
+                                                     'business_obj': business_obj,
+                                                     'service_list': service_list,
+                                                     'city_obj': city_obj,
                                                      'product_obj': product_obj})
 
 
@@ -409,6 +433,23 @@ def product_edit(req, id):
 def product_del(req, id):
     res = modal_del.query_del(req, models.Products, id)
     return HttpResponse(res)
+
+
+# 添加/修改产品调用的通用信息
+def product_general():
+    business_obj = models.ProcessName.objects.values('id', 'name').all()
+    service_obj = models.ProductService.objects.values('id', 'name', 'root_id').order_by('root_id').all()
+    city_obj = models.RegionalManagement.objects.values('id', 'name').all()
+    service_list = []
+
+    for line in service_obj:
+        if not line['root_id']:
+            service_list.append((line, []))
+        else:
+            for index, l in enumerate(service_list):
+                if line['root_id'] == l[0]['id']:
+                    service_list[index][1].append(line)
+    return business_obj, city_obj, service_list
 
 
 @login_required

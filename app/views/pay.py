@@ -21,12 +21,13 @@ status = {
 
 @login_required
 def cart(request):
+    default_city = request.session.get('default_city')
     user_info = request.session.get('user_info')
     id = request.GET.get('pid')
     is_login = request.session.get('is_login')
     product_dict = models.Products.objects.filter(id=id).values('p_name', 'p_business', 'p_price',
-                                                                'p_category__name').first()
-    print('product_dict--->', product_dict)
+                                                                'p_category__name', 'area__name', 'city__name').first()
+    # print('product_dict--->', product_dict)
     try:
         shop_list = request.session['shop_list']
     except KeyError:
@@ -37,16 +38,17 @@ def cart(request):
             if id in shop_list.keys():
                 pass
             else:
-                product_dict.update({'number': 1})
-                shop_list.update({id: {'info': product_dict}})
+                shop_list.update({id: {'info': product_dict, 'number': 1}})
         except AttributeError:
-            product_dict.update({'number': 1})
-            shop_list = {id: {'info': product_dict}}
+            # 对象不是一个not JSON serializable,
+            shop_list = {id: {'info': product_dict, 'number': 1}}
 
     request.session['shop_list'] = shop_list
+
     return render(request, 'shop/index.html', {'shop_list': shop_list,
                                                'user_info': user_info,
                                                'is_login': is_login,
+                                               'default_city':default_city,
                                                'title': title_dict['cart']})
 
 
@@ -55,8 +57,9 @@ def cart_number(request):
     data = request.POST
     shop_list = request.session['shop_list']
     if data.get('number'):
-        shop_list[data['product_id']]['info']['number'] = data['number']
-    # shop_list.update({'price': data['price']})
+        shop_list[data['product_id']]['number'] = data['number']
+
+    print(shop_list)
     request.session['shop_list'] = shop_list
     return JsonResponse(result_dict)
 
@@ -77,26 +80,27 @@ def buy_info(request):
     order_code = time.strftime('%Y%m%d%H%M%S', time.localtime()) + str(random.randint(00, 99))
     if shop_list:
         for shop_key, shop_value in shop_list.items():
-            # {'1': {'info': {'p_name': '有限公司注册', 'number': '4', 'p_price': 11.0}}, 'price': '44'}
+            # {'13': {'number': '2', 'info': {'p_price': 111.0, 'city__name': '佛山市', 'p_business': 1, 'p_name': '合伙企业注册', 'p_category__name': '合伙企业注册', 'area__name': '顺德区'}},}
             # v ={'info': {'p_name': '有限公司注册', 'number': '4', 'p_price': 11.0}}
             if shop_key == 'price':
                 pass
             else:
-                for k, v in shop_value.items():
-                    data = {}
-                    data['product_id'] = shop_key
-                    data['product_name'] = v['p_name']
-                    data['cprice'] = v['p_price']
-                    data['total_price'] = v['p_price']
-                    data['category'] = v['p_category__name']
-                    data['p_business_id'] = v['p_business']
-                    data['phone'] = user_info['phone']
-                    data['name'] = user_info['name']
-                    data['user_id'] = user_info['id']
-                    data['order_code'] = order_code
+                data = {}
+                data['product_id'] = shop_key
+                data['product_name'] = shop_value['info']['p_name']
+                data['cprice'] = shop_value['info']['p_price']
+                data['total_price'] = shop_value['info']['p_price']
+                data['category'] = shop_value['info']['p_category__name']
+                data['p_business_id'] = shop_value['info']['p_business']
+                data['city'] = shop_value['info']['city__name']
+                data['area'] = shop_value['info']['area__name']
+                data['phone'] = user_info['phone']
+                data['name'] = user_info['name']
+                data['user_id'] = user_info['id']
+                data['order_code'] = order_code
 
-                    for i in range(0, int(v['number'])):
-                        models.Orders.objects.create(**data)
+                for i in range(0, int(shop_value['number'])):
+                    models.Orders.objects.create(**data)
     else:
         result_dict['status'] = 501
         result_dict['url'] = '/cart.html'
@@ -116,18 +120,23 @@ def buy_info(request):
 
 # 支付页面
 def pay(request, id):
+    default_city = request.session.get('default_city')
+    user_info = request.session.get('user_info')
     is_login = request.session.get('is_login')
     pay_obj = models.OrderPayment.objects.filter(id=id).first()
     if pay_obj:
         if pay_obj.status == 1:
             return redirect('user_order')
 
-        order_obj = models.Orders.objects.filter(order_code=pay_obj.order_code).values('order_code',
-                                                                                       'product_name',
-                                                                                       'number').all()
+        order_obj = models.Orders.objects.filter(order_code=pay_obj.order_code) \
+            .values('order_code',
+                    'product_name',
+                    'number').all()
         return render(request, 'shop/pay.html', {'order_obj': order_obj,
                                                  'is_login': is_login,
                                                  'pay_obj': pay_obj,
+                                                 'user_info': user_info,
+                                                 'default_city':default_city,
                                                  'title': title_dict['pay']})
     return redirect('web_index')
 
@@ -140,6 +149,7 @@ def pay_judgment(request, nid):
             result_dict['status'] = True
             result_dict['url'] = '/user/order.html'
             return JsonResponse(result_dict)
+
         else:
             result_dict['status'] = False
             result_dict['url'] = '/pay/pay_fail.html?pid={}'.format(nid)
@@ -255,6 +265,9 @@ def save_alipy_info(alipay_dict):
             line.save()
             order_serice_dict = {
                 'order_id': line.id,
+                'city': line.city,
+                'area': line.area,
+
             }
             models.OrderSerice.objects.create(**order_serice_dict)
 

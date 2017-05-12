@@ -31,6 +31,9 @@ urlpatterns = [
     url(r'news/(\d+)-(\d+).html', views.news.article, name='news_article'),
 
     url(r'product/(\d+).html', views.product.index, name='product_index'),
+    url(r'get_cat_product.html', views.product.get_cat_product, ),
+    url(r'get_product.html', views.product.get_product, ),
+    url(r'product_city.html', views.product.product_city),
     url(r'product/buy.html', views.product.buy, name='product_buy'),
     url(r'get_city.html', views.product.get_city, ),
     url(r'get_town/(\d+).json', views.product.get_town, ),
@@ -50,6 +53,8 @@ urlpatterns = [
     url(r'alipay/notify/', views.pay.alipay_notify_url, name='alipay_notify_url'),
 
     # url(r'news/-(/d+)-(/d+).html', views.news.article, name='news_article'),
+
+    url('api/products/areas/(\d+)', views.api.get_area, ),
 
     url(r'', views.index.index, name='web_index'),
 

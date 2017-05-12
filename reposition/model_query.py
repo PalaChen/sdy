@@ -9,10 +9,8 @@ def login_user_query(obj):
         return user_obj
 
 
-def login_employee_query(obj):
-    email = obj.get('email')
-    password = obj.get('password')
-    employee_obj = models.Employees.objects.filter(email=email, password=password).values('id', 'email', 'name').first()
+def login_employee_query(data):
+    employee_obj = models.Employees.objects.filter(**data).values('id', 'email', 'name').first()
 
     if employee_obj:
         return employee_obj
@@ -26,8 +24,11 @@ def query_all(tb_name):
 def order_counts(phone):
     data = {}
     order_count = models.Orders.objects.raw(
-        """SELECT t.id,t.order_state,COUNT(t.id) AS counts  FROM (SELECT id,order_code,order_state FROM orders WHERE phone=phone GROUP BY order_state,order_code) AS t  GROUP BY order_state""")
+        """SELECT t.id,t.order_state,COUNT(t.id) AS counts  FROM (SELECT id,order_code,order_state FROM orders WHERE phone={} GROUP BY order_state,order_code) AS t  GROUP BY order_state""" \
+            .format(phone))
+
     for line in order_count:
+
         if line.order_state == 0:
             data['pending_pay'] = line.counts
         elif line.order_state == 1:

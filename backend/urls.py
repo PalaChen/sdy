@@ -63,7 +63,7 @@ urlpatterns = [
 
     url(r'^product.html', views.product.product, name='product_all'),
     url(r'^product_add.html', views.product.product_add, name='product_add'),
-    url(r'^get_city_info.html', views.product.get_city_info,),
+    url(r'^get_city_info.html', views.product.get_city_info, ),
     url(r'^product_edit/(\d+).html', views.product.product_edit, name='product_edit'),
     url(r'^product_del/(\d+).html', views.product.product_del, name='product_del'),
     url(r'^product/image.html', views.product.product_image_upload, name='product_image'),
@@ -79,6 +79,9 @@ urlpatterns = [
     url(r'^site/nav_add.html$', views.site.nav_add, name='nav_add_index'),
     url(r'^site/nav_edit.html$', views.site.nav_edit, name='nav_edit_index'),
     url(r'^site/nav_del/(\d+).html$', views.site.nav_del, name='nav_del_index'),
+
+    url(r'^site/product_recommendation.html$', views.site.product_recommend, name='product_recommendation'),
+
     # 系统机构
     url(r'org/position.html', views.organization.position_index, name='org_position'),
     url(r'org/position_add.html', views.organization.position_add, name='position_add'),
@@ -96,5 +99,5 @@ urlpatterns = [
     # 区域
     url(r'area.html', views.area.area_index, name='area_index'),
     url(r'area_add.html', views.area.area_add, name='area_add'),
-    url(r'area/citys.html', views.area.area_citys,),
+    url(r'area/citys.html', views.area.area_citys, ),
 ]

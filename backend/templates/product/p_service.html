@@ -26,7 +26,7 @@
                 <td>{{ line.ctime|date:'Y-m-d H:i:m' }}</td>
                 <td>
                     <a class="initialize btn glyphicon glyphicon-pencil" href="{% url 'p_service_edit' line.id %}"></a>
-                    <a class="initialize btn glyphicon glyphicon-remove" href="{% url 'p_service_del' line.id %}"></a>
+{#                    <a class="initialize btn glyphicon glyphicon-remove" href="{% url 'p_service_del' line.id %}"></a>#}
                 </td>
             </tr>
         {% endfor %}

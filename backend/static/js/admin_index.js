@@ -10,7 +10,8 @@ $(function () {
     //bindGetMenu();
 });
 
-clickState = 0;//初始化点击状态
+var clickState = 0;  //初始化点击状态
+
 // 把label变成一个input框
 function bindChangeInput() {
     $('#department_info .glyphicon-pencil').on('click', function () {
@@ -296,9 +297,9 @@ function get_Modal_Edit_Info(ths, modal, type) {
                 console.log(k, v);
                 $(modal + " input[name='" + k + "']").val(v);
             }
-        })
+        });
         var v1 = ths.parent().parent().attr('prev_id');
-        $(modal + " select[name='cate_rootid']").val(v1);
+        $(modal + " select[name='root_id']").val(v1);
         var v2 = ths.parent().parent().attr('nid');
         $(modal + " input[name='nid']").val(v2);
     }
@@ -450,8 +451,8 @@ function send_Ajax_AddInfo(url, data, modal) {
         data: $(data).serialize(),
         success: function (arg) {
             if (arg['status'] == 200) {
+                modal.modal('hide');
                 window.location.reload();
-                //modal.modal('hide');
                 //alert(arg['message']);
             } else {
                 alert(arg['message'])

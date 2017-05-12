@@ -15,8 +15,13 @@ Including another URLconf
 """
 from django.conf.urls import url, include
 from django.contrib import admin
+from .views import *
 from app.views import index
 from backend.views import site
+
+
+handler404 = page_not_found
+handler500 = page_error
 
 urlpatterns = [
     # url(r'^admin/', admin.site.urls),

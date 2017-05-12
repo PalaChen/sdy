@@ -19,10 +19,10 @@
                         prev_id="{{ row.root_id }}">
                         <div>
                             <span class="category_name glyphicon glyphicon-triangle-bottom"
-                                  for="cate_name">
+                                  for="name">
                                 {{ row.name }}
                             </span>
-                            <span class="category_name1" for="cate_sort">{{ row.sort }}</span>
+                            <span class="category_name1" for="sort">{{ row.sort }}</span>
                             <a class="initialize btn  btn_edit glyphicon glyphicon-pencil"></a>
                             <a class="initialize btn  glyphicon glyphicon-remove btn_del"
                                onclick="del(this)"></a>
@@ -35,8 +35,8 @@
                                 prev_id="{{ row_p.root_id }}">
                                 <div>
                                     <span class="category_name_1 glyphicon glyphicon-triangle-bottom"
-                                          for="cate_name">    {{ row_p.name }}</span>
-                                    <span class="category_name1" for="cate_sort">{{ row_p.sort }}</span>
+                                          for="name">    {{ row_p.name }}</span>
+                                    <span class="category_name1" for="sort">{{ row_p.sort }}</span>
                                     <a class="initialize btn glyphicon glyphicon-pencil btn_edit"></a>
                                     <a class="initialize btn glyphicon glyphicon-remove btn_del"
                                        onclick="del(this)"></a>
@@ -48,12 +48,11 @@
                                         prev_id="{{ row_c.parent_id }}">
                                         <div>
                                         <span class="category_name_2 glyphicon glyphicon-triangle-right"
-                                              for="cate_name">    {{ row_c.name }}</span>
+                                              for="name">    {{ row_c.name }}</span>
                                                 <span class="category_name1"
-                                                      for="cate_sort">{{ row_c.sort }}</span>
+                                                      for="sort">{{ row_c.sort }}</span>
                                             <a class="initialize btn glyphicon glyphicon-pencil btn_edit"></a>
-                                            <a class="initialize btn glyphicon glyphicon-remove btn_del"
-                                               onclick="del(this)"></a>
+                                            <a class="initialize btn glyphicon glyphicon-remove btn_del" onclick="del(this)"></a>
                                         </div>
                                     </li>
                                 {% endif %}
@@ -114,12 +113,12 @@
                         <div class="form-group">
                             <label>编号</label>
                             <input type="text" class="form-control hide" name="nid">
-                            <input type="text" class="form-control" placeholder="数字越大，排序越靠前" name="cate_sort"
+                            <input type="text" class="form-control" placeholder="数字越大，排序越靠前" name="sort"
                                    required="">
                         </div>
                         <div class="form-group">
                             <label>分类名称</label>
-                            <input type="text" class="form-control" name="cate_name" required="">
+                            <input type="text" class="form-control" name="name" required="">
                         </div>
                         <div class="form-group">
                             <label>选择服务</label>

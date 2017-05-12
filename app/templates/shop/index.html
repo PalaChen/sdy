@@ -32,7 +32,7 @@
                                                 </div>
                                                 <div class="area">
                                                     <em>地区：</em>
-                                                    <span>北京-朝阳区</span>
+                                                    <span>{{ v.info.city__name }}-{{ v.info.area__name }}</span>
                                                 </div>
                                             </div>
                                         </li>
@@ -42,7 +42,7 @@
                                         <li class="shopp-num">
                                             <div class="numAddSubtract overflowhidden">
                                                 <a class="subtract notChoose productReduce">-</a>
-                                                <input class="t-productNum" value="{{ v.info.number }}" name="number"
+                                                <input class="t-productNum" value="{{ v.number }}" name="number"
                                                        style="width:40px;"
                                                        category="product" p_price="{{ v.info.p_price }}" vprice="0"
                                                        nid="{{ k }}" type="text">

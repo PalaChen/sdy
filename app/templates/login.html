@@ -29,22 +29,21 @@
                 {% csrf_token %}
                 <ul class="relative" style="left:100px;">
                     <li class="register-li">
-                            <span>
-                            <input id="usermobile" maxlength="11" name="phone" type="text">
-                            </span>
+                        <span>
+                            <input  maxlength="11" name="phone" type="text">
+                        </span>
                         <label class="register-li-span" for="usermobile">手机号码</label>
                         <div class="register-li-1 tishi-1" style="display: none">请输入手机号</div>
                         <div class="register-li-3 chenggong-1"></div>
                     </li>
                     <li class="register-li">
                         <span>
-                        <input id="password" name="password" type="password">
+                            <input id="password" name="password" type="password">
                         </span>
                         <label class="register-li-span" for="password">密码</label>
                         <div class="register-li-1 tishi-2" style="display: none">请输入密码</div>
                         <div class="register-li-3 chenggong-2"></div>
                     </li>
-                    <input name="returnUrl" value="" type="hidden">
                     <li class="register-li-checkbox">
                         <label for="">
                             <input name="remember" value="1" type="checkbox">
@@ -52,6 +51,11 @@
                         </label>
                         <a class="forget-pass" href="{% url 'forgetpass' %}" target="_blank">忘记密码？</a>
                     </li>
+                    {% if error %}
+                        <li class="register-li">
+                            <span style="color:  red">{{ error }}</span>
+                        </li>
+                    {% endif %}
                     <li class="register-li">
                         <button id="regButton" class="reg-now" type="submit">登录</button>
                     </li>

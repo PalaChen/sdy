@@ -1,0 +1,64 @@
+{% extends 'master_b/layout.html' %}
+
+{% block page_content %}
+    <div class="col-md-4">
+        <form method="post">
+            {% csrf_token %}
+            <div class="form-group">
+                <label>服务名</label>
+                <input class="form-control" name="name" type="text" required="" value="{{ service_obj.name }}">
+            </div>
+            <div style="color: red">
+                {{ form.errors.name.0 }}
+            </div>
+            <div class="form-group">
+                <label>编号</label>
+                <input class="form-control" name="number" type="text" required="" value="{{ service_obj.number }}">
+                {{ form.errors.number.0 }}
+            </div>
+            <div style="color: red">
+                {{ form.errors.number.0 }}
+            </div>
+            <div class="form-group">
+                <label>服务分类</label>
+                <select class="form-control" name="root_id">
+                    <option value="">---------------------</option>
+                    {% for line in select_obj %}
+                        {% if line.id == service_obj.root_id %}
+                            <option value="{{ line.id }}" selected="">{{ line.name }}</option>
+                        {% else %}
+                            <option value="{{ line.id }}">{{ line.name }}</option>
+                        {% endif %}
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="form-group">
+                <label>续费提醒</label>
+            </div>
+            <div>
+                {% if service_obj.renewal_reminder == 0 %}
+                    <label class="radio-inline">
+                        <input type="radio" name="renewal_reminder" value="0" checked> 不提醒
+                    </label>
+                    <label class="radio-inline">
+                        <input type="radio" name="renewal_reminder" value="1"> 提醒
+                    </label>
+                {% else %}
+                    <label class="radio-inline">
+                        <input type="radio" name="renewal_reminder" value="0"> 不提醒
+                    </label>
+                    <label class="radio-inline">
+                        <input type="radio" name="renewal_reminder" value="1" checked> 提醒
+                    </label>
+                {% endif %}
+            </div>
+            <div style="color: red">
+                {{ form.errors.renewal_reminder.0 }}
+            </div>
+            <div class="form-group" style="margin-top: 40px">
+                <button name="submit" type="submit" class="btn btn-primary">修改服务</button>
+                <span class="btn btn-default" onclick="location.href='{% url 'p_service' %}'">取消</span>
+            </div>
+        </form>
+    </div>
+{% endblock %}

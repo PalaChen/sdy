@@ -258,8 +258,8 @@ class Orders(models.Model):
     # 业务ID
     p_business = models.ForeignKey('ProcessStep')
     province = models.CharField(max_length=20, null=True)
-    city = models.CharField(max_length=20, null=True)
-    area = models.CharField(max_length=20, null=True)
+    city = models.CharField(max_length=64, null=True)
+    area = models.CharField(max_length=64, null=True)
     employee = models.ForeignKey(Employees, models.DO_NOTHING, null=True)
 
     class Meta:
@@ -279,7 +279,7 @@ class OrderPayment(models.Model):
     user = models.ForeignKey('Users', verbose_name='支付用户')
     status_choice = ((0, '待支付'), (1, '支付成功'), (2, '支付失败'), (3, '交易关闭'))
     status = models.SmallIntegerField(choices=status_choice, default=0, verbose_name='支付状态')
-    total_price = models.FloatField(default=0, verbose_name='总价格')
+    total_price = models.FloatField(verbose_name='总价格')
     coupon_price = models.IntegerField(default=0, verbose_name='优惠价格')
     pay_price = models.FloatField(default=0, verbose_name='支付价格')
     payment_choice = ((0, '支付宝'), (1, '微信'), (2, '线下支付'), (3, '网银支付'))
@@ -297,7 +297,7 @@ class PaymengAlipy(models.Model):
     """
     阿里支付
     """
-    pay = models.ForeignKey('OrderPayment',null=True)
+    pay = models.ForeignKey('OrderPayment')
     out_trade_no = models.CharField(max_length=20, verbose_name='订单号')
     trade_no = models.CharField(max_length=30, verbose_name='支付宝单号')
     trade_status = models.CharField(max_length=18, verbose_name='交易状态')
@@ -326,6 +326,8 @@ class OrderSerice(models.Model):
     ctime = models.DateTimeField(auto_now_add=True, verbose_name='创建时间')
     start_time = models.DateTimeField(null=True, verbose_name='分配时间')
     end_time = models.DateTimeField(null=True, verbose_name='完成时间')
+    city = models.CharField(max_length=64, verbose_name='城市')
+    area = models.CharField(max_length=64, verbose_name='地区')
 
     class Meta:
         db_table = 'order_serice'
@@ -415,8 +417,8 @@ class ProductCategory(models.Model):
     name = models.CharField(max_length=20, verbose_name='分类名字')
     count = models.IntegerField(db_column='cate_Count', default=0, verbose_name='文章数量')
     employee = models.ForeignKey(Employees, db_column='cate_Employee_id', verbose_name='创建员工')
-    root_id = models.IntegerField(db_column='cate_RootID', default=0, )
-    parent_id = models.IntegerField(db_column='cate_ParentID', default=0)
+    root_id = models.SmallIntegerField(db_column='cate_RootID', default=0, )
+    parent_id = models.SmallIntegerField(db_column='cate_ParentID', default=0)
     sort = models.IntegerField(db_column='cate_Sort', default=0, verbose_name='权重')
     date = models.DateTimeField(db_column='cate_Date', auto_now_add=True, verbose_name='创建日期')
 
@@ -468,22 +470,22 @@ class Products(models.Model):
     """
     产品表
     """
-    p_name = models.CharField(db_column='p_Name', max_length=50, )
+    p_name = models.CharField(db_column='p_Name', max_length=64, )
     p_price = models.FloatField(db_column='p_Price', )
     p_market_price = models.FloatField(db_column='p_Market_Price', null=True)
-    p_details = models.TextField(db_column='p_Details', )
+    p_details = models.TextField(db_column='p_Details', verbose_name='产品内容')
     p_putaway_choices = ((0, '下线'), (1, '上线'))
     p_putaway = models.SmallIntegerField(db_column='p_Putaway', choices=p_putaway_choices, default=1)
+    p_top_choices = (0, '不推荐'), (1, '推荐')
+    p_top = models.SmallIntegerField(db_column='p_Top', choices=p_top_choices, default=0)
     p_seo_keyword = models.CharField(db_column='p_Seo_Keyword', max_length=100, null=True)
     p_seo_description = models.CharField(db_column='p_Seo_Description', max_length=200, null=True)
     p_ctime = models.DateTimeField(null=True, auto_now_add=True)
     p_category = models.ForeignKey(ProductCategory, models.DO_NOTHING, db_column='p_Category_id', )
-    p_top_choices = ((0, '不置顶'), (1, '置顶'))
-    p_top = models.SmallIntegerField(db_column='p_Top', choices=p_top_choices, default=0)
     p_employee = models.ForeignKey(Employees, models.DO_NOTHING, db_column='p_Employee_id', )
-    p_service = models.OneToOneField('ProductService', )
+    p_service = models.ForeignKey('ProductService', )
     p_business = models.ForeignKey('ProcessName', )
-    # city = models.ForeignKey('RegionalManagement', )
+    city = models.ForeignKey('RegionalManagement', related_name='regional_city')
     area = models.ForeignKey('RegionalManagement', )
 
     class Meta:
@@ -739,10 +741,35 @@ class RegionalManagement(models.Model):
     city = models.ForeignKey('China')
     code = models.IntegerField()
     name = models.CharField(max_length=30)
-    rid = models.IntegerField(default=0)
-    pid = models.IntegerField(default=0)
+    r_code = models.IntegerField(null=True)
+    p_code = models.IntegerField(null=True)
 
     class Meta:
         db_table = 'regional_management'
         verbose_name = '区域管理'
         verbose_name_plural = '区域管理'
+
+    def __str__(self):
+        return self.name
+
+
+class Product2area(models.Model):
+    product = models.ForeignKey('Products')
+    area = models.ForeignKey('RegionalManagement')
+    p_price = models.FloatField(db_column='p_Price', )
+    p_market_price = models.FloatField(db_column='p_Market_Price', null=True)
+
+    class Meta:
+        db_table = 'product_to_area'
+
+
+class ProductRecommend(models.Model):
+    product = models.ForeignKey('Products')
+    name = models.CharField(max_length=64, verbose_name='产品名字')
+    price = models.FloatField(verbose_name='价格')
+    description = models.CharField(max_length=100, verbose_name='描述')
+    status_choices = ((0, '推荐'), (1, '下线'))
+    status = models.SmallIntegerField(choices=status_choices,default=0,verbose_name='状态')
+
+    class Meta:
+        db_table = 'product_recommend'

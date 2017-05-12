@@ -45,9 +45,9 @@
                                            type="password">
                                 </li>
                             </ul>
-                            {% if result_dict.message %}
+                            {% if error %}
                                 <div style="color: red">
-                                    {{ result_dict.message }}
+                                    {{ error }}
                                 </div>
                             {% endif %}
                             <div class="forget clearfix pb15">
