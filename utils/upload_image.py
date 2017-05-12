@@ -46,10 +46,11 @@ def ckedit_upload_image(req, type):
                 f.write(line)
 
         # res_dict['url'] = r'\{}'.format(file_path)
-        url = r'\{}'.format(file_path)
+
         if platform.system() == 'Windows':
+            url = r'\{}'.format(file_path)
             url = url.replace('\\', '/')
             res_dict['url'] = url
         elif platform.system() == 'Linux':
-            res_dict['url'] = url
+            res_dict['url'] = r'/{}'.format(file_path)
         return res_dict

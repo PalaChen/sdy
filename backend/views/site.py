@@ -134,6 +134,7 @@ def nav_add(req):
             nav_obj = models.IndexNav.objects.filter(name=data['name']).first()
             if not nav_obj:
                 models.IndexNav.objects.create(**data)
+                result_dict['status'] = 200
                 result_dict['message'] = '导航添加成功'
                 return JsonResponse(result_dict)
         else:
@@ -145,12 +146,29 @@ def nav_add(req):
 
 @login_required
 def nav_edit(request):
-    pass
+    if request.method == 'POST':
+        form = NavForm(request.POST)
+        if form.is_valid():
+            id = request.POST.get('nid')
+            data = form.cleaned_data
+            data['employee_id'] = request.session.get('user_info')['employee_id']
+            nav_obj = models.IndexNav.objects.filter(id=id).first()
+            if nav_obj:
+                models.IndexNav.objects.filter(id=id).update(**data)
+                result_dict['status'] = 200
+                result_dict['message'] = '导航修改成功'
+                return JsonResponse(result_dict)
+        else:
+            # print(form.errors)
+            result_dict['message'] = list(form.errors.values())[0][0]
+    result_dict['status'] = False
+    return JsonResponse(result_dict)
 
 
 @login_required
 def nav_del(request, id):
-    pass
+    res = modal_del.query_del(request, models.IndexNav, id)
+    return HttpResponse(res)
 
 
 def product_recommend(request, *arg, **kwargs):

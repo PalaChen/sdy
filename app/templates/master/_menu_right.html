@@ -1,7 +1,13 @@
 <div class="floatLeft kfwNavs">
     <!--<a href="/">首页</a>-->
     {% for line in nav_list %}
-        <a href="{{ line.url }}">{{ line.name }}</a>
+        {% if line.ishot == 1 %}
+            <a href="{{ line.url }}">{{ line.name }}
+                <img class="hotNew" src="/static/images/icon/hot.gif">
+            </a>
+        {% else %}
+            <a href="{{ line.url }}">{{ line.name }}</a>
+        {% endif %}
     {% endfor %}
     <span class="floatRight telephone">0757-22104040</span>
 </div>

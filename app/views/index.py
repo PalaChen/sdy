@@ -21,8 +21,8 @@ def index(req):
     is_login = None
     if req.method == 'GET':
         bxSlider = models.Bxslider.objects.filter(status=1).order_by('weight').all()
-        articles_list = models.Articles.objects.order_by('-ctime').values('id', 'category_id', 'title')[0:6]
-        nav_list = models.IndexNav.objects.order_by('-weight').values('name', 'url')[0:6]
+        articles_list = models.Articles.objects.order_by('-ctime').values('id', 'category_id', 'title')[0:9]
+        nav_list = models.IndexNav.objects.order_by('-weight').values('name', 'url', 'ishot')[0:6]
         city_obj = models.RegionalManagement.objects.filter(Q(r_code__isnull=False)).all()
         recommend_obj = models.Products.objects.filter(p_top=1).order_by('-p_ctime')[0:8]
         cate_dic = get_cate_dic()

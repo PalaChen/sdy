@@ -24,7 +24,7 @@ class BxsilderForm(forms.Form):
             'invalid': '请输入整数'
         }
     )
-    url = fields.CharField(error_messages={'required':'URL不能为空'})
+    url = fields.CharField(error_messages={'required': 'URL不能为空'})
 
 
 class BxsilderEditForm(forms.Form):
@@ -46,7 +46,8 @@ class BxsilderEditForm(forms.Form):
 
 
 class NavForm(forms.Form):
-    status = fields.IntegerField()
+    status = fields.IntegerField(error_messages={'invalid': '非法选择'})
+    ishot = fields.IntegerField(error_messages={'invalid': '非法选择'})
     name = fields.CharField(max_length=30, error_messages={'max_length': '超出长度',
                                                            'required': '名称不能为空',
                                                            })

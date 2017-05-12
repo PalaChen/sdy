@@ -12,6 +12,8 @@
                 <th>id</th>
                 <th>名字</th>
                 <th>权重</th>
+                <th>状态</th>
+                <th>是否热门</th>
                 <th>url</th>
                 <th>员工</th>
                 <th>日期</th>
@@ -21,13 +23,13 @@
             <tbody>
             {% for line in nav_obj %}
                 <tr for="index_nav" nid="{{ line.id }}">
-                    <td for="id">{{ line.id }}</td>
+                    <td for="nid">{{ line.id }}</td>
                     <td for="name">{{ line.name }}</td>
-                    <td for="sort">{{ line.weight }}</td>
-                    <td for="status">
-                        {{ line.get_status_display }}
-                    </td>
-                    <td for="employee_id">{{ line.employee_name }}</td>
+                    <td for="weight">{{ line.weight }}</td>
+                    <td for="status">{{ line.get_status_display }}</td>
+                    <td for="ishot">{{ line.get_ishot_display }}</td>
+                    <td for="url">{{ line.url }}</td>
+                    <td for="employee_id">{{ line.employee.name }}</td>
                     <td>{{ line.ctime|date:"Y-m-d H:i:s" }}</td>
                     <td>
                         <a class="initialize btn glyphicon glyphicon-pencil initialize"></a>
@@ -79,6 +81,15 @@
                                 <input type="radio" name="status" value="0">下架
                             </label>
                         </div>
+                        <div class="form-group form-inline">
+                            <label>热门：</label>
+                            <label class="radio-inline">
+                                <input type="radio" name="ishot" value="0" checked="">不热门
+                            </label>
+                            <label class="radio-inline">
+                                <input type="radio" name="ishot" value="1">热门
+                            </label>
+                        </div>
 
 
                     </form>
@@ -98,12 +109,12 @@
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
                             aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title">修改主页轮播图</h4>
+                    <h4 class="modal-title">修改首页导航</h4>
                 </div>
                 <div class="modal-body">
                     <form id="fm_body1" method="post">
                         {% csrf_token %}
-
+                        <input type="hidden" name="nid" class="form-control">
                         <div class="form-group form-inline">
                             <label>权重：</label>
                             <input type="text" class="form-control" placeholder="数字越大越靠前" name="weight">
@@ -111,12 +122,12 @@
                         </div>
                         <div class="form-group form-inline">
                             <label>名称：</label>
-                            <input type="file" name="img" class="name">
+                            <input type="text" name="name" class="form-control">
                             <span style="color: red">{{ form.errors.name.0 }}</span>
                         </div>
                         <div class="form-group form-inline">
                             <label>网址：</label>
-                            <input type="file" name="img" class="url">
+                            <input type="text" name="url" class="form-control">
                             <span style="color: red">{{ form.errors.url.0 }}</span>
                         </div>
                         <div class="form-group form-inline">
@@ -128,13 +139,22 @@
                                 <input type="radio" name="status" value="0">下架
                             </label>
                         </div>
+                        <div class="form-group form-inline">
+                            <label>热门：</label>
+                            <label class="radio-inline">
+                                <input type="radio" name="ishot" value="0" checked="">不热门
+                            </label>
+                            <label class="radio-inline">
+                                <input type="radio" name="ishot" value="1">热门
+                            </label>
+                        </div>
 
 
                     </form>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-                    <button type="button" class="btn btn-primary btn_Save">保存</button>
+                    <button type="button" class="btn btn-primary btn_send_add">保存</button>
                 </div>
             </div>
         </div>

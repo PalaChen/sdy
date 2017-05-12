@@ -138,12 +138,14 @@
                 </div>
                 <div id="productOnLine" style="display:block;">
                     <div class="price">
-                        <div id="costprice" class="market-price clearfix" style="">
-                            <div class="dt">市场价：</div>
-                            <div class="dd">
-                                <del id="costprice2">￥{{ product_obj.p_market_price }}</del>
+                        {% if product_obj.p_market_price %}
+                            <div id="costprice" class="market-price clearfix" style="">
+                                <div class="dt">市场价：</div>
+                                <div class="dd">
+                                    <del id="costprice2">￥{{ product_obj.p_market_price }}</del>
+                                </div>
                             </div>
-                        </div>
+                        {% endif %}
                         <div class="summary-price clearfix">
                             <div class="dt">价 格：</div>
                             <div class="dd">

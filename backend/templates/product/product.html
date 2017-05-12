@@ -14,6 +14,7 @@
             <th>价格</th>
             <th>市场价格</th>
             <th>上架</th>
+            <th>推荐</th>
             <th>城市</th>
             <th>分类名称</th>
             <th>服务名称</th>
@@ -36,6 +37,7 @@
                 <td>{{ line.p_price }}</td>
                 <td>{{ line.p_market_price }}</td>
                 <td>{{ line.get_p_putaway_display }}</td>
+                <td>{{ line.get_p_top_display }}</td>
                 <td>{{ line.area.name }}</td>
                 <td>{{ line.p_category.name }}</td>
                 <td>{{ line.p_service.name }}</td>

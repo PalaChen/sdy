@@ -95,6 +95,10 @@ function bindShowModalGenernal() {
             var model = '#Model_EditInfo';
             $(model).modal('show');
         }
+        else if (type == 'index_nav') {
+            var model = '#Model_EditInfo';
+            $(model).modal('show');
+        }
         get_Modal_Edit_Info($(this), model, type)
     });
     // 删除模态框
@@ -256,6 +260,10 @@ function bindOnlyClick() {
                 url = '/admin/keyword_edit.html';
                 data = $('#fm_edit');
             }
+            else if (type == 'nav_edit') {
+                url = '/admin/site/nav_edit.html';
+                data = $('#fm_body1');
+            }
             setTimeout(send_Ajax_AddInfo(url, data, modal), 3000);
         }
     });
@@ -294,7 +302,7 @@ function get_Modal_Edit_Info(ths, modal, type) {
             if (ths.attr('for') != 'undefined') {
                 var v = $(this).text().trim();
                 var k = $(this).attr('for');
-                console.log(k, v);
+                //console.log(k, v);
                 $(modal + " input[name='" + k + "']").val(v);
             }
         });
@@ -308,8 +316,33 @@ function get_Modal_Edit_Info(ths, modal, type) {
             if (ths.attr('for') != 'undefined') {
                 var v = $(this).text().trim();
                 var k = $(this).attr('for');
-                //console.log(k, v);
-                $(modal + " input[name='" + k + "']").val(v);
+                // 主页导航
+                if (type == 'index_nav') {
+                    if (k == 'status') {
+                        if (v == '上架') {
+                            $(modal + " input[name='" + k + "'][value='1']").prop("checked", "checked");
+                        }
+                        else {
+                            $(modal + " input[name='" + k + "'][value='0']").prop("checked", "checked");
+                        }
+                    }
+                    else if (k == 'ishot') {
+                        if (v == '热门') {
+                            $(modal + " input[name='" + k + "'][value='1']").prop("checked", "checked");
+                        }
+                        else {
+                            $(modal + " input[name='" + k + "'][value='0']").prop("checked", "checked");
+                        }
+                    }
+                    else {
+                        $(modal + " input[name='" + k + "']").val(v);
+                        //console.log(k,v)
+                    }
+                }
+                else {
+                    $(modal + " input[name='" + k + "']").val(v);
+                }
+
             }
         })
     }
@@ -358,7 +391,7 @@ function bindUploadSave(modal, type) {
             });
             var v1 = $(modal + ' .modal-body').find("input[name='status']:checked").val();
             var csrf = $(modal + ' .modal-body').find("input[name='csrfmiddlewaretoken']").val();
-            data.append('csrfmiddlewaretoken',csrf);
+            data.append('csrfmiddlewaretoken', csrf);
             data.append('status', v1);
             data.append('img', file_obj);
 
@@ -384,7 +417,7 @@ function send_Add_Ajax_Info(url, data, modal) {
         contentType: false,
         success: function (arg) {
             if (arg['status'] == true) {
-                alert(arg['message']);
+                //alert(arg['message']);
                 $(modal).modal('hide');
                 window.location.reload()
             }
@@ -413,6 +446,10 @@ function Del_Confirm_Sub(modal, type, nid, ths) {
     }
     else if (type == 'product') {
         url = '/admin/product_del/' + nid + '.html';
+    }
+    else if (type == 'index_nav') {
+        url = '/admin/site/nav_del/' + nid + '.html';
+
     }
     $(modal + ' .btn-danger').click(function () {
         if (clickState == 1) {

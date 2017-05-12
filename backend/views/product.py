@@ -383,12 +383,13 @@ def product_ck_image(req):
 
 
 # 产品修改
-
+@login_required
 def product_edit(req, id):
     product_obj = models.Products.objects.filter(id=id).first()
     product_dict = {'p_name': product_obj.p_name, 'p_category_id': product_obj.p_category_id,
                     'p_service_id': product_obj.p_service_id, 'p_business_id': product_obj.p_business_id,
                     'city_code': product_obj.city.code, 'area_code': product_obj.area.code,
+                    'p_top': product_obj.p_top, 'p_putaway': product_obj.p_putaway,
                     'p_price': product_obj.p_price, 'p_market_price': product_obj.p_market_price,
                     'p_seo_keyword': product_obj.p_seo_keyword, 'p_seo_description': product_obj.p_seo_description,
                     'p_details': product_obj.p_details,}

@@ -130,7 +130,7 @@ class ProductForm(forms.Form):
                                        error_messages={'required': '服务类型必须选择一个',
                                                        'invalid': '无效选择'
                                                        })
-    p_putaway = fields.ChoiceField(choices=((1, '上线'), (0, '下线')),
+    p_putaway = fields.ChoiceField(choices=((1, '上架'), (0, '下架')),
                                    widget=widgets.Select(attrs={'class': 'form-control'}),
                                    error_messages={'invalid': '无效选择'})
     p_top = fields.ChoiceField(choices=((0, '不推荐'), (1, '推荐')),

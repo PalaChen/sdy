@@ -24,7 +24,7 @@ class UsersAdmin(admin.BaseCxmAdmin):
 
 class EmployeesAdmin(admin.BaseCxmAdmin):
     list_display = ['email', 'name', 'job_number', 'department', 'position', 'phone', 'qq', 'wechat', 'gender',
-                    'birthday', 'entry_time', 'last_time']
+                    'birthday', 'entry_time', ]
     list_filter = ['gender', 'department', 'position', ]
     search_fields = ['name', 'department', 'position', 'phone']
     readonly_fields = ['last_time', 'reg_time', 'last_ip', 'role']

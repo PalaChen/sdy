@@ -21,15 +21,21 @@ def index(req, id):
         product_obj = get_object_or_404(models.Products, id=id)
         default_city = {'city_id': product_obj.city_id, 'city': product_obj.city.name, 'area_id': product_obj.area_id}
         req.session['default_city'] = default_city
-    service = get_object_or_404(models.ProductService, id=product_obj.p_service_id)
-    service_obj = models.ProductService.objects.filter(root_id=service.root_id).all()
+
+    if product_obj.p_service:
+
+        service = get_object_or_404(models.ProductService, id=product_obj.p_service_id)
+        service_obj = models.ProductService.objects.filter(root_id=service.root_id).all()
+    else:
+        service_obj = ''
+    # 城市列表
     city_obj = models.RegionalManagement.objects.filter(Q(r_code__isnull=False)).all()
+    # 导航
     nav_list = models.IndexNav.objects.order_by('-weight').values('name', 'url')[0:6]
 
     # 商品详情页左侧推信息
     category_obj = models.ProductCategory.objects.filter(Q(parent_id__gt=0)).all()
     products_obj = models.Products.objects.filter(area_id=default_city['area_id']).all()
-
     return render(req, 'product/index2.html', {'product_obj': product_obj,
                                                'cate_dic': cate_dic,
                                                'nav_list': nav_list,

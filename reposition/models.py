@@ -474,7 +474,7 @@ class Products(models.Model):
     p_price = models.FloatField(db_column='p_Price', )
     p_market_price = models.FloatField(db_column='p_Market_Price', null=True)
     p_details = models.TextField(db_column='p_Details', verbose_name='产品内容')
-    p_putaway_choices = ((0, '下线'), (1, '上线'))
+    p_putaway_choices = ((0, '下架'), (1, '上架'))
     p_putaway = models.SmallIntegerField(db_column='p_Putaway', choices=p_putaway_choices, default=1)
     p_top_choices = (0, '不推荐'), (1, '推荐')
     p_top = models.SmallIntegerField(db_column='p_Top', choices=p_top_choices, default=0)
@@ -483,7 +483,7 @@ class Products(models.Model):
     p_ctime = models.DateTimeField(null=True, auto_now_add=True)
     p_category = models.ForeignKey(ProductCategory, models.DO_NOTHING, db_column='p_Category_id', )
     p_employee = models.ForeignKey(Employees, models.DO_NOTHING, db_column='p_Employee_id', )
-    p_service = models.ForeignKey('ProductService', )
+    p_service = models.ForeignKey('ProductService', null=True)
     p_business = models.ForeignKey('ProcessName', )
     city = models.ForeignKey('RegionalManagement', related_name='regional_city')
     area = models.ForeignKey('RegionalManagement', )
@@ -560,8 +560,10 @@ class IndexNav(models.Model):
     name = models.CharField(max_length=100, verbose_name='名称')
     weight = models.IntegerField(default=0, verbose_name='权重')
     url = models.CharField(max_length=100, verbose_name='网址')
-    nav_status_choice = ((0, '下线'), (1, '上线'))
+    nav_status_choice = ((0, '下架'), (1, '上架'))
     status = models.SmallIntegerField(default=1, choices=nav_status_choice, verbose_name='状态')
+    ishot_choice = ((0, '不热门'), (1, '热门'))
+    ishot = models.SmallIntegerField(choices=ishot_choice, verbose_name='热门')
     employee = models.ForeignKey('Employees', verbose_name='创建人')
     ctime = models.DateTimeField(auto_now_add=True, verbose_name='创建时间')
 
@@ -769,7 +771,7 @@ class ProductRecommend(models.Model):
     price = models.FloatField(verbose_name='价格')
     description = models.CharField(max_length=100, verbose_name='描述')
     status_choices = ((0, '推荐'), (1, '下线'))
-    status = models.SmallIntegerField(choices=status_choices,default=0,verbose_name='状态')
+    status = models.SmallIntegerField(choices=status_choices, default=0, verbose_name='状态')
 
     class Meta:
         db_table = 'product_recommend'
