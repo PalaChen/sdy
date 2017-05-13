@@ -101,24 +101,23 @@ def p_category_edit(req):
         form = ProCategoryForm(req.POST)
         if form.is_valid():
             data = form.cleaned_data
-            print(data)
             nid = req.POST.get('nid')
             category_obj = models.ProductCategory.objects.filter(id=nid).first()
             if category_obj:
                 data['employee_id'] = req.session.get('user_info')['employee_id']
                 id = data['root_id']
-                root_id = models.ProductCategory.objects.filter(root_id=0).values('id')
-                if id in root_id:
-                    data['root_id'] = 0
+                if category_obj.root_id != 0:
+                    data['root_id'] = id
                 else:
                     data['root_id'] = 0
                     data['parent_id'] = id
-                    try:
-                        models.ProductCategory.objects.filter(id=nid).update(**data)
-                        res_dict['message'] = '分类修改成功'
-                    except Exception as e:
-                        res_dict['message'] = '非法数据操作'
-                        res_dict['status'] = 500
+                    # try:
+
+                models.ProductCategory.objects.filter(id=nid).update(**data)
+                res_dict['message'] = '分类修改成功'
+                    # except Exception as e:
+                    #     res_dict['message'] = '非法数据操作'
+                    #     res_dict['status'] = 500
         else:
             error = list(form.errors.values())[0][0]
             res_dict['message'] = error

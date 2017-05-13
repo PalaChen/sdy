@@ -5,7 +5,7 @@ import re
 
 
 def send_verification_code(phone, type):
-    verify_code = random.randint(0000, 9999)
+    verify_code = random.randint(1001, 9999)
     text = '验证码为：{},30分钟内有效。如非您本人操作，请忽略该短信。如需帮助，请拨打客服电话：0757-22104040'.format(verify_code)
     try:
         res = sms.send_sms(text, phone).decode('utf-8')

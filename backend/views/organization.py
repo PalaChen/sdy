@@ -5,7 +5,7 @@ from django.db import connection, connections
 from utils.login_admin import login_required, permission
 from cxmadmin import base
 from django.views.decorators.csrf import csrf_exempt
-from backend.forms.org import PositionForm,Permission2Action2roleForm
+from backend.forms.org import PositionForm, Permission2Action2roleForm
 
 result_dict = {'status': 200, 'message': None, 'data': None}
 title_dict = {'position_index': '组织机构',
@@ -166,33 +166,12 @@ def assign(req, id):
 
 def bind_permission(req):
     munu_dict = get_menu_dict()
+    permission_obj = models.Permission.objects.all()
     action_obj = models.Action.objects.all()
-    if req.method == 'POST':
-        permisssion_list = req.POST.getlist('permission_id')
-        action_list = req.POST.getlist('action_id')
-        data = {}
-        start_number = 0
-        for i in range(len(permisssion_list)):
-            try:
-                data['permission_id'] = permisssion_list.pop(0)
-            except IndexError:
-                break
-            for l in range(len(action_list)):
-                action = action_list.pop(0)
-                if start_number == 0:
-                    data['action_id'] = action
-                    start_number = 1
-                    models.Permission2Action.objects.create(**data)
-                else:
-                    if int(action) != 1:
-                        data['action_id'] = action
-                        models.Permission2Action.objects.create(**data)
-                    else:
-                        start_number = 0
-                        data['permission_id'] = permisssion_list.pop(0)
-                        data['action_id'] = action
-                        models.Permission2Action.objects.create(**data)
-                        break
+    for line in permission_obj:
+        for i in [1, 2, 3, 4]:
+            data = {'permission': line, 'action_id': i}
+            models.Permission2Action.objects.create(**data)
 
     return render(req, 'organization/assign.html', {'title': title_dict['assign'],
                                                     'munu_dict': munu_dict,

@@ -7,7 +7,8 @@ from reposition import models
 
 class ArticleForm(forms.Form):
     category_id = fields.IntegerField(
-        widget=widgets.Select(attrs={'class': 'form-control'})
+        widget=widgets.Select(attrs={'class': 'form-control'}),
+        error_messages={'required': '文章分类必须选择一个',}
     )
     title = fields.CharField(max_length=60, required=True,
                              error_messages={
@@ -17,7 +18,7 @@ class ArticleForm(forms.Form):
                              )
 
     status = fields.ChoiceField(choices=[(1, '公开'), (-1, '审核'), (0, '草稿')],
-                                error_messages={'invalid': '非法选择'},
+                                error_messages={'invalid': '非法选择','required':'必须选择一个文章状态'},
                                 widget=widgets.Select(attrs={'class': 'form-control'})
                                 )
     is_top = fields.ChoiceField(choices=[(0, '不置顶'), (1, '置顶')],
@@ -28,9 +29,7 @@ class ArticleForm(forms.Form):
                                error_messages={
                                    'required': '题目不能为空',
                                })
-    keyword = fields.CharField(
-        required=False
-    )
+    keyword = fields.CharField(required=False)
     summary = fields.CharField(max_length=300, error_messages={'max_length': '摘要长度最多300个字',
                                                                'required': '摘要不能为空',})
 

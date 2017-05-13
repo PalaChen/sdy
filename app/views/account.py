@@ -19,20 +19,23 @@ def login(req):
         form = account.LoginForm(req.POST)
         if form.is_valid():
             phone = req.POST.get('phone')
-            res = model_query.login_user_query(form)
-            if res:
-                ret = redirect(reverse('web_index'))
-                ret.set_cookie('user', phone, max_age=3600,
-                               expires=datetime.datetime.utcnow() + datetime.timedelta(5))
-                req.session['user_info'] = {'phone': phone, 'id': res['id'], 'name': res['name']}
-                req.session['is_login'] = 'true'
-                return ret
+            password = req.POST.get('password')
+            user_obj = models.Users.objects.filter(phone=phone).values('id', 'name', 'password').first()
+            if user_obj:
+                if user_obj['password '] == password:
+                    ret = redirect(reverse('web_index'))
+                    ret.set_cookie('user', phone, max_age=3600,
+                                   expires=datetime.datetime.utcnow() + datetime.timedelta(5))
+                    req.session['user_info'] = {'phone': phone, 'id': user_obj['id'], 'name': user_obj['name']}
+                    req.session['is_login'] = 'true'
+                    return ret
+                else:
+                    error = '账号密码输入有误，请重新输入'
             else:
-
-                error = '账号密码输入有误，请重新输入'
+                error = '该手机号码暂未注册，请先注册'
         else:
             error = list(form.errors.values())[0][0]
-    return render(req, 'login.html', {'form': form, 'error': error,'default_city':default_city})
+    return render(req, 'login.html', {'form': form, 'error': error, 'default_city': default_city})
 
 
 def login_ajax(request):
@@ -83,7 +86,7 @@ def register(request):
                     return redirect(reverse('web_index'))
                 else:
                     form_obj.errors['phone'] = ['手机号码已存在', ]
-    return render(request, 'register.html', {'form': form_obj,'default_city':default_city})
+    return render(request, 'register.html', {'form': form_obj, 'default_city': default_city})
 
 
 def register_ajax(request):
@@ -114,7 +117,7 @@ def forgetpass(request):
         form_obj, res = register_generate(data, request, form_obj, 'forgetpass')
         if not res:
             return render(request, 'forgetpass_2.html')
-    return render(request, 'forgetpass.html', {'form': form_obj,'default_city':default_city})
+    return render(request, 'forgetpass.html', {'form': form_obj, 'default_city': default_city})
 
 
 def register_generate(data, request, form, type):

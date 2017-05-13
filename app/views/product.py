@@ -31,7 +31,7 @@ def index(req, id):
     # 城市列表
     city_obj = models.RegionalManagement.objects.filter(Q(r_code__isnull=False)).all()
     # 导航
-    nav_list = models.IndexNav.objects.order_by('-weight').values('name', 'url')[0:6]
+    nav_list = models.IndexNav.objects.order_by('-weight').values('name', 'url', 'ishot')[0:6]
 
     # 商品详情页左侧推信息
     category_obj = models.ProductCategory.objects.filter(Q(parent_id__gt=0)).all()

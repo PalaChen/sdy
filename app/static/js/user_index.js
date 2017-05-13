@@ -43,7 +43,7 @@ String.prototype.format = function (args) {
         }
     }
     return result;
-}
+};
 
 
 function Send_Ajax_Order_Process(url) {
@@ -168,12 +168,12 @@ function Send_Ajax_VerifyCode(url, ths) {
         type: 'GET',
         success: function (arg) {
             if (arg) {
-                $(ths).parent().append('<span class="verCodePrompt">已发送，1分钟后可重新获取。</span>')
+                $(ths).parent().append('<span class="verCodePrompt">已发送，1分钟后可重新获取。</span>');
                 curCount = count;
                 $("#user_getcode").text(curCount + "秒后重发");
                 InterValObj = window.setInterval(SetRemainTime, 1000);
             }
-            clickState = 0
+
         }
     });
 
@@ -185,6 +185,7 @@ function SetRemainTime() {
         window.clearInterval(InterValObj);//停止计时器
         $("#user_getcode").text("重新发送");
         $('.verCodePrompt').remove();
+        clickState = 0
     }
     else {
         curCount--;
