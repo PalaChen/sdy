@@ -1,0 +1,777 @@
+{% extends 'product/master/base.html' %}
+
+
+{% block css %}
+    <link type="text/css" rel="stylesheet" href="/static/css/bootstrap.css">
+    <style type="text/css">
+        * {
+            -ms-word-wrap: break-word;
+            word-wrap: break-word;
+        }
+
+        html {
+            -webkit-text-size-adjust: none;
+            text-size-adjust: none;
+        }
+
+        html, body {
+            height: 100%;
+            width: 100%;
+        }
+
+        html, body, h1, h2, h3, h4, h5, h6, div, ul, ol, li, dl, dt, dd, iframe, textarea, input, button, p, strong, b, i, a, span, del, pre, table, tr, th, td, form, fieldset, .pr, .pc {
+            margin: 0;
+            padding: 0;
+            word-wrap: break-word;
+            font-family: verdana, Microsoft YaHei, Tahoma, sans-serif;
+            *font-family: Microsoft YaHei, verdana, Tahoma, sans-serif;
+        }
+
+        body, ul, ol, li, dl, dd, p, h1, h2, h3, h4, h5, h6, form, fieldset, .pr, .pc, em, del {
+            font-style: normal;
+            font-size: 100%;
+        }
+
+        ul, ol, dl {
+            list-style: none;
+        }
+
+        ._citys {
+            width: 450px;
+            display: inline-block;
+            border: 2px solid #eee;
+            padding: 5px;
+            position: relative;
+            background-color: white;
+        }
+
+        ._citys span {
+            color: #56b4f8;
+            height: 15px;
+            width: 15px;
+            line-height: 15px;
+            text-align: center;
+            border-radius: 3px;
+            position: absolute;
+            right: 10px;
+            top: 10px;
+            border: 1px solid #56b4f8;
+            cursor: pointer;
+        }
+
+        ._citys0 {
+            width: 100%;
+            height: 34px;
+            display: inline-block;
+            border-bottom: 2px solid #56b4f8;
+            padding: 0;
+            margin: 0;
+        }
+
+        ._citys0 li {
+            display: inline-block;
+            line-height: 34px;
+            font-size: 15px;
+            color: #888;
+            width: 80px;
+            text-align: center;
+            cursor: pointer;
+        }
+
+        .citySel {
+            background-color: #56b4f8;
+            color: #fff !important;
+        }
+
+        ._citys1 {
+            width: 100%;
+            display: inline-block;
+            padding: 10px 0;
+        }
+
+        ._citys1 a {
+            width: 83px;
+            height: 35px;
+            display: inline-block;
+            background-color: #f5f5f5;
+            color: #666;
+            margin-left: 6px;
+            margin-top: 3px;
+            line-height: 35px;
+            text-align: center;
+            cursor: pointer;
+            font-size: 13px;
+            overflow: hidden;
+        }
+
+        ._citys1 a:hover {
+            color: #fff;
+            background-color: #56b4f8;
+        }
+
+        .AreaS {
+            background-color: #56b4f8 !important;
+            color: #fff !important;
+        }
+    </style>
+{% endblock %}
+
+{% block page_content %}
+    <div class="minwidth overflowvisible">
+        <div class="product-intro clearfix">
+            <div class="product-item-preview floatLeft">
+                <div class="product-slider">
+                    <ul id="productSlider" class="product-slider-content">
+                        <li style="opacity: 1;">
+                            <p style="">
+                                <img src="/{{ product_obj.pro_image.all.first.ul_url }}" alt="{{ product_obj.p_name }}">
+                            </p>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            {# 价格信息 #}
+            <div class="product-item-inner floatLeft">
+                <div class="name">
+                    <h1>{{ product_obj.p_name }}</h1>
+                    <p class="tips"></p>
+                </div>
+                <div id="productOnLine" style="display:block;">
+                    <div class="price">
+                        {% if product_obj.p_market_price %}
+                            <div id="costprice" class="market-price clearfix" style="">
+                                <div class="dt">市场价：</div>
+                                <div class="dd">
+                                    <del id="costprice2">￥{{ product_obj.p_market_price }}</del>
+                                </div>
+                            </div>
+                        {% endif %}
+                        <div class="summary-price clearfix">
+                            <div class="dt">价 格：</div>
+                            <div class="dd">
+                                <span class="t-productprice">
+                                ￥
+                                <font>{{ product_obj.p_price }}</font>
+                                元
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    {% if  service_obj %}
+                        <div class="type clearfix">
+                            <div class="dt">类 型：</div>
+                            <div class="dd">
+                                <ul class="item-type clearfix">
+                                    {% for line in service_obj %}
+                                        {#                                        {% if product_obj.area_id == default_city.area_id %}#}
+                                        {% if line.id == product_obj.p_service_id %}
+                                            <li class="item active">
+                                                <a href="javascript:" for="{{ line.id }}"
+                                                   onclick="openProduct(this)">{{ line.name }}</a>
+                                            </li>
+                                        {% else %}
+                                            <li class="item ">
+                                                <a href="javascript:" for="{{ line.id }}"
+                                                   onclick="openProduct(this)">{{ line.name }}</a>
+                                            </li>
+                                        {% endif %}
+                                        {#                                        {% endif %}#}
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        </div>
+                    {% endif %}
+                    {# 地区 #}
+                    <div class="region clearfix t-showarea" style="">
+                        <div class="dt">地 区：</div>
+                        <div class="dd">
+                            <div class="region-selector">
+                                <input id="city" class="text t-pcatitle">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="btn" style="">
+                        <a class="payment btn_buy"
+                           onclick="bugProduct('/product/buy.html?pid={{ product_obj.id }}','buy')">购买</a>
+                        <a class="consult"
+                           onclick="bugProduct('/product/buy.html?pid={{ product_obj.id }}','cart')">放入购物车</a>
+                    </div>
+
+                </div>
+            </div>
+            <div class="wrapper">
+                <div class="product-main floatRight">
+                    <div id="productDetail" class="product-detail">
+                        <div class="product-detail-tab">
+                            <div id="protabInner" class="clearfix">
+                                <ul class="detail-tab-trigger clearfix floatLeft">
+                                    <li class="firstLi active">
+                                        <a href="javascript:;" data-href="#productDetail" rel="nofollow">服务介绍</a>
+                                    </li>
+                                    <li>
+                                        <a href="javascript:;" data-href="#proEvaluate" rel="nofollow">
+                                            用户评价
+                                            <em id="productEvaluationTotal">(0)</em>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="product-detail-wrapper">
+                            <div class="product-details-content bdTopNo">
+                                {{ product_obj.p_details|safe }}
+                            </div>
+                            {% include 'product/master/_comments.html' %}
+                        </div>
+                    </div>
+                </div>
+                {% include 'product/master/_aside.html' %}
+            </div>
+        </div>
+    </div>
+
+    {# 登陆 #}
+    <div class="modal fade" id="Modal_Login" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" style="font-size:14px">登陆</h4>
+                </div>
+                <div class="modal-body">
+                    <div>
+                        <div class="group">
+                            <form class="form-horizontal" id="fm_body">
+                                {% csrf_token %}
+                                <div style="padding-left: 100px">
+                                    <div class="register-li register-li-line">
+                                        <label class="register-li-span">手机号码</label>
+                                        <input type="text" class="form-control" name="phone" style="height: 30px">
+
+                                    </div>
+                                    <div class="register-li register-li-line">
+                                        <label class="register-li-span">密码</label>
+                                        <input type="password" class="form-control" name="password"
+                                               style="height: 30px">
+
+                                    </div>
+                                    <div class="register-li register-li-line">
+                                        <p class="login_error" style="color: #f55f57;"></p>
+                                    </div>
+                                    <div class="register-li-checkbox">
+                                        <label>
+                                            <input name="remember" value="1" type="checkbox" style="margin-top:-5px">
+                                            <label style="margin-top: 8px;margin-left: 3px">一周内自动登录</label>
+                                        </label>
+                                        <a class="forget-pass" href="{% url 'forgetpass' %}" target="_blank">忘记密码？</a>
+                                    </div>
+                                    <div class="register-li register-li-line">
+                                        <a id="loginButton" class="reg-now">登录</a>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="group" style="margin-left:50px;font-size:14px">
+                            <p>还没有盛德业账号？</p>
+                            <p class="reg-login-p">
+                                <a class="reg-login" href="{% url 'register' %}">立即注册 >></a>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        a, a:hover {
+            text-decoration: none;
+        }
+
+        ul, ol, dl, dt, li {
+            list-style: outside none none;
+        }
+
+        img, a, a:hover, a:active {
+            border: medium none;
+            outline: medium none;
+        }
+
+        .clearfix::after {
+            clear: both;
+            content: ".";
+            display: block;
+            height: 0;
+            visibility: hidden;
+        }
+
+        .clear {
+            clear: both;
+        }
+
+        .packageBox {
+            margin: 25px;
+            padding-bottom: 78px;
+        }
+
+        .packageBox .packageTab {
+            overflow: hidden;
+            padding-bottom: 14px;
+        }
+
+        .packageBox .packageTab li {
+            border: 1px solid #c4c4c4;
+            float: left;
+            height: 33px;
+            line-height: 33px;
+            margin: 0 20px 20px 0;
+            position: relative;
+        }
+
+        .packageBox .packageTab li a {
+            color: #595757;
+            display: block;
+            font-family: "Microsoft Yahei";
+            font-size: 14px;
+            padding: 0 23px;
+        }
+
+        .packageBox .packageTab li:hover, .packageBox .packageTab li.active {
+            border-color: #fc6364;
+        }
+
+        .packageBox .packageTab li:hover a, .packageBox .packageTab li.active a {
+            color: #fc6364;
+        }
+
+        .packageBox .packageTab li.active {
+            background: rgba(0, 0, 0, 0) url("/static/images/icon/iconSelected.png") no-repeat scroll right bottom;
+        }
+
+        .packageList li {
+            float: left;
+            position: relative;
+            text-align: center;
+            width: 105px;
+        }
+
+        .packageList .even {
+            color: #b8b7b7;
+            font-size: 36px;
+            line-height: 120px;
+            margin-top: -27px;
+            text-align: center;
+            width: 29px;
+        }
+
+        .packageList h5, .packageList span {
+            font-size: 14px;
+        }
+
+        .packageList h5 {
+            color: #444444;
+            height: 36px;
+            line-height: 2.6;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .packageList span {
+            color: #eb5767;
+            display: block;
+            line-height: 1;
+        }
+
+        .packageList i {
+            display: block;
+            height: 60px;
+            line-height: 60px;
+        }
+
+        .packageList i > img {
+            height: 100%;
+            width: 60px;
+        }
+
+        .packageList li {
+            padding-bottom: 35px;
+            width: 99px;
+        }
+
+        .packageList li p {
+            background-color: #fcf7e4;
+            bottom: 155px;
+            color: #606060;
+            display: none;
+            font-size: 12px;
+            left: 50%;
+            line-height: 20px;
+            margin-left: -76px;
+            padding: 9px 10px;
+            position: absolute;
+            width: 132px;
+        }
+
+        .packageList li em {
+            background: rgba(0, 0, 0, 0) url("/Public/Image/Order/iconArrow.png") no-repeat scroll 0 0;
+            bottom: 148px;
+            display: none;
+            height: 7px;
+            left: 50%;
+            margin-left: -8px;
+            position: absolute;
+            width: 16px;
+        }
+
+        .packageList li:hover p, .packageList li:hover em {
+            display: block;
+        }
+
+        .packageModel {
+            display: none;
+        }
+
+        .packageModel.show {
+            display: block;
+        }
+
+        .packageModel .tips {
+            border-top: 1px solid #dfdfdf;
+            color: #595758;
+            font-size: 14px;
+            padding: 28px 0 32px;
+        }
+
+        .totalPrice {
+            background: #f5f5f5 none repeat scroll 0 0;
+            bottom: 0;
+            color: #666666;
+            font-family: Microsoft Yahei;
+            font-size: 13px;
+            height: 78px;
+            left: 0;
+            line-height: 78px;
+            position: fixed;
+            width: 100%;
+        }
+
+        .totalPrice .comboPrice {
+            float: left;
+            padding-left: 20px;
+        }
+
+        .totalPrice .comboPrice span {
+            color: #e85555;
+            display: inline-block;
+            font-size: 24px;
+            line-height: 1;
+            margin-top: -3px;
+            vertical-align: middle;
+        }
+
+        .totalPrice .delPrice {
+            color: #b5b5b5;
+            float: left;
+            padding-left: 10px;
+        }
+
+        .totalPrice .buyBtn {
+            float: right;
+            padding-right: 20px;
+        }
+
+        .totalPrice .buyBtn a {
+            background-color: #f5f5f5;
+            border: 1px solid #999999;
+            color: #333333;
+            display: inline-block;
+            font-size: 14px;
+            height: 35px;
+            line-height: 35px;
+            text-align: center;
+            width: 170px;
+        }
+
+        .totalPrice .buyBtn .butRed {
+            background-color: #e85555;
+            border-color: #e85555;
+            color: #fff;
+            margin-right: 20px;
+            width: 147px;
+        }
+
+        .nocombo {
+            border: medium none;
+            padding-top: 100px;
+        }
+
+    </style>
+    {# 套餐 #}
+    <div class="modal fade" id="Modal_Package" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document" style="width: 700px">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" style="font-size:14px">选择套餐</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="packageBox">
+                        <ul class="packageTab">
+                            <li class="active">
+                                <a href="javascript:void(0)">无地址记帐套餐</a>
+                            </li>
+                        </ul>
+                        <div class="packageCon">
+                            <div class="packageModel show">
+                                <p class="tips">套餐说明：朝阳注册+记帐+地址+银行开户</p>
+                                <ul class="packageList clearfix">
+                                    <li>
+                                        <i>
+                                            <img src="http://cdn.kuaifawu.com/product/cart/1.png" alt="">
+                                        </i>
+                                        <h5>有限责任公司注册</h5>
+                                        <span>588元</span>
+                                    </li>
+                                    <li class="even">+</li>
+                                </ul>
+                                <div class="totalPrice">
+                                    <p class="comboPrice">
+                                        套餐价：
+                                        <span>6788元</span>
+                                    </p>
+                                    <p class="delPrice">
+                                        <del>原价：7688元</del>
+                                    </p>
+                                    <p class="buyBtn">
+                                        <a class="butRed" href="javascript:;">购买套餐</a>
+                                        <a href="javascript:;">暂不选套餐，下一步</a>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block scripts %}
+    <script src="/static/js/sdynav1.js"></script>
+    <script type="text/javascript" src="/static/js/jquery-3.1.1.js"></script>
+    <script type="text/javascript" src="/static/js/cityJson.js"></script>
+    <script type="text/javascript" src="/static/js/citySet.js"></script>
+    <script type="text/javascript" src="/static/js/Popt.js"></script>
+    <script src="/static/plugins/bootstrap/js/bootstrap.js"></script>
+    {# 获取产品对应的城市信息 #}
+    <script>
+        $(function () {
+            url = window.location.href;
+            var num = url.match(/\d+/g).pop();
+            $.ajax({
+                url: 'product_city.html' + '?nid=' + num,
+                type: 'GET',
+                success: function (arg) {
+                    //console.log(arg);
+                    if (arg['status'] == 200) {
+                        //console.log(arg['message']);
+                        city_dict = arg['message'];
+                        $('#city').val(city_dict['city'] + '-' + city_dict['area'])
+                    }
+                }
+            })
+        })
+    </script>
+    <script>
+        $(function () {
+            bindOnlyClick();
+            bindCategoryShow();
+        });
+        String.prototype.format = function (args) {
+            var result = this;
+            if (arguments.length > 0) {
+                if (arguments.length == 1 && typeof (args) == "object") {
+                    for (var key in args) {
+                        if (args[key] != undefined) {
+                            var reg = new RegExp("({" + key + "})", "g");
+                            result = result.replace(reg, args[key]);
+                        }
+                    }
+                }
+                else {
+                    for (var i = 0; i < arguments.length; i++) {
+                        if (arguments[i] != undefined) {
+                            var reg = new RegExp("({[" + i + "]})", "g");
+                            result = result.replace(reg, arguments[i]);
+                        }
+                    }
+                }
+            }
+            return result;
+        }
+        $("#city").click(function (e) {
+            SelCity(this, e);
+        });
+        function bugProduct(url, type) {
+            clickState_1 = 0;
+            if (clickState_1 == 1) {
+            }
+            else {
+                clickState_1 = 1;
+                $.ajax({
+                    url: url,
+                    type: 'GET',
+                    data: '',
+                    dataType: "json",
+                    success: function (arg) {
+                        //console.log(arg);
+                        if (arg['status'] == 200) {
+                            if (type == 'buy') {
+                                console.log(arg['data']);
+                                if (arg['data']) {
+                                    $.each(arg['data'], function (index, ele) {
+                                        var li_ele = '<li class="active"><a href="javascript:void(0)">{name}</a></li>';
+                                        var a_ele = li_ele.format({name: arg['data']['name']});
+                                        $("ul .packageTab").append(a_ele);
+                                    });
+                                    $('#Modal_Package').modal('show');
+
+                                }
+                                else {
+                                    window.location.replace(arg['url'])
+                                }
+                            }
+                            else if (type == 'cart') {
+                                window.location.replace(arg['url'])
+                            }
+                            clickState_1 = 0
+                        }
+                        else {
+                            $('#Modal_Login').modal('show');
+                            clickState_1 = 0
+                        }
+                    }
+                });
+            }
+
+        }
+        var clickState = 1;
+        // 模态框
+        function bindOnlyClick() {
+            $('#loginButton').click(function () {
+                var data = $('#fm_body');
+                var url = '/login_ajax.html';
+                var modal = 'Modal_Login';
+                //console.log(url);
+                send_Ajan_Info(url, data, modal)
+            });
+            $('#user_getcode').click(function () {
+                if (clickState == 1) {
+                }
+                else {
+                    clickState = 1;
+                    var phone = $('#Modal_Register input[name="phone"]').val();
+                    var url = "user/get_verify_code.html?" + "phone=" + phone;
+                    setTimeout(Send_Ajax_VerifyCode(url, this), 60000);
+                }
+            });
+        }
+        function send_Ajan_Info(url, data, modal) {
+            $.ajax({
+                url: url,
+                type: 'POST',
+                data: $(data).serialize(),
+                success: function (arg) {
+                    //console.log(arg);
+                    if (arg['status']) {
+                        window.location.reload();
+                        {#                        $(modal).modal('hide');#}
+                    } else {
+                        //console.log(arg['message']);
+                        $('.login_error').text(arg['message'])
+                    }
+                    clickState = 0;
+                }
+            });
+        }
+        function Send_Ajax_VerifyCode(url, ths) {
+            $.ajax({
+                url: url,
+                type: 'GET',
+                success: function (arg) {
+                    if (arg) {
+                        $(ths).parent().append('<span class="verCodePrompt">已发送，1分钟后可重新获取。</span>')
+                        curCount = count;
+                        $("#user_getcode").text(curCount + "秒后重发");
+                        InterValObj = window.setInterval(SetRemainTime, 1000);
+                    }
+                    clickState = 0
+                }
+            });
+        }
+
+        // 产品分类显示和隐藏
+        function bindCategoryShow() {
+            $('dl dt b').click(function () {
+                class_value = $(this).attr('class');
+                if (class_value == 'active') {
+                    $(this).removeClass('active');
+                    $(this).parent().next().removeClass('show')
+                }
+                else {
+                    $(this).addClass('active');
+                    $(this).parent().next().addClass('show')
+                }
+            })
+        }
+    </script>
+    {# 获取类型对应的产品信息 #}
+    <script>
+        function openProduct(ths) {
+            nid = $(ths).attr('for');
+            $.ajax({
+                url: '/get_cat_product.html?nid=' + nid,
+                type: 'GET',
+                success: function (arg) {
+                    //console.log(arg['status']);
+                    if (arg['status'] == 200) {
+                        //console.log(arg['data']);
+                        url = '/product/' + arg['data'] + '.html';
+                        window.location.href = url;
+                    }
+                }
+            })
+        }
+    </script>
+    {# 监控地区被点击时更新产品信息 #}
+    <script>
+        function MonitorInput(ths) {
+            var p_service_id = $('.item-type').find('.active a').attr('for');
+            var area = $(ths).attr('data-id');
+            $.ajax({
+                url: 'get_product.html?nid=' + p_service_id + '&area=' + area,
+                type: 'GET',
+                success: function (arg) {
+                    if (arg['status'] == 200) {
+                        console.log(arg['data']);
+                        url = '/product/' + arg['data'] + '.html';
+                        window.location.href = url;
+                    }
+                }
+            })
+        }
+
+    </script>
+    {# 获取产品是否有套餐 #}
+
+{% endblock %}

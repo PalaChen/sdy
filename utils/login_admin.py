@@ -1,8 +1,9 @@
 from django.shortcuts import redirect, HttpResponse
 from django.urls import reverse
 from utils.menu import MenuHelper
+import functools
 
-
+# @functools.wraps
 def login_required(func):
     def inner(request, *args, **kwargs):
         try:
@@ -15,7 +16,7 @@ def login_required(func):
 
     return inner
 
-
+# @functools.wraps
 def permission(func):
     def inner(request, *args, **kwargs):
         user_info = request.session.get('user_info')

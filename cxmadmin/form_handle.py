@@ -38,7 +38,7 @@ def create_dynamic_model_form(admin_class, form_add=False):
 
     def __new__(cls, *args, **kwargs):
         # 使用__new__方法获取动态类的所有字段
-        print('cls', cls)
+        # print('cls', cls)
         for field_name in cls.base_fields:
             filed_obj = cls.base_fields[field_name]
             filed_obj.widget.attrs.update({'class': 'form-control'})

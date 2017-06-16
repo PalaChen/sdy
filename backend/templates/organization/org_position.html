@@ -4,13 +4,14 @@
     {% include 'organization/master/_aside.html' %}
     <div style="position: absolute;padding: 10px; left: 200px;right: 0;">
         <div class="float-left" style="margin-top: 10px;margin-bottom: 10px">
-            <a href="{% url 'org_employees' %}" style="margin-bottom: 0">员工列表</a>&nbsp;&nbsp;&nbsp;
+            <a href="{% url 'org_employees' %}" style="margin-bottom: 0;margin-right: 5px">员工列表</a>
             <a href="{% url 'org_position' %}" class="title_border">职位列表</a>
+            <a href="{% url 'organization_roles' %}" style="margin-bottom: 0;margin-left: 5px">权限角色</a>
         </div>
         <div style="border: 1px solid #b5b4b3;padding: 10px;min-height: 485px">
             <p>
                 {#                <a class="btn btn-primary" href="{% url common_info.add_url %}">添加</a>#}
-                <a class="btn btn-primary" id="add_Info_1">添加</a>
+                <a class="btn btn-primary" id="add_Info_1">添加职位</a>
             </p>
             {% include 'organization/master/_table_obj_list.html' %}
             <div class="modal fade" tabindex="-1" role="dialog" id="Model_AddInfo_1" for="position">

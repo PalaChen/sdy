@@ -66,19 +66,11 @@
                     <label class="col-sm-2 pro_label">产品城市</label>
                     <div class="col-sm-4 pro_input">
                         <select name="city" class="form-control">
-                            {#                            <option value="">--------------------</option>#}
-                            {#                            {% for line in city_obj %}#}
-                            {#                                <option value="{{ line.code }}">{{ line.name }}</option>#}
-                            {#                            {% endfor %}#}
                         </select>
                     </div>
                     <label class="col-sm-2 pro_label">产品地区</label>
                     <div class="col-sm-4 pro_input">
                         <select name="area" class="form-control">
-                            {#                            <option value="">--------------------</option>#}
-                            {#                            {% for line in city_obj %}#}
-                            {#                                <option value="{{ line.code }}">{{ line.name }}</option>#}
-                            {#                            {% endfor %}#}
                         </select>
                     </div>
                 </div>
@@ -194,8 +186,7 @@
         }
         function removeImg(ths) {
             console.log($(ths))
-        }
-        ;
+        };
         {#        function clickBtn() {#}
         {#            $('#pg_content').on('click','btn-primary', function(){#}
         {#                var v1 = $('#pg_content .p_t_imgae').val();#}

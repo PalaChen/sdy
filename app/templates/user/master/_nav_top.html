@@ -46,7 +46,7 @@
                 <a class="welcome1" href="{% url 'shopping_cart' %}">
                     <i class="gw floatLeft"></i>
                     购物车
-                    <em>0</em>
+                    <em>{{ user_info.shop_number }}</em>
                     件
                 </a>
             </li>

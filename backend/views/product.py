@@ -1,14 +1,19 @@
 from django.shortcuts import render, redirect, HttpResponse
+from django.shortcuts import HttpResponseRedirect
 from django.shortcuts import get_object_or_404
 from django.http import JsonResponse
 from reposition import models, modal_del
-from backend.forms.product import ProductForm, ProductImage, ProCategoryForm, ProBusinessForm, ProServiceForm
+from backend.forms.product import ProductForm, ImageForm, ProCategoryForm, ProBusinessForm, \
+    ProServiceForm, PackageAdd, PackageBind
 from utils.upload_image import save_image
 from utils.pager import paginator
 from utils.upload_image import ckedit_upload_image
 from utils.login_admin import login_required, permission
 from cxmadmin import base
 from django.db.models import Q
+
+# product方法
+from . import product_method
 
 res_dict = {'status': 200, 'data': None, 'message': None}
 title_dict = {
@@ -27,7 +32,12 @@ title_dict = {
     'product': '我的产品',
     'product_add': '产品添加',
     'product_edit': '产品修改',
-    'product_del': '产品删除'
+    'product_del': '产品删除',
+    'package': '优惠套餐',
+    'package_add': '套餐添加',
+    'package_edit': '套餐修改',
+    'package_bind': '产品绑定套餐',
+
 }
 
 
@@ -38,12 +48,12 @@ def p_category(req, *args, **kwargs):
     action_list = kwargs.get('action_list')
     menu_string = kwargs.get('menu_string')
     form = ProCategoryForm()
-    category_obj = models.ProductCategory.objects.all()
+    category_obj = models.ProductCategory.objects.order_by('root_id', 'parent_id', '-sort')
     cate_r_list = []
     cate_p_list = []
     cate_c_list = []
     for row in category_obj:
-        if row.root_id == 0 and row.parent_id != 0:
+        if row.root_id == 9999 and row.parent_id != 0:
             cate_c_list.append(row)
         elif row.root_id == 0:
             cate_r_list.append(row)
@@ -59,8 +69,9 @@ def p_category(req, *args, **kwargs):
 
 
 # 产品分类添加
-# @login_required
-def p_category_add(req):
+@login_required
+@permission
+def p_category_add(req, *args, **kwargs):
     if req.method == 'POST':
         form = ProCategoryForm(req.POST)
 
@@ -76,7 +87,7 @@ def p_category_add(req):
                 if category_obj['root_id'] == 0 and category_obj['parent_id'] == 0:
                     data['root_id'] = id
                 else:
-                    data['root_id'] = 0
+                    data['root_id'] = 9999
                     data['parent_id'] = id
             else:
                 data['root_id'] = 0
@@ -96,7 +107,8 @@ def p_category_add(req):
 
 # 产品分类修改
 @login_required
-def p_category_edit(req):
+@permission
+def p_category_edit(req, *args, **kwargs):
     if req.method == 'POST':
         form = ProCategoryForm(req.POST)
         if form.is_valid():
@@ -106,18 +118,21 @@ def p_category_edit(req):
             if category_obj:
                 data['employee_id'] = req.session.get('user_info')['employee_id']
                 id = data['root_id']
-                if category_obj.root_id != 0:
+                if 0 < category_obj.root_id < 9999:
                     data['root_id'] = id
-                else:
+                elif category_obj.root_id == 0:
                     data['root_id'] = 0
+                    data['parent_id'] = id
+                else:
+                    data['root_id'] = 9999
                     data['parent_id'] = id
                     # try:
 
                 models.ProductCategory.objects.filter(id=nid).update(**data)
                 res_dict['message'] = '分类修改成功'
-                    # except Exception as e:
-                    #     res_dict['message'] = '非法数据操作'
-                    #     res_dict['status'] = 500
+                # except Exception as e:
+                #     res_dict['message'] = '非法数据操作'
+                #     res_dict['status'] = 500
         else:
             error = list(form.errors.values())[0][0]
             res_dict['message'] = error
@@ -127,14 +142,15 @@ def p_category_edit(req):
 
 # 产品分类删除
 @login_required
-def p_category_del(req, id):
+@permission
+def p_category_del(req, id, *args, **kwargs):
     res = modal_del.query_del(req, models.ProductCategory, id)
     return HttpResponse(res)
 
 
 # 服务管理
 @login_required
-# @permission
+@permission
 def p_service(req, *args, **kwargs):
     action_list = kwargs.get('action_list')
     menu_string = kwargs.get('menu_string')
@@ -146,8 +162,10 @@ def p_service(req, *args, **kwargs):
 
 
 # 服务添加
-# @login_required
-def p_service_add(req):
+@login_required
+@permission
+def p_service_add(req, *args, **kwargs):
+    menu_string = kwargs.get('menu_string')
     form = ProServiceForm(req.POST or None)
     select_obj = models.ProductService.objects.filter(Q(root_id=None)).values('id', 'name').all()
     if req.method == 'POST':
@@ -159,12 +177,15 @@ def p_service_add(req):
 
     return render(req, 'product/p_service_add.html', {'form': form,
                                                       'select_obj': select_obj,
+                                                      'menu_string': menu_string,
                                                       'title': title_dict['p_service_add'],})
 
 
 # 服务修改
 @login_required
-def p_service_edit(req, id):
+@permission
+def p_service_edit(req, id, *args, **kwargs):
+    menu_string = kwargs.get('menu_string')
     service_obj = models.ProductService.objects.filter(id=id).first()
     select_obj = models.ProductService.objects.filter(Q(root_id=None)).values('id', 'name').all()
     form = ProServiceForm()
@@ -179,18 +200,21 @@ def p_service_edit(req, id):
     return render(req, 'product/p_service_edit.html', {'title': title_dict['p_service_edit'],
                                                        'service_obj': service_obj,
                                                        'select_obj': select_obj,
+                                                       'menu_string': menu_string,
                                                        'form': form})
 
 
 # 服务删除
 @login_required
-def p_service_del(req, id):
+@permission
+def p_service_del(req, id, *args, **kwargs):
+    menu_string = kwargs.get('menu_string')
     pass
 
 
 # 业务管理
 @login_required
-# @permission
+@permission
 def p_business(req, *args, **kwargs):
     action_list = kwargs.get('action_list')
     menu_string = kwargs.get('menu_string')
@@ -205,7 +229,9 @@ def p_business(req, *args, **kwargs):
 
 # 业务添加
 @login_required
-def p_business_add(req):
+@permission
+def p_business_add(req, *args, **kwargs):
+    menu_string = kwargs.get('menu_string')
     form = ProBusinessForm(req.POST or None)
     error = None
     if req.method == 'POST':
@@ -228,12 +254,15 @@ def p_business_add(req):
 
     return render(req, 'product/p_business_add.html', {'title': title_dict['p_business_add'],
                                                        'form': form,
+                                                       'menu_string': menu_string,
                                                        'error': error})
 
 
 # 业务修改
 @login_required
-def p_business_edit(req, id):
+@permission
+def p_business_edit(req, id, *args, **kwargs):
+    menu_string = kwargs.get('menu_string')
     form = ProBusinessForm(req.POST or None)
     error = None
     process_obj = models.ProcessStep.objects.filter(p_name_id=id).values('id', 'number', 'process_name', 'name',
@@ -288,14 +317,26 @@ def p_business_edit(req, id):
     return render(req, 'product/p_business_edit.html', {'title': title_dict['p_business_edit'],
                                                         'form': form,
                                                         'error': error,
+                                                        'menu_string': menu_string,
                                                         'process_obj': process_obj})
+
+
+# 业务删除
+@login_required
+@permission
+def p_business_del(request, id, *args, **kwargs):
+    if request.method == 'GET':
+        models.ProcessName.objects.filter(id=id).delete()
+        models.ProcessStep.objects.filter(p_name_id=id).all().delete()
+        return HttpResponse('成功')
+    return HttpResponse('失败')
 
 
 from django.db import connection
 
 
 @login_required
-# @permission
+@permission
 def product(req, *args, **kwargs):
     action_list = kwargs.get('action_list')
     menu_string = kwargs.get('menu_string')
@@ -310,11 +351,14 @@ def product(req, *args, **kwargs):
 
 # 添加产品
 @login_required
+@permission
 def product_add(req, *args, **kwargs):
+    menu_string = kwargs.get('menu_string')
     form = ProductForm(req.POST or None)
     business_obj, city_obj, service_list = product_general()
     error = ''
     if req.method == 'POST':
+        # 保存信息
         if form.is_valid():
             # p_service_id = form.cleaned_data.get('p_service_id')
             # product_obj = models.Products.objects.filter(p_service_id=p_service_id).first()
@@ -341,7 +385,8 @@ def product_add(req, *args, **kwargs):
                                                     'business_obj': business_obj,
                                                     'service_list': service_list,
                                                     'city_obj': city_obj,
-                                                    'error': error
+                                                    'error': error,
+                                                    'menu_string': menu_string,
                                                     })
 
 
@@ -356,16 +401,15 @@ def get_city_info(request):
 
 # 产品头图片上传
 @login_required
-def product_image_upload(req):
+def product_image_upload(request):
     res_dict = {'status': True, 'data': None, 'message': None}
-    if req.method == 'POST':
-
-        files = ProductImage(req.POST, req.FILES)
+    if request.method == 'POST':
+        files = ImageForm(request.POST, request.FILES)
         if files.is_valid():
-            img = req.FILES.get('img')
+            img = request.FILES.get('img')
             data = save_image(img)
             if data:
-                data['ul_employee_id'] = req.session.get('user_info')['employee_id']
+                data['ul_employee_id'] = request.session.get('user_info')['employee_id']
                 image_obj = models.ProductTImage.objects.create(**data)
                 res_dict['data'] = data['ul_url']
                 res_dict['message'] = image_obj.id
@@ -383,8 +427,14 @@ def product_ck_image(req):
 
 # 产品修改
 @login_required
-def product_edit(req, id):
+@permission
+def product_edit(req, id, *args, **kwargs):
+    menu_string = kwargs.get('menu_string')
     product_obj = models.Products.objects.filter(id=id).first()
+
+    product_image_obj = models.ProductTImage.objects.filter(ul_product_id=product_obj.id).first()
+    # print(product_image_obj)
+    # 把产品数据处理为字典放入form
     product_dict = {'p_name': product_obj.p_name, 'p_category_id': product_obj.p_category_id,
                     'p_service_id': product_obj.p_service_id, 'p_business_id': product_obj.p_business_id,
                     'city_code': product_obj.city.code, 'area_code': product_obj.area.code,
@@ -402,6 +452,7 @@ def product_edit(req, id):
         form = ProductForm(req.POST)
         if form.is_valid():
             data = form.cleaned_data
+
             image_id = data.pop('p_t_imgae')
             area_code = data.pop('area_code')
             city_code = data.pop('city_code')
@@ -415,22 +466,30 @@ def product_edit(req, id):
             if area_code != product_obj.area.code:
                 area_obj = get_object_or_404(models.RegionalManagement, code=area_code)
                 data['area_id'] = area_obj.id
+            # 判断用户是否更改图片
+
+            if image_id:
+                product_image_obj.ul_product_id = None
+                product_image_obj.save()
+                models.ProductTImage.objects.filter(id=image_id).update(ul_product_id=id)
+
             data['p_employee_id'] = req.session.get('user_info')['employee_id']
             models.Products.objects.filter(id=id).update(**data)
-            models.ProductCImage.objects.filter(id=image_id).update(ul_product_id=id)
             return redirect('product_all')
 
-    return render(req, 'product/product_edit.html', {'title': title_dict['product_add'],
+    return render(req, 'product/product_edit.html', {'title': title_dict['product_edit'],
                                                      'form': form,
                                                      'business_obj': business_obj,
                                                      'service_list': service_list,
                                                      'city_obj': city_obj,
+                                                     'menu_string': menu_string,
                                                      'product_obj': product_obj})
 
 
 # 产品删除
 @login_required
-def product_del(req, id):
+@permission
+def product_del(req, id, *args, **kwargs):
     res = modal_del.query_del(req, models.Products, id)
     return HttpResponse(res)
 
@@ -455,3 +514,133 @@ def product_general():
 @login_required
 def attribute(req):
     pass
+
+
+@login_required
+@permission
+def package(request, *args, **kwargs):
+    common_info = {}
+    common_info['menu_string'] = kwargs.get('menu_string')
+    common_info['title'] = title_dict['package']
+    common_info['filter_dict'] = {'status': 1}
+    common_info['add_url'] = 'package_city'
+    common_info['edit_url'] = 'package_edit'
+    common_info['html_url'] = 'product/packages.html'
+    return base.table_obj_list(request, 'reposition', 'package', common_info)
+
+
+@login_required
+def package_city(request, *args, **kwargs):
+    menu_string = kwargs.get('menu_string')
+    title = title_dict['package_add']
+    if request.method == 'POST':
+        area_code = request.POST.get('area_code')
+        area_obj = models.RegionalManagement.objects.filter(code=area_code).first()
+        from django.urls import reverse
+        url = reverse('package_add')
+        return redirect(url + '?area_id=' + str(area_obj.id))
+        # return package_add(request, area_obj.id)
+
+    return render(request, 'product/package_city.html', {'title': title,
+                                                         'menu_string': menu_string})
+
+
+@login_required
+@permission
+def package_add(request, *args, **kwargs):
+    error = ''
+    menu_string = kwargs.get('menu_string')
+    title = title_dict['package_add']
+    form_obj = PackageAdd(request.POST or None)
+
+    # area_id = request.GET.get('area_id')
+    if request.method == 'POST':
+        product_list = request.POST.getlist('product_id')
+        if product_list:
+            if form_obj.is_valid():
+                data_dict = form_obj.cleaned_data
+                package_name = request.POST.get('name')
+                is_exit = models.Package.objects.filter(name=package_name).first()
+                if not is_exit:
+                    data_dict['employee_id'] = request.session.get('user_info')['employee_id']
+                    package_obj = models.Package.objects.create(**data_dict)
+                    for product_id in product_list:
+                        models.Package2Product.objects.create(product_id=product_id, package=package_obj)
+                    return redirect('package')
+                else:
+                    error = '套餐名已存在，请重新输入'
+            else:
+                error = list(form_obj.errors.values())[0][0]
+        else:
+            error = '套餐中必须要选择对应的商品,请选择该地区对应的商品，否则套餐无法创建成功'
+
+    # 获取地区
+    area_id = request.GET.get('area_id')
+    if not area_id:
+        area_id = request.POST.get('area_id')
+        if not area_id:
+            return redirect('package_city')
+    product_obj = models.Products.objects.filter(p_putaway=1, area_id=area_id).all()
+    return render(request, 'product/package_add.html', {'product_obj': product_obj,
+                                                        'menu_string': menu_string,
+                                                        'title': title,
+                                                        'area_id': area_id,
+                                                        'error': error,
+                                                        'form_obj': form_obj})
+
+
+@login_required
+@permission
+def package_edit(request, id, *args, **kwargs):
+    form_obj = PackageAdd(request.POST or None)
+    menu_string = kwargs.get('menu_string')
+    title = title_dict['package_edit']
+    # 套餐
+    package_obj = models.Package.objects.filter(id=id).first()
+    # 套餐中包含的产品
+    package2product_obj = models.Package2Product.objects.filter(package=package_obj)
+    product_obj = models.Products.objects.filter(p_putaway=1, area_id=package_obj.area_id).all()
+    if request.method == 'POST':
+        if form_obj.is_valid():
+            data_dict = form_obj.cleaned_data
+            data_dict['employee_id'] = request.session.get('user_info')['employee_id']
+            package_obj = models.Package.objects.filter(id=id).update(**data_dict)
+            product_list = request.POST.getlist('product_id')
+            # 处理修改后套餐中商品是否存在
+            product_method.package_edit_update(product_list, id)
+            return redirect('package')
+
+    return render(request, 'product/package_edit.html', {'menu_string': menu_string,
+                                                         'form_obj': form_obj,
+                                                         'title': title,
+                                                         'package_obj': package_obj,
+                                                         'package2product_obj': package2product_obj,
+                                                         'product_obj': product_obj,})
+
+
+def package_del(request, *args, **kwargs):
+    pass
+
+
+# @login_required
+def package_bind(request, package_id, *args, **kwargs):
+    form_obj = PackageBind(request.POST or None)
+    title = title_dict['package_edit']
+
+    if request.method == 'POST':
+        error = ''
+        if form_obj.is_valid():
+            product_list = request.POST.getlist('product_id')
+            package_id = request.POST.get('package_id')
+            product_method.product2package_edit_update(product_list, package_id)
+            return redirect('package')
+        else:
+            error = list(form_obj.errors.values())[0][0]
+
+    package_obj = models.Package.objects.filter(id=package_id).first()
+    product2package_obj = models.Product2Package.objects.filter(package_id=package_obj)
+    products_obj = models.Products.objects.filter(area=package_obj.area).all()
+    return render(request, 'product/package_bind.html', {'products_obj': products_obj,
+                                                         'title': title,
+                                                         'product2package_obj': product2package_obj,
+                                                         'package_obj': package_obj})

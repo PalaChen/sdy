@@ -1,0 +1,39 @@
+{% extends 'master_b/layout.html' %}
+
+{% block page_content %}
+    <div class="col-md-4">
+        <form method="post" id="fm" action="{% url 'package_city' %}" onsubmit="submitFun()">
+            {% csrf_token %}
+            <div class="form-group">
+                <label class="">套餐城市</label>
+                &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+                <label class="">套餐地区</label>
+            </div>
+            <div class="form-group float-left" id="demo">
+                <select name="city" class="form-control_add form-left" style="width: 100px"></select>
+                <select name="area" class="form-control_add form-right"></select>
+            </div>
+            <button name="submit" type="submit" class="btn btn-primary">确认城市</button>
+            <span class="btn btn-default" onclick="location.href='{% url 'package' %}'">取消</span>
+        </form>
+    </div>
+{% endblock %}
+
+{% block scripts %}
+    <script type="text/javascript" src="/static/js/jquery.citys.js"></script>
+    <script type="text/javascript">
+        $('#demo').citys({
+            dataUrl: '/admin/get_city_info.html',
+            onChange: function (data) {
+                var text = data['direct'] ? '(直辖市)' : '';
+                $('#place').text('当前选中地区：' + data['province'] + text + ' ' + data['city'] + ' ' + data['area']);
+            }
+        });
+        function submitFun() {
+            $('#fm select[name="area"]').attr('name', "area_code");
+            $('#fm select[name="city"]').attr('name', "city_code");
+            return true
+        }
+    </script>
+
+{% endblock %}

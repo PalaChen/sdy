@@ -175,7 +175,7 @@ function bindOnlyClick() {
             type = $('#Add_Ariticle_Info').attr('for');
             modal = $('#Add_Ariticle_Info');
             if (type == 'keyword_add') {
-                url = '/admin/keyword_add.html';
+                url = '/admin/keywords_add.html';
                 data = $('#fm_keyword_add');
             }
             else if (type == 'category_add') {
@@ -257,7 +257,7 @@ function bindOnlyClick() {
                 data = $('#fm_edit');
             }
             else if (type == 'keyword_edit') {
-                url = '/admin/keyword_edit.html';
+                url = '/admin/keywords_edit.html';
                 data = $('#fm_edit');
             }
             else if (type == 'nav_edit') {
@@ -396,10 +396,10 @@ function bindUploadSave(modal, type) {
             data.append('img', file_obj);
 
             if (type == 'bxslider_add') {
-                var url = '/admin/site/bxslider_add';
+                var url = '/admin/site/bxslider_add.html';
             }
             else if (type == 'bxslider_edit') {
-                var url = '/admin/site/bxslider_edit';
+                var url = '/admin/site/bxslider_edit.html';
 
             }
             setTimeout(send_Add_Ajax_Info(url, data, modal), 5000);
@@ -432,6 +432,7 @@ function send_Add_Ajax_Info(url, data, modal) {
 
 // 删除确认
 function Del_Confirm_Sub(modal, type, nid, ths) {
+    console.log(type, nid);
     if (type == 'bxslider_edit') {
         url = '/admin/site/bxslider_del/' + nid + '.html';
     }
@@ -439,7 +440,7 @@ function Del_Confirm_Sub(modal, type, nid, ths) {
         url = '/admin/category_del/' + nid + '.html';
     }
     else if (type == 'keyword') {
-        url = '/admin/keyword_del/' + nid + '.html';
+        url = '/admin/keywords_del/' + nid + '.html';
     }
     else if (type == 'p_category_edit') {
         url = '/admin/product/category_del/' + nid + '.html';
@@ -449,8 +450,14 @@ function Del_Confirm_Sub(modal, type, nid, ths) {
     }
     else if (type == 'index_nav') {
         url = '/admin/site/nav_del/' + nid + '.html';
-
     }
+    else if (type == 'process') {
+        url = '/admin/product/business_del/' + nid + '.html';
+    }
+    else if (type == 'article') {
+        url = '/admin/articles_del/' + nid + '.html';
+    }
+
     $(modal + ' .btn-danger').click(function () {
         if (clickState == 1) {
         }
@@ -470,6 +477,8 @@ function send_Del_Ajax_Info(modal, url, ths) {
             if (arg == '成功') {
                 $(modal).modal('hide');
                 ths.parent().parent().addClass('hide');
+                window.location.reload();
+
                 //alert('删除成功');
             }
             else {

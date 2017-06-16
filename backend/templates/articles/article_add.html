@@ -4,53 +4,73 @@
 
 {% block page_content %}
 
-    <form method="post" action="{% url 'articles_add' %}" style="margin-left: 20px">
-        {% csrf_token %}
-        <div class="col-sm-10" style="float:left">
-            {% if error %}
-                <div style="color: red">
-                    <h3>{{ error }}</h3>
+    <form id="fm" method="post" action="{% url 'articles_add' %}" style="margin-left: 20px">
+        <div class="float-left">
+            {% csrf_token %}
+            <input type="text" class="form-control hide" name="cover_image_id">
+            <div style="float:left;width: 78%">
+                {% if error %}
+                    <div style="color: red">
+                        <h3>{{ error }}</h3>
+                    </div>
+                {% endif %}
+                <div class="form-group">
+                    <label>标题</label>
+                    <input name="title" type="text" class="form-control" required="">
                 </div>
-            {% endif %}
-            <div class="form-group">
-                <label>标题</label>
-                <input name="title" type="text" class="form-control" required="">
+                <div class="form-group">
+                    <label>正文</label>
+                    <textarea id="content" name="content" class="form-control" style="height: 400px"></textarea>
+                    {#                {{ form.content }}#}
+                </div>
+                <div class="form-group">
+                    <label>摘要</label>
+                    <textarea name="summary" required="" class="form-control" style="height: 80px"></textarea>
+                </div>
+                {#            <div class="form-group">#}
+                {#                <label>关键词(逗号分割)</label>#}
+                {#                <input name="keyword" type="text" class="form-control" style="width: 70%">#}
+                {#            </div>#}
             </div>
-            <div class="form-group">
-                <label>正文</label>
-                <textarea id="content" name="content" class="form-control" style="height: 400px"></textarea>
-                {#                {{ form.content }}#}
-            </div>
-            <div class="form-group">
-                <label>摘要</label>
-                <textarea name="summary" required="" class="form-control" style="height: 80px"></textarea>
-            </div>
-            {#            <div class="form-group">#}
-            {#                <label>关键词(逗号分割)</label>#}
-            {#                <input name="keyword" type="text" class="form-control" style="width: 70%">#}
-            {#            </div>#}
         </div>
-        <div style="width: 150px; position: absolute;right: 0">
-            <div class="form-group">
-                <button type="submit" class="btn btn-primary" style="width: 100%">保存</button>
-            </div>
-            <div class="form-inline form-group">
-                <label for="exampleInputName2">分类</label>
-                {{ form.category_id }}
-            </div>
-            <div class="form-inline form-group">
-                <label for="exampleInputName2">状态</label>
+        <div class="float-right">
+            <div style="width: 200px; position: absolute;right: 10px;top:40px">
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary" style="width: 100%">保存</button>
+                </div>
+                <div class="form-inline form-group">
+                    <label for="exampleInputName2" style="margin-right: 8px">分类 </label>
+                    {{ form.category_id }}
+                </div>
+                <div class="form-inline form-group">
+                    <label for="exampleInputName2" style="margin-right: 8px">状态 </label>
 
-                {{ form.status }}
+                    {{ form.status }}
+                </div>
+                <div class="form-inline form-group">
+                    <label for="exampleInputName2" style="margin-right: 8px">状态 </label>
+                    {{ form.is_top }}
+                </div>
             </div>
-            <div class="form-inline form-group">
-                <label for="exampleInputName2">状态</label>
-                {{ form.is_top }}
-            </div>
-
         </div>
-
     </form>
+    <div class="float-right" style="width: 200px; position: absolute;right: 10px;top:230px">
+        <div class="form-inline form-group" style="position: relative; padding-top: 0;">
+            <iframe id="iframe_image" name="iframe_i" style="display: none"></iframe>
+            <form id="fm1" action="{% url 'article_up_image' %}" target="iframe_i" method="POST"
+                  enctype="multipart/form-data">
+                {% csrf_token %}
+                <label for="exampleInputName2" style="margin-right: 8px">文章封面 </label>
+                <div style="width: 170px; height: 170px; background-color: #EDEDED;">
+                    <div id="pro_image"></div>
+                    <div id="pro_upload" >
+                        <input class="a_upload_image" onchange="UploadImage()" name="img" type="file">
+                        <div class="noImgUploadButton" style="margin: 30px 20px 20px 30px;"></div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
 
 
 
@@ -88,5 +108,24 @@
     <script src="/static/js/admin_index.js"></script>
     {#    <script src="/static/js/ckeditor.js"></script>#}
     <script src="/static/plugins/kindeditor/kindeditor-all.js"></script>
-
+    {# 上传文章图片 #}
+    <script>
+        function UploadImage() {
+            document.getElementById('iframe_image').onload = reloadIframe;
+            document.getElementById('fm1').submit();
+        }
+        function reloadIframe() {
+            var content = this.contentWindow.document.body.innerText;
+            console.log(content);
+            var obj = JSON.parse(content);
+            var tag = document.createElement('img');
+            tag.src = '/' + obj.data;
+            tag.className = 'art_image';
+            document.getElementById('pro_image').innerHTML = '';
+            document.getElementById('pro_image').appendChild(tag);
+            $('#fm  input[name="cover_image_id"]').val(obj.message);
+            $('#pro_upload').attr('class', 'hide');
+            $('#remove_image').removeClass('hide')
+        }
+    </script>
 {% endblock %}

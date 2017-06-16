@@ -1219,7 +1219,7 @@ body {
     padding-top: 17px;
 }
 .knowledge-list li .content .label span {
-    background: rgba(0, 0, 0, 0) url("../Image/Home_index/consultLabel.png") no-repeat scroll 0 0;
+    background: rgba(0, 0, 0, 0) url("../images/icon/consultLabel.png") no-repeat scroll 0 0;
     color: #fff;
     display: inline-block;
     font-size: 14px;
@@ -1273,7 +1273,7 @@ body {
     color: #007bc7;
 }
 .knowledge-list li .user .reading {
-    background: rgba(0, 0, 0, 0) url("../Image/News/newsIcon.png") no-repeat scroll 0 -241px;
+    background: rgba(0, 0, 0, 0) url("../images/icon/newsIcon.png") no-repeat scroll 0 -241px;
     color: #757575;
     font-size: 12px;
     margin-top: 32px;

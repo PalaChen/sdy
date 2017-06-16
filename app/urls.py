@@ -16,6 +16,7 @@ urlpatterns = [
 
     url(r'user/order/(\d+).html$', views.user.order_query, name='order_query'),
     url(r'user/order_process/(\d+).html$', views.user.order_process_query),
+    url(r'user/orders/cancelorders.html$', views.user.cancelorders),
 
     url(r'user/info.html', views.user.info, name='user_info'),
     url(r'user/change_phone.html', views.user.edit_phone, name='user_edit_phone'),
@@ -31,17 +32,20 @@ urlpatterns = [
     url(r'news/(\d+)-(\d+).html', views.news.article, name='news_article'),
 
     url(r'product/(\d+).html', views.product.index, name='product_index'),
+    url(r'pacakage/(\d+).html', views.product.pacakage_index, name='pacakage_index'),
     url(r'get_cat_product.html', views.product.get_cat_product, ),
     url(r'get_product.html', views.product.get_product, ),
     url(r'product_city.html', views.product.product_city),
+    url(r'product/package/ppid/(\d+).html', views.product.product_package),
     url(r'product/buy.html', views.product.buy, name='product_buy'),
+
     url(r'get_city.html', views.product.get_city, ),
     url(r'get_town/(\d+).json', views.product.get_town, ),
     url(r'p_category/(\d+).html', views.product.p_c_index, name='p_category_index'),
 
     url(r'cart.html', views.pay.cart, name='shopping_cart'),
     url(r'cart_number.html', views.pay.cart_number, name='shopping_cart_number'),
-    url(r'cart_del/(\d+).html', views.pay.cart_del, name='shopping_cart_del'),
+    url(r'cart_del.html', views.pay.cart_del, name='shopping_cart_del'),
 
     url(r'buy_info.html', views.pay.buy_info, name='shopping_buy'),
     url(r'pay/(\d+).html', views.pay.pay, name='shopping_pay'),
@@ -56,6 +60,7 @@ urlpatterns = [
 
     url('api/products/areas/(\d+)', views.api.get_area, ),
 
+    url(r'switch_city/(\d+).html', views.index.switch_city, name='switch_city'),
     url(r'', views.index.index, name='web_index'),
 
 ]

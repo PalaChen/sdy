@@ -29,6 +29,29 @@
     {#            </li>#}
     {#        </ul>#}
     {#    </div>#}
+    {#    精选套餐  #}
+    <div class="minwidth" style="margin: 20px auto 30px">
+        <ul class="choiceness-ul">
+            <li class="choiceness-title">
+                <h3>精选套餐</h3>
+                <p style="margin-top: 10px;">省去选择烦恼</p>
+                <i></i>
+            </li>
+            {% for package in packages_obj %}
+                <li class="choiceness-list">
+                    <a href="{% url 'pacakage_index' package.id %}" target="_blank">
+                        <h3>{{ package.name }}</h3>
+                        <p> {{ package.dscription }} </p>
+                        <div class="choiceness-price">
+                            <big class="gsh">￥{{ package.cprice }}</big>
+                            <del class="gsh">￥{{ package.original_price }}</del>
+                            <i>立即抢购</i>
+                        </div>
+                    </a>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
     <div class="minwidth">
         <div class="section-title">
             <span class="line"></span>
@@ -56,6 +79,7 @@
 
         </div>
     </div>
+
     <div class="minwidth">
         <div class="section-title" style="margin-top: 20px;margin-bottom: 5px">
             <span class="line"></span>
@@ -83,90 +107,31 @@
                         </ul>
                     </div>
                     <ul class="knowledge-list article-list clearfix">
-                        <li class="boxAnimation">
-                            <p class="img">
-                                <a href="/knowledge/2016112301.html" target="_blank"
-                                   style="background: url('http://cdn.kuaifawu.com/thumb/2016-11/5834ff7b346ff.jpg') center no-repeat;"></a>
-                            </p>
-                            <div class="content">
-                                <p class="label">
-                                    <span>财会税务</span>
+                        {% for article in articles_images_obj %}
+                            <li class="boxAnimation">
+                                <p class="img">
+                                    <a href="/news/{{ article.category_id }}-{{ article.id }}.html">
+                                        <img src="/{{ article.cover_image.ul_url }}">
+                                    </a>
                                 </p>
-                                <h4>
-                                    <a href="/knowledge/2016112301.html" target="_blank">个税专项抵扣渐近 舆论担心会让有钱人更有钱</a>
-                                </h4>
-                                <p class="tip">近日有报道称，个税改革正在提速推进，方案有望在明年上半...</p>
-                                <div class="user clearfix">
-                                    <div class="name">
-                                        <p>2016-11-23</p>
+                                <div class="content">
+                                    <p class="label">
+                                        <span>{{ article.category.name }}</span>
+                                    </p>
+                                    <h4>
+                                        <a href="/news/{{ article.category_id }}-{{ article.id }}.html"
+                                           target="_blank">{{ article.title|slice:"22" }}...</a>
+                                    </h4>
+                                    <p class="tip">{{ article.summary|slice:"27" }}...</p>
+                                    <div class="user clearfix">
+                                        <div class="name">
+                                            <p>{{ article.ctime|date:'Y-m-d' }}</p>
+                                        </div>
+                                        <div class="reading">{{ article.views }}</div>
                                     </div>
-                                    <div class="reading">1560</div>
                                 </div>
-                            </div>
-                        </li>
-                        <li class="boxAnimation">
-                            <p class="img">
-                                <a href="/knowledge/2016112301.html" target="_blank"
-                                   style="background: url('http://cdn.kuaifawu.com/thumb/2016-11/5834ff7b346ff.jpg') center no-repeat;"></a>
-                            </p>
-                            <div class="content">
-                                <p class="label">
-                                    <span>财会税务</span>
-                                </p>
-                                <h4>
-                                    <a href="/knowledge/2016112301.html" target="_blank">个税专项抵扣渐近 舆论担心会让有钱人更有钱</a>
-                                </h4>
-                                <p class="tip">近日有报道称，个税改革正在提速推进，方案有望在明年上半...</p>
-                                <div class="user clearfix">
-                                    <div class="name">
-                                        <p>2016-11-23</p>
-                                    </div>
-                                    <div class="reading">1560</div>
-                                </div>
-                            </div>
-                        </li>
-                        <li class="boxAnimation">
-                            <p class="img">
-                                <a href="/knowledge/2016112301.html" target="_blank"
-                                   style="background: url('http://cdn.kuaifawu.com/thumb/2016-11/5834ff7b346ff.jpg') center no-repeat;"></a>
-                            </p>
-                            <div class="content">
-                                <p class="label">
-                                    <span>财会税务</span>
-                                </p>
-                                <h4>
-                                    <a href="/knowledge/2016112301.html" target="_blank">个税专项抵扣渐近 舆论担心会让有钱人更有钱</a>
-                                </h4>
-                                <p class="tip">近日有报道称，个税改革正在提速推进，方案有望在明年上半...</p>
-                                <div class="user clearfix">
-                                    <div class="name">
-                                        <p>2016-11-23</p>
-                                    </div>
-                                    <div class="reading">1560</div>
-                                </div>
-                            </div>
-                        </li>
-                        <li class="boxAnimation">
-                            <p class="img">
-                                <a href="/knowledge/2016112301.html" target="_blank"
-                                   style="background: url('http://cdn.kuaifawu.com/thumb/2016-11/5834ff7b346ff.jpg') center no-repeat;"></a>
-                            </p>
-                            <div class="content">
-                                <p class="label">
-                                    <span>财会税务</span>
-                                </p>
-                                <h4>
-                                    <a href="/knowledge/2016112301.html" target="_blank">个税专项抵扣渐近 舆论担心会让有钱人更有钱</a>
-                                </h4>
-                                <p class="tip">近日有报道称，个税改革正在提速推进，方案有望在明年上半...</p>
-                                <div class="user clearfix">
-                                    <div class="name">
-                                        <p>2016-11-23</p>
-                                    </div>
-                                    <div class="reading">1560</div>
-                                </div>
-                            </div>
-                        </li>
+                            </li>
+                        {% endfor %}
                     </ul>
 
                 </div>

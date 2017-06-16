@@ -1,0 +1,17 @@
+{% extends 'master_b/layout.html' %}
+
+
+{% block page_content %}
+    {% if common_info.add_url %}
+        <p>
+            <a class="btn btn-primary" href="{% url common_info.add_url %}">添加</a>
+        </p>
+    {% endif %}
+    {% include 'product/master/_table_obj_list.html' %}
+
+{% endblock %}
+
+{% block scripts %}
+    <script src="/static/js/admin_index.js"></script>
+
+{% endblock %}

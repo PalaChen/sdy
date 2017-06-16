@@ -10,7 +10,7 @@ def login_user_query(obj):
 
 
 def login_employee_query(data):
-    employee_obj = models.Employees.objects.filter(**data).values('id', 'email', 'name').first()
+    employee_obj = models.Employees.objects.filter(**data).values('id', 'email', 'name','role_id').first()
 
     if employee_obj:
         return employee_obj

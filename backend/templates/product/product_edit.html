@@ -102,9 +102,9 @@
                     </div>
                     <label class="col-sm-2 pro_label">市场价格</label>
                     <div class="col-sm-4 pro_input">
-                        <input type="text" class="form-control" value="{{ form.data.p_market_price }}"
-                               name="p_market_price">
-                        {{ form.errors.p_market_price.0 }}
+                        <input type="text" class="form-control" name="p_market_price"
+                               value="{% if form.data.p_market_price %}{{ form.data.p_market_price }}{% endif %}">
+                         <span style="color: red"><h4>{{ form.errors.p_market_price.0 }}</h4></span>
                     </div>
                 </div>
                 <div class="form-group">

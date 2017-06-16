@@ -9,7 +9,9 @@ from backend.forms.org import PositionForm, Permission2Action2roleForm
 
 result_dict = {'status': 200, 'message': None, 'data': None}
 title_dict = {'position_index': '组织机构',
-              'roles': '职位管理',
+              'roles': '权限角色',
+              'roles_add': '增加角色',
+              'roles_edit': '修改角色',
               'position_edit': '职位修改',
               'assign': '权限分配',
               'employees': '员工管理',
@@ -20,7 +22,8 @@ title_dict = {'position_index': '组织机构',
 def get_menu_dict():
     cursor = connection.cursor()
     cursor.execute(
-        """SELECT t.*,t1.counts FROM (SELECT m.`id`,m.`caption` ,p.id AS p_id,p.`caption` AS p_caption FROM permission AS p, menu AS m WHERE p.`menu_id`=m.`id`) AS t,(SELECT COUNT(caption) AS counts,menu_id FROM permission GROUP BY menu_id) AS t1 WHERE t.id =t1.menu_id""")
+        """SELECT t.*,t1.counts FROM (SELECT m.`id`,m.`caption` ,p.id AS p_id,p.`caption` AS p_caption FROM permission AS p, menu AS m WHERE p.`menu_id`=m.`id` AND p.`weight` = 0) AS t,(SELECT COUNT(caption) AS counts,menu_id FROM permission AS p1 WHERE p1.`weight`=0 GROUP BY menu_id) AS t1 WHERE t.id =t1.menu_id""")
+    # """SELECT t.*,t1.counts FROM (SELECT m.`id`,m.`caption` ,p.id AS p_id,p.`caption` AS p_caption FROM permission AS p, menu AS m WHERE p.`menu_id`=m.`id`) AS t,(SELECT COUNT(caption) AS counts,menu_id FROM permission GROUP BY menu_id) AS t1 WHERE t.id =t1.menu_id""")
     menu_list = cursor.fetchall()
     munu_dict = {}
     # print(menu_list)
@@ -34,6 +37,7 @@ def get_menu_dict():
 
 # 职位信息
 @login_required
+@permission
 def position_index(request, *args, **kwargs):
     common_info = {}
     common_info['menu_string'] = kwargs.get('menu_string')
@@ -47,7 +51,8 @@ def position_index(request, *args, **kwargs):
 
 # 部门添加
 @login_required
-def deparment_add(request):
+@permission
+def deparment_add(request, *args, **kwargs):
     if request.method == 'POST':
         name = request.POST.get('name')
         if len(name) <= 30:
@@ -62,7 +67,8 @@ def deparment_add(request):
 # 部门修改
 @csrf_exempt
 @login_required
-def deparment_edit(request):
+@permission
+def deparment_edit(request, *args, **kwargs):
     if request.method == 'POST':
         name = request.POST.get('name')
         id = request.POST.get('id')
@@ -80,7 +86,8 @@ def deparment_edit(request):
 # 部门删除
 @csrf_exempt
 @login_required
-def deparment_del(request):
+@permission
+def deparment_del(request, *args, **kwargs):
     if request.method == 'POST':
         id = request.POST.get('id')
         department_obj = models.Department.objects.filter(id=id).first()
@@ -95,7 +102,8 @@ def deparment_del(request):
 
 # 职位增加
 @login_required
-def position_add(request):
+@permission
+def position_add(request, *args, **kwargs):
     if request.method == 'POST':
         position_form = PositionForm(data=request.POST)
         if position_form.is_valid():
@@ -112,6 +120,7 @@ def position_add(request):
 
 # 职位修改
 @login_required
+@permission
 def position_edit(request, obj_id, *args, **kwargs):
     common_info = {}
     common_info['obj_id'] = obj_id
@@ -123,44 +132,32 @@ def position_edit(request, obj_id, *args, **kwargs):
     return base.table_obj_change(request, 'reposition', 'position', common_info)
 
 
-# 权限分配
+# # 员工分配角色
+# def assign_role(request,id,*args,**kwargs):
+#     role_obj=models.Role.objects.all()
+#     return render(request,'organization/assign_role.html',{'role_obj':role_obj})
+#
+
+
+# 角色权限分配
 @login_required
-def assign(req, id):
+@permission
+def assign(req, id, *args, **kwargs):
+    menu_string = kwargs.get('menu_string')
     munu_dict = get_menu_dict()
-    action_obj = models.Action.objects.all()
-    models.Permission2Action2Role.objects.filter()
-    # form_obj=Permission2Action2roleForm(instance=)
+    permission_obj = models.Permission.objects.filter(menu_id__isnull=True, weight=0).all()
+    permission_action_obj = models.Permission2Action.objects.all()
     if req.method == 'POST':
-        permisssion_list = req.POST.getlist('permission_id')
         action_list = req.POST.getlist('action_id')
-        start_number = 0
-        for i in range(len(permisssion_list)):
-            try:
-                permission_id = permisssion_list.pop(0)
-            except IndexError:
-                break
-            for l in range(len(action_list)):
-                action = action_list.pop(0)
-                if start_number == 0:
-                    action_id = action
-                    start_number = 1
-                else:
-                    if int(action) != 1:
-                        action_id = action
-                    else:
-                        start_number = 0
-                        permission_id = permisssion_list.pop(0)
-                        action_id = action
-                        obj = models.Permission2Action.objects.filter(action_id=action_id,
-                                                                      permission_id=permission_id).first()
-                        models.Permission2Action2Role.objects.create(p2a=obj, role_id=id)
-                        break
-                obj = models.Permission2Action.objects.filter(action_id=action_id, permission_id=permission_id).first()
-                models.Permission2Action2Role.objects.create(p2a=obj, role_id=id)
+        for l in action_list:
+            models.Permission2Action2Role.objects.create(p2a_id=l, role_id=id)
+        return redirect('organization_roles')
 
     return render(req, 'organization/assign.html', {'title': title_dict['assign'],
                                                     'munu_dict': munu_dict,
-                                                    'action_obj': action_obj,
+                                                    'permission_obj': permission_obj,
+                                                    'menu_string': menu_string,
+                                                    'permission_action_obj': permission_action_obj,
                                                     })
 
 
@@ -168,10 +165,11 @@ def bind_permission(req):
     munu_dict = get_menu_dict()
     permission_obj = models.Permission.objects.all()
     action_obj = models.Action.objects.all()
-    for line in permission_obj:
-        for i in [1, 2, 3, 4]:
-            data = {'permission': line, 'action_id': i}
-            models.Permission2Action.objects.create(**data)
+    # 所有菜单绑定action
+    # for line in permission_obj:
+    #     for i in [1, 2, 3, 4]:
+    #         data = {'permission': line, 'action_id': i}
+    #         models.Permission2Action.objects.create(**data)
 
     return render(req, 'organization/assign.html', {'title': title_dict['assign'],
                                                     'munu_dict': munu_dict,
@@ -179,13 +177,48 @@ def bind_permission(req):
                                                     })
 
 
-def roles(req):
-    role_obj = models.Role.objects.all()
-    return render(req, 'organization/roles.html', {'title': title_dict['roles'],
-                                                   'role_obj': role_obj,})
+@login_required
+@permission
+def roles(request, *args, **kwargs):
+    common_info = {}
+    common_info['menu_string'] = kwargs.get('menu_string')
+    common_info['title'] = title_dict['roles']
+    common_info['add_url'] = 'organization_roles_add'
+    common_info['edit_url'] = 'organization_roles_edit'
+    common_info['html_url'] = 'organization/org_roles.html'
+    common_info['department_obj'] = models.Department.objects.all()
+    return base.table_obj_list(request, 'reposition', 'role', common_info)
 
 
 @login_required
+@permission
+def roles_add(request, *args, **kwargs):
+    common_info = {}
+    common_info['menu_string'] = kwargs.get('menu_string')
+    common_info['title'] = title_dict['roles_add']
+    common_info['redirect_url'] = 'organization_roles'
+    common_info['return_link'] = 'organization_roles'
+    common_info['html_url'] = 'organization/org_roles_add.html'
+    common_info['department_obj'] = models.Department.objects.all()
+    return base.table_obj_add(request, 'reposition', 'role', common_info)
+
+
+@login_required
+@permission
+def roles_edit(request, role_id, *args, **kwargs):
+    common_info = {}
+    common_info['title'] = title_dict['roles_edit']
+    common_info['menu_string'] = kwargs.get('menu_string')
+    common_info['obj_id'] = role_id
+    common_info['redirect_url'] = 'organization_roles'
+    common_info['return_link'] = 'organization_roles'
+    common_info['html_url'] = 'organization/org_roles_edit.html'
+    common_info['department_obj'] = models.Department.objects.all()
+    return base.table_obj_change(request, 'reposition', 'role', common_info)
+
+
+@login_required
+@permission
 def employees(request, *args, **kwargs):
     common_info = {}
     common_info['menu_string'] = kwargs.get('menu_string')
@@ -197,7 +230,8 @@ def employees(request, *args, **kwargs):
     return base.table_obj_list(request, 'reposition', 'employees', common_info)
 
 
-# @login_required
+@login_required
+@permission
 def employees_add(request, *args, **kwargs):
     common_info = {}
     common_info['menu_string'] = kwargs.get('menu_string')
@@ -210,6 +244,7 @@ def employees_add(request, *args, **kwargs):
 
 
 @login_required
+@permission
 def employees_edit(request, obj_id, *args, **kwargs):
     common_info = {}
     common_info['title'] = title_dict['employees_edit']

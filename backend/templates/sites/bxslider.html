@@ -40,7 +40,7 @@
                     <td for="url">{{ line.url }}</td>
                     <td for="name">{{ line.name }}</td>
                     <td>{{ line.create_date|date:"Y-m-d H:i:s" }}</td>
-                    <td for="employee_id">员工姓名</td>
+                    <td for="employee_id">{{ line.employee.name }}</td>
                     <td>
                         <a class="initialize btn glyphicon glyphicon-pencil initialize"></a>
                         <a class="initialize btn glyphicon glyphicon-remove initialize"></a>

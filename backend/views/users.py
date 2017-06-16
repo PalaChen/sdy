@@ -8,18 +8,21 @@ title_dict = {'user': '全部客户', 'users_add': '添加客户',
 
 #
 @login_required
-# @permission
+@permission
 def user(request, *args, **kwargs):
     common_info = {}
     common_info['menu_string'] = kwargs.get('menu_string')
     common_info['add_url'] = 'users_add'
     common_info['title'] = title_dict['user']
+    common_info['edit_url'] = 'users_edit'
     return base.table_obj_list(request, 'reposition', 'users', common_info)
 
 
 @login_required
-def users_add(request):
+@permission
+def users_add(request, *args, **kwargs):
     common_info = {}
+    common_info['menu_string'] = kwargs.get('menu_string')
     common_info['html_url'] = 'general_add_index.html'
     common_info['redirect_url'] = 'users_all'
     common_info['return_link'] = 'users_all'
@@ -40,8 +43,10 @@ def users_add(request):
 
 
 @login_required
-def users_edit(request, obj_id):
+@permission
+def users_edit(request, obj_id, *args, **kwargs):
     common_info = {}
+    common_info['menu_string'] = kwargs.get('menu_string')
     common_info['obj_id'] = obj_id
     common_info['html_url'] = 'users/user_edit.html'
     common_info['redirect_url'] = 'users_all'

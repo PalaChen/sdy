@@ -1,0 +1,185 @@
+{% extends 'master_b/layout.html' %}
+
+{% block page_content %}
+    <div class="col-md-8">
+        <div class="col-md-4 float-left" style="width: 380px">
+            <form id="fm" method="post">
+                {% csrf_token %}
+                <input type="hidden" name="cover_image_id" value="{{ package_obj.cover_image_id }}">
+                <input type="hidden" name="area_id" value="{{ package_obj.area_id }}">
+                <div class="form-group">
+                    <label>套餐名</label>
+                    <input type="text" class="form-control" value="{{ package_obj.name }}" name="name" required="">
+                </div>
+                <div class="form-group">
+                    <label>权重（0最大9999最小）</label>
+                    <input type="text" class="form-control" value="{{ package_obj.weight }}" name="weight" required="">
+                </div>
+                <div class="form-group">
+                    <label>状态</label>
+                    <select name="status" class="form-control">
+                        <option value="1" selected="">上线</option>
+                        <option value="0">下线</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>套餐对应地区:</label>
+                    <span>{{ package_obj.area.name }}</span>
+                </div>
+                <div class="form-group">
+                    <label>套餐描述</label>
+                <textarea name="dscription" class="form-control"
+                          style="height: 70px">{{ package_obj.dscription }}</textarea>
+                </div>
+                <div class="form-group">
+                    <label class="li_left">套餐商品</label>
+                    <label class="li_left" style="margin-left: 170px">商品价格</label>
+                </div>
+                {% for package2product in package2product_obj %}
+                    <div class="form-group float-left">
+                        <select class="form-control_add form-right select_product" name="product_id">
+                            <option>-----------------</option>
+                            {% for line in product_obj %}
+                                {% if line.id == package2product.product_id %}
+                                    <option value="{{ line.id }}" price="{{ line.p_price }}"
+                                            selected="">{{ line.p_name }}</option>
+                                {% else %}
+                                    <option value="{{ line.id }}" price="{{ line.p_price }}">{{ line.p_name }}</option>
+                                {% endif %}
+                            {% endfor %}
+                        </select>
+                        <input name="p_price" type="text" disabled="disabled" class="form-control_add form-left"
+                               style="width: 90px" value="{{ product2package.product.p_price }}">
+                        <span class="glyphicon glyphicon-plus" onclick="add(this)"></span>
+                        <span class="glyphicon glyphicon-minus" onclick="remove_obj(this)"></span>
+                    </div>
+                {% endfor %}
+                <div class="form-group form-inline" id="cprice">
+                    <label>价格：</label>
+                    <input type="text" class="form-control" name="cprice" value="{{ package_obj.cprice }}"
+                           style="width: 120px">
+                    <label style="margin-left: 25px">原价：</label>
+                    <input type="text" class="form-control" name="original_price"
+                           value="{{ package_obj.original_price }}"
+                           style="width: 120px">
+                </div>
+                {% if error %}
+                    <div style="color: red">
+                        {{ error }}
+                    </div>
+                {% endif %}
+                <div>
+                    <button name="submit" type="submit" class="btn btn-primary" style="margin-left:210px">修改套餐</button>
+                    <span class="btn btn-default" onclick="location.href='{% url 'package' %}'">取消</span>
+                </div>
+            </form>
+        </div>
+        <div class="float-right" style="width: 200px;margin-left: 380px">
+            <div class="form-inline form-group" style="position: relative; padding-top: 0;">
+                <iframe id="iframe_image" name="iframe_i" style="display: none"></iframe>
+                <form id="fm1" action="{% url 'product_image' %}" target="iframe_i" method="POST"
+                      enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <label for="exampleInputName2" style="margin-right: 8px">套餐封面 </label>
+                    <div style="width: 170px; height: 170px; background-color: #EDEDED;">
+                        <div id="pro_image">
+                            <img src="/{{ package_obj.cover_image.ul_url }}" class="art_image">
+                        </div>
+                        <div id="pro_upload" class="hide">
+                            <input class="a_upload_image" onchange="UploadImage()" name="img" type="file">
+                            <div class="noImgUploadButton" style="margin: 30px 20px 20px 30px;"></div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block scripts %}
+    <script type="text/javascript" src="/static/js/jquery.citys.js"></script>
+    <script type="text/javascript">
+        $('#demo').citys({
+            dataUrl: '/admin/get_city_info.html',
+            onChange: function (data) {
+                var text = data['direct'] ? '(直辖市)' : '';
+                $('#place').text('当前选中地区：' + data['province'] + text + ' ' + data['city'] + ' ' + data['area']);
+            }
+        });
+    </script>
+    {# 增加产品select和删除 #}
+    <script>
+        function add(ths) {
+            var $clone_obj = $(ths).parent().clone();
+            $clone_obj.children(':text').prop("value", "");
+            $clone_obj.children('.form-left').prop("name", "p_price");
+            $clone_obj.children('.form-right').prop("name", "product_id");
+            {#            $clone_obj.children("span").removeClass('glyphicon glyphicon-plus').addClass('glyphicon glyphicon-minus').attr('onclick', 'remove_obj(this)');#}
+            $('#cprice').before($clone_obj);
+            monitorSelectChange()
+        }
+        function remove_obj(self) {
+            $(self).parent().remove();
+        }
+    </script>
+    <script>
+        $(function () {
+            monitorSelectChange();
+            removeSelectTotalPrice();
+            getSelectProductPrice();
+        });
+        function removeSelectTotalPrice() {
+            $('.glyphicon-minus').click(function () {
+                var counts = $(".p_price").length;
+
+                for (var i = 0; i <= counts - 1; i++) {
+                    var price_input_ele = $(".p_price").eq(i).val()
+                }
+            })
+        }
+        function getSelectProductPrice() {
+            var counts = $(".select_product").length;
+            //console.log(counts);
+            for (var i = 0; i <= counts - 1; i++) {
+                var select_ele = $('.select_product').eq(i);
+                var price = select_ele.find("option:selected").attr("price");
+                select_ele.next().val(price);
+            }
+        }
+        // 选中商品，输入框显示价格
+        function monitorSelectChange() {
+            $(".select_product").change(function () {
+                var price = $(this).find("option:selected").attr("price");
+                $(this).next().val(price);
+                var input_ele = $("input[name='p_price']");
+                var total_price = 0;
+                for (var i = 0; i < input_ele.length; i++) {
+                    var p_price = input_ele.eq(i).val();
+                    total_price += parseFloat(p_price)
+                }
+                {#                console.log(total_price)#}
+                $('input[name="original_price"]').val(total_price)
+            });
+        }
+    </script>
+    {# 上传套餐图片 #}
+    <script>
+        function UploadImage() {
+            document.getElementById('iframe_image').onload = reloadIframe;
+            document.getElementById('fm1').submit();
+        }
+        function reloadIframe() {
+            var content = this.contentWindow.document.body.innerText;
+            console.log(content);
+            var obj = JSON.parse(content);
+            var tag = document.createElement('img');
+            tag.src = '/' + obj.data;
+            tag.className = 'art_image';
+            document.getElementById('pro_image').innerHTML = '';
+            document.getElementById('pro_image').appendChild(tag);
+            $('#fm  input[name="cover_image_id"]').val(obj.message);
+            $('#pro_upload').attr('class', 'hide');
+            $('#remove_image').removeClass('hide')
+        }
+    </script>
+{% endblock %}

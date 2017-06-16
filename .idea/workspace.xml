@@ -2,16 +2,143 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="f5223c9f-fa24-4039-a1f1-c3ae0fa391bd" name="Default" comment="">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/static/images/icon/1.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/static/images/icon/consultLabel.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/static/images/icon/iconSelected.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/static/images/icon/logo-white.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/static/images/icon/newsIcon.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/static/js/jquery.tab.1.0.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/templates/product/index2_1.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/templates/product/package.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/templates/product/package_index.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/views/product_method.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/backend/templates/articles/author_add.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/backend/templates/organization/assign_role.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/backend/templates/organization/assign_副本.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/backend/templates/product/master/_table_obj_list.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/backend/templates/product/package_bind.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/backend/templates/product/package_city.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/backend/templates/product/package_edit.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/backend/templates/sites/banner.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/backend/views/product_method.py" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/.name" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/1.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/app/views/Global_variable.py" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/reposition/migrations/0001_initial.py" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/reposition/migrations/0002_auto_20170502_1024.py" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/reposition/migrations/0003_auto_20170502_1056.py" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/reposition/migrations/0004_auto_20170502_1439.py" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/reposition/migrations/0005_auto_20170503_1938.py" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/reposition/migrations/0006_auto_20170503_1939.py" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/reposition/migrations/0007_auto_20170504_1836.py" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/reposition/migrations/0008_auto_20170504_1839.py" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/reposition/migrations/0009_auto_20170504_1929.py" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/reposition/migrations/0010_auto_20170504_1930.py" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/reposition/migrations/0011_auto_20170505_0957.py" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/reposition/migrations/0012_auto_20170506_1740.py" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/reposition/migrations/0013_auto_20170506_1752.py" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/reposition/migrations/0014_auto_20170506_2355.py" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/reposition/migrations/0015_auto_20170507_1133.py" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/reposition/migrations/0016_auto_20170507_1949.py" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/reposition/migrations/0017_auto_20170507_1950.py" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/reposition/migrations/0018_auto_20170507_1954.py" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/reposition/migrations/0019_auto_20170507_2236.py" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/reposition/migrations/0020_auto_20170507_2246.py" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/reposition/migrations/0021_auto_20170508_1647.py" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/reposition/migrations/0022_auto_20170508_1651.py" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/reposition/migrations/0023_auto_20170508_1922.py" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/reposition/migrations/0024_regionalmanagement_rid.py" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/reposition/migrations/0025_auto_20170509_1503.py" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/reposition/migrations/0026_auto_20170509_1504.py" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/reposition/migrations/0027_auto_20170509_1510.py" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/reposition/migrations/0028_products_city.py" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/reposition/migrations/0029_productrecommend.py" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/reposition/migrations/0030_auto_20170510_1429.py" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/reposition/migrations/0031_auto_20170510_1835.py" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/reposition/migrations/0032_auto_20170510_1842.py" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/reposition/migrations/0033_auto_20170511_0955.py" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/reposition/migrations/0034_auto_20170511_1843.py" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/reposition/migrations/0035_productrecommend_status.py" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/reposition/migrations/0036_auto_20170512_1614.py" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/reposition/migrations/0037_indexnav_ishot.py" afterPath="" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/static/css/home_index.css" afterPath="$PROJECT_DIR$/app/static/css/home_index.css" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/static/css/home_index1.css" afterPath="$PROJECT_DIR$/app/static/css/home_index1.css" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/static/js/user_index.js" afterPath="$PROJECT_DIR$/app/static/js/user_index.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/templates/index.html" afterPath="$PROJECT_DIR$/app/templates/index.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/templates/master/_menu_left.html" afterPath="$PROJECT_DIR$/app/templates/master/_menu_left.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/templates/master/_nav_top.html" afterPath="$PROJECT_DIR$/app/templates/master/_nav_top.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/templates/news/master/_articles_list.html" afterPath="$PROJECT_DIR$/app/templates/news/master/_articles_list.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/templates/news/master/articles_base.html" afterPath="$PROJECT_DIR$/app/templates/news/master/articles_base.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/templates/news/news_article.html" afterPath="$PROJECT_DIR$/app/templates/news/news_article.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/templates/product/index2.html" afterPath="$PROJECT_DIR$/app/templates/product/index2.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/templates/product/master/base.html" afterPath="$PROJECT_DIR$/app/templates/product/master/base.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/templates/register.html" afterPath="$PROJECT_DIR$/app/templates/register.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/templates/shop/index.html" afterPath="$PROJECT_DIR$/app/templates/shop/index.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/templates/shop/master/_nav.html" afterPath="$PROJECT_DIR$/app/templates/shop/master/_nav.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/templates/shop/pay.html" afterPath="$PROJECT_DIR$/app/templates/shop/pay.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/templates/user/master/_head.html" afterPath="$PROJECT_DIR$/app/templates/user/master/_head.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/templates/user/master/_nav.html" afterPath="$PROJECT_DIR$/app/templates/user/master/_nav.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/templates/user/master/_nav_top.html" afterPath="$PROJECT_DIR$/app/templates/user/master/_nav_top.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/templates/user/master/base.html" afterPath="$PROJECT_DIR$/app/templates/user/master/base.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/templates/user/order.html" afterPath="$PROJECT_DIR$/app/templates/user/order.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/templates/user/user_index.html" afterPath="$PROJECT_DIR$/app/templates/user/user_index.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/urls.py" afterPath="$PROJECT_DIR$/app/urls.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/account.py" afterPath="$PROJECT_DIR$/app/views/account.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/index.py" afterPath="$PROJECT_DIR$/app/views/index.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/news.py" afterPath="$PROJECT_DIR$/app/views/news.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/pay.py" afterPath="$PROJECT_DIR$/app/views/pay.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/product.py" afterPath="$PROJECT_DIR$/app/views/product.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/user.py" afterPath="$PROJECT_DIR$/app/views/user.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/backend/cxmadmin.py" afterPath="$PROJECT_DIR$/backend/cxmadmin.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/backend/forms/forms_article.py" afterPath="$PROJECT_DIR$/backend/forms/forms_article.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/backend/forms/product.py" afterPath="$PROJECT_DIR$/backend/forms/product.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/backend/static/css/index.css" afterPath="$PROJECT_DIR$/backend/static/css/index.css" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/backend/static/js/admin_index.js" afterPath="$PROJECT_DIR$/backend/static/js/admin_index.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/backend/templates/articles/article_add.html" afterPath="$PROJECT_DIR$/backend/templates/articles/article_add.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/backend/templates/articles/article_edit.html" afterPath="$PROJECT_DIR$/backend/templates/articles/article_edit.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/backend/templates/articles/article_keyword.html" afterPath="$PROJECT_DIR$/backend/templates/articles/article_keyword.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/backend/templates/articles/articles.html" afterPath="$PROJECT_DIR$/backend/templates/articles/articles.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/backend/templates/general_edit_index.html" afterPath="$PROJECT_DIR$/backend/templates/general_edit_index.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/backend/templates/master_b/_aside.html" afterPath="$PROJECT_DIR$/backend/templates/master_b/_aside.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/backend/templates/master_b/_table_obj_list.html" afterPath="$PROJECT_DIR$/backend/templates/master_b/_table_obj_list.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/backend/templates/master_b/layout.html" afterPath="$PROJECT_DIR$/backend/templates/master_b/layout.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/backend/templates/organization/assign.html" afterPath="$PROJECT_DIR$/backend/templates/organization/assign.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/backend/templates/organization/org_employee.html" afterPath="$PROJECT_DIR$/backend/templates/organization/org_employee.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/backend/templates/organization/org_employee_add.html" afterPath="$PROJECT_DIR$/backend/templates/organization/org_employee_add.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/backend/templates/organization/org_employee_edit.html" afterPath="$PROJECT_DIR$/backend/templates/organization/org_employee_edit.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/backend/templates/organization/org_position.html" afterPath="$PROJECT_DIR$/backend/templates/organization/org_position.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/backend/templates/organization/org_position_edit.html" afterPath="$PROJECT_DIR$/backend/templates/organization/org_position_edit.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/backend/templates/organization/roles.html" afterPath="$PROJECT_DIR$/backend/templates/organization/roles.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/backend/templates/product/p_business.html" afterPath="$PROJECT_DIR$/backend/templates/product/p_business.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/backend/templates/product/product_add.html" afterPath="$PROJECT_DIR$/backend/templates/product/product_add.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/backend/templates/product/product_edit.html" afterPath="$PROJECT_DIR$/backend/templates/product/product_edit.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/backend/templates/service/order.html" afterPath="$PROJECT_DIR$/backend/templates/service/order.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/backend/templates/service/order_add.html" afterPath="$PROJECT_DIR$/backend/templates/service/order_add.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/backend/templates/sites/bxslider.html" afterPath="$PROJECT_DIR$/backend/templates/sites/bxslider.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/backend/urls.py" afterPath="$PROJECT_DIR$/backend/urls.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/backend/views/articles.py" afterPath="$PROJECT_DIR$/backend/views/articles.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/backend/views/login.py" afterPath="$PROJECT_DIR$/backend/views/login.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/backend/views/my.py" afterPath="$PROJECT_DIR$/backend/views/my.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/backend/views/organization.py" afterPath="$PROJECT_DIR$/backend/views/organization.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/backend/views/product.py" afterPath="$PROJECT_DIR$/backend/views/product.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/backend/views/service.py" afterPath="$PROJECT_DIR$/backend/views/service.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/backend/views/site.py" afterPath="$PROJECT_DIR$/backend/views/site.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/backend/views/users.py" afterPath="$PROJECT_DIR$/backend/views/users.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/cxmadmin/admin.py" afterPath="$PROJECT_DIR$/cxmadmin/admin.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/cxmadmin/base.py" afterPath="$PROJECT_DIR$/cxmadmin/base.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/cxmadmin/form_handle.py" afterPath="$PROJECT_DIR$/cxmadmin/form_handle.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/cxmadmin/templatetags/cxmadmin_tags.py" afterPath="$PROJECT_DIR$/cxmadmin/templatetags/cxmadmin_tags.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mid/citymiddleware.py" afterPath="$PROJECT_DIR$/mid/citymiddleware.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/reposition/modal_del.py" afterPath="$PROJECT_DIR$/reposition/modal_del.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/reposition/model_query.py" afterPath="$PROJECT_DIR$/reposition/model_query.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/reposition/models.py" afterPath="$PROJECT_DIR$/reposition/models.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sdy/settings.py" afterPath="$PROJECT_DIR$/sdy/settings.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/test.py" afterPath="$PROJECT_DIR$/test.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/utils/login.py" afterPath="$PROJECT_DIR$/utils/login.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/utils/login_admin.py" afterPath="$PROJECT_DIR$/utils/login_admin.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/utils/menu.py" afterPath="$PROJECT_DIR$/utils/menu.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/utils/sms_message.py" afterPath="$PROJECT_DIR$/utils/sms_message.py" />
     </list>
     <ignored path="sdy.iws" />
@@ -26,9 +153,10 @@
   </component>
   <component name="ChangesViewManager" flattened_view="true" show_ignored="false" />
   <component name="CoverageDataManager">
-    <SUITE FILE_PATH="coverage/sdy$test.coverage" NAME="test Coverage Results" MODIFIED="1494467056117" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/sdy$test.coverage" NAME="test Coverage Results" MODIFIED="1497514722078" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/sdy$models.coverage" NAME="models Coverage Results" MODIFIED="1491898219260" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/reposition" />
     <SUITE FILE_PATH="coverage/sdy$test__1_.coverage" NAME="test (1) Coverage Results" MODIFIED="1492479722781" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/backend" />
+    <SUITE FILE_PATH="coverage/sdy$service.coverage" NAME="service Coverage Results" MODIFIED="1494904418580" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/backend/views" />
   </component>
   <component name="CreatePatchCommitExecutor">
     <option name="PATCH_PATH" value="" />
@@ -50,30 +178,20 @@
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="450">
       <file leaf-file-name="urls.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/urls.py">
+        <entry file="file://$PROJECT_DIR$/backend/urls.py">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="21" column="53" selection-start-line="21" selection-start-column="53" selection-end-line="21" selection-end-column="53" />
+              <caret line="76" column="56" selection-start-line="76" selection-start-column="56" selection-end-line="76" selection-end-column="56" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="user.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/views/user.py">
+      <file leaf-file-name="models.py" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/reposition/models.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="244" column="29" selection-start-line="244" selection-start-column="29" selection-end-line="244" selection-end-column="29" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="sms_message.py" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/utils/sms_message.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.36437246">
-              <caret line="8" column="37" selection-start-line="8" selection-start-column="37" selection-end-line="8" selection-end-column="37" />
+            <state vertical-scroll-proportion="0.578125">
+              <caret line="847" column="0" selection-start-line="847" selection-start-column="0" selection-end-line="847" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -85,8 +203,8 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="CSS File" />
-        <option value="JavaScript File" />
         <option value="HTML File" />
+        <option value="JavaScript File" />
         <option value="Python Script" />
       </list>
     </option>
@@ -97,57 +215,57 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/backend/templates/product/p_service.html" />
+        <option value="$PROJECT_DIR$/backend/views/product_method.py" />
+        <option value="$PROJECT_DIR$/backend/templates/product/master/_table_obj_list.html" />
+        <option value="$PROJECT_DIR$/backend/templates/product/package_city.html" />
         <option value="$PROJECT_DIR$/app/templates/shop/index.html" />
-        <option value="$PROJECT_DIR$/test.py" />
-        <option value="$PROJECT_DIR$/backend/templates/service/master/_table_obj_list.html" />
+        <option value="$PROJECT_DIR$/backend/templates/product/package_bind.html" />
         <option value="$PROJECT_DIR$/cxmadmin/templatetags/cxmadmin_tags.py" />
-        <option value="$PROJECT_DIR$/backend/templates/product/p_category.html" />
-        <option value="$PROJECT_DIR$/app/static/js/citySet.js" />
-        <option value="$PROJECT_DIR$/app/urls.py" />
+        <option value="$PROJECT_DIR$/backend/templates/sites/bxslider.html" />
+        <option value="$PROJECT_DIR$/app/templates/user/master/_head.html" />
+        <option value="$PROJECT_DIR$/app/templates/user/master/_nav.html" />
+        <option value="$PROJECT_DIR$/app/templates/user/user_index.html" />
+        <option value="$PROJECT_DIR$/app/templates/user/master/base.html" />
+        <option value="$PROJECT_DIR$/app/templates/shop/master/_nav.html" />
+        <option value="$PROJECT_DIR$/app/templates/user/master/_nav_top.html" />
         <option value="$PROJECT_DIR$/app/templates/master/_nav_top.html" />
+        <option value="$PROJECT_DIR$/utils/login.py" />
+        <option value="$PROJECT_DIR$/utils/menu.py" />
+        <option value="$PROJECT_DIR$/app/views/account.py" />
+        <option value="$PROJECT_DIR$/app/views/news.py" />
+        <option value="$PROJECT_DIR$/app/templates/user/order.html" />
         <option value="$PROJECT_DIR$/app/views/user.py" />
         <option value="$PROJECT_DIR$/app/views/pay.py" />
-        <option value="$PROJECT_DIR$/app/templates/news/master/base.html" />
-        <option value="$PROJECT_DIR$/app/templates/news/news_index.html" />
-        <option value="$PROJECT_DIR$/app/templates/news/master/_nav.html" />
-        <option value="$PROJECT_DIR$/app/views/news.py" />
-        <option value="$PROJECT_DIR$/app/templates/news/master/_articles_list.html" />
-        <option value="$PROJECT_DIR$/app/templates/news/master/articles_base.html" />
-        <option value="$PROJECT_DIR$/backend/urls.py" />
-        <option value="$PROJECT_DIR$/backend/templates/sites/site.html" />
-        <option value="$PROJECT_DIR$/cxmadmin/base.py" />
-        <option value="$PROJECT_DIR$/backend/templates/master_b/_table_obj_list.html" />
-        <option value="$PROJECT_DIR$/backend/templates/sites/product_recommend.html" />
-        <option value="$PROJECT_DIR$/backend/templates/product/product_add.html" />
-        <option value="$PROJECT_DIR$/app/templates/index.html" />
-        <option value="$PROJECT_DIR$/app/templates/product/master/_aside.html" />
-        <option value="$PROJECT_DIR$/11.py" />
-        <option value="$PROJECT_DIR$/backend/templates/master_b/_aside_second.html" />
-        <option value="$PROJECT_DIR$/backend/cxmadmin.py" />
-        <option value="$PROJECT_DIR$/mid/citymiddleware.py" />
-        <option value="$PROJECT_DIR$/utils/upload_image.py" />
-        <option value="$PROJECT_DIR$/backend/templates/product/product_edit.html" />
-        <option value="$PROJECT_DIR$/backend/templates/product/product.html" />
-        <option value="$PROJECT_DIR$/backend/forms/product.py" />
-        <option value="$PROJECT_DIR$/backend/forms/forms_site.py" />
-        <option value="$PROJECT_DIR$/reposition/models.py" />
-        <option value="$PROJECT_DIR$/backend/templates/sites/index_nav.html" />
-        <option value="$PROJECT_DIR$/backend/static/js/admin_index.js" />
-        <option value="$PROJECT_DIR$/backend/views/site.py" />
-        <option value="$PROJECT_DIR$/app/views/index.py" />
-        <option value="$PROJECT_DIR$/app/templates/master/_menu_right.html" />
-        <option value="$PROJECT_DIR$/app/views/product.py" />
-        <option value="$PROJECT_DIR$/app/templates/product/index2.html" />
-        <option value="$PROJECT_DIR$/sdy/settings.py" />
-        <option value="$PROJECT_DIR$/sdy/urls.py" />
-        <option value="$PROJECT_DIR$/backend/views/organization.py" />
-        <option value="$PROJECT_DIR$/backend/views/product.py" />
-        <option value="$PROJECT_DIR$/backend/forms/forms_article.py" />
-        <option value="$PROJECT_DIR$/app/views/account.py" />
-        <option value="$PROJECT_DIR$/app/static/js/user_index.js" />
         <option value="$PROJECT_DIR$/app/templates/register.html" />
-        <option value="$PROJECT_DIR$/utils/sms_message.py" />
+        <option value="$PROJECT_DIR$/backend/views/product.py" />
+        <option value="$PROJECT_DIR$/backend/static/css/index.css" />
+        <option value="$PROJECT_DIR$/backend/templates/articles/article_add.html" />
+        <option value="$PROJECT_DIR$/app/static/css/home_index.css" />
+        <option value="$PROJECT_DIR$/1.html" />
+        <option value="$PROJECT_DIR$/backend/views/site.py" />
+        <option value="$PROJECT_DIR$/app/templates/news/master/_articles_list.html" />
+        <option value="$PROJECT_DIR$/backend/templates/articles/author_add.html" />
+        <option value="$PROJECT_DIR$/backend/urls.py" />
+        <option value="$PROJECT_DIR$/app/static/css/home_index1.css" />
+        <option value="$PROJECT_DIR$/app/urls.py" />
+        <option value="$PROJECT_DIR$/app/views/product_method.py" />
+        <option value="$PROJECT_DIR$/app/views/product.py" />
+        <option value="$PROJECT_DIR$/app/templates/index.html" />
+        <option value="$PROJECT_DIR$/backend/templates/articles/article_edit.html" />
+        <option value="$PROJECT_DIR$/backend/forms/forms_article.py" />
+        <option value="$PROJECT_DIR$/backend/views/articles.py" />
+        <option value="$PROJECT_DIR$/backend/templates/master_b/layout.html" />
+        <option value="$PROJECT_DIR$/sdy/settings.py" />
+        <option value="$PROJECT_DIR$/test.py" />
+        <option value="$PROJECT_DIR$/backend/templates/master_b/_aside.html" />
+        <option value="$PROJECT_DIR$/app/templates/product/package_index.html" />
+        <option value="$PROJECT_DIR$/app/templates/product/master/base.html" />
+        <option value="$PROJECT_DIR$/backend/forms/product.py" />
+        <option value="$PROJECT_DIR$/backend/templates/product/package_add.html" />
+        <option value="$PROJECT_DIR$/backend/templates/product/package_edit.html" />
+        <option value="$PROJECT_DIR$/backend/cxmadmin.py" />
+        <option value="$PROJECT_DIR$/app/views/index.py" />
+        <option value="$PROJECT_DIR$/reposition/models.py" />
       </list>
     </option>
   </component>
@@ -157,10 +275,9 @@
     <detection-done>true</detection-done>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="-11" />
-    <option name="y" value="-11" />
-    <option name="width" value="1942" />
-    <option name="height" value="1042" />
+    <option name="x" value="-10" />
+    <option name="width" value="1934" />
+    <option name="height" value="1030" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="false">
     <OptionsSetting value="true" id="Add" />
@@ -188,6 +305,7 @@
     </navigator>
     <panes>
       <pane id="Scope" />
+      <pane id="Scratches" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -216,46 +334,17 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="sdy" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="sdy" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="sdy" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="backend" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="sdy" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="sdy" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="app" />
+              <option name="myItemId" value="reposition" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
         </subPane>
       </pane>
-      <pane id="Scratches" />
     </panes>
   </component>
   <component name="PropertiesComponent">
-    <property name="settings.editor.selected.configurable" value="editor.preferences.folding" />
-    <property name="last_opened_file_path" value="G:/老男孩视频/s3 day88 堡垒机/s3CrazyEye" />
+    <property name="settings.editor.selected.configurable" value="com.jetbrains.django.DjangoModulesConfigurable" />
+    <property name="last_opened_file_path" value="I:/Tsinghua/branches/branch_cxm" />
     <property name="settings.editor.splitter.proportion" value="0.2" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="DefaultHtmlFileTemplate" value="HTML File" />
@@ -270,11 +359,11 @@
       <recent name="I:\django\sdy" />
     </key>
     <key name="CopyFile.RECENT_KEYS">
-      <recent name="I:\django\sdy\static\images" />
+      <recent name="I:\django\sdy\app\templates\product" />
+      <recent name="I:\django\sdy\backend\templates\articles" />
+      <recent name="I:\django\sdy\backend\templates\sites" />
+      <recent name="I:\django\sdy\app\static\images\icon" />
       <recent name="I:\django\sdy\backend\templates\product" />
-      <recent name="I:\django\sdy\static\images\icon" />
-      <recent name="I:\django\sdy\app\static\js" />
-      <recent name="I:\django\sdy_new\app\static\js" />
     </key>
   </component>
   <component name="RunManager" selected="Django server.sdy">
@@ -328,6 +417,24 @@
       <module name="sdy" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/backend/test.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <method />
+    </configuration>
+    <configuration default="false" name="service" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/backend/views" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="sdy" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/backend/views/service.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <method />
@@ -572,17 +679,19 @@
       <option name="customRunCommand" value="" />
       <method />
     </configuration>
-    <list size="4">
+    <list size="5">
       <item index="0" class="java.lang.String" itemvalue="Django server.sdy" />
       <item index="1" class="java.lang.String" itemvalue="Python.models" />
       <item index="2" class="java.lang.String" itemvalue="Python.test" />
       <item index="3" class="java.lang.String" itemvalue="Python.test (1)" />
+      <item index="4" class="java.lang.String" itemvalue="Python.service" />
     </list>
     <recent_temporary>
-      <list size="3">
+      <list size="4">
         <item index="0" class="java.lang.String" itemvalue="Python.test" />
-        <item index="1" class="java.lang.String" itemvalue="Python.test (1)" />
-        <item index="2" class="java.lang.String" itemvalue="Python.models" />
+        <item index="1" class="java.lang.String" itemvalue="Python.service" />
+        <item index="2" class="java.lang.String" itemvalue="Python.test (1)" />
+        <item index="3" class="java.lang.String" itemvalue="Python.models" />
       </list>
     </recent_temporary>
   </component>
@@ -609,18 +718,18 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="-11" y="-11" width="1942" height="1042" extended-state="7" />
-    <editor active="true" />
+    <frame x="-10" y="0" width="1934" height="1030" extended-state="1" />
+    <editor active="false" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.21767241" sideWeight="0.43962264" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.18019481" sideWeight="0.40520447" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32902467" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3772033" sideWeight="0.53394395" order="1" side_tool="true" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.26321974" sideWeight="0.54525864" order="1" side_tool="true" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.1557112" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32942554" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3278496" sideWeight="0.48922414" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.3772033" sideWeight="0.46605605" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.21767241" sideWeight="0.56037736" order="1" side_tool="true" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4148061" sideWeight="0.47144395" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.37306318" sideWeight="0.4547414" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.23868534" sideWeight="0.5947955" order="1" side_tool="true" content_ui="tabs" />
+      <window_info id="Terminal" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.34684148" sideWeight="0.46012932" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4359577" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3297414" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -628,16 +737,16 @@
     </layout>
     <layout-to-restore>
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32902467" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3772033" sideWeight="0.53394395" order="1" side_tool="true" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.26321974" sideWeight="0.54525864" order="1" side_tool="true" content_ui="tabs" />
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32942554" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3278496" sideWeight="0.48922414" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.3772033" sideWeight="0.46605605" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4148061" sideWeight="0.47144395" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.21767241" sideWeight="0.43962264" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3678026" sideWeight="0.4547414" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3478261" sideWeight="0.46012932" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.24622844" sideWeight="0.40520447" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3297414" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.1557112" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33960047" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.21767241" sideWeight="0.56037736" order="1" side_tool="true" content_ui="tabs" />
+      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.23868534" sideWeight="0.5947955" order="1" side_tool="true" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4359577" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
     </layout-to-restore>
@@ -665,469 +774,394 @@
           </properties>
         </breakpoint>
       </default-breakpoints>
-      <option name="time" value="112" />
+      <option name="time" value="122" />
     </breakpoint-manager>
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/backend/forms/service.py">
+    <entry file="jar://$APPLICATION_HOME_DIR$/lib/pycharm.jar!/resources/html5-schema/html5/block.rnc">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.6195219">
+          <caret line="231" column="9" selection-start-line="0" selection-start-column="0" selection-end-line="249" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/templates/master/_carousel.html">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <element signature="e#0#24#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://D:/software/python35/Lib/site-packages/django/forms/forms.py">
+    <entry file="file://$PROJECT_DIR$/backend/templates/sites/banner.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.6963563">
-          <caret line="85" column="20" selection-start-line="85" selection-start-column="13" selection-end-line="85" selection-end-column="20" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/templates/master/footer/_footer_product.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
+        <state vertical-scroll-proportion="-0.4726477">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/templates/product/master/base.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.6258352">
-          <caret line="27" column="30" selection-start-line="27" selection-start-column="30" selection-end-line="27" selection-end-column="30" />
-          <folding>
-            <element signature="n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/templates/product/master/_aside.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="1.1224945">
-          <caret line="14" column="7" selection-start-line="14" selection-start-column="7" selection-end-line="14" selection-end-column="7" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/backend/templates/master_b/_aside_second.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-4.0">
-          <caret line="5" column="78" selection-start-line="5" selection-start-column="78" selection-end-line="5" selection-end-column="78" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://D:/software/python35/Lib/wsgiref/simple_server.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="35" column="0" selection-start-line="35" selection-start-column="0" selection-end-line="35" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://D:/software/python35/Lib/wsgiref/handlers.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="143" column="0" selection-start-line="143" selection-start-column="0" selection-end-line="143" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/backend/templates/organization/assign.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.40089086">
-          <caret line="38" column="42" selection-start-line="38" selection-start-column="42" selection-end-line="38" selection-end-column="42" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/mid/citymiddleware.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="16" column="20" selection-start-line="16" selection-start-column="20" selection-end-line="16" selection-end-column="20" />
-          <folding>
-            <element signature="e#0#36#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/utils/upload_image.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="1.4372469">
-          <caret line="53" column="42" selection-start-line="53" selection-start-column="42" selection-end-line="53" selection-end-column="42" />
-          <folding>
-            <element signature="e#0#11#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/backend/templates/product/product.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.48106903">
-          <caret line="39" column="37" selection-start-line="39" selection-start-column="37" selection-end-line="39" selection-end-column="37" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/backend/cxmadmin.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-0.046558704">
-          <caret line="32" column="18" selection-start-line="32" selection-start-column="18" selection-end-line="32" selection-end-column="18" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/backend/templates/product/product_add.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.058441557">
-          <caret line="63" column="22" selection-start-line="54" selection-start-column="16" selection-end-line="63" selection-end-column="22" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/backend/templates/product/product_edit.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.4896104">
-          <caret line="63" column="16" selection-start-line="63" selection-start-column="16" selection-end-line="63" selection-end-column="16" />
-          <folding>
-            <element signature="e#3486#3911#0#HTML" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/backend/forms/product.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="5.887446">
-          <caret line="138" column="8" selection-start-line="138" selection-start-column="8" selection-end-line="138" selection-end-column="8" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/backend/forms/forms_site.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0995671">
-          <caret line="56" column="33" selection-start-line="56" selection-start-column="33" selection-end-line="56" selection-end-column="33" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/utils/login_admin.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.3319838">
-          <caret line="9" column="0" selection-start-line="9" selection-start-column="0" selection-end-line="9" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/reposition/modal_del.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.21862349">
-          <caret line="3" column="4" selection-start-line="3" selection-start-column="4" selection-end-line="3" selection-end-column="4" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/backend/templates/sites/index_nav.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.4766147">
-          <caret line="24" column="34" selection-start-line="24" selection-start-column="25" selection-end-line="24" selection-end-column="34" />
-          <folding>
-            <element signature="n#div#1;n#!!top" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/backend/static/js/admin_index.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.3319838">
-          <caret line="489" column="36" selection-start-line="489" selection-start-column="33" selection-end-line="489" selection-end-column="36" />
-          <folding>
-            <element signature="e#2370#2420#0" expanded="false" />
-            <element signature="e#2478#2530#0" expanded="false" />
-            <element signature="e#2584#2642#0" expanded="false" />
-            <element signature="e#2976#3066#0" expanded="false" />
-            <element signature="e#3104#3194#0" expanded="false" />
-            <element signature="e#4472#6285#0" expanded="false" />
-            <element signature="e#9370#9482#0" expanded="false" />
-            <element signature="e#9529#9633#0" expanded="false" />
-            <element signature="n#!!block;n#bindOnlyInputBtnClick#0" expanded="false" />
-            <element signature="e#11056#11582#0" expanded="false" />
-            <element signature="e#11642#12962#0" expanded="false" />
-            <element signature="n#!!block;n#get_Modal_Info#0" expanded="false" />
-            <element signature="n#!!block;n#send_Add_Ajax_Info#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/backend/views/site.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.6234818">
-          <caret line="140" column="30" selection-start-line="140" selection-start-column="30" selection-end-line="140" selection-end-column="30" />
-          <folding>
-            <element signature="e#779#1014#0" expanded="false" />
-            <element signature="e#1087#1537#0" expanded="false" />
-            <element signature="e#1586#2623#0" expanded="false" />
-            <element signature="e#2670#3859#0" expanded="false" />
-          </folding>
+        <state vertical-scroll-proportion="0.5697211">
+          <caret line="177" column="13" selection-start-line="177" selection-start-column="13" selection-end-line="177" selection-end-column="13" />
         </state>
       </provider>
     </entry>
-    <entry file="file://D:/software/python35/Lib/site-packages/django/db/models/manager.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.3319838">
-          <caret line="174" column="0" selection-start-line="174" selection-start-column="0" selection-end-line="174" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://D:/software/python35/Lib/site-packages/django/db/models/sql/query.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.3319838">
-          <caret line="1643" column="0" selection-start-line="1643" selection-start-column="0" selection-end-line="1643" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/templates/index.html">
+    <entry file="file://$PROJECT_DIR$/app/templates/news/news_index.html">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-0.0">
-          <caret line="0" column="26" selection-start-line="0" selection-start-column="26" selection-end-line="0" selection-end-column="26" />
-          <folding />
+          <caret line="0" column="30" selection-start-line="0" selection-start-column="30" selection-end-line="0" selection-end-column="30" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/templates/master/layout.html">
+    <entry file="file://$PROJECT_DIR$/app/templates/news/master/base.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-7.2">
-          <caret line="9" column="26" selection-start-line="9" selection-start-column="26" selection-end-line="9" selection-end-column="26" />
-          <folding />
+        <state vertical-scroll-proportion="-8.177778">
+          <caret line="13" column="38" selection-start-line="13" selection-start-column="38" selection-end-line="13" selection-end-column="38" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/templates/master/_nav.html">
+    <entry file="file://$PROJECT_DIR$/app/templates/news/master/_articles_list.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-8.8">
-          <caret line="17" column="36" selection-start-line="17" selection-start-column="36" selection-end-line="17" selection-end-column="36" />
-          <folding />
+        <state vertical-scroll-proportion="0.4726477">
+          <caret line="6" column="42" selection-start-line="6" selection-start-column="42" selection-end-line="6" selection-end-column="42" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/templates/master/_menu_right.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.40089086">
-          <caret line="5" column="35" selection-start-line="5" selection-start-column="35" selection-end-line="5" selection-end-column="35" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/views/pay.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="27" column="69" selection-start-line="27" selection-start-column="67" selection-end-line="27" selection-end-column="69" />
-          <folding>
-            <element signature="e#0#81#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/views/news.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="1" column="23" selection-start-line="1" selection-start-column="21" selection-end-line="1" selection-end-column="23" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/views/index.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="24" column="11" selection-start-line="24" selection-start-column="8" selection-end-line="24" selection-end-column="11" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/views/Global_variable.py">
+    <entry file="file://$PROJECT_DIR$/backend/templates/general_add_index.html">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <element signature="e#0#35#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/views/api.py">
+    <entry file="file://$PROJECT_DIR$/backend/templates/product/p_service_add.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.6301969">
+          <caret line="47" column="18" selection-start-line="44" selection-start-column="12" selection-end-line="47" selection-end-column="18" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://D:/software/python35/Lib/site-packages/django/shortcuts.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.33266932">
+          <caret line="33" column="4" selection-start-line="33" selection-start-column="4" selection-end-line="33" selection-end-column="4" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/backend/templates/articles/author_add.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.054704595">
+          <caret line="4" column="40" selection-start-line="4" selection-start-column="40" selection-end-line="4" selection-end-column="40" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/utils/login_admin.py">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <caret line="30" column="45" selection-start-line="30" selection-start-column="8" selection-end-line="30" selection-end-column="45" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/backend/views/my.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-0.5099602">
+          <caret line="5" column="25" selection-start-line="5" selection-start-column="25" selection-end-line="5" selection-end-column="25" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/backend/templates/product/product_add.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.078774616">
+          <caret line="172" column="39" selection-start-line="172" selection-start-column="37" selection-end-line="172" selection-end-column="39" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/static/css/home_index1.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-1.0230947">
+          <caret line="118" column="4" selection-start-line="118" selection-start-column="4" selection-end-line="118" selection-end-column="4" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/utils/menu.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-0.79509205">
+          <caret line="4" column="4" selection-start-line="4" selection-start-column="4" selection-end-line="4" selection-end-column="4" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/templates/product/master/_comments.html">
+    <entry file="file://$PROJECT_DIR$/app/templates/product/index.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        <state vertical-scroll-proportion="-3.2">
+          <caret line="52" column="68" selection-start-line="52" selection-start-column="44" selection-end-line="52" selection-end-column="68" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/templates/product/index2.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.4922049">
-          <caret line="215" column="41" selection-start-line="215" selection-start-column="41" selection-end-line="215" selection-end-column="41" />
-          <folding>
-            <element signature="e#3657#7299#0#HTML" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/views/product.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.5364373">
-          <caret line="38" column="37" selection-start-line="38" selection-start-column="37" selection-end-line="38" selection-end-column="37" />
-          <folding>
-            <element signature="e#2203#2481#0" expanded="false" />
-            <element signature="e#2506#2994#0" expanded="false" />
-            <element signature="e#3041#3500#0" expanded="false" />
-            <element signature="e#3554#4120#0" expanded="false" />
-            <element signature="e#4180#5237#0" expanded="false" />
-            <element signature="e#5286#6192#0" expanded="false" />
-            <element signature="e#6264#6581#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/sdy/settings.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.39068827">
-          <caret line="50" column="31" selection-start-line="50" selection-start-column="31" selection-end-line="50" selection-end-column="31" />
+        <state vertical-scroll-proportion="-8.0">
+          <caret line="124" column="33" selection-start-line="124" selection-start-column="33" selection-end-line="124" selection-end-column="33" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/sdy/urls.py">
+    <entry file="file://$PROJECT_DIR$/app/views/pay.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-0.9581673">
+          <caret line="92" column="4" selection-start-line="92" selection-start-column="4" selection-end-line="92" selection-end-column="4" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/views/product_method.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-0.38446215">
+          <caret line="85" column="24" selection-start-line="85" selection-start-column="24" selection-end-line="85" selection-end-column="24" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/templates/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.4726477">
+          <caret line="44" column="11" selection-start-line="44" selection-start-column="11" selection-end-line="44" selection-end-column="11" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/views/news.py">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="29" column="16" selection-start-line="29" selection-start-column="16" selection-end-line="29" selection-end-column="16" />
+          <caret line="92" column="42" selection-start-line="92" selection-start-column="42" selection-end-line="92" selection-end-column="42" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/reposition/models.py">
+    <entry file="file://$PROJECT_DIR$/app/templates/news/news_article.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="661" column="10" selection-start-line="661" selection-start-column="4" selection-end-line="661" selection-end-column="10" />
+        <state vertical-scroll-proportion="-6.9555554">
+          <caret line="15" column="33" selection-start-line="15" selection-start-column="33" selection-end-line="15" selection-end-column="33" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/backend/views/product.py">
+    <entry file="file://$PROJECT_DIR$/backend/templates/articles/article_edit.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.7692308">
-          <caret line="113" column="26" selection-start-line="113" selection-start-column="26" selection-end-line="113" selection-end-column="26" />
+        <state vertical-scroll-proportion="0.3272727">
+          <caret line="9" column="112" selection-start-line="9" selection-start-column="112" selection-end-line="9" selection-end-column="112" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/backend/views/organization.py">
+    <entry file="file://$PROJECT_DIR$/backend/templates/master_b/_pagination.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.3319838">
-          <caret line="181" column="4" selection-start-line="181" selection-start-column="4" selection-end-line="181" selection-end-column="4" />
-          <folding>
-            <marker date="1494604132822" expanded="true" signature="787:1045" placeholder="SELECT t.*,t... id" />
-            <marker date="1494604132822" expanded="true" signature="814:935" placeholder="SELECT m.`id... permission" />
-            <marker date="1494604132822" expanded="true" signature="943:1015" placeholder="SELECT COUNT... permission" />
-          </folding>
+        <state vertical-scroll-proportion="-0.2805195">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/backend/urls.py">
+    <entry file="file://$PROJECT_DIR$/backend/templates/master_b/layout.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.60931176">
-          <caret line="36" column="54" selection-start-line="36" selection-start-column="54" selection-end-line="36" selection-end-column="54" />
-          <folding>
-            <element signature="e#0#32#0" expanded="true" />
-          </folding>
+        <state vertical-scroll-proportion="0.7012987">
+          <caret line="25" column="33" selection-start-line="25" selection-start-column="33" selection-end-line="25" selection-end-column="33" />
+          <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/backend/views/articles.py">
+    <entry file="file://$PROJECT_DIR$/static/ueditor/plugins/bootstrap/css/bootstrap.css">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.4048583">
-          <caret line="69" column="18" selection-start-line="69" selection-start-column="18" selection-end-line="69" selection-end-column="18" />
+        <state vertical-scroll-proportion="0.35667396">
+          <caret line="1953" column="11" selection-start-line="1953" selection-start-column="3" selection-end-line="1953" selection-end-column="11" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/backend/forms/forms_article.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.78137654">
-          <caret line="31" column="45" selection-start-line="31" selection-start-column="45" selection-end-line="31" selection-end-column="45" />
+        <state vertical-scroll-proportion="0.0">
+          <caret line="9" column="78" selection-start-line="8" selection-start-column="4" selection-end-line="9" selection-end-column="78" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/backend/views/articles.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="116" column="41" selection-start-line="116" selection-start-column="41" selection-end-line="116" selection-end-column="41" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/reposition/model_query.py">
+    <entry file="file://$PROJECT_DIR$/backend/templates/articles/article_add.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.29149798">
-          <caret line="4" column="0" selection-start-line="4" selection-start-column="0" selection-end-line="8" selection-end-column="23" />
+        <state vertical-scroll-proportion="-10.711111">
+          <caret line="110" column="4" selection-start-line="110" selection-start-column="4" selection-end-line="129" selection-end-column="13" />
           <folding>
-            <marker date="1494299746521" expanded="true" signature="636:810" placeholder="SELECT t.id,... id" />
-            <marker date="1494299746521" expanded="true" signature="691:782" placeholder="SELECT id,or... orders" />
+            <element signature="e#5065#5885#0#HTML" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/views/account.py">
+    <entry file="file://$PROJECT_DIR$/sdy/settings.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.55060726">
-          <caret line="21" column="31" selection-start-line="21" selection-start-column="31" selection-end-line="21" selection-end-column="31" />
+        <state vertical-scroll-proportion="0.7131474">
+          <caret line="29" column="0" selection-start-line="29" selection-start-column="0" selection-end-line="29" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/templates/register.html">
+    <entry file="file://$PROJECT_DIR$/utils/upload_image.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="1.0">
-          <caret line="61" column="32" selection-start-line="61" selection-start-column="32" selection-end-line="61" selection-end-column="32" />
+        <state vertical-scroll-proportion="1.2191235">
+          <caret line="19" column="17" selection-start-line="19" selection-start-column="17" selection-end-line="19" selection-end-column="17" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/static/js/user_index.js">
+    <entry file="file://$PROJECT_DIR$/test.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.854251">
-          <caret line="174" column="13" selection-start-line="174" selection-start-column="13" selection-end-line="174" selection-end-column="13" />
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/backend/templates/master_b/_aside.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.4726477">
+          <caret line="54" column="17" selection-start-line="54" selection-start-column="17" selection-end-line="54" selection-end-column="17" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://D:/software/python35/Lib/site-packages/django/db/models/base.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.33266932">
+          <caret line="554" column="0" selection-start-line="554" selection-start-column="0" selection-end-line="554" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://D:/software/python35/Lib/site-packages/django/db/models/query.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.33266932">
+          <caret line="396" column="0" selection-start-line="396" selection-start-column="0" selection-end-line="396" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://D:/software/python35/Lib/site-packages/django/db/models/manager.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.33266932">
+          <caret line="84" column="0" selection-start-line="84" selection-start-column="0" selection-end-line="84" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/templates/product/package.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-2.4">
+          <caret line="255" column="62" selection-start-line="255" selection-start-column="62" selection-end-line="255" selection-end-column="62" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/templates/product/package_index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-4.8">
+          <caret line="126" column="105" selection-start-line="126" selection-start-column="89" selection-end-line="126" selection-end-column="105" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/views/product.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="75" column="50" selection-start-line="75" selection-start-column="50" selection-end-line="75" selection-end-column="50" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/templates/product/master/base.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-1.9934355">
+          <caret line="6" column="37" selection-start-line="6" selection-start-column="37" selection-end-line="6" selection-end-column="37" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/backend/forms/product.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.55306125">
+          <caret line="171" column="10" selection-start-line="171" selection-start-column="4" selection-end-line="171" selection-end-column="10" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/backend/templates/product/package_add.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.48539326">
+          <caret line="13" column="16" selection-start-line="13" selection-start-column="16" selection-end-line="16" selection-end-column="22" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/backend/views/product.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="612" column="45" selection-start-line="612" selection-start-column="45" selection-end-line="612" selection-end-column="45" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/backend/templates/product/package_edit.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-4.8">
+          <caret line="6" column="32" selection-start-line="6" selection-start-column="32" selection-end-line="6" selection-end-column="32" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/backend/cxmadmin.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="33" column="63" selection-start-line="33" selection-start-column="57" selection-end-line="33" selection-end-column="63" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/views/index.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.9204082">
+          <caret line="27" column="106" selection-start-line="27" selection-start-column="106" selection-end-line="27" selection-end-column="106" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/urls.py">
       <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.43061224">
+          <caret line="63" column="29" selection-start-line="63" selection-start-column="29" selection-end-line="63" selection-end-column="29" />
+          <folding>
+            <element signature="e#0#32#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/backend/urls.py">
+      <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="21" column="53" selection-start-line="21" selection-start-column="53" selection-end-line="21" selection-end-column="53" />
+          <caret line="76" column="56" selection-start-line="76" selection-start-column="56" selection-end-line="76" selection-end-column="56" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/views/user.py">
+    <entry file="file://$PROJECT_DIR$/reposition/models.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="244" column="29" selection-start-line="244" selection-start-column="29" selection-end-line="244" selection-end-column="29" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/utils/sms_message.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.36437246">
-          <caret line="8" column="37" selection-start-line="8" selection-start-column="37" selection-end-line="8" selection-end-column="37" />
+        <state vertical-scroll-proportion="0.578125">
+          <caret line="847" column="0" selection-start-line="847" selection-start-column="0" selection-end-line="847" selection-end-column="0" />
           <folding />
         </state>
       </provider>

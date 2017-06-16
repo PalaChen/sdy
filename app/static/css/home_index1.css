@@ -82,3 +82,130 @@
     padding: 4px 22px;
     text-align: center;
 }
+
+/*精选套餐*/
+/*ul, ol {*/
+    /*list-style: outside none none;*/
+/*}*/
+.choiceness-box {
+	width: 1180px;
+	margin: 20px auto 0;
+}
+.choiceness-ul {
+	font-size: 0;
+	[;letter-spacing: -4px;];
+	[;word-spacing: -4px;];
+}
+.choiceness-ul>li {
+	display: inline-block;
+	*display: inline;
+	*zoom: 1;
+	vertical-align: middle;
+	margin-left: 10px;
+	font-size: 14px;
+	[;letter-spacing: normal;];
+	[;word-spacing: normal;];
+}
+.choiceness-ul>li.choiceness-title {
+	margin: 0;
+}
+.choiceness-title {
+	position: relative;
+	width: 210px;
+	color: #fff;
+	min-height: 180px;
+	background-color: #009AE0;
+	/*background-image: url();*/
+	background-position: center bottom;
+	background-repeat: no-repeat;
+}
+.choiceness-title>h3 {
+	margin: 20px 18px 0;
+	font-size: 32px;
+	font-weight: bold;
+	color: #fff;
+}
+.choiceness-title>p {
+	margin: 0 18px;
+	font-size: 14px;
+	color: #fff;
+}
+.choiceness-title>i {
+	position: absolute;
+	top: 50%;
+	margin-top: -7px;
+	right: 0;
+	display: block;
+	width: 0;
+	height: 0;
+	border-top: 7px transparent solid;
+	border-bottom: 7px transparent solid;
+	border-right: 7px #fff solid;
+}
+.choiceness-list {
+	width: 313px;
+}
+.choiceness-list:hover {
+	box-shadow: 0 0 14px 3px rgba(0,0,0,.1);
+}
+.choiceness-list>a {
+	display: block;
+	padding: 40px 20px 0 30px;
+	min-height: 180px;
+	background: #ebfcfd;
+}
+.choiceness-list h3 {
+	font-size: 18px;
+	color: #000;
+	margin-bottom: 5px;
+}
+.choiceness-list p {
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+.choiceness-list p>span {
+	font-size: 15px;
+	color: #004b92;
+}
+.choiceness-price {
+	padding: 10px 0;
+}
+.choiceness-price>big,
+.choiceness-price>del,
+.choiceness-price>i {
+	display: inline-block;
+	*display: inline;
+	*zoom: 1;
+	vertical-align: middle;
+}
+.choiceness-price>big {
+	font-size: 20px;
+	color: #fa4f4f;
+}
+.choiceness-price>del {
+	color: #999;
+	margin-left: 5px;
+}
+.choiceness-price>i {
+	line-height: 28px;
+	border: 1px #fa4f4f solid;
+	border-radius: 15px;
+	padding: 0 12px;
+	color: #fa4f4f;
+	margin-left: 10px;
+	cursor: pointer;
+}
+.choiceness-list:hover .choiceness-price>i {
+	background: #fa4f4f;
+	color: #fff;
+	display: inline-block;
+	*display:inline;
+	*zoom:1;
+}
+.choiceness-list.bgebf1fd>a {
+	background: #ebf1fd;
+}
+.choiceness-list.bgebf7fd>a {
+	background: #ebf7fd;
+}

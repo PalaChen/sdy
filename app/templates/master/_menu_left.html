@@ -3,28 +3,34 @@
     <div class="kfwNaSubSub kfwNaSubSubIsHome hide">
         <div class="floatLeft headerOverflowInherit kfwISubNav">
             <ul class="iNav overflowhidden headerOverflowInherit">
-                {% for row in cate_dic %}
-                    <li>
-                        <i></i>
-                        <h4>{{ row.1 }}</h4>
-                    </li>
+                {% for row_dict in cate_list %}
+                    {% for row in row_dict.keys %}
+                        <li>
+                            <i></i>
+                            <h4>{{ row.1 }}</h4>
+                        </li>
+                    {% endfor %}
                 {% endfor %}
             </ul>
         </div>
         <div class="floatLeft iSubNav">
             <!-- 我要开公司 -->
-            {% for k,v in cate_dic.items %}
+            {% for row_dict in cate_list %}
                 <div class="kfwanimate">
                     <ul class="floatLeft iSubNavLe overflowhidden">
-                        {% for k1,v1 in v.items %}
-                            <li>
-                                <a><h5>{{ k1.1 }}</h5></a>
-                                <div class="kfwNavOne">
-                                    {% for k1,v1 in v1 %}
-                                        <a href="{% url 'p_category_index' k1 %}">{{ v1 }}</a>
-                                    {% endfor %}
-                                </div>
-                            </li>
+                        {% for row_list in row_dict.values %}
+                            {% for row_2 in row_list %}
+                                {% for k,row_list_2 in row_2.items %}
+                                    <li>
+                                        <a><h5>{{ k.1 }}</h5></a>
+                                        <div class="kfwNavOne">
+                                            {% for row_3 in row_list_2 %}
+                                                <a href="{% url 'p_category_index' row_3.0 %}">{{ row_3.1 }}</a>
+                                            {% endfor %}
+                                        </div>
+                                    </li>
+                                {% endfor %}
+                            {% endfor %}
                         {% endfor %}
                     </ul>
                 </div>

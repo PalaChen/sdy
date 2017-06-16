@@ -28,7 +28,7 @@ def build_filter_ele(filter_column, admin_class):
             option = "<option value='%s' %s>%s</option>" % (choice[0], selected, choice[1])
             filter_ele += option
     except AttributeError as e:
-        print("err", e)
+        # print("err", e)
         # filter_ele = "<div class='form-group marR20'><label>{}</label><select class='form-control' name='{}__gte'>".format(
         #     filter_verboseName, filter_column)
         if column_obj.get_internal_type() in ('DateField', 'DateTimeField'):
@@ -47,7 +47,7 @@ def build_filter_ele(filter_column, admin_class):
                 selected = ''
                 time_to_str = '' if not i[0] else  "%s-%s-%s" % (i[0].year, i[0].month, i[0].day)
                 if "%s__gte" % filter_column in admin_class.filter_condtions:  # 当前字段被过滤了
-                    print('-------------gte')
+                    # print('-------------gte')
                     if time_to_str == admin_class.filter_condtions.get("%s__gte" % filter_column):  # 当前值被选中了
                         selected = 'selected'
                 option = "<option value='%s' %s>%s</option>" % \
@@ -157,7 +157,7 @@ def render_paginator(querysets, admin_class, sorted_column):
 
     for i in querysets.paginator.page_range:
 
-        if abs(querysets.number - i) < 2:  #
+        if abs(querysets.number - i) < 10:  #
             active = ''
             # 当前页
             if querysets.number == i:
@@ -194,7 +194,7 @@ def get_current_sorted_column_index(sorted_column):
 @register.simple_tag
 def get_obj_field_val(form_obj, field):
     '''返回model obj具体字段的值'''
-    print('field-->',field)
+    # print('field-->', field)
     return getattr(form_obj.instance, field)
 
 
@@ -261,3 +261,9 @@ def display_all_related_objs(obj):
             ele += "</ul></li>"
     ele += "</ul>"
     return ele
+
+
+@register.simple_tag
+def get_status(order_status_dict, type, status):
+    if type and status or status == 0:
+        return order_status_dict[type][status]

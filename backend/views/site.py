@@ -138,7 +138,7 @@ def nav_add(req):
                 result_dict['message'] = '导航添加成功'
                 return JsonResponse(result_dict)
         else:
-            print(form.errors)
+            # print(form.errors)
             result_dict['message'] = list(form.errors.values())[0][0]
     result_dict['status'] = False
     return JsonResponse(result_dict)
@@ -170,7 +170,7 @@ def nav_del(request, id):
     res = modal_del.query_del(request, models.IndexNav, id)
     return HttpResponse(res)
 
-
+@login_required
 def product_recommend(request, *arg, **kwargs):
     common_info = {}
     # models.ProcessStep.objects.filter(p_name=)
@@ -178,3 +178,7 @@ def product_recommend(request, *arg, **kwargs):
     common_info['title'] = title_dict['product_recommend']
     common_info['html_url'] = 'sites/product_recommend.html'
     return base.table_obj_list(request, 'reposition', 'productrecommend', common_info)
+
+
+def banner(request):
+    pass

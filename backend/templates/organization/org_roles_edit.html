@@ -1,0 +1,22 @@
+{% extends 'organization/master/base.html' %}
+
+{% block page_content %}
+    {% include 'organization/master/_aside.html' %}
+    <div style="position: absolute;padding: 10px; left: 200px;right: 0;float: left">
+        <div class="float-left" style="margin-top: 10px;margin-bottom: 10px">
+            <ol class="breadcrumb">
+                <li><a href="{% url 'org_employees' %}">角色列表</a></li>
+                <li class="active">修改角色</li>
+            </ol>
+        </div>
+        <div class="float-left" style="margin-top: 10px;margin-bottom: 10px">
+            <a href="{% url 'org_employees' %}" style="margin-bottom: 0;margin-right: 5px">员工列表</a>
+            <a href="{% url 'org_position' %}" style="margin-bottom: 0;margin-right: 5px">职位列表</a>
+            <a href="{% url 'organization_roles' %}" class="title_border">权限角色</a>
+        </div>
+
+        <div style="border: 1px solid #b5b4b3;padding: 10px; min-height: 400px">
+            {% include 'organization/master/_table_obj_change_component.html' %}
+        </div>
+    </div>
+{% endblock %}

@@ -4,8 +4,9 @@
     {% include 'organization/master/_aside.html' %}
     <div style="position: absolute;padding: 10px; left: 200px;right: 0;">
         <div class="float-left" style="margin-top: 10px;margin-bottom: 10px">
-            <a href="{% url 'org_employees' %}" class="title_border">员工列表</a>&nbsp;&nbsp;&nbsp;
-            <a href="{% url 'org_position' %}" style="margin-bottom: 0">职位列表</a>
+            <a href="{% url 'org_employees' %}" class="title_border">员工列表</a>
+            <a href="{% url 'org_position' %}" style="margin-bottom: 0;margin-left: 5px">职位列表</a>
+            <a href="{% url 'organization_roles' %}" style="margin-bottom: 0;margin-left: 5px">权限角色</a>
         </div>
         <div style="border: 1px solid #b5b4b3;padding: 10px;min-height: 485px">
             <p>

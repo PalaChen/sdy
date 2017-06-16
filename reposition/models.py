@@ -17,11 +17,30 @@ class Articles(models.Model):
     is_top_choice = ((0, '置顶'), (1, '不置顶'))
     is_top = models.BooleanField(default=0, choices=is_top_choice)
     p_url = models.CharField(max_length=100)
+    cover_image = models.ForeignKey('ArticlesCoverImage', null=True)
 
     class Meta:
         db_table = 'articles'
         verbose_name = '文章表'
         verbose_name_plural = '文章表'
+
+
+class ArticlesCoverImage(models.Model):
+    """
+    文章封面图
+    """
+    ul_name = models.CharField(max_length=255, null=True)
+    ul_sourcename = models.CharField(max_length=255, null=True)
+    ul_type = models.CharField(max_length=10, null=True)
+    ul_size = models.IntegerField(null=True)
+    ul_posttime = models.DateTimeField(auto_now_add=True)
+    ul_employee = models.ForeignKey('Employees')
+    ul_url = models.CharField(max_length=100, null=True)
+
+    class Meta:
+        db_table = 'articles_cover_image'
+        verbose_name = "文章封面图"
+        verbose_name_plural = "文章封面图"
 
 
 class ArticlesCategory(models.Model):
@@ -174,7 +193,7 @@ class Employees(models.Model):
     gender_choice = ((0, '男'), (1, '女'))
     gender = models.SmallIntegerField(choices=gender_choice, null=True, verbose_name='性别')
     job_number = models.CharField(max_length=8, null=True, verbose_name='工号', unique=True)
-    role = models.ForeignKey('Role', null=True, blank=True)
+    role = models.ForeignKey('Role', null=True, blank=True, verbose_name='权限角色')
     reg_time = models.DateField(auto_now_add=True, verbose_name='注册时间')
     last_ip = models.CharField(max_length=20, null=True, blank=True)
     last_time = models.DateTimeField(null=True, blank=True, verbose_name='上一次登陆')
@@ -194,14 +213,14 @@ class MessagesSend(models.Model):
     """
     短信发送
     """
-    m_status = models.IntegerField(db_column='m_Status', )
-    m_response_time = models.CharField(db_column='m_Response_Time', max_length=30, null=True)
-    m_messageid = models.CharField(db_column='m_MessageID', max_length=30, null=True)
-    m_order_id = models.IntegerField(db_column='m_Order_ID')
-    m_text = models.CharField(db_column='m_Text', max_length=2000, )
-    m_phone = models.CharField(db_column='m_Phone', max_length=11, )
-    m_employee_id = models.IntegerField(db_column='m_Employee_ID', )
-    m_send_date = models.DateTimeField(db_column='m_Send_Date', auto_now_add=True)
+    status = models.SmallIntegerField()
+    response_time = models.CharField(max_length=30)
+    message_id = models.CharField(max_length=30)
+    content = models.CharField(max_length=1000)
+    phone = models.CharField(max_length=11)
+    order = models.ForeignKey('Orders')
+    employee = models.ForeignKey('Employees')
+    ctime = models.DateTimeField(auto_now_add=True)
 
     class Meta:
         db_table = 'messages_send'
@@ -236,14 +255,14 @@ class Orders(models.Model):
     product_name = models.CharField(max_length=100, blank=True)
     order_code = models.CharField(max_length=18, )
     ctime = models.DateTimeField(auto_now_add=True)
-    cprice = models.FloatField(db_column='cPrice', )
+    cprice = models.FloatField(db_column='cPrice')
     number = models.IntegerField(default=1)
     coupon = models.FloatField(default=0)
     voucher = models.FloatField(default=0)
     total_price = models.FloatField()
     order_state_choice = ((0, '待付款'), (1, '待服务'), (2, '服务中'),
-                          (3, '服务完成'), (4, '退款中'), (5, '退款完成'),
-                          (6, '交易关闭'))
+                          (3, '交易关闭'), (4, '服务完成'), (5, '退款中'),
+                          (6, '退款完成'),)
     order_state = models.SmallIntegerField(choices=order_state_choice, default=0)
     type_choice = ((0, '真实'), (1, '虚假'))
     type = models.SmallIntegerField(choices=order_state_choice, default=0)
@@ -275,7 +294,7 @@ class OrderPayment(models.Model):
     """
     支付信息
     """
-    order_code = models.CharField(max_length=18, verbose_name='订单号')
+    order_code = models.CharField(max_length=18, verbose_name='订单号', unique=True)
     user = models.ForeignKey('Users', verbose_name='支付用户')
     status_choice = ((0, '待支付'), (1, '支付成功'), (2, '支付失败'), (3, '交易关闭'))
     status = models.SmallIntegerField(choices=status_choice, default=0, verbose_name='支付状态')
@@ -379,8 +398,8 @@ class ProcessStep(models.Model):
     ctime = models.DateTimeField(auto_now_add=True)
     mtime = models.DateTimeField(null=True)
     state = models.IntegerField(default=1)
-    p_name = models.ForeignKey(ProcessName, models.DO_NOTHING, )
-    employee = models.ForeignKey(Employees, models.DO_NOTHING, )
+    p_name = models.ForeignKey(ProcessName, )
+    employee = models.ForeignKey(Employees, )
 
     class Meta:
         db_table = 'process_step'
@@ -399,9 +418,8 @@ class ProductCImage(models.Model):
     ul_size = models.IntegerField(db_column='ul_Size', null=True)
     ul_posttime = models.DateTimeField(db_column='ul_PostTime', null=True,
                                        auto_now_add=True)
-    ul_employee = models.ForeignKey(Employees, models.DO_NOTHING, db_column='ul_Employee_id',
-                                    null=True)
-    ul_product = models.ForeignKey('Products', models.DO_NOTHING, null=True)
+    ul_employee = models.ForeignKey(Employees, db_column='ul_Employee_id', null=True)
+    ul_product = models.ForeignKey('Products', null=True)
     ul_url = models.CharField(db_column='ul_Url', max_length=100, null=True)
 
     class Meta:
@@ -499,8 +517,8 @@ class Users(models.Model):
     用户表
     """
     # username = models.CharField(max_length=20, unique=True)
-    email = models.CharField(max_length=100, verbose_name='邮箱')
     phone = models.CharField(max_length=11, unique=True, verbose_name='手机号码')
+    email = models.CharField(max_length=100, blank=True, verbose_name='邮箱')
     name = models.CharField(max_length=30, verbose_name='称呼')
     password = models.CharField(max_length=40, verbose_name='密码')
     qq = models.CharField(max_length=15, null=True, blank=True, verbose_name='QQ')
@@ -560,7 +578,7 @@ class IndexNav(models.Model):
     name = models.CharField(max_length=100, verbose_name='名称')
     weight = models.IntegerField(default=0, verbose_name='权重')
     url = models.CharField(max_length=100, verbose_name='网址')
-    nav_status_choice = ((0, '下架'), (1, '上架'))
+    nav_status_choice = ((0, '下架'), (1, '上线'))
     status = models.SmallIntegerField(default=1, choices=nav_status_choice, verbose_name='状态')
     ishot_choice = ((0, '不热门'), (1, '热门'))
     ishot = models.SmallIntegerField(choices=ishot_choice, verbose_name='热门')
@@ -577,12 +595,15 @@ class Role(models.Model):
     """
     权限角色表
     """
-    name = models.CharField(max_length=30, unique=True)
+    name = models.CharField(max_length=30, unique=True, verbose_name='名字')
 
     class Meta:
         db_table = 'roles'
         verbose_name = "权限角色表"
         verbose_name_plural = "权限角色表"
+
+    def __str__(self):
+        return self.name
 
 
 class Employee2Role(models.Model):
@@ -608,8 +629,8 @@ class Action(models.Model):
     # post  创建用户2
     # delete 删除用户3
     # put  修改用户4
-    caption = models.CharField(max_length=32)
-    code = models.CharField(max_length=32)
+    caption = models.CharField(max_length=64)
+    code = models.CharField(max_length=64)
 
     class Meta:
         db_table = 'action'
@@ -775,3 +796,52 @@ class ProductRecommend(models.Model):
 
     class Meta:
         db_table = 'product_recommend'
+
+
+# 产品套餐
+class Package(models.Model):
+    name = models.CharField(max_length=64, verbose_name='套餐名')
+    status_choices = ((0, '下线'), (1, '上线'))
+    status = models.SmallIntegerField(choices=status_choices, default=1, verbose_name='状态')
+    weight = models.SmallIntegerField(default=0, verbose_name='权重')
+    dscription = models.TextField(verbose_name='描述')
+    cprice = models.FloatField(verbose_name='价格')
+    original_price = models.FloatField(verbose_name='原价')
+    employee = models.ForeignKey('Employees', verbose_name='创建人')
+    area = models.ForeignKey('RegionalManagement', verbose_name='地区')
+    cover_image = models.ForeignKey('ProductTImage', verbose_name='封面图', null=True, blank=True)
+
+    class Meta:
+        db_table = 'packages'
+
+
+# 产品对应的套餐
+class Product2Package(models.Model):
+    product = models.ForeignKey('Products', null=True)
+    package = models.ForeignKey('Package', null=True)
+
+    class Meta:
+        db_table = 'product2package'
+
+
+# 套餐中包含的产品
+class Package2Product(models.Model):
+    product = models.ForeignKey('Products', )
+    package = models.ForeignKey('Package', related_name='package2product')
+
+    class Meta:
+        db_table = 'package2product'
+
+
+class Coupon(models.Model):
+    name = models.CharField(max_length=60, verbose_name='优惠卷名称')
+    price = models.IntegerField(verbose_name='金额')
+    number = models.IntegerField(verbose_name='数量')
+    activation = models.IntegerField(verbose_name='激活数量')
+    use_number = models.IntegerField(verbose_name='使用数量')
+    status = models.SmallIntegerField(verbose_name='状态')
+    type = models.SmallIntegerField(verbose_name='类型')
+    valid = models.SmallIntegerField(verbose_name='有效期')
+    isExpired = models.SmallIntegerField(verbose_name='是否过期')
+    ctime = models.DateTimeField(null=True, auto_now_add=True)
+    employee = models.ForeignKey('Employees')

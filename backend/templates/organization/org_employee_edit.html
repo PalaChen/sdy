@@ -6,8 +6,13 @@
         <div class="float-left" style="margin-top: 10px;margin-bottom: 10px">
             <ol class="breadcrumb">
                 <li><a href="{% url 'org_employees' %}">员工列表</a></li>
-                <li class="active">员工信息修改</li>
+                <li class="active">修改员工信息</li>
             </ol>
+        </div>
+        <div class="float-left" style="margin-top: 10px;margin-bottom: 10px">
+            <a href="{% url 'org_employees' %}" class="title_border">员工列表</a>
+            <a href="{% url 'org_position' %}" style="margin-bottom: 0;margin-left: 5px">职位列表</a>
+            <a href="{% url 'organization_roles' %}" style="margin-bottom: 0;margin-left: 5px">权限角色</a>
         </div>
         <div style="border: 1px solid #b5b4b3;padding: 10px;">
             {% include 'organization/master/_table_obj_change_component.html' %}

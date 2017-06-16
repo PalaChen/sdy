@@ -13,23 +13,19 @@
             <thead>
             <tr>
                 <td><input type="checkbox"></td>
+                <td>角色</td>
                 <td>操作</td>
-                <td>岗位名称</td>
-                <td>所属部门</td>
-                <td>岗位工作描述</td>
             </tr>
             </thead>
             {% for line in role_obj %}
                 <tr>
                     <td><input type="checkbox"></td>
+                    <td>{{ line.name }}</td>
                     <td>
-{#                        <a href="{% url 'org_assign' line.id %}" class="btn btn-primary btn-xs">设置权限</a>#}
+                        <a href="{% url 'org_assign' line.id %}" class="btn btn-primary btn-xs">设置权限</a>
                         <a href="" class="btn btn-primary btn-xs">编辑</a>
                         <a href="" class="btn btn-primary btn-xs">删除</a>
                     </td>
-                    <td>{{ line.name }}</td>
-                    <td></td>
-                    <td></td>
                 </tr>
             {% endfor %}
         </table>

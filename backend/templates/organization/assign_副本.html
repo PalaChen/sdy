@@ -1,0 +1,84 @@
+{% extends 'master_b/layout.html' %}
+
+
+
+{% block page_content %}
+    <ol class="breadcrumb">
+        <li><a href="{% url 'org_position' %}">职位列表</a></li>
+        <li class="active">权限分配</li>
+    </ol>
+    <div>
+        <h3>权限分配</h3>
+        <form method="post" action="">
+            <table class="table table-bordered" id="tb_content" style="width: 800px">
+                <tbody>
+                {% for k,v in munu_dict.items %}
+                    <tr>
+                        <td rowspan="{{ v.0.number|add:1 }}">
+                            <input type="checkbox"  class="tb_checkbook tb1">
+                            {{ v.0.name }}
+                        </td>
+                        {% for line in v.1.menu %}
+                            <tr>
+                                <td><input type="checkbox" class="tb_checkbook tb2" name="permission_id"
+                                           value="{{ line.0 }}">{{ line.1 }}</td>
+                                {% for row in action_obj %}
+                                    <td><input type="checkbox" class="tb_checkbook tb3" name="action_id"
+                                               value="{{ row.id }}">{{ row.caption }}</td>
+                                    {#                                <td><input type="checkbox" class="tb_checkbook">删</td>#}
+                                    {#                                <td><input type="checkbox" class="tb_checkbook">改</td>#}
+                                    {#                                <td><input type="checkbox" class="tb_checkbook">查</td>#}
+                                {% endfor %}
+                            </tr>
+                        {% endfor %}
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+            <p>
+                <button type="submit" class="btn btn-primary">保存</button>
+            </p>
+        </form>
+
+    </div>
+{% endblock %}
+
+{% block scripts %}
+    <script>
+        $(function () {
+            bindClickCheckBox_tb1();
+            bindClickCheckBox_tb2();
+        });
+        function bindClickCheckBox_tb1() {
+            $('#tb_content').on('click', '.tb1', function () {
+                var l_number = $(this).parent().attr('rowspan');
+                var result = $(this).is(':checked');
+                if (result) {
+                    for (var i = 0; i < (parseInt(l_number) - 1); i++) {
+                        $(this).parent().parent().nextAll().eq(i).children().eq(0).children().first().prop('checked', true);
+                    }
+                }
+                else {
+                    for (var i = 0; i < (parseInt(l_number) - 1); i++) {
+                        $(this).parent().parent().nextAll().eq(i).children().eq(0).children().first().prop('checked', false);
+                    }
+                }
+
+            })
+        }
+        function bindClickCheckBox_tb2() {
+            $('#tb_content').on('click', '.tb2', function () {
+                $(this).parent().nextAll().each(function () {
+                    var result = $(this).children().first().is(':checked');
+                    console.log(result);
+                    if (result) {
+                        $(this).children().first().prop('checked', false)
+                    }
+                    else {
+                        $(this).children().first().prop('checked', true)
+                    }
+                })
+            })
+        }
+    </script>
+{% endblock %}

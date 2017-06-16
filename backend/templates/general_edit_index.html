@@ -2,10 +2,7 @@
 
 
 {% block page_content %}
-    <p>
-        <a class="btn btn-primary" href="{% url 'product_add' %}">添加用户</a>
-    </p>
-    {% include 'master_b/_table_obj_change_component.html' %}
+    {% include 'organization/master/_table_obj_change_component.html' %}
 
 {% endblock %}
 

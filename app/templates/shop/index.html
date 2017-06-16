@@ -22,30 +22,34 @@
                                     <li class="operation">操作</li>
                                 </ol>
                             </div>
-                            {% for k,v in shop_list.items %}
-                                {% if v.info %}
+                            {% for line in shop_list %}
+                                {# 产品 #}
+                                {% if line.basic.type == 0 %}
                                     <ol>
                                         <li class="goods">
                                             <div class="textImgSeparation goods-text">
                                                 <div>
-                                                    <span>{{ v.info.p_name }}</span>
+                                                    <span>{{ line.basic.info.detail.0.p_name }}</span>
                                                 </div>
                                                 <div class="area">
                                                     <em>地区：</em>
-                                                    <span>{{ v.info.city__name }}-{{ v.info.area__name }}</span>
+                                                    <span>{{ line.basic.info.detail.0.city__name }}-{{ line.basic.info.detail.0.area__name }}</span>
                                                 </div>
                                             </div>
                                         </li>
                                         <li class="unit-price">
-                                            <span class="productCprice">{{ v.info.p_price }}元</span>
+                                            <span class="productCprice">{{ line.basic.info.detail.0.p_price }}元</span>
                                         </li>
                                         <li class="shopp-num">
                                             <div class="numAddSubtract overflowhidden">
                                                 <a class="subtract notChoose productReduce">-</a>
-                                                <input class="t-productNum" value="{{ v.number }}" name="number"
+                                                <input class="t-productNum" value="{{ line.basic.info.number }}"
+                                                       name="number"
                                                        style="width:40px;"
-                                                       category="product" p_price="{{ v.info.p_price }}" vprice="0"
-                                                       nid="{{ k }}" type="text">
+                                                       category="product"
+                                                       p_price="{{ line.basic.info.detail.0.p_price }}"
+                                                       vprice="0"
+                                                       nid="{{ line.basic.info.pid }}" type="text">
                                                 <a class="productAdd">+</a>
                                             </div>
                                         </li>
@@ -53,11 +57,82 @@
                                             <span class="productTotalPrice"></span>
                                         </li>
                                         <li class="operation">
-                                            <a class="shop_delete" nid="{{ k }}">删除</a>
+                                            <a class="shop_delete" href="javascript:void(0)"
+                                               pid="{{ line.basic.info.pid }}">删除</a>
                                         </li>
                                     </ol>
+                                {% else %}
+                                    <div class="shoppPackage">
+                                        <ol class="packageInfo">
+                                            <li class="goods">
+                                                <div class="textImgSeparation goods-text">
+                                                    <div>
+                                                        <span>【套餐】{{ line.basic.info.name }}</span>
+                                                    </div>
+                                                    <div class="area">
+                                                        <em>地区：</em>
+                                                        <span>{{ line.basic.info.detail.0.city__name }}-{{ line.basic.info.detail.0.area__name }}</span>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                            <li class="unit-price">
+                                                <span class="productCprice">{{ line.basic.info.cprice }}元</span>
+                                            </li>
+                                            <li class="shopp-num">
+                                                <div class="numAddSubtract overflowhidden">
+                                                    <a class="subtract notChoose productReduce">-</a>
+                                                    <input class="t-productNum" value="{{ line.basic.info.number }}"
+                                                           name="number"
+                                                           style="width:40px;"
+                                                           category="product"
+                                                           p_price="{{ line.basic.info.cprice }}"
+                                                           vprice="0"
+                                                           nid="{{ line.pp_id }}" type="text">
+                                                    <a class="productAdd">+</a>
+                                                </div>
+                                            </li>
+                                            <li class="shopp-subtotal">
+                                                <span class="productTotalPrice"></span>
+                                            </li>
+                                            <li class="operation">
+                                                <a class="shop_delete" href="javascript:void(0)"
+                                                   ppid="{{ line.basic.info.ppid }}">删除</a>
+                                            </li>
+                                        </ol>
+                                        {% for raw in line.basic.info.detail %}
+                                            <ol>
+                                                <li class="goods">
+                                                    <div class="textImgSeparation goods-text">
+                                                        <div>
+                                                            <span>{{ raw.p_name }}</span>
+                                                        </div>
+                                                        <div class="area">
+                                                            <em>地区：</em>
+                                                            <span>{{ raw.city__name }}-{{ raw.area__name }}</span>
+                                                        </div>
+                                                    </div>
+                                                </li>
+                                                <li class="unit-price">
+                                                    <span class="productCprice">{{ raw.p_price }}元</span>
+                                                </li>
+                                                <li class="shopp-num">
+
+                                                        <span class="shopp-num-span t-pList-0"
+                                                              pprice="{{ raw.p_price }}" vprice="0"
+                                                              flag="1">{{ line.basic.info.number }}</span>
+
+                                                </li>
+                                                <li class="shopp-subtotal">
+                                                    <span class="ppList">{% widthratio raw.p_price 1 line.basic.info.number %}</span>
+                                                </li>
+                                                <li class="operation">
+                                                </li>
+                                            </ol>
+                                        {% endfor %}
+                                    </div>
                                 {% endif %}
                             {% endfor %}
+
                         </li>
                     </ul>
                 </div>
@@ -79,7 +154,7 @@
                             <li>
                                 <span class="checkout-le">应付总额：</span>
                             <span class="checkout-ri">
-                                <em id="totalPayPrice">{{ shop_list.price }}</em>元
+                                <em id="totalPayPrice"></em>元
                             </span>
                             </li>
                         </ul>
@@ -131,21 +206,23 @@
             BindBuySub();
 
         });
-        // 计算当个商品总价
+        // 计算所有商品总价
         function BindProductTotalPrice() {
             var counts = $('.productTotalPrice').length;
             for (var i = 0; i <= counts - 1; i++) {
                 var cprice = $('.productCprice').eq(i).html();
                 cprice = cprice.substring(0, cprice.length - 1);
+
                 var number = $('.t-productNum').eq(i).val();
                 var totalPrice = ( cprice * number).toFixed(2);
+                //console.log(cprice, number, totalPrice);
                 $('.productTotalPrice').eq(i).text(totalPrice + '元')
             }
-            {#            }#}
+
         }
 
         // 自动计算总价
-        function BindTotalPrice(product_id, number) {
+        function BindTotalPrice(product_id, number, commodity_type) {
             var p_sum = 0;
             // 获取每一笔订单小计金额
             $('.productTotalPrice').each(function () {
@@ -160,13 +237,19 @@
             p_total = $('#totalPrice').text() * 1 + $('#couponPrice').text() * 1;
             $('#totalPayPrice').text(p_total);
             var csrfmiddlewaretoken = $('input[name="csrfmiddlewaretoken"]').val();
-            data = {'product_id': product_id, 'number': number, 'csrfmiddlewaretoken': csrfmiddlewaretoken};
+            data = {
+                'nid': product_id,
+                'number': number,
+                'csrfmiddlewaretoken': csrfmiddlewaretoken,
+                'type': commodity_type
+            };
             SendAjax(data)
 
         }
         // 减少购买数量
         function BindReduceNumber() {
             $('.shopp-list').on('click', '.productReduce', function () {
+                var has_class = $(this).parent().parent().parent().attr('class');
                 var number = $(this).next('.t-productNum').val();
                 var product_id = $(this).next('.t-productNum').attr('nid');
                 var cprice = $(this).next('.t-productNum').attr('p_price');
@@ -176,22 +259,40 @@
                     number = number * 1 - 1;
                     $(this).next('.t-productNum').val(number);
                     $(this).parent().parent().next('.shopp-subtotal').children('.productTotalPrice').text((cprice * 1 * number).toFixed(2) + '元');
-                    BindTotalPrice(product_id, number);
+                    if (has_class == 'packageInfo') {
+                        BindTotalPrice(product_id, number, 1);
+                        location.href = '/cart.html'
+
+                    }
+                    else {
+                        BindTotalPrice(product_id, number, 0);
+                    }
+
                 }
             })
         }
         // 增加购买数量
         function BindAddNumber() {
             $('.shopp-list').on('click', '.productAdd', function () {
+                var has_class = $(this).parent().parent().parent().attr('class');
+
                 var number = $(this).prev('.t-productNum').val();
                 var product_id = $(this).prev('.t-productNum').attr('nid');
                 var cprice = $(this).prev('.t-productNum').attr('p_price');
 
                 number = number * 1 + 1;
+                console.log(number, cprice);
 
                 $(this).prev('.t-productNum').val(number);
                 $(this).parent().parent().next('.shopp-subtotal').children('.productTotalPrice').text((cprice * 1 * number).toFixed(2) + '元');
-                BindTotalPrice(product_id, number);
+                console.log((cprice * 1 * number).toFixed(2));
+                if (has_class == 'packageInfo') {
+                    BindTotalPrice(product_id, number, 1);
+                    location.href = '/cart.html'
+                }
+                else {
+                    BindTotalPrice(product_id, number, 0);
+                }
             })
         }
 
@@ -240,11 +341,19 @@
         function BindDelete() {
             var clickState = 0;
             $('#cartForm').on('click', '.shop_delete', function () {
-                if (clickState == 1) {}
+                if (clickState == 1) {
+                }
                 else {
                     clickState = 1;
-                    id = $(this).attr('nid');
-                    url = '/cart_del/' + id + '.html';
+                    pid = $(this).attr('pid');
+                    if (pid) {
+                        url = '/cart_del.html?type=0&pid=' + pid;
+                    }
+                    else {
+                        ppid = $(this).attr('ppid');
+                        url = '/cart_del.html?type=1&ppid=' + ppid;
+                    }
+
                     var ths = this;
                     $.ajax({
                         url: url,
@@ -252,6 +361,9 @@
                         success: function (arg) {
                             if (arg['status'] == 200) {
                                 location.href = '/cart.html'
+                            }
+                            else {
+                                alert('非法操作,请重新刷新页面')
                             }
                             clickState = 0
                         }

@@ -7,12 +7,14 @@ from utils.check_code import create_validate_code
 import io
 import datetime
 from django.utils import timezone
+from utils.menu import shop_number
 
 result_dict = {'status': True, 'message': None, 'data': None,}
 
 
 def login(req):
     form = account.LoginForm(req.POST or None)
+    user_info = shop_number(req)
     error = ''
     default_city = req.session.get('default_city')
     if req.method == 'POST':
@@ -22,7 +24,9 @@ def login(req):
             password = req.POST.get('password')
             user_obj = models.Users.objects.filter(phone=phone).values('id', 'name', 'password').first()
             if user_obj:
-                if user_obj['password '] == password:
+                # print(user_obj)
+                # print(user_obj['password'])
+                if user_obj['password'] == password:
                     ret = redirect(reverse('web_index'))
                     ret.set_cookie('user', phone, max_age=3600,
                                    expires=datetime.datetime.utcnow() + datetime.timedelta(5))
@@ -35,7 +39,8 @@ def login(req):
                 error = '该手机号码暂未注册，请先注册'
         else:
             error = list(form.errors.values())[0][0]
-    return render(req, 'login.html', {'form': form, 'error': error, 'default_city': default_city})
+    return render(req, 'login.html', {'form': form, 'error': error, 'default_city': default_city,
+                                      'user_info': user_info})
 
 
 def login_ajax(request):
@@ -71,6 +76,7 @@ def register(request):
     :param req:
     :return:
     """
+    user_info = shop_number(request)
     default_city = request.session.get('default_city')
     form_obj = account.RegisterForm(request.POST or None)
     if request.method == 'POST':
@@ -86,7 +92,8 @@ def register(request):
                     return redirect(reverse('web_index'))
                 else:
                     form_obj.errors['phone'] = ['手机号码已存在', ]
-    return render(request, 'register.html', {'form': form_obj, 'default_city': default_city})
+    return render(request, 'register.html', {'form': form_obj, 'default_city': default_city,
+                                             'user_info':user_info})
 
 
 def register_ajax(request):
@@ -110,6 +117,7 @@ def register_ajax(request):
 
 def forgetpass(request):
     default_city = request.session.get('default_city')
+    user_info = shop_number(request)
     form_obj = account.ForgetPassForm(request.POST or None)
     if form_obj.is_valid():
         data = form_obj.cleaned_data
@@ -117,7 +125,8 @@ def forgetpass(request):
         form_obj, res = register_generate(data, request, form_obj, 'forgetpass')
         if not res:
             return render(request, 'forgetpass_2.html')
-    return render(request, 'forgetpass.html', {'form': form_obj, 'default_city': default_city})
+    return render(request, 'forgetpass.html', {'form': form_obj, 'default_city': default_city,
+                                               'user_info':user_info})
 
 
 def register_generate(data, request, form, type):

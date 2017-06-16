@@ -41,9 +41,9 @@
         <th>状态</th>
         <th>操作</th>
         </thead>
-        <tbody>
+        <tbody id="tb_content">
         {% for line in posts.object_list %}
-            <tr>
+            <tr nid="{{ line.id }}" for="article">
                 <td><input type="checkbox"></td>
                 <td for="id">{{ line.id }}</td>
                 <td for="category_id">{{ line.category.name }}</td>
@@ -65,7 +65,7 @@
         {% endfor %}
         </tbody>
     </table>
-
+    {% include 'master_b/_delSubmit.html' %}
 
 {% endblock %}
 

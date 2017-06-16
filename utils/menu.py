@@ -2,41 +2,60 @@ from reposition import models
 import re
 
 
-def get_cate_dic():
+def get_cate_list():
     """
     获取分类信息
     :param cate_list:
     :return:
     """
-    try:
-        cate_list = models.ProductCategory.objects.all()
+    """
+    获取分类信息
+    :param cate_list:
+    :return:
+    """
 
-        cate_dic = {}
-        for row in cate_list:
-            if row.root_id == 0 and row.parent_id == 0:
-                cate_dic.update({(row.id, row.name): {}})
-            elif row.root_id != 0:
-                for k in cate_dic.keys():
+    cate_obj = models.ProductCategory.objects.all().order_by('root_id', 'parent_id', '-sort')
+    cate_list = []
+    for row in cate_obj:
+        if row.root_id == 0 and row.parent_id == 0:
+            cate_list.append({(row.id, row.name): []})
+        elif 0 < row.root_id < 9999:
+            for index, cate in enumerate(cate_list):
+                for k in cate.keys():
                     if k[0] == row.root_id:
-                        # print(cate_tuple[k])
-                        cate_dic[k].update({(row.id, row.name): []})
-            else:
-                for k in cate_dic.keys():
-                    for k1 in cate_dic[k].keys():
-                        if k1[0] == row.parent_id:
-                            cate_dic[k][k1].append((row.id, row.name))
-    except Exception:
-        cate_dic = {}
+                        cate_list[index][k].append({(row.id, row.name): []})
+        elif row.parent_id > 0:
+            for index, cate_1 in enumerate(cate_list):
+                for k, seconde_cate in cate_1.items():
+                    for index_1, cate_2 in enumerate(seconde_cate):
+                        for k1 in cate_2.keys():
+                            if k1[0] == row.parent_id:
+                                cate_list[index][k][index_1][k1].append((row.id, row.name))
 
-    return cate_dic
+    return cate_list
+
+
+def shop_number(request):
+    user_info = request.session.get('user_info')
+    shop_list = request.session.get('shop_list')
+    if not user_info:
+        user_info = {}
+    if not shop_list:
+        user_info['shop_number'] = 0
+    else:
+        user_info['shop_number'] = len(shop_list)
+    return user_info
 
 
 class MenuHelper(object):
     def __init__(self, request, email):
         # 当前请求的request对象
         self.request = request
-        # 当前用户邮箱
+        # # 当前用户邮箱
+        # self.email = email
+        # 当前用户角色id
         self.email = email
+
         # 获取当前URL
         self.current_url = request.path_info
 
@@ -52,14 +71,16 @@ class MenuHelper(object):
     # 　从session中取数据
     def session_data(self):
         permission_dict = self.request.session.get('permission_info')
+        # print('session中权限字典', permission_dict)
         if permission_dict:
             self.permission2action_dict = permission_dict['permission2action_dict']
             self.menu_leaf_list = permission_dict['menu_leaf_list']
             self.menu_list = permission_dict['menu_list']
         else:
             # 获取当前用户的角色列表
-            role_list = models.Role.objects.filter(employee2role__employee__email=self.email)
-
+            # role_querSet = models.Role.objects.filter(employee2role__employee__email=self.email)
+            role_querSet = models.Role.objects.filter(id=self.email)
+            # print('当前用户角色列表:', role_querSet)
             # 获取当前用户的权限列表（URL+Action）
             # v = [
             #     {'url':'/inde.html','code':'GET'},
@@ -71,32 +92,36 @@ class MenuHelper(object):
             #     '/inde.html':['GET']
             # }
             permission2action_list = models.Permission2Action.objects. \
-                filter(permission2action2role__role__in=role_list). \
+                filter(permission2action2role__role__in=role_querSet). \
                 values('permission__url', 'action__code').distinct()
 
             # 　将数据转换为指定格式的字典
             permission2action_dict = {}
             for item in permission2action_list:
+                # print(item)
                 if item['permission__url'] in permission2action_dict:
                     permission2action_dict[item['permission__url']].append(item['action__code'])
                 else:
                     permission2action_dict[item['permission__url']] = [item['action__code'], ]
+            # permission2action_dict的值
+            # {'/admin/user/recommend.html': ['get', 'post', 'del', 'put'], '/admin/org/position.html': ['get', 'post', 'del', 'put'],}
+
 
             # 获取菜单的叶子节点，即：菜单的最后一层应该显示的权限
-            menu_leaf_list = list(models.Permission2Action.objects.filter(permission2action2role__role__in=role_list) \
+            menu_leaf_list = list(models.Permission2Action.objects.filter(permission2action2role__role__in=role_querSet) \
                                   .exclude(permission__menu__isnull=True) \
                                   .values('permission_id', 'permission__url', 'permission__caption',
                                           'permission__menu').distinct())
             # 获取所有的菜单列表
             menu_list = list(models.Menu.objects.values('id', 'caption', 'parent_id'))
-            print('menu_list--->', menu_list)
+            # print('menu_list--->', menu_list)
 
             self.request.session['permission_info'] = {
                 'permission2action_dict': permission2action_dict,
                 'menu_leaf_list': menu_leaf_list,
                 'menu_list': menu_list,
             }
-            print('menu_leaf_list-->', menu_leaf_list)
+            # print('menu_leaf_list-->', menu_leaf_list)
             self.permission2action_list = permission2action_list
             self.menu_leaf_list = menu_leaf_list
             self.menu_list = menu_list
@@ -227,16 +252,45 @@ class MenuHelper(object):
         # {
         #     '/index.html': ['get',post,]
         # }
+        # print('循环self.permission2action_dict',self.permission2action_dict)
         for k, v in self.permission2action_dict.items():
-            if v == 'post':
-                k = k.split('.')[0] + '_add.html'
-            elif v == 'del':
-                k = k.split('.')[0] + '_del/(\d+).html'
-            elif v == 'put':
-                k = k.split('.')[0] + '_edit.html'
-
             if re.match(k, self.current_url):
                 action_list = v  # ['GET',POST,]
                 break
+            elif '_add.html' in self.current_url:
+                k = k.split('.')[0] + '_add.html'
+            elif '_del/' in self.current_url:
+                k = k.split('.')[0] + '_del/(\d+).html'
+            elif '_edit.html' in self.current_url:
+                k = k.split('.')[0] + '_edit.html'
+            elif '_edit' in self.current_url:
+                k = k.split('.')[0] + '_edit/(\d+).html'
+            elif '_del.html' in self.current_url:
+                k = k.split('.')[0] + '_del.html'
+
+            # print(k, self.current_url)
+            if re.match(k, self.current_url):
+                action_list = v  # ['GET',POST,]
+                break
+
+                ####### 方法一
+                # for method in v:
+                #     if method == 'get':
+                #         pass
+                #     elif method == 'post':
+                #         k = k.split('.')[0] + '_add.html'
+                #     elif v == 'del':
+                #         k = k.split('.')[0] + '_del/(\d+).html'
+                #     elif v == 'put':
+                #         k = k.split('.')[0] + '_edit.html'
+                #
+                #     if re.match(k, self.current_url):
+                #         action_list = method
+                #         break
+
+                # print(self.current_url)
+                # else:
+                #     for method in v:
+                #         pass
 
         return action_list

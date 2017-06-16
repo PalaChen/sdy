@@ -1,4 +1,5 @@
 from django import forms
+from django.forms import ModelForm
 from django.forms import fields, widgets
 from reposition import models
 from django.db.models import Q
@@ -109,7 +110,7 @@ class ProBusinessForm(forms.Form):
     name = fields.CharField(max_length=30, error_messages={'required': '业务名称不能为空',
                                                            'max_length': '长度不能超过30个汉字',})
     step_number = fields.IntegerField(error_messages={'required': '业务名称不能为空',
-                                                      'invalid': '请输入证书数字',})
+                                                      'invalid': '请输入数字',})
     step_name = fields.CharField(max_length=30, error_messages={'required': '业务不能为空',
                                                                 'max_length': '长度不能超过30个汉字',})
 
@@ -160,6 +161,30 @@ class ProductForm(forms.Form):
         # self.fields['p_business_id'].widget.choices = models.ProcessName.objects.values_list('id', 'name')
 
 
-class ProductImage(forms.Form):
+class ImageForm(forms.Form):
     img = fields.ImageField(error_messages={'required': '上传图片',
                                             'invalid': '文件类型上传错误',})
+
+
+class PackageAdd(forms.Form):
+    cover_image_id = fields.IntegerField(error_messages={'required': '请上传图片',
+                                                         'invalid': '请上传图片',})
+    weight = fields.IntegerField(error_messages={'required': '请输入数字',
+                                                 'invalid': '请输入数字',})
+    name = fields.CharField(max_length=64, error_messages={'required': '套餐名不能为空',
+                                                           'max_length': '套餐名最大长度为64个汉字'})
+    status = fields.IntegerField(error_messages={'invalid': '非法选择'}, )
+    dscription = fields.CharField(widget=forms.Textarea, error_messages={'required': '套餐描述不能为空',})
+    cprice = fields.FloatField(error_messages={'required': '套餐价格不能为空',
+                                               'invalid': '套餐价格必须为数字'})
+    original_price = fields.FloatField(error_messages={'required': '套餐原价格不能为空',
+                                                       'invalid': '套餐原价格必须为数字'})
+    area_id = fields.IntegerField(error_messages={'required': '非法输入,请重新创建套餐',
+                                                  'invalid': '非法输入,请重新创建套餐'})
+
+
+class PackageBind(forms.Form):
+    package_id = fields.IntegerField(error_messages={'required': '套餐ID不能为空',
+                                                     'invalid': '套餐ID必须为数字'})
+    # product_id = fields.IntegerField(error_messages={'required': '必须选择一个产品',
+    #                                                  'invalid': '非法选择'})

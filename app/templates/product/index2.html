@@ -193,8 +193,8 @@
                     <div class="btn" style="">
                         <a class="payment btn_buy"
                            onclick="bugProduct('/product/buy.html?pid={{ product_obj.id }}','buy')">购买</a>
-                        <a class="consult"
-                           onclick="bugProduct('/product/buy.html?pid={{ product_obj.id }}','cart')">放入购物车</a>
+{#                        <a class="consult"#}
+{#                           onclick="bugProduct('/product/buy.html?pid={{ product_obj.id }}','cart')">放入购物车</a>#}
                     </div>
 
                 </div>
@@ -237,7 +237,7 @@
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
                             aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title" id="myModalLabel">登陆</h4>
+                    <h4 class="modal-title" style="font-size:14px">登陆</h4>
                 </div>
                 <div class="modal-body">
                     <div>
@@ -284,6 +284,23 @@
             </div>
         </div>
     </div>
+
+    {# 套餐 #}
+    <div class="modal fade" id="Modal_Package" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document" style="width: 700px">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" style="font-size:14px">选择套餐</h4>
+                </div>
+                <div id="content:confirm" class="ui-dialog-content" i="content" style="width: 698px; height: 500px;">
+                    <iframe id="iframeid" name="iframename" frameborder="0" style="width:100%;height:100%;">
+                    </iframe>
+                </div>
+            </div>
+        </div>
+    </div>
 {% endblock %}
 
 {% block scripts %}
@@ -317,7 +334,6 @@
             bindOnlyClick();
             bindCategoryShow();
         });
-
         $("#city").click(function (e) {
             SelCity(this, e);
         });
@@ -336,7 +352,15 @@
                         //console.log(arg);
                         if (arg['status'] == 200) {
                             if (type == 'buy') {
-                                window.location.replace(arg['url'])
+                                //console.log(arg['data']);
+                                if (arg['data']) {
+                                    //console.log(arg['url']);
+                                    $('#iframeid').attr('src', arg['url']);
+                                    $('#Modal_Package').modal('show');
+                                }
+                                else {
+                                    window.location.replace(arg['url'])
+                                }
                             }
                             else if (type == 'cart') {
                                 window.location.replace(arg['url'])
@@ -459,5 +483,6 @@
         }
 
     </script>
+    {# 获取产品是否有套餐 #}
 
 {% endblock %}

@@ -56,7 +56,7 @@ function Send_Ajax_Order_Process(url) {
                 $('#orderlist-check-processlist').empty();
                 for (var i = 0; i < arg['data'].length; i++) {
                     var result_ele = '<li class="posr clearfix select"><span class="pull-left_1">{time}</span>' +
-                        '<var class="pull-right_1">{status}}</var></li>';
+                        '<var class="pull-right_1">{status}</var></li>';
                     var a_ele = result_ele.format({
                         time: arg['data'][i]['date'],
                         status: arg['data'][i]['step_name']

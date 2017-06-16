@@ -1,0 +1,155 @@
+{% extends 'master_b/layout.html' %}
+
+{% block page_content %}
+    <div class="col-md-8">
+        <div class="col-md-4 float-left" style="width: 380px">
+            <form id="fm" method="post" action="{% url 'package_add' %}">
+                {% csrf_token %}
+                <input type="hidden" name="cover_image_id" value="">
+                <input type="hidden" name="area_id" value="{{ area_id }}">
+                <div class="form-group">
+                    <label>套餐名</label>
+                    <input type="text" class="form-control" placeholder="套餐名" name="name" required="">
+                </div>
+                <div class="form-group">
+                    <label>权重（0最大）</label>
+                    <input type="text" class="form-control" placeholder="权重值(0最大9999最小)" name="weight" required="">
+                </div>
+                <div class="form-group">
+                    <label>状态</label>
+                    <select name="status" class="form-control">
+                        <option value="1" selected="">上线</option>
+                        <option value="0">下线</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>套餐描述</label>
+                    <textarea name="dscription" class="form-control" style="height: 70px"></textarea>
+                </div>
+                <div class="form-group">
+                    <label class="li_left">套餐商品</label>
+                    <label class="li_left" style="margin-left: 170px">商品价格</label>
+                </div>
+                <div class="form-group float-left">
+                    {% if product_obj %}
+                        <select class="form-control_add form-right select_product" name="product_id">
+                            <option>-----------------</option>
+                            {% for line in product_obj %}
+                                <option value="{{ line.id }}" price="{{ line.p_price }}">{{ line.p_name }}</option>
+                            {% endfor %}
+                        </select>
+                        <input name="p_price" type="text" disabled="disabled" class="form-control_add form-left"
+                               style="width: 90px">
+                        <span class="glyphicon glyphicon-plus" onclick="add(this)"></span>
+                        <span class="glyphicon glyphicon-minus" onclick="remove_obj(this)"></span>
+                    {% else %}
+                        <label style="color: red;">该地区暂无对应的商品,如需添加套餐，请添加该地区的商品：</label>
+                        <br>
+                        <a href="{% url 'product_add' %}">添加商品</a>
+                    {% endif %}
+                </div>
+                <div class="form-group form-inline" id="cprice">
+                    <label>价格：</label>
+                    <input type="text" class="form-control" name="cprice" style="width: 120px">
+                    <label style="margin-left: 25px">原价：</label>
+                    <input type="text" class="form-control" name="original_price" style="width: 120px">
+                </div>
+                {% if error %}
+                    <div style="color: red">
+                        {{ error }}
+                    </div>
+                {% endif %}
+                <div>
+                    <span class="btn btn-default" onclick="location.href='{% url 'package_city' %}'">返回城市选择</span>
+                    <button name="submit" type="submit" class="btn btn-primary" style="margin-left: 80px">添加套餐</button>
+                    <span class="btn btn-default" onclick="location.href='{% url 'package' %}'">取消</span>
+                </div>
+            </form>
+        </div>
+        <div class="float-right" style="width: 200px;margin-left: 380px">
+            <div class="form-inline form-group" style="position: relative; padding-top: 0;">
+                <iframe id="iframe_image" name="iframe_i" style="display: none"></iframe>
+                <form id="fm1" action="{% url 'product_image' %}" target="iframe_i" method="POST"
+                      enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <label for="exampleInputName2" style="margin-right: 8px">套餐封面 </label>
+                    <div style="width: 170px; height: 170px; background-color: #EDEDED;">
+                        <div id="pro_image"></div>
+                        <div id="pro_upload">
+                            <input class="a_upload_image" onchange="UploadImage()" name="img" type="file">
+                            <div class="noImgUploadButton" style="margin: 30px 20px 20px 30px;"></div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block scripts %}
+    <script type="text/javascript" src="/static/js/jquery.citys.js"></script>
+    <script type="text/javascript">
+        $('#demo').citys({
+            dataUrl: '/admin/get_city_info.html',
+            onChange: function (data) {
+                var text = data['direct'] ? '(直辖市)' : '';
+                $('#place').text('当前选中地区：' + data['province'] + text + ' ' + data['city'] + ' ' + data['area']);
+            }
+        });
+    </script>
+    {# 增加产品select和删除 #}
+    <script>
+        function add(ths) {
+            var $clone_obj = $(ths).parent().clone();
+            $clone_obj.children(':text').prop("value", "");
+            $clone_obj.children('.form-left').prop("name", "p_price");
+            $clone_obj.children('.form-right').prop("name", "product_id");
+            {#            $clone_obj.children("span").removeClass('glyphicon glyphicon-plus').addClass('glyphicon glyphicon-minus').attr('onclick', 'remove_obj(this)');#}
+            $('#cprice').before($clone_obj);
+            monitorSelectChange()
+        }
+        function remove_obj(self) {
+            $(self).parent().remove();
+        }
+    </script>
+    <script>
+        $(function () {
+            monitorSelectChange()
+        });
+        function monitorSelectChange() {
+            $(".select_product").change(function () {
+                var price = $(this).find("option:selected").attr("price");
+                $(this).next().val(price);
+                var input_ele = $("input[name='p_price']");
+                var total_price = 0;
+                for (var i = 0; i < input_ele.length; i++) {
+                    var p_price = input_ele.eq(i).val();
+                    total_price += parseFloat(p_price)
+                }
+                {#                console.log(total_price)#}
+                $('input[name="original_price"]').val(total_price)
+            });
+        }
+
+    </script>
+    {# 上传套餐图片 #}
+    <script>
+        function UploadImage() {
+            document.getElementById('iframe_image').onload = reloadIframe;
+            document.getElementById('fm1').submit();
+        }
+        function reloadIframe() {
+            var content = this.contentWindow.document.body.innerText;
+            console.log(content);
+            var obj = JSON.parse(content);
+            var tag = document.createElement('img');
+            tag.src = '/' + obj.data;
+            tag.className = 'art_image';
+            document.getElementById('pro_image').innerHTML = '';
+            document.getElementById('pro_image').appendChild(tag);
+            $('#fm  input[name="cover_image_id"]').val(obj.message);
+            $('#pro_upload').attr('class', 'hide');
+            $('#remove_image').removeClass('hide')
+        }
+    </script>
+{% endblock %}

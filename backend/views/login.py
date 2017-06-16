@@ -18,13 +18,16 @@ def login(req):
 
             obj = model_query.login_employee_query(data)
             if obj:
-                ret = redirect(reverse('site_manage'))
+                ret = redirect(reverse('my_task'))
                 ret.set_cookie('employee_id', obj['id'], max_age=3600,
                                expires=datetime.datetime.utcnow() + datetime.timedelta(5))
-                req.session['user_info'] = {'employee_id': obj['id'], 'email': obj['email'], 'name': obj['name']}
+                req.session['user_info'] = {'employee_id': obj['id'], 'email': obj['email'],
+                                            'name': obj['name'], 'role_id': obj.get('role_id')}
                 # req.session['employee_id'] = obj['id']
                 req.session['is_login'] = True
-                MenuHelper(req, obj['email'])
+                # 应该是MenuHelper(req, obj['email']),只是临时更改为角色id
+                # print("obj.get('role_id')", obj.get('role_id'))
+                MenuHelper(req, obj.get('role_id'))
                 return ret
             else:
                 error = '账号密码错误'

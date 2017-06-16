@@ -3,7 +3,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>{{ product_obj.p_name }}-盛德业</title>
+    <title>{% if package_obj.name %}{{ package_obj.name }}{% else %}{{ product_obj.p_name }}{% endif %}-盛德业</title>
     {% include 'master/_head.html' %}
     {% block css %}{% endblock %}
     <link type="text/css" rel="stylesheet" href="{% static 'css/product.css' %}">
@@ -19,7 +19,11 @@
                 <a href="/">首页</a>
             </li>
             <li class="interval"></li>
-            <li class="active">{{ product_obj.p_category.name }}</li>
+            {% if package_obj.name %}
+                <li class="active">{{ package_obj.name }}</li>
+            {% else %}
+                <li class="active">{{ product_obj.p_category.name }}</li>
+            {% endif %}
         </ul>
     </div>
     {% block page_content %}{% endblock %}

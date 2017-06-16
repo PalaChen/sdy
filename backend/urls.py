@@ -17,7 +17,7 @@ urlpatterns = [
     url(r'^my_client_edit/(\d+).html$', views.my.client_edit, name='my_client_edit'),
     # 服务管理
     url(r'^service/order.html', views.service.order, name='service_order'),
-    url(r'^service/order_add.html', views.service.order_add, name='service_order_add'),
+    # url(r'^service/order_add.html', views.service.order_add, name='service_order_add'),
     url(r'^service/payment.html', views.service.payment, name='service_payment'),
     url(r'^service/manage.html', views.service.manage, name='service_manage'),
     url(r'^service/order_business/(\d+).html', views.service.order_business, name='service_order_business'),
@@ -28,19 +28,21 @@ urlpatterns = [
     url(r'^users_add.html$', views.users.users_add, name='users_add'),
     url(r'^users_edit/(\d+).html$', views.users.users_edit, name='users_edit'),
     # url(r'^user/keyword.html$', views.users.keyword, name='users_keyword'),
-    url(r'^user/recommend.html$', views.users.recommend, name='users_recommend'),
+    # url(r'^user/recommend.html$', views.users.recommend, name='users_recommend'),
 
     # 　文章
     url(r'^articles.html', views.articles.articles, name='articles_all'),
+    url(r'^author_add.html', views.articles.author_add, name='author_add'),
     url(r'^articles/upload_image.html', views.articles.article_image, name='article_up_image'),
     url(r'^articles_search.html', views.articles.articles_search, name='articles_serach'),
     url(r'^articles_add.html', views.articles.article_add, name='articles_add'),
     url(r'^articles_edit/(\d+).html', views.articles.article_edit, name='articles_edit'),
+    url(r'^articles_del/(\d+).html', views.articles.article_del, name='articlew_del'),
     # 文章关键词
     url(r'^keywords.html', views.articles.keywords, name='keyword_all'),
-    url(r'^keyword_add.html', views.articles.keyword_add, name='keyword_add'),
-    url(r'^keyword_edit.html', views.articles.keyword_edit, name='keyword_edit'),
-    url(r'^keyword_del/(\d+).html', views.articles.keyword_del, name='keyword_del'),
+    url(r'^keywords_add.html', views.articles.keyword_add, name='keyword_add'),
+    url(r'^keywords_edit.html', views.articles.keyword_edit, name='keyword_edit'),
+    url(r'^keywords_del/(\d+).html', views.articles.keyword_del, name='keyword_del'),
     # 文章分类
     url(r'^category.html', views.articles.category, name='category_all'),
     url(r'^category_add.html', views.articles.category_add, name='category_add'),
@@ -57,9 +59,10 @@ urlpatterns = [
     url(r'^product/service_edit/(\d+).html', views.product.p_service_edit, name='p_service_edit'),
     url(r'^product/service_del/(\d+).html', views.product.p_service_del, name='p_service_del'),
     url(r'^product/business.html', views.product.p_business, name='p_business'),
-    url(r'^product/business/add.html', views.product.p_business_add, name='p_business_add'),
-    url(r'^product/business/edit/(\d+).html', views.product.p_business_edit, name='p_business_edit'),
-    url(r'^product/attribute.html', views.product.attribute, name='attribute_all'),
+    url(r'^product/business_add.html', views.product.p_business_add, name='p_business_add'),
+    url(r'^product/business_edit/(\d+).html', views.product.p_business_edit, name='p_business_edit'),
+    url(r'^product/business_del/(\d+).html', views.product.p_business_del, name='p_business_del'),
+    # url(r'^product/attribute.html', views.product.attribute, name='attribute_all'),
 
     url(r'^product.html', views.product.product, name='product_all'),
     url(r'^product_add.html', views.product.product_add, name='product_add'),
@@ -68,17 +71,24 @@ urlpatterns = [
     url(r'^product_del/(\d+).html', views.product.product_del, name='product_del'),
     url(r'^product/image.html', views.product.product_image_upload, name='product_image'),
     url(r'^product/upload_image.html', views.product.product_ck_image, name='product_ck_image'),
+    url(r'^package.html', views.product.package, name='package'),
+    url(r'^package_city.html', views.product.package_city, name='package_city'),
+    url(r'^package_add.html', views.product.package_add, name='package_add'),
+    url(r'^package_edit/(\d+).html', views.product.package_edit, name='package_edit'),
+    url(r'^package_del.html', views.product.package_del, name='package_del'),
+    url(r'^package_bind/(\d+).html', views.product.package_bind, name='package_bind'),
 
     # 系统配置
     url(r'^site.html$', views.site.site_manage, name='site_manage'),
     url(r'^site/bxslider.html$', views.site.bxslider, name='bxslider'),
-    url(r'^site/bxslider_add', views.site.bxslider_upload),
-    url(r'^site/bxslider_edit', views.site.bxslider_edit),
+    url(r'^site/bxslider_add.html', views.site.bxslider_upload),
+    url(r'^site/bxslider_edit.html', views.site.bxslider_edit),
     url(r'^site/bxslider_del/(\d+).html', views.site.bxslider_del),
     url(r'^site/nav.html$', views.site.nav, name='nav_index'),
     url(r'^site/nav_add.html$', views.site.nav_add, name='nav_add_index'),
     url(r'^site/nav_edit.html$', views.site.nav_edit, name='nav_edit_index'),
     url(r'^site/nav_del/(\d+).html$', views.site.nav_del, name='nav_del_index'),
+    url(r'^site/banner.html$', views.site.banner, name='banner'),
 
     url(r'^site/product_recommendation.html$', views.site.product_recommend, name='product_recommendation'),
 
@@ -93,8 +103,11 @@ urlpatterns = [
     url(r'org/employees_add.html', views.organization.employees_add, name='org_employees_add'),
     url(r'org/employees_edit/(\d+).html', views.organization.employees_edit, name='org_employees_edit'),
     url(r'org/assign/(\d+).html', views.organization.assign, name='org_assign'),
+
     url(r'org/bind_permission.html', views.organization.bind_permission),
     url(r'org/roles.html', views.organization.roles, name='organization_roles'),
+    url(r'org/roles_add.html', views.organization.roles_add, name='organization_roles_add'),
+    url(r'org/roles_edit/(\d+).html', views.organization.roles_edit, name='organization_roles_edit'),
 
     # 区域
     url(r'area.html', views.area.area_index, name='area_index'),

@@ -7,4 +7,5 @@ def query_del(req, tb_name, nid):
             tb_name.objects.filter(id=nid).delete()
             return '成功'
         except Exception as e:
+            print(e)
             return e

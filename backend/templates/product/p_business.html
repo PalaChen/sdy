@@ -5,12 +5,12 @@
     <p>
         <a class="btn btn-primary" href="{% url 'p_business_add' %}">添加业务</a>
     </p>
-    <div class="container" style="width: auto">
+    <div class="container" id="tb_content" style="width: auto">
         {% for post in posts %}
             <div class="category" nid="{{ post.id }}" for="process">
                 <div class="category-head">
                     <span class="category-title">{{ post.name }}</span>
-                    <a class="initialize btn category-close glyphicon glyphicon-remove " onclick="del(this)"></a>
+                    <a class="initialize btn category-close glyphicon glyphicon-remove "></a>
                 </div>
                 <div class="category-body">
                     <div class="category-list">
@@ -30,4 +30,10 @@
             </div>
         {% endfor %}
     </div>
+    {% include 'master_b/_delSubmit.html' %}
+{% endblock %}
+
+{% block scripts %}
+    <script src="/static/js/admin_index.js"></script>
+
 {% endblock %}

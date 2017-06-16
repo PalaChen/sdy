@@ -32,7 +32,8 @@
                                 <span>详情：</span>
                                 <div>
                                     {% for line in order_obj %}
-                                        <p>{{ line.product_name }} X {{ line.number }}</p>
+                                        <p>{{ line.product_name }}
+                                            X {{ line.number }}（{{ line.city }}-{{ line.area }}）</p>
                                     {% endfor %}
                                 </div>
                             </li>

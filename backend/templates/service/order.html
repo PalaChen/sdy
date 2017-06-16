@@ -1,45 +1,51 @@
 {% extends 'master_b/layout.html' %}
+{% load cxmadmin_tags %}
 
 {% block page_content %}
-    <p>
-        <a class="btn btn-primary" href="">添加订单</a>
-
-    </p>
-    <table class="table table-striped" id="tb_content">
+    {#    <p>#}
+    {#        <a class="btn btn-primary" href="{% url 'service_order_add' %}">添加订单</a>#}
+    {##}
+    {#    </p>#}
+    <table class="table table-condensed table-hover" id="tb_content">
         <thead>
         <tr>
+            <td style="width: 20px"></td>
             <td>产品名称</td>
-            <td>价格</td>
-            <td>数量</td>
-            <td>金额</td>
+            <td style="width: 80px">价格</td>
+            <td style="width: 100px">数量</td>
+            <td style="width: 100px">金额</td>
             <td>状态</td>
             <td>姓名</td>
             <td>手机号码</td>
             <td>支付方式</td>
             <td>备注</td>
-            <td>操作</td>
+            {#            <td>操作</td>#}
         </tr>
         </thead>
         <tbody>
 
         {% for row in order_code_list %}
-            <tr>
+            <tr style="background-color: #bbccdd">
+                {#                <td>{{ row }}</td>#}
                 <td><input type="checkbox"></td>
-                <td colspan="2">{{ row.ctime|date:"Y-m-d H:i:s" }}</td>
+                <td colspan="2">下单时间：{{ row.ctime|date:"Y-m-d H:i:s" }}</td>
                 <td colspan="2">订单号：{{ row.order_code }}</td>
             </tr>
+
             {% for line in order_obj %}
                 {% if row.order_code == line.order_code %}
                     <tr>
+                        <td></td>
                         <td>{{ line.product_name }}</td>
-                        <td>{{ line.cprice }}</td>
+                        <td>{{ line.cPrice }}</td>
                         <td>{{ line.number }}</td>
                         <td>{{ line.total_price }}</td>
-                        <td>{{ line.get_order_state_display }}</td>
+                        <td>{% get_status order_status_dict 'status' line.order_state %}</td>
                         <td>{{ line.name }}</td>
                         <td>{{ line.phone }}</td>
+                        <td>{% get_status order_status_dict 'payment' line.payment %}</td>
                         <td>{{ line.remark }}</td>
-                        <td>{{ line.remark }}</td>
+                        {#                        <td>{{ line.remark }}</td>#}
                         <td>
 
                         </td>

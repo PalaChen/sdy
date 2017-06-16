@@ -5,14 +5,16 @@ from backend.forms.my import OrderBusinessAddForm
 from utils.login_admin import permission, login_required
 from cxmadmin import base
 from datetime import datetime
+from utils.sms_message import process_message_send
 
 result_dict = {'status': True, 'message': None, 'data': None}
 title_dict = {'task': '我的任务', 'client': '我的客户',
-              'client_add': '客户添加'}
+              'client_add': '客户添加',
+              'client_edit': '客户修改',}
 
 
 @login_required
-# @permission
+@permission
 def task(request, *args, **kwargs):
     common_info = {}
     filter_dict = {
@@ -31,7 +33,8 @@ def task(request, *args, **kwargs):
 
 # 为模态框传数据
 # 显示订单对应业务步骤
-# @login_required
+@login_required
+# @permission
 def order_business(request, id, *args, **kwargs):
     """
     :param request:
@@ -57,15 +60,15 @@ def order_business(request, id, *args, **kwargs):
 
 
 # 订单的业务步骤更改
-# @login_required
+@login_required
+# @permission
 def order_business_add(request, *args, **kwargs):
     if request.method == 'POST':
         form_obj = OrderBusinessAddForm(data=request.POST)
         if form_obj.is_valid():
             form_obj.save()
-
-            # 判断该订单的下一个步骤是不是本人
             employee_id = request.POST.get('employee')
+            # 判断该订单的下一个步骤是不是本人
             if employee_id != request.session.get('user_info')['employee_id']:
                 # 我的任务的id
                 nid = request.POST.get('nid')
@@ -80,6 +83,10 @@ def order_business_add(request, *args, **kwargs):
                 }
 
                 models.MyTask.objects.create(**data_dict)
+            order_id = request.POST.get('order')
+            step_name = request.POST.get('step_name')
+            order_obj = models.Orders.objects.filter(id=order_id).first()
+            process_message_send(order_obj, step_name, employee_id)
             result_dict['status'] = 200
             result_dict['message'] = '添加成功'
         else:
@@ -90,7 +97,7 @@ def order_business_add(request, *args, **kwargs):
 
 
 @login_required
-# @permission
+@permission
 def client(request, *args, **kwargs):
     common_info = {}
     common_info['menu_string'] = kwargs.get('menu_string')
@@ -101,8 +108,8 @@ def client(request, *args, **kwargs):
     return base.table_obj_list(request, 'reposition', 'clientinfo', common_info)
 
 
-# @permission
 @login_required
+@permission
 def client_add(request, *args, **kwargs):
     common_info = {}
     common_info['title'] = title_dict['client_add']
@@ -112,11 +119,14 @@ def client_add(request, *args, **kwargs):
     return base.table_obj_add(request, 'reposition', 'clientinfo', common_info)
 
 
-@login_required
-def client_edit(request, *args, **kwargs):
+# @login_required
+@permission
+def client_edit(request, nid, *args, **kwargs):
     common_info = {}
-    common_info['title'] = title_dict['client_add']
+    common_info['obj_id'] = nid
+    common_info['title'] = title_dict['client_edit']
     common_info['redirect_url'] = 'my_client'
     common_info['return_link'] = 'my_client'
     common_info['menu_string'] = kwargs.get('menu_string')
-    return base.table_obj_add(request, 'reposition', 'clientinfo', common_info)
+    common_info['html_url'] = 'general_edit_index.html'
+    return base.table_obj_change(request, 'reposition', 'clientinfo', common_info)

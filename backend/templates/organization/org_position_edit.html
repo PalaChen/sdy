@@ -4,9 +4,14 @@
     {% include 'organization/master/_aside.html' %}
     <div style="position: absolute;padding: 10px; left: 200px;right: 0;float: left">
         <ol class="breadcrumb">
-                <li><a href="{% url 'org_position' %}">员工列表</a></li>
-                <li class="active">职位信息修改</li>
-            </ol>
+            <li><a href="{% url 'org_position' %}">职位列表</a></li>
+            <li class="active">修改职位信息</li>
+        </ol>
+        <div class="float-left" style="margin-top: 10px;margin-bottom: 10px">
+            <a href="{% url 'org_employees' %}" style="margin-bottom: 0;margin-right: 5px">员工列表</a>
+            <a href="{% url 'org_position' %}" class="title_border">职位列表</a>
+            <a href="{% url 'organization_roles' %}" style="margin-bottom: 0;margin-left: 5px">权限角色</a>
+        </div>
         <div style="border: 1px solid #b5b4b3;padding: 10px;">
             {% include 'organization/master/_table_obj_change_component.html' %}
         </div>

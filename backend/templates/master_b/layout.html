@@ -15,7 +15,13 @@
     {% include "master_b/_aside.html" %}
     {# 右边内容 #}
     <div id="pg_content">
-        <p class="text-left"><h3>{{ common_info.title }}</h3></p>
+        <p class="text-left"><h3>
+            {% if common_info.title %}
+                {{ common_info.title }}
+            {% else %}
+                {{ title }}
+            {% endif %}
+        </h3></p>
         {% block page_content %}{% endblock %}
         {% include 'master_b/_pagination.html' %}
     </div>

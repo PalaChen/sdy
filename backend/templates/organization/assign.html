@@ -4,47 +4,50 @@
 
 {% block page_content %}
     <ol class="breadcrumb">
-        <li><a href="{% url 'org_position' %}">职位列表</a></li>
-        <li class="active">权限分配</li>
+        <li><a href="{% url 'organization_roles' %}">权限角色</a></li>
+        <li class="active">权限角色分配</li>
     </ol>
     <div>
-        <h3>权限分配</h3>
+        <h3>权限角色分配</h3>
         <form method="post" action="">
+            {% csrf_token %}
             <table class="table table-bordered" id="tb_content" style="width: 800px">
-                <thead>
-                    <tr>
-                        <td><input type="checkbox"></td>
-                        <td><input type="checkbox"></td>
-                        <td><input type="checkbox"></td>
-                        <td><input type="checkbox"></td>
-                        <td><input type="checkbox"></td>
-                        <td><input type="checkbox"></td>
-                        <td><input type="checkbox"></td>
-                        <td><input type="checkbox"></td>
-                        <td><input type="checkbox"></td>
-                        <td><input type="checkbox"></td>
-                    </tr>
-                </thead>
                 <tbody>
                 {% for k,v in munu_dict.items %}
                     <tr>
                         <td rowspan="{{ v.0.number|add:1 }}">
-                            <input type="checkbox"  class="tb_checkbook tb1">
+                            <input type="checkbox" class="tb_checkbook tb1">
                             {{ v.0.name }}
                         </td>
                         {% for line in v.1.menu %}
                             <tr>
                                 <td><input type="checkbox" class="tb_checkbook tb2" name="permission_id"
                                            value="{{ line.0 }}">{{ line.1 }}</td>
-                                {% for row in action_obj %}
-                                    <td><input type="checkbox" class="tb_checkbook tb3" name="action_id"
-                                               value="{{ row.id }}">{{ row.caption }}</td>
-                                    {#                                <td><input type="checkbox" class="tb_checkbook">删</td>#}
-                                    {#                                <td><input type="checkbox" class="tb_checkbook">改</td>#}
-                                    {#                                <td><input type="checkbox" class="tb_checkbook">查</td>#}
+                                {% for row in permission_action_obj %}
+                                    {% if line.0 == row.permission_id %}
+                                        <td><input type="checkbox" class="tb_checkbook tb3" name="action_id"
+                                                   value="{{ row.id }}">{{ row.action.caption }}</td>
+                                    {% endif %}
                                 {% endfor %}
                             </tr>
                         {% endfor %}
+                    </tr>
+                {% endfor %}
+
+                {% for line in permission_obj %}
+
+                    <tr>
+                        <td></td>
+                        <td>
+                            <input type="checkbox" class="tb_checkbook tb2" name="permission_id">{{ line.caption }}
+                        </td>
+                        {% for row in permission_action_obj %}
+                            {% if line.id == row.permission_id %}
+                                <td><input type="checkbox" class="tb_checkbook tb3" name="action_id"
+                                           value="{{ row.id }}">{{ row.action.caption }}</td>
+                            {% endif %}
+                        {% endfor %}
+
                     </tr>
                 {% endfor %}
                 </tbody>

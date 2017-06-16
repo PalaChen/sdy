@@ -22,13 +22,19 @@ class AdminSite(object):
         # 全局大字典
         # enabled_admins={'app名字':{'表名':'表对应的内存地址'}
         # enabled_admins={'app名字':{'Employee':'EmployeeAdmin'}
-        # {'app名字':['表名','表名1]}
+        # {'app名字':{'表名','表对应的内存地址}}
         self.enabled_admins = {}
 
     def register(self, model_class, admin_class=None):
-        """注册admin表"""
-
+        """
+        注册admin表
+        :param model_class: 表的model类
+        :param admin_class: BaseCxmAdmin继承的类
+        :return:
+        """
+        # app名字
         app_name = model_class._meta.app_label
+        # 模块名字
         model_name = model_class._meta.model_name
         if not admin_class:  # 为了避免多个model共享同一个BaseCxmAdmin内存对象
             admin_class = BaseCxmAdmin()

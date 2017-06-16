@@ -8,6 +8,7 @@ from utils.sms_message import send_verification_code
 from utils.serialize import DateTypeJSONEncoder
 from datetime import datetime, timezone
 from django.utils import timezone
+from utils.menu import shop_number
 
 import json
 
@@ -26,33 +27,33 @@ res_dict = {
 
 
 @login_required
-def index(req):
-    default_city = req.session.get('default_city')
-    user_info = req.session.get('user_info')
+def index(request):
+    default_city = request.session.get('default_city')
+    user_info = shop_number(request)
     counts_dict = order_counts(user_info['phone'])
-    return render(req, 'user/user_index.html', {'title': title['index'],
-                                                'user_info': user_info,
-                                                'counts_dict': counts_dict,
-                                                'default_city': default_city,})
+    return render(request, 'user/user_index.html', {'title': title['index'],
+                                                    'user_info': user_info,
+                                                    'counts_dict': counts_dict,
+                                                    'default_city': default_city,})
 
 
 @login_required
-def order(req):
-    default_city = req.session.get('default_city')
-    user_info = req.session.get('user_info')
+def order(request):
+    default_city = request.session.get('default_city')
+    user_info = shop_number(request)
     order_obj = models.Orders.objects.filter(phone=user_info['phone']).order_by('-ctime').all()
     counts_dict = order_counts(user_info['phone'])
 
-    return render(req, 'user/order.html', {'order_obj': order_obj,
-                                           'user_info': user_info,
-                                           'counts_dict': counts_dict,
-                                           'title': title['order'],
-                                           'id': 0,
-                                           'default_city': default_city,
-                                           })
+    return render(request, 'user/order.html', {'order_obj': order_obj,
+                                               'user_info': user_info,
+                                               'counts_dict': counts_dict,
+                                               'title': title['order'],
+                                               'id': 0,
+                                               'default_city': default_city,
+                                               })
 
 
-# @login_required
+@login_required
 def order_topay(request, nid):
     if request.method == 'GET':
         phone = request.session.get('user_info')['phone']
@@ -70,9 +71,9 @@ def order_topay(request, nid):
 
 
 @login_required
-def order_query(req, id):
-    default_city = req.session.get('default_city')
-    user_info = req.session.get('user_info')
+def order_query(request, id):
+    default_city = request.session.get('default_city')
+    user_info = shop_number(request)
     phone = user_info['phone']
     id = int(id)
     counts_dict = order_counts(phone)
@@ -87,21 +88,23 @@ def order_query(req, id):
         order_obj = models.Orders.objects.filter(phone=phone, order_state=3).order_by('-ctime').all()
     else:
         return redirect(reverse('user_index'))
-    return render(req, 'user/order.html', {'title': title['order'],
-                                           'user_info': user_info,
-                                           'order_obj': order_obj,
-                                           'counts_dict': counts_dict,
-                                           'id': id,
-                                           'default_city': default_city,
-                                           })
+    return render(request, 'user/order.html', {'title': title['order'],
+                                               'user_info': user_info,
+                                               'order_obj': order_obj,
+                                               'counts_dict': counts_dict,
+                                               'id': id,
+                                               'default_city': default_city,
+                                               })
 
 
 @login_required
 def order_process_query(req, id):
     if req.method == 'GET':
-        order_obj = models.Process.objects.filter(order_id=id).values('step_name', 'date').order_by('date').all()
+        order_obj = models.Process.objects.filter(order_id=id).values('step_name', 'date').order_by('date')
         if order_obj:
+            res_dict['status'] = True
             res_dict['data'] = list(order_obj)
+            res_dict['message'] = None
         else:
             res_dict['status'] = False
             res_dict['message'] = '暂无数据'
@@ -110,19 +113,38 @@ def order_process_query(req, id):
 
 
 @login_required
-def info(req):
-    default_city = req.session.get('default_city')
-    form = EditProfileForm(req.POST or None)
-    phone = req.session.get('user_info')['phone']
+def cancelorders(request):
+    nid = request.GET.get('id')
+    order_obj = models.Orders.objects.filter(id=nid).first()
+    if order_obj:
+        models.OrderPayment.objects.filter(order_code=order_obj.order_code).update(status=3)
+        models.Orders.objects.filter(order_code=order_obj.order_code).update(order_state=3)
+        res_dict['status'] = True
+    else:
+        res_dict['status'] = False
+        res_dict['message'] = '非法操作'
+    return JsonResponse(res_dict)
+
+
+@login_required
+def info(request):
+    default_city = request.session.get('default_city')
+    form = EditProfileForm(request.POST or None)
+    phone = request.session.get('user_info')['phone']
     user_info = models.Users.objects.filter(phone=phone).values('phone', 'email',
                                                                 'name', 'province',
                                                                 'city', 'area', 'address').first()
-    if req.method == 'POST':
+    shop_list = request.session.get('shop_list')
+    if not shop_list:
+        user_info['shop_number'] = 0
+    else:
+        user_info['shop_number'] = len(shop_list)
+    if request.method == 'POST':
         if form.is_valid():
-            email = req.POST.get('email')
-            name = req.POST.get('name')
-            address = req.POST.get('address')
-            know = req.POST.get('know')
+            email = request.POST.get('email')
+            name = request.POST.get('name')
+            address = request.POST.get('address')
+            know = request.POST.get('know')
             models.Users.objects.filter(phone=phone).update(email=email, name=name, address=address, know=know)
             res_dict['message'] = '修改成功'
         else:
@@ -131,25 +153,25 @@ def info(req):
 
         return JsonResponse(res_dict)
 
-    return render(req, 'user/profile.html', {'title': title['info'],
-                                             'form': form,
-                                             'user_info': user_info,
-                                             'default_city': default_city,
-                                             })
+    return render(request, 'user/profile.html', {'title': title['info'],
+                                                 'form': form,
+                                                 'user_info': user_info,
+                                                 'default_city': default_city,
+                                                 })
 
 
 @login_required
-def edit_phone(req):
-    default_city = req.session.get('default_city')
-    form = EditPhoneForm(req.POST or None)
-    user_info = req.session.get('user_info')
+def edit_phone(request):
+    default_city = request.session.get('default_city')
+    form = EditPhoneForm(request.POST or None)
+    user_info = shop_number(request)
     phone = user_info['phone']
 
-    if req.method == 'POST':
+    if request.method == 'POST':
         if form.is_valid():
-            new_phone = req.POST.get('phone')
-            password = req.POST.get('password')
-            verify_code = req.POST.get('verify_code')
+            new_phone = request.POST.get('phone')
+            password = request.POST.get('password')
+            verify_code = request.POST.get('verify_code')
             verify_info = \
                 models.MessagesVerifyCode.objects.filter(m_phone=phone, ).values_list('m_verifycode',
                                                                                       'm_send_date').order_by(
@@ -174,20 +196,20 @@ def edit_phone(req):
             res_dict['message'] = list(form.errors.values())[0][0]
         res_dict['status'] = False
         return JsonResponse(res_dict)
-    return render(req, 'user/edit_phone.html', {'title': title['edit_phone'],
-                                                'default_city': default_city,
-                                                'user_info': user_info})
+    return render(request, 'user/edit_phone.html', {'title': title['edit_phone'],
+                                                    'default_city': default_city,
+                                                    'user_info': user_info})
 
 
 @login_required
-def edit_pwd(req):
-    default_city = req.session.get('default_city')
-    user_info = req.session.get('user_info')
-    form = EditPwdForm(req.POST or None)
-    if req.method == 'POST':
+def edit_pwd(request):
+    default_city = request.session.get('default_city')
+    user_info = shop_number(request)
+    form = EditPwdForm(request.POST or None)
+    if request.method == 'POST':
         if form.is_valid():
             phone = user_info['phone']
-            password = req.POST.get('password')
+            password = request.POST.get('password')
             models.Users.objects.filter(phone=phone).update(password=password)
             res_dict['message'] = '请使用新密码重新登录'
         else:
@@ -197,9 +219,9 @@ def edit_pwd(req):
 
         return JsonResponse(res_dict)
 
-    return render(req, 'user/edit_password.html', {'title': title['edit_pwd'],
-                                                   'default_city': default_city,
-                                                   'user_info': user_info})
+    return render(request, 'user/edit_password.html', {'title': title['edit_pwd'],
+                                                       'default_city': default_city,
+                                                       'user_info': user_info})
 
 
 @login_required
@@ -216,7 +238,6 @@ def send_verify_code(req):
     if req.method == 'GET':
         phone = req.GET.get('phone')
         type = req.GET.get('type')
-        print(phone)
         if phone:
             if len(phone) != 11:
                 res_dict['status'] = False

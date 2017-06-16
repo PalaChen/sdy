@@ -10,7 +10,7 @@
                     <em></em>
                     <ul>
                         {% for line in city_obj %}
-                            <li><a>{{ line.name }}</a></li>
+                            <li><a href="{% url 'switch_city' line.id %}">{{ line.name }}</a></li>
                         {% endfor %}
                     </ul>
                 </div>
@@ -54,8 +54,8 @@
                 <a class="welcome1" href="{% url "shopping_cart" %}">
                     <i class="gw floatLeft"></i>
                     购物车
-                    {#                    <em>0</em>#}
-                    {#                    件#}
+                    <em>{{ user_info.shop_number }}</em>
+                    件
                 </a>
             </li>
         </ul>

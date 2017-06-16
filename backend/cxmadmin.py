@@ -10,7 +10,7 @@ class ClientInfoAdmin(admin.BaseCxmAdmin):
     list_display = ['name', 'mobile', 'source', 'group', 'employee', 'is_reg', 'user']
     list_filter = ['source', 'group', 'is_reg']
     search_fields = ['name', 'mobile']
-    readonly_fields = ['status']
+    # readonly_fields = ['status']
 
 
 class UsersAdmin(admin.BaseCxmAdmin):
@@ -24,10 +24,15 @@ class UsersAdmin(admin.BaseCxmAdmin):
 
 class EmployeesAdmin(admin.BaseCxmAdmin):
     list_display = ['email', 'name', 'job_number', 'department', 'position', 'phone', 'qq', 'wechat', 'gender',
-                    'birthday', 'entry_time', ]
+                    'birthday', 'entry_time', 'role']
     list_filter = ['gender', 'department', 'position', ]
     search_fields = ['name', 'department', 'position', 'phone']
-    readonly_fields = ['last_time', 'reg_time', 'last_ip', 'role']
+    readonly_fields = ['last_time', 'reg_time', 'last_ip', ]
+
+
+class ProductPackageAdmin(admin.BaseCxmAdmin):
+    list_display = ['name', 'cprice', 'original_price', 'weight', 'status', 'dscription', 'area', 'employee']
+    list_filter = ['area', 'status']
 
 
 class ProductCategoryAdmin(admin.BaseCxmAdmin):
@@ -40,6 +45,10 @@ class ProductsAdmin(admin.BaseCxmAdmin):
     list_display = ['p_name', 'p_price', 'p_market_price', 'p_putaway', 'p_ctime', 'p_top']
     list_filter = ['p_putaway', 'p_top']
     search_fields = ['p_name']
+
+
+class OrdersAdmin(admin.BaseCxmAdmin):
+    list_display = []
 
 
 class OrderPaymentAdmin(admin.BaseCxmAdmin):
@@ -68,6 +77,15 @@ class ArticlesAdmin(admin.BaseCxmAdmin):
     actions = []
 
 
+class AuthorAdmin(admin.BaseCxmAdmin):
+    list_display = ['name']
+
+
+class RoleAdmin(admin.BaseCxmAdmin):
+    list_display = ['id', 'name']
+    search_fields = ['name']
+
+
 class PositionAdmin(admin.BaseCxmAdmin):
     list_display = ['name', 'department', 'description']
     list_filter = ['department']
@@ -93,18 +111,20 @@ admin.site.register(models.Products, ProductsAdmin)
 admin.site.register(models.ProductCategory, ProductCategoryAdmin)
 admin.site.register(models.ProductService)
 admin.site.register(models.ProductTImage)
+admin.site.register(models.Package, ProductPackageAdmin)
 
 admin.site.register(models.Articles, ArticlesAdmin)
 # admin.site.register(models.ArticlesDetails)
 admin.site.register(models.ArticlesCategory)
 admin.site.register(models.ArticlesTag)
-admin.site.register(models.Author)
+admin.site.register(models.Author, AuthorAdmin)
 admin.site.register(models.Menu)
 admin.site.register(models.Bxslider)
+admin.site.register(models.Role, RoleAdmin)
 admin.site.register(models.IndexNav)
 admin.site.register(models.MessagesSend)
 admin.site.register(models.MessagesVerifyCode)
-admin.site.register(models.Orders)
+admin.site.register(models.Orders, OrdersAdmin)
 admin.site.register(models.OrderSerice, OrderSericeAdmin)
 admin.site.register(models.Process)
 admin.site.register(models.ProcessName)

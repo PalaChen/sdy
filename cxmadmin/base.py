@@ -10,10 +10,10 @@ from django.db.models import Q
 app_setup.cxmadmin_auto_discover()
 
 
-# 筛选符合条件的字段
+# 过滤出符合条件的数据
 def get_filter_result(request, querysets):
     """
-    筛选条件
+    从页面中筛选条件
     :param request:
     :param querysets:
     :return:
@@ -67,13 +67,20 @@ def get_serached_result(request, querysets, admin_class):
     return querysets
 
 
-def table_obj_list(request, app_name, model_name, common_info):
-    """取出指定model里的数据返回给前端"""
+def table_obj_list(request, app_name, model_name, common_dict):
+    """
+    从site实例总取出指定app名字对应的model_name里的数据返回给前端
+    :param request: 视图的request参数
+    :param app_name: app名字
+    :param model_name: 表对应的类名 小写
+    :param common_info: 常用信息
+    :return:
+    """
     # {'app名字':{数据表的类名：注册的内存地址}}
     # print("app_name,model_name:",site.enabled_admins[app_name][model_name])
 
     admin_class = site.enabled_admins[app_name][model_name]
-    filter_dict = common_info.get('filter_dict')
+    filter_dict = common_dict.get('filter_dict')
     if not filter_dict:
         # 读取所有数据
         querysets = admin_class.model.objects.all()
@@ -108,14 +115,14 @@ def table_obj_list(request, app_name, model_name, common_info):
 
 
     # print("admin class",admin_class.model )
-    html_url = common_info.get('html_url')
+    html_url = common_dict.get('html_url')
     if not html_url:
         html_url = 'general_index.html'
     return render(request, html_url, {'querysets': querysets,
                                       'admin_class': admin_class,
                                       'sorted_column': sorted_column,
-                                      'menu_string': common_info['menu_string'],
-                                      'common_info': common_info,
+                                      'menu_string': common_dict['menu_string'],
+                                      'common_info': common_dict,
                                       })
 
 

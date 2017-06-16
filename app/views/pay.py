@@ -8,6 +8,11 @@ import datetime
 import time
 import random
 
+from utils.menu import shop_number
+
+# 方法
+from . import product_method
+
 title_dict = {'cart': '购物车', 'pay': '支付'}
 result_dict = {'status': 200, 'message': None, 'data': None}
 status = {
@@ -21,34 +26,22 @@ status = {
 
 @login_required
 def cart(request):
+    """
+    购物车
+    :param request:
+    :return:
+    """
     default_city = request.session.get('default_city')
-    user_info = request.session.get('user_info')
-    id = request.GET.get('pid')
+    user_info = shop_number(request)
     is_login = request.session.get('is_login')
-    product_dict = models.Products.objects.filter(id=id).values('p_name', 'p_business', 'p_price',
-                                                                'p_category__name', 'area__name', 'city__name').first()
-    # print('product_dict--->', product_dict)
-    try:
-        shop_list = request.session['shop_list']
-    except KeyError:
-        shop_list = {}
-
-    if product_dict:
-        try:
-            if id in shop_list.keys():
-                pass
-            else:
-                shop_list.update({id: {'info': product_dict, 'number': 1}})
-        except AttributeError:
-            # 对象不是一个not JSON serializable,
-            shop_list = {id: {'info': product_dict, 'number': 1}}
-
+    shop_list = product_method.cart_info(request)
+    # print(shop_list)
     request.session['shop_list'] = shop_list
-
+    user_info['shop_number'] = len(shop_list)
     return render(request, 'shop/index.html', {'shop_list': shop_list,
                                                'user_info': user_info,
                                                'is_login': is_login,
-                                               'default_city':default_city,
+                                               'default_city': default_city,
                                                'title': title_dict['cart']})
 
 
@@ -57,49 +50,87 @@ def cart_number(request):
     data = request.POST
     shop_list = request.session['shop_list']
     if data.get('number'):
-        shop_list[data['product_id']]['number'] = data['number']
+        commodity_type = 'p_id'
+        if int(data.get('type')) == 1:
+            commodity_type = 'pp_id'
 
-    print(shop_list)
-    request.session['shop_list'] = shop_list
+        for n, line in enumerate(shop_list):
+            if line.get(commodity_type) == data['nid']:
+                shop_list[n]['basic']['info']['number'] = data['number']
+        # print(shop_list[n]['basic']['info']['number'], '--------', data['number'])
+        # print(shop_list)
+        request.session['shop_list'] = shop_list
     return JsonResponse(result_dict)
 
 
 @login_required
-def cart_del(request, id):
+def cart_del(request, ):
+    pid = None
+    key = None
+    try:
+        shop_type = int(request.GET.get('type'))
+        if shop_type == 0:
+            key = 'p_id'
+            pid = request.GET.get('pid')
+        else:
+            key = 'pp_id'
+            pid = request.GET.get('ppid')
+    except ValueError as e:
+        result_dict['status'] = 400
+        return JsonResponse(result_dict)
+
     shop_list = request.session.get('shop_list')
-    shop_list.pop(id)
+    for index, shop in enumerate(shop_list):
+        if key in shop.keys() and str(shop[key]) == pid:
+            del shop_list[index]
     request.session['shop_list'] = shop_list
+
     return JsonResponse(result_dict)
 
 
-# @login_required
+@login_required
 # 　生成订单信息
 def buy_info(request):
     user_info = request.session.get('user_info')
     shop_list = request.session.get('shop_list')
-    order_code = time.strftime('%Y%m%d%H%M%S', time.localtime()) + str(random.randint(00, 99))
+    order_code = time.strftime('%Y%m%d%H%M%S', time.localtime()) + str(random.randint(11, 99))
     if shop_list:
-        for shop_key, shop_value in shop_list.items():
-            # {'13': {'number': '2', 'info': {'p_price': 111.0, 'city__name': '佛山市', 'p_business': 1, 'p_name': '合伙企业注册', 'p_category__name': '合伙企业注册', 'area__name': '顺德区'}},}
-            # v ={'info': {'p_name': '有限公司注册', 'number': '4', 'p_price': 11.0}}
-            if shop_key == 'price':
-                pass
-            else:
+        # 创建数据
+        for item in shop_list:
+            # shop_list表的样子
+            """
+            [{'p_id': 14, 'basic': {'type': '0', 'info': {
+                'pid': 14, 'number': 1, 'detail': {
+                    'p_business': 1, 'area__name': '顺德区', 'city__name': '佛山市', 'p_category__name': '有限公司注册',
+                    'p_name': '111', 'p_price': 111.1}}}}
+
+             {'pp_id': 1, 'basic': {'type' = 1, {'info': {'ppid': 11,
+                                                          'name': 123123
+                                                          'number': 1,
+                                                          'cprice': 222,
+                                                          'detail': [{'p_business': 1, 'area__name': '顺德区',
+                                                                      'city__name': '佛山市', 'p_category__name': '有限公司注册',
+                                                                      'p_name': '111', 'p_price': 111.1}, ]}}}}
+            ]
+            """
+            # print(item)
+            for line in item['basic']['info']['detail']:
+                # print(line)
                 data = {}
-                data['product_id'] = shop_key
-                data['product_name'] = shop_value['info']['p_name']
-                data['cprice'] = shop_value['info']['p_price']
-                data['total_price'] = shop_value['info']['p_price']
-                data['category'] = shop_value['info']['p_category__name']
-                data['p_business_id'] = shop_value['info']['p_business']
-                data['city'] = shop_value['info']['city__name']
-                data['area'] = shop_value['info']['area__name']
+                data['product_id'] = line['product_id']
+                data['product_name'] = line['p_name']
+                data['cprice'] = line['p_price']
+                data['total_price'] = line['p_price']
+                data['category'] = line['p_category__name']
+                data['p_business_id'] = line['p_business_id']
+                data['city'] = line['city__name']
+                data['area'] = line['area__name']
                 data['phone'] = user_info['phone']
                 data['name'] = user_info['name']
                 data['user_id'] = user_info['id']
                 data['order_code'] = order_code
 
-                for i in range(0, int(shop_value['number'])):
+                for i in range(0, int(item['basic']['info']['number'])):
                     models.Orders.objects.create(**data)
     else:
         result_dict['status'] = 501
@@ -121,7 +152,8 @@ def buy_info(request):
 # 支付页面
 def pay(request, id):
     default_city = request.session.get('default_city')
-    user_info = request.session.get('user_info')
+
+    user_info = shop_number(request)
     is_login = request.session.get('is_login')
     pay_obj = models.OrderPayment.objects.filter(id=id).first()
     if pay_obj:
@@ -129,14 +161,12 @@ def pay(request, id):
             return redirect('user_order')
 
         order_obj = models.Orders.objects.filter(order_code=pay_obj.order_code) \
-            .values('order_code',
-                    'product_name',
-                    'number').all()
+            .values('order_code', 'product_name', 'number', 'city', 'area').all()
         return render(request, 'shop/pay.html', {'order_obj': order_obj,
                                                  'is_login': is_login,
                                                  'pay_obj': pay_obj,
                                                  'user_info': user_info,
-                                                 'default_city':default_city,
+                                                 'default_city': default_city,
                                                  'title': title_dict['pay']})
     return redirect('web_index')
 
@@ -171,6 +201,9 @@ def payment_method(request):
         pay_obj = models.OrderPayment.objects.filter(id=pay_id).first()
         pay_obj.payment = payment_method
         pay_obj.save()
+
+        models.Orders.objects.filter()
+
         if payment_method == '0':
             tn = pay_obj.order_code,  # 订单编号
             subject = '盛德业订单支付',  # 订单名称
@@ -217,7 +250,7 @@ def pay_verify(request, cbid):
 
 
 def get_alipay_info(request):
-    print('--------->', request)
+    # print('--------->', request)
     data = {}
     # 订单号
     data['out_trade_no'] = request.get('out_trade_no')
@@ -243,9 +276,9 @@ def get_alipay_info(request):
 
 
 def save_alipy_info(alipay_dict):
-    print('alipay_dict------->', alipay_dict)
+    # print('alipay_dict------->', alipay_dict)
     order_code = alipay_dict.get('out_trade_no')
-    print(order_code)
+    # print(order_code)
 
     OrderPaymen_obj = models.OrderPayment.objects.filter(order_code=order_code).first()
 

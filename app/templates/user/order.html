@@ -1,9 +1,7 @@
 {% extends 'user/master/base.html' %}
-
-
-{% if id == 5 or id == 15 %}
+{% if id == 0 or id == 1 %}
     {% block head %}
-        <link type="text/css" rel="stylesheet" href="/static/plugins/bootstrap/css/bootstrap.min.css">
+        <link type="text/css" rel="stylesheet" href="/static/js/layer/skin/default/layer.css">
     {% endblock %}
 {% endif %}
 
@@ -91,26 +89,28 @@
                                     {# id=1 待付款 #}
                                     {% if id == 0 or id == 1 %}
                                         {% if post.order_state == 0 %}
-                                            <a class="toPay" target="_blank" href="{% url 'user_order_topay' post.id %}">去付款</a>
+                                            <a class="toPay" target="_blank"
+                                               href="{% url 'user_order_topay' post.id %}">去付款</a>
                                             <br>
                                             <span class="fc-curp relative cancelOrder">
-                                            取消订单
-                                            <div class="popShadow newWL" style="display: none;">
-                                                <div>你确定要取消订单吗？</div>
-                                                <div class="mt10">
-                                                    <a class="colorBg1 mr10 popBtn" href="javascript:void(0)"
-                                                       onclick="cancelOrders(455293);">确定</a>
-                                                    <a class="colorBg2 cancelBtn popBtn"
-                                                       href="javascript:void(0)">取消</a>
+                                                取消订单
+                                                <div class="popShadow newWL">
+                                                    <div>你确定要取消订单吗？</div>
+                                                    <div class="mt10">
+                                                        <a class="colorBg1 mr10 popBtn" href="javascript:void(0)"
+                                                           onclick="cancelOrders({{ post.id }});">确定</a>
+                                                        <a class="colorBg2 cancelBtn popBtn"
+                                                           href="javascript:void(0)">取消</a>
+                                                    </div>
+                                                    <i class="arrow" style="top:-7px;right:26px;"></i>
                                                 </div>
-                                                <i class="arrow" style="top:-7px;right:26px;"></i>
-                                            </div>
                                             </span>
+
                                         {% elif post.order_state == 1 %}
                                             <span>正在分配员工为您服务</span>
                                         {% elif post.order_state == 2 %}
                                             <a class="glyphicon glyphicon-search">查看进展</a>
-                                        {% elif post.order_state == 3 %}
+                                        {% elif post.order_state == 6 %}
                                             <a class="toPay">评价</a>
 
                                         {% endif %}
@@ -157,11 +157,46 @@
     </div>
 
 {% endblock %}
-
-{% if id == 5 or id == 15 %}
-    {% block scripts %}
-        <script src="/static/js/jquery-3.1.1.js"></script>
+{% block scripts %}
+    <script src="/static/js/jquery-3.1.1.js"></script>
+    <script src="/static/js/user_index.js"></script>
+    {% if id == 5 or id == 15 %}
         <script src="/static/plugins/bootstrap/js/bootstrap.min.js"></script>
-        <script src="/static/js/user_index.js"></script>
-    {% endblock %}
-{% endif %}
+    {% else %}
+        <script src="/static/js/layer/layer.js"></script>
+        <script>
+
+            var cancelOrder = $(".cancelOrder");
+            cancelOrder.click(function (event) {
+                $(this).find(".popShadow").show();
+                event.stopPropagation();
+            });
+            $(".popShadow").hover(function () {
+                $(this).show();
+            }, function () {
+                $(this).hide();
+            });
+            $(".cancelBtn").click(function (event) {
+                $('.popShadow').hide();
+                event.stopPropagation();
+            });
+            function cancelOrders(id) {
+                $.ajax({
+                    type: "GET",
+                    url: "/user/orders/cancelorders.html?id=" + id,
+                    //dataType:'json',
+                    //data: {'id': id},
+                    success: function (arg) {
+                        if (arg['status']) {
+                            window.location.reload();
+                        }
+                        else {
+                            alert(arg['message']);
+                        }
+                    }
+                });
+            }
+        </script>
+
+    {% endif %}
+{% endblock %}

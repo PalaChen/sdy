@@ -5,7 +5,11 @@
                 <i class="glyphicon glyphicon-minus"></i>
             </span>
     </div>
-    {% if not menu_string %}
+    {% if menu_string %}
+        {{ menu_string|safe }}
+    {% elif common_info.menu_string %}
+        {{ common_info.menu_string|safe }}
+    {% else %}
         <div>
             <div class="manageBanner">
             	<span class="icon">
@@ -27,9 +31,9 @@
             </div>
             <ul class="list-unstyled hide">
                 <li class="manageItem"><a href="{% url 'service_order' %}">管理订单</a></li>
-{#                <li class="manageItem"><a >续费管理</a></li>#}
+                {#                <li class="manageItem"><a >续费管理</a></li>#}
                 <li class="manageItem"><a href="{% url 'service_payment' %}">支付记录</a></li>
-{#                <li class="manageItem"><a>订单审核</a></li>#}
+                {#                <li class="manageItem"><a>订单审核</a></li>#}
                 <li class="manageItem"><a href="{% url 'service_manage' %}">分配管理</a></li>
             </ul>
         </div>
@@ -44,10 +48,10 @@
                 <li class="manageItem"><a href="{% url 'p_category' %}">分类管理</a></li>
                 <li class="manageItem"><a href="{% url 'p_service' %}">服务管理</a></li>
                 <li class="manageItem"><a href="{% url 'p_business' %}">业务管理</a></li>
-{#                <li class="manageItem"><a href="{% url 'attribute_all' %}">属性管理</a></li>#}
+                {#                <li class="manageItem"><a href="{% url 'attribute_all' %}">属性管理</a></li>#}
                 <li class="manageItem"><a href="{% url 'product_all' %}">我的产品</a></li>
-{#                <li class="manageItem"><a href="{% url 'product_add' %}">我的套餐</a></li>#}
-{#                <li class="manageItem"><a href="{% url 'product_add' %}">优惠卷</a></li>#}
+                <li class="manageItem"><a href="{% url 'package' %}">我的套餐</a></li>
+                {#                <li class="manageItem"><a href="{% url 'product_add' %}">优惠卷</a></li>#}
             </ul>
         </div>
         <div>
@@ -59,8 +63,8 @@
             </div>
             <ul class="list-unstyled hide">
                 <li class="manageItem"><a href="{% url 'users_all' %}">全部客户</a></li>
-{#                <li class="manageItem"><a href="{% url 'category_all' %}">标签管理</a></li>#}
-{#                <li class="manageItem"><a href="{% url 'keyword_all' %}">推荐客户</a></li>#}
+                {#                <li class="manageItem"><a href="{% url 'category_all' %}">标签管理</a></li>#}
+                {#                <li class="manageItem"><a href="{% url 'keyword_all' %}">推荐客户</a></li>#}
             </ul>
         </div>
         <div>
@@ -74,23 +78,23 @@
                 <li class="manageItem"><a href="{% url 'articles_all' %}">文章管理</a></li>
                 <li class="manageItem"><a href="{% url 'category_all' %}">栏目管理</a></li>
                 <li class="manageItem"><a href="{% url 'keyword_all' %}">标签管理</a></li>
-{#                <li class="manageItem"><a href="{% url 'keyword_all' %}">文章统计</a></li>#}
+                {#                <li class="manageItem"><a href="{% url 'keyword_all' %}">文章统计</a></li>#}
             </ul>
         </div>
-{#        <div>#}
-{#            <div class="manageBanner">#}
-{#            	<span class="icon">#}
-{#                	<i class="glyphicon glyphicon-plus"></i>#}
-{#                </span>#}
-{#                <span>问答管理</span>#}
-{#            </div>#}
-{#            <ul class="list-unstyled hide">#}
-{#                <li class="manageItem"><a href="{% url 'articles_all' %}">文章管理</a></li>#}
-{#                <li class="manageItem"><a href="{% url 'category_all' %}">栏目管理</a></li>#}
-{#                <li class="manageItem"><a href="{% url 'keyword_all' %}">标签管理</a></li>#}
-{#                <li class="manageItem"><a href="{% url 'keyword_all' %}">文章统计</a></li>#}
-{#            </ul>#}
-{#        </div>#}
+        {#        <div>#}
+        {#            <div class="manageBanner">#}
+        {#            	<span class="icon">#}
+        {#                	<i class="glyphicon glyphicon-plus"></i>#}
+        {#                </span>#}
+        {#                <span>问答管理</span>#}
+        {#            </div>#}
+        {#            <ul class="list-unstyled hide">#}
+        {#                <li class="manageItem"><a href="{% url 'articles_all' %}">文章管理</a></li>#}
+        {#                <li class="manageItem"><a href="{% url 'category_all' %}">栏目管理</a></li>#}
+        {#                <li class="manageItem"><a href="{% url 'keyword_all' %}">标签管理</a></li>#}
+        {#                <li class="manageItem"><a href="{% url 'keyword_all' %}">文章统计</a></li>#}
+        {#            </ul>#}
+        {#        </div>#}
         <div>
             <div class="manageBanner">
             	<span class="icon">
@@ -100,12 +104,10 @@
             </div>
             <ul class="list-unstyled hide">
                 <li class="manageItem"><a href="{% url 'org_position' %}">组织机构</a></li>
-{#                <li class="manageItem"><a href="{% url 'site_manage' %}">菜单管理</a></li>#}
+                {#                <li class="manageItem"><a href="{% url 'site_manage' %}">菜单管理</a></li>#}
                 <li class="manageItem"><a href="{% url 'site_manage' %}">站点管理</a></li>
                 <li class="manageItem"><a href="{% url 'area_index' %}">区域管理</a></li>
             </ul>
         </div>
-    {% else %}
-        {{ menu_string|safe }}
     {% endif %}
 </div>
