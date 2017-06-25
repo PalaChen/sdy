@@ -518,9 +518,9 @@ class Users(models.Model):
     """
     # username = models.CharField(max_length=20, unique=True)
     phone = models.CharField(max_length=11, unique=True, verbose_name='手机号码')
-    email = models.CharField(max_length=100, blank=True, verbose_name='邮箱')
-    name = models.CharField(max_length=30, verbose_name='称呼')
-    password = models.CharField(max_length=40, verbose_name='密码')
+    email = models.CharField(max_length=100, null=True, blank=True, verbose_name='邮箱', )
+    name = models.CharField(max_length=30, null=True, verbose_name='称呼', )
+    password = models.CharField(max_length=40, null=True, verbose_name='密码')
     qq = models.CharField(max_length=15, null=True, blank=True, verbose_name='QQ')
     wechat = models.CharField(max_length=30, null=True, blank=True, verbose_name='微信')
     group = models.CharField(max_length=30, null=True, blank=True, verbose_name='分组')
@@ -533,7 +533,7 @@ class Users(models.Model):
     area = models.SmallIntegerField(null=True, blank=True, verbose_name='区')
     address = models.CharField(null=True, max_length=100, blank=True, verbose_name='地址')
     source = models.CharField(null=True, max_length=30, blank=True, verbose_name='来源')
-    know_choice = ((1, '搜索引擎'), (2, '线下活动'), (3, '微信微博'), (4, '朋友土建'), (5, '名片传单'), (6, '其他'))
+    know_choice = ((1, '搜索引擎'), (2, '线下活动'), (3, '微信微博'), (4, '朋友土建'), (5, '名片传单'), (6, '主页'), (7, '其他'))
     know = models.SmallIntegerField(null=True, choices=know_choice, verbose_name='了解')
     reg_employee = models.IntegerField(null=True, blank=True, verbose_name='注册员工')
     reg_time = models.DateTimeField(auto_now_add=True, blank=True, verbose_name='注册时间')
@@ -837,11 +837,52 @@ class Coupon(models.Model):
     name = models.CharField(max_length=60, verbose_name='优惠卷名称')
     price = models.IntegerField(verbose_name='金额')
     number = models.IntegerField(verbose_name='数量')
-    activation = models.IntegerField(verbose_name='激活数量')
-    use_number = models.IntegerField(verbose_name='使用数量')
-    status = models.SmallIntegerField(verbose_name='状态')
-    type = models.SmallIntegerField(verbose_name='类型')
-    valid = models.SmallIntegerField(verbose_name='有效期')
-    isExpired = models.SmallIntegerField(verbose_name='是否过期')
-    ctime = models.DateTimeField(null=True, auto_now_add=True)
+    activation = models.IntegerField(verbose_name='激活数量', default=0)
+    use_number = models.IntegerField(verbose_name='使用数量', default=0)
+    status_choices = ((0, '冻结'), (1, '正常'))
+    status = models.SmallIntegerField(choices=status_choices, verbose_name='状态', default=1)
+    type_choices = ((0, '无门槛'), (1, '满立减'))
+    type = models.SmallIntegerField(choices=type_choices, verbose_name='类型')
+    price_reduction = models.IntegerField(verbose_name='减价', null=True)
+    start_time = models.DateField(verbose_name='开始时间', null=True)
+    end_time = models.DateField(verbose_name='结束时间', null=True)
+    isExpired_choices = ((0, '已过期'), (1, '未过期'))
+    isExpired = models.SmallIntegerField(verbose_name='是否过期', choices=isExpired_choices, default=1)
+    ctime = models.DateTimeField(null=True, auto_now_add=True, verbose_name='创建时间')
+    employee = models.ForeignKey('Employees', verbose_name='创建人')
+    description = models.TextField(verbose_name='描述', null=True)
+
+    class Meta:
+        db_table = 'coupon'
+
+
+class Coupon2User(models.Model):
+    coupon = models.ForeignKey(Coupon, null=True)
+    user = models.ForeignKey(Users)
+    used_choices = ((0, '未使用'), (1, '已使用'))
+    used = models.SmallIntegerField(choices=used_choices, default=0)
+
+    class Meta:
+        db_table = 'coupon2user'
+
+
+class Link(models.Model):
+    name = models.CharField(max_length=64, verbose_name='名字')
+    url = models.URLField(verbose_name='网址')
+    status_choices = ((0, '下线'), (1, '上线'))
+    status = models.SmallIntegerField(choices=status_choices, verbose_name='状态')
+    ctime = models.DateTimeField(auto_now_add=True, verbose_name='创建日期')
     employee = models.ForeignKey('Employees')
+
+    class Meta:
+        db_table = 'links'
+
+
+class UserConsultation(models.Model):
+    name = models.CharField(max_length=100, verbose_name='姓名')
+    phone = models.CharField(max_length=11, verbose_name='手机号码')
+    content = models.CharField(max_length=200, verbose_name='查询内容')
+    ctime = models.DateTimeField(auto_now_add=True, verbose_name='查询时间')
+
+    class Meta:
+        db_table = 'users_consultation'

@@ -80,7 +80,7 @@ class RegisterForm(forms.Form):
     )
     name = fields.CharField(
         required=True,
-        error_messages={'required': '姓名不能为空',}
+        error_messages={'required': '姓名不能为空', }
     )
 
     def clean(self):
@@ -151,3 +151,22 @@ class ForgetPassForm(forms.Form):
                 pass
             else:
                 raise ValidationError('密码输入不一致')
+
+
+class UserConsultationForm(forms.Form):
+    phone = fields.IntegerField(
+        required=True,
+        validators=[RegexValidator(r'^[1][3578][0-9]{9}$', '请输入正确的手机号码')],
+        error_messages={
+            'required': '手机号码不能为空',
+            'invalid': '请输入正确的手机号码',
+        }
+    )
+    content = fields.CharField(max_length=200, error_messages={'required': '查询内容不能为空',
+                                                               "max_length": '内容长度不能超过200个汉字',
+                                                               }
+                               )
+    name = fields.CharField(max_length=100, error_messages={'required': '姓名不能为空',
+                                                            "max_length": '姓名长度不能超过100个汉字',
+                                                            }
+                            )

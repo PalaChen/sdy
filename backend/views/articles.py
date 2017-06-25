@@ -19,7 +19,7 @@ web_title = {'articles': '文章管理',
              'keywords': '标签管理',
              'keyword_add': '标签添加'}
 
-result_dict = {'status': 200, 'message': None, 'data': 'None'}
+result_dict = {'status': 200, 'message': None, 'data': None}
 
 
 def is_author(func):

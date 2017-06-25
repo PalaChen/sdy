@@ -35,31 +35,43 @@ def cart(request):
     user_info = shop_number(request)
     is_login = request.session.get('is_login')
     shop_list = product_method.cart_info(request)
+    # print(user_info['id'])
+    coupon_obj = models.Coupon2User.objects.filter(user_id=user_info['id'])
     # print(shop_list)
     request.session['shop_list'] = shop_list
     user_info['shop_number'] = len(shop_list)
-    return render(request, 'shop/index.html', {'shop_list': shop_list,
-                                               'user_info': user_info,
-                                               'is_login': is_login,
-                                               'default_city': default_city,
-                                               'title': title_dict['cart']})
+    context = {'shop_list': shop_list,
+               'user_info': user_info,
+               'is_login': is_login,
+               'default_city': default_city,
+               'coupon_obj': coupon_obj,
+               'title': title_dict['cart']}
+    return render(request, 'shop/index.html', context)
 
 
 @login_required
 def cart_number(request):
     data = request.POST
+    print(data)
     shop_list = request.session['shop_list']
+
     if data.get('number'):
         commodity_type = 'p_id'
+        print("data.get('type')", data.get('type'))
         if int(data.get('type')) == 1:
             commodity_type = 'pp_id'
 
-        for n, line in enumerate(shop_list):
-            if line.get(commodity_type) == data['nid']:
+        for n, key in enumerate(shop_list):
+            print("data['number']", data['number'])
+            print(key.get(commodity_type),data['nid'])
+            print(type(key.get(commodity_type)),type(data['nid']))
+            if str(key.get(commodity_type)) == str(data['nid']):
+                print(2222222222222222222222222222222)
                 shop_list[n]['basic']['info']['number'] = data['number']
         # print(shop_list[n]['basic']['info']['number'], '--------', data['number'])
-        # print(shop_list)
+        print(shop_list)
         request.session['shop_list'] = shop_list
+    print(shop_list)
     return JsonResponse(result_dict)
 
 

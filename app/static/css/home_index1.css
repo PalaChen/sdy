@@ -209,3 +209,66 @@
 .choiceness-list.bgebf7fd>a {
 	background: #ebf7fd;
 }
+
+
+
+
+.prop {
+    background-color: #fff;
+    position: relative;
+    z-index: 999;
+	height: 106px;
+	background: rgba(0, 0, 0, 0) url("../images/icon/index-ss-bg.png") no-repeat scroll center center;
+}
+.prop .poa {
+    left: 30px;
+    position: absolute;
+    text-align: center;
+    /*top: -100px;*/
+    width: 100%;
+}
+
+.prop input {
+    background-color: #fcfcfc;
+    border: 1px solid transparent;
+    font-size: 14px;
+    height: 32px;
+    line-height: 32px;
+    margin-right: 20px;
+	margin-top: 30px;
+    text-align: center;
+    width: 198px;
+}
+.prop .poa p {
+    display: inline-block;
+}
+.fz14 {
+    font-size: 14px;
+}
+.fz16{
+	font-size: 16px;
+}
+.tc {
+    text-align: center;
+}
+.prop .btn_sb {
+    background-color: #ff8468;
+    color: #fff;
+    display: inline-block;
+    height: 50px;
+    line-height: 32px;
+    /*margin-top: 10px;*/
+    text-align: center;
+    width: 180px;
+	padding-top: 0;
+	padding-bottom: 0;
+}
+
+.bxslider li {
+    float:left;
+}
+.bxslider li a{
+    height:inherit;
+    width:inherit;
+    display:block
+}

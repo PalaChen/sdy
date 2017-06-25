@@ -61,6 +61,8 @@ urlpatterns = [
     url('api/products/areas/(\d+)', views.api.get_area, ),
 
     url(r'switch_city/(\d+).html', views.index.switch_city, name='switch_city'),
+    url(r'get_user_info', views.index.get_userInfo, name='get_userInfo'),
+
     url(r'', views.index.index, name='web_index'),
 
 ]

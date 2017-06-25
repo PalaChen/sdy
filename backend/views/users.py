@@ -3,7 +3,8 @@ from utils.login_admin import login_required, permission
 from cxmadmin import base
 
 title_dict = {'user': '全部客户', 'users_add': '添加客户',
-              'user_edit': '客户信息修改'}
+              'user_edit': '客户信息修改',
+              'users_consultation':'主页用户查询',}
 
 
 #
@@ -12,6 +13,7 @@ title_dict = {'user': '全部客户', 'users_add': '添加客户',
 def user(request, *args, **kwargs):
     common_info = {}
     common_info['menu_string'] = kwargs.get('menu_string')
+    common_info['order'] = {}
     common_info['add_url'] = 'users_add'
     common_info['title'] = title_dict['user']
     common_info['edit_url'] = 'users_edit'
@@ -66,3 +68,11 @@ def recommend(request, *args, **kwargs):
                                                   'menu_string': menu_string,
                                                   'title': title_dict['user']
                                                   })
+
+@login_required
+@permission
+def users_consultation(request, *args, **kwargs):
+    common_info = {}
+    common_info['menu_string'] = kwargs.get('menu_string')
+    common_info['title'] = title_dict['users_consultation']
+    return base.table_obj_list(request, 'reposition', 'userconsultation', common_info)

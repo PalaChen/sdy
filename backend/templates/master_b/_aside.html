@@ -51,7 +51,7 @@
                 {#                <li class="manageItem"><a href="{% url 'attribute_all' %}">属性管理</a></li>#}
                 <li class="manageItem"><a href="{% url 'product_all' %}">我的产品</a></li>
                 <li class="manageItem"><a href="{% url 'package' %}">我的套餐</a></li>
-                {#                <li class="manageItem"><a href="{% url 'product_add' %}">优惠卷</a></li>#}
+                <li class="manageItem"><a href="{% url 'coupon' %}">优惠卷</a></li>
             </ul>
         </div>
         <div>
@@ -63,6 +63,7 @@
             </div>
             <ul class="list-unstyled hide">
                 <li class="manageItem"><a href="{% url 'users_all' %}">全部客户</a></li>
+                <li class="manageItem"><a href="{% url 'users_consultation' %}">主页客户</a></li>
                 {#                <li class="manageItem"><a href="{% url 'category_all' %}">标签管理</a></li>#}
                 {#                <li class="manageItem"><a href="{% url 'keyword_all' %}">推荐客户</a></li>#}
             </ul>

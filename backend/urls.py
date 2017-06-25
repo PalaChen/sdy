@@ -27,6 +27,7 @@ urlpatterns = [
     url(r'^users.html$', views.users.user, name='users_all'),
     url(r'^users_add.html$', views.users.users_add, name='users_add'),
     url(r'^users_edit/(\d+).html$', views.users.users_edit, name='users_edit'),
+    url(r'^users_consultation.html$', views.users.users_consultation, name='users_consultation'),
     # url(r'^user/keyword.html$', views.users.keyword, name='users_keyword'),
     # url(r'^user/recommend.html$', views.users.recommend, name='users_recommend'),
 
@@ -77,6 +78,8 @@ urlpatterns = [
     url(r'^package_edit/(\d+).html', views.product.package_edit, name='package_edit'),
     url(r'^package_del.html', views.product.package_del, name='package_del'),
     url(r'^package_bind/(\d+).html', views.product.package_bind, name='package_bind'),
+    url(r'^coupon.html', views.product.coupon, name='coupon'),
+    url(r'^coupon_add.html', views.product.coupon_add, name='coupon_add'),
 
     # 系统配置
     url(r'^site.html$', views.site.site_manage, name='site_manage'),

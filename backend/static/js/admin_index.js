@@ -432,7 +432,7 @@ function send_Add_Ajax_Info(url, data, modal) {
 
 // 删除确认
 function Del_Confirm_Sub(modal, type, nid, ths) {
-    console.log(type, nid);
+    //console.log(type, nid);
     if (type == 'bxslider_edit') {
         url = '/admin/site/bxslider_del/' + nid + '.html';
     }
@@ -516,7 +516,7 @@ function send_Input_Ajan_Info(url, data) {
         data: data,
         dataType: 'json',
         success: function (arg) {
-            console.log(arg);
+            //console.log(arg);
             if (arg['status'] == 200) {
                 window.location.reload();
                 alert(arg['message']);

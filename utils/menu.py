@@ -40,6 +40,7 @@ def shop_number(request):
     shop_list = request.session.get('shop_list')
     if not user_info:
         user_info = {}
+
     if not shop_list:
         user_info['shop_number'] = 0
     else:

@@ -1,17 +1,27 @@
 {% if bxSlider %}
-<div class="main indexFirst" style="margin-bottom: 20px">
-    <div class="indexFirst-in">
-        <div class="lunhuan">
-{#            <div class="lunhuan_main">#}
-{#                <div class="lunhuancenter">#}
-                    <ul class="bxslider">
-                        {% for row in bxSlider %}
-                            <li><img src="/{{ row.img }}" style="height: 440px;width: 100%"></li>
-                        {% endfor %}
-                    </ul>
-{#                </div>#}
-{#            </div>#}
+    <div class="main indexFirst" style="margin-bottom: 20px">
+        <div class="indexFirst-in">
+            <div class="lunhuan">
+                {#            <div class="lunhuan_main">#}
+                {#                <div class="lunhuancenter">#}
+                <div id="bx-pager">
+                    {% for row in bxSlider %}
+                    <a href="{{ row.url }}" data-slide-index="0"></a>
+                    {% endfor %}
+                </div>
+                <ul class="bxslider">
+                    {% for row in bxSlider %}
+                        <li>
+                            {#                            <a href="http://www.baidu.com">#}
+                            <img src="/{{ row.img }}" style="height: 440px;width: 100%">
+                            {#                            </a>#}
+                        </li>
+                    {% endfor %}
+                </ul>
+                {#                </div>#}
+                {#            </div>#}
+            </div>
         </div>
     </div>
-</div>
 {% endif %}
+

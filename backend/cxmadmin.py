@@ -22,6 +22,10 @@ class UsersAdmin(admin.BaseCxmAdmin):
                        'source', 'know', 'reg_employee', 'last_time']
 
 
+class UserConsultationAdmin(admin.BaseCxmAdmin):
+    list_display = ['name', 'phone', 'content', 'ctime']
+
+
 class EmployeesAdmin(admin.BaseCxmAdmin):
     list_display = ['email', 'name', 'job_number', 'department', 'position', 'phone', 'qq', 'wechat', 'gender',
                     'birthday', 'entry_time', 'role']
@@ -33,6 +37,12 @@ class EmployeesAdmin(admin.BaseCxmAdmin):
 class ProductPackageAdmin(admin.BaseCxmAdmin):
     list_display = ['name', 'cprice', 'original_price', 'weight', 'status', 'dscription', 'area', 'employee']
     list_filter = ['area', 'status']
+
+
+class CouponAdmin(admin.BaseCxmAdmin):
+    list_display = ['name', 'price', 'status', 'type', 'number', 'activation', 'use_number', 'start_time', 'end_time',
+                    'isExpired', 'employee', 'ctime']
+    list_filter = ['status', 'type', 'isExpired', ]
 
 
 class ProductCategoryAdmin(admin.BaseCxmAdmin):
@@ -101,9 +111,15 @@ class ProductRecommendAdmin(admin.BaseCxmAdmin):
     list_filter = ['status']
 
 
+class LinkAdmin(admin.BaseCxmAdmin):
+    list_display = ['name', 'url', 'status', 'ctime', 'employee']
+    list_filter = ['status']
+
+
 admin.site.register(models.MyTask, MyTaskAdmin)
 admin.site.register(models.ClientInfo, ClientInfoAdmin)
 admin.site.register(models.Users, UsersAdmin)
+admin.site.register(models.UserConsultation, UserConsultationAdmin)
 
 admin.site.register(models.Employees, EmployeesAdmin)
 admin.site.register(models.Role, EmployeesAdmin)
@@ -112,6 +128,7 @@ admin.site.register(models.ProductCategory, ProductCategoryAdmin)
 admin.site.register(models.ProductService)
 admin.site.register(models.ProductTImage)
 admin.site.register(models.Package, ProductPackageAdmin)
+admin.site.register(models.Coupon, CouponAdmin)
 
 admin.site.register(models.Articles, ArticlesAdmin)
 # admin.site.register(models.ArticlesDetails)
@@ -135,3 +152,4 @@ admin.site.register(models.IndexNav, IndexNavAdmin)
 admin.site.register(models.Position, PositionAdmin)
 admin.site.register(models.RegionalManagement, RegionalManagementAdmin)
 admin.site.register(models.ProductRecommend, ProductRecommendAdmin)
+admin.site.register(models.Link, LinkAdmin)

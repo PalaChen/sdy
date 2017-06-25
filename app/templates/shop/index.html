@@ -2,13 +2,14 @@
 
 
 {% block css %}
+    <link type="text/css" rel="stylesheet" href="/static/css/sdepop.css">
     <link type="text/css" rel="stylesheet" href="/static/js/layer/skin/layer.css">
 {% endblock %}
 
 {% block page_content %}
     <div class="main greyf5f5f5">
         {% if shop_list %}
-            <form id="cartForm" method="post">
+            <form id="cartForm" noenter="1" method="post">
                 {% csrf_token %}
                 <div class="minwidth marT40">
                     <ul class="buySerList bordere0e0e0">
@@ -137,23 +138,71 @@
                     </ul>
                 </div>
                 <div class="minwidth">
+                    <input id="haveCoupon" name="haveCoupon" value="0" type="hidden">
+                    <div class="floatLeft coupon">
+                        <a id="couponTitle" class="couponTitle floatLeft" href="javascript:;">
+                            <i></i>
+                            使用优惠券
+                        </a>
+                        <div id="couponHtml" class="floatLeft couponCont" style="display: none;">
+                            <ul class="clearfix couponList">
+                                <li class="active">填写优惠码</li>
+                                <li class="couRi">查看我的优惠券</li>
+                            </ul>
+                            <div class="coupon-text overflowhidden">
+                                <div id="coupon0" class="cou-text1 active">
+                                    <div class="coupon-con">
+                                        <input id="couponCode" class="cou-text-input" name="coupon[code]" value=""
+                                               onkeydown="if(event.keyCode==13){ useCoupon(1); return false;}"
+                                               placeholder="请输入优惠码" type="text">
+                                    </div>
+                                    <div class="fapiao-box-foot">
+                                        <a class="butBlue" href="javascript:void(0)" onclick="useCoupon(1)">使用</a>
+                                        <a class="butWhiteGreyborder" href="javascript:void(0)"
+                                           onclick="cancelCoupon()">取消</a>
+                                    </div>
+                                </div>
+                                <div id="coupon1" class="cou-text2">
+                                    {% if coupon_obj %}
+                                        <dl>
+                                            {% for coupon in coupon_obj %}
+                                                {% if coupon.coupon.type == 0 %}
+                                                    <dd>
+                                                        <input type="checkbox" name="coupon_id" value="{{ coupon.id }}" kind="0" price="{{ coupon.coupon.price }}">
+                                                        立减{{ coupon.coupon.price }}元，有效期至{{ coupon.coupon.end_time|date:"Y-m-d" }}
+                                                    </dd>
+                                                {% else %}
+                                                    <dd>
+                                                        <input type="checkbox" name="coupon_id" value="{{ coupon.id }}" kind="1" price="{{ coupon.coupon.price }}">
+                                                        满{{ coupon.coupon.price_reduction }}元减{{ coupon.coupon.price }}元，有效期至{{ coupon.coupon.end_time|date:"Y-m-d" }}
+                                                    </dd>
+                                                {% endif %}
+                                            {% endfor %}
+                                        </dl>
+                                    {% else %}
+                                        <p style="font-size: 12px;color: #e85555;text-align: center;">未找到可使用的代金券</p>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                     <div class="floatRight marT30 checkoutWrap marB40" style="position:relative;">
                         <ul class="checkout floatRight">
                             <li>
                                 <span class="checkout-le">金额合计：</span>
-                            <span class="checkout-ri">
+                                <span class="checkout-ri">
                                 <span id="totalPrice"></span>元
                             </span>
                             </li>
                             <li>
                                 <span class="checkout-le">代金券抵扣：</span>
-                            <span class="checkout-ri">
+                                <span class="checkout-ri">
                                 <span id="couponPrice">0</span>元
                             </span>
                             </li>
                             <li>
                                 <span class="checkout-le">应付总额：</span>
-                            <span class="checkout-ri">
+                                <span class="checkout-ri">
                                 <em id="totalPayPrice"></em>元
                             </span>
                             </li>
@@ -178,7 +227,8 @@
                     <h3>您的购物车还是空的！</h3>
                     <div class="btn">
                         <a class="inlineBlock butBlue" href="/">马上去购物</a>
-                <span class="inlineBlock" style="font-size: 12px;color: #333;padding-top: 8px;vertical-align: top;">
+                        <span class="inlineBlock"
+                              style="font-size: 12px;color: #333;padding-top: 8px;vertical-align: top;">
                 或查看
                 <a href="{% url 'user_order' %}" style="font-size: 12px;">订单记录</a>
                 </span>
@@ -191,225 +241,7 @@
 
 {% block scripts %}
     <script src="/static/js/jquery-3.1.1.js"></script>
+    <script src="/static/js/shop.js"></script>
     <script src="/static/js/layer/layer.js"></script>
-    <script>
 
-
-        $(function () {
-            BindProductTotalPrice();
-            BindAddNumber();
-            BindReduceNumber();
-            BindProductNumber();
-            BindHover();
-            BindDelete();
-            BindTotalPrice();
-            BindBuySub();
-
-        });
-        // 计算所有商品总价
-        function BindProductTotalPrice() {
-            var counts = $('.productTotalPrice').length;
-            for (var i = 0; i <= counts - 1; i++) {
-                var cprice = $('.productCprice').eq(i).html();
-                cprice = cprice.substring(0, cprice.length - 1);
-
-                var number = $('.t-productNum').eq(i).val();
-                var totalPrice = ( cprice * number).toFixed(2);
-                //console.log(cprice, number, totalPrice);
-                $('.productTotalPrice').eq(i).text(totalPrice + '元')
-            }
-
-        }
-
-        // 自动计算总价
-        function BindTotalPrice(product_id, number, commodity_type) {
-            var p_sum = 0;
-            // 获取每一笔订单小计金额
-            $('.productTotalPrice').each(function () {
-                var c_price = $(this).parent().prevAll().eq(1).children().text();
-                var number = parseInt($(this).parent().prev().children().children().eq(1).val());
-                c_price = parseFloat(c_price.substring(0, c_price.length - 1));
-                p_sum += c_price * number;
-            });
-            p_sum = p_sum.toFixed(2);
-            $('#totalPrice').text(p_sum);
-            var p_total = 0;
-            p_total = $('#totalPrice').text() * 1 + $('#couponPrice').text() * 1;
-            $('#totalPayPrice').text(p_total);
-            var csrfmiddlewaretoken = $('input[name="csrfmiddlewaretoken"]').val();
-            data = {
-                'nid': product_id,
-                'number': number,
-                'csrfmiddlewaretoken': csrfmiddlewaretoken,
-                'type': commodity_type
-            };
-            SendAjax(data)
-
-        }
-        // 减少购买数量
-        function BindReduceNumber() {
-            $('.shopp-list').on('click', '.productReduce', function () {
-                var has_class = $(this).parent().parent().parent().attr('class');
-                var number = $(this).next('.t-productNum').val();
-                var product_id = $(this).next('.t-productNum').attr('nid');
-                var cprice = $(this).next('.t-productNum').attr('p_price');
-                if (number == 1) {
-                }
-                else {
-                    number = number * 1 - 1;
-                    $(this).next('.t-productNum').val(number);
-                    $(this).parent().parent().next('.shopp-subtotal').children('.productTotalPrice').text((cprice * 1 * number).toFixed(2) + '元');
-                    if (has_class == 'packageInfo') {
-                        BindTotalPrice(product_id, number, 1);
-                        location.href = '/cart.html'
-
-                    }
-                    else {
-                        BindTotalPrice(product_id, number, 0);
-                    }
-
-                }
-            })
-        }
-        // 增加购买数量
-        function BindAddNumber() {
-            $('.shopp-list').on('click', '.productAdd', function () {
-                var has_class = $(this).parent().parent().parent().attr('class');
-
-                var number = $(this).prev('.t-productNum').val();
-                var product_id = $(this).prev('.t-productNum').attr('nid');
-                var cprice = $(this).prev('.t-productNum').attr('p_price');
-
-                number = number * 1 + 1;
-                console.log(number, cprice);
-
-                $(this).prev('.t-productNum').val(number);
-                $(this).parent().parent().next('.shopp-subtotal').children('.productTotalPrice').text((cprice * 1 * number).toFixed(2) + '元');
-                console.log((cprice * 1 * number).toFixed(2));
-                if (has_class == 'packageInfo') {
-                    BindTotalPrice(product_id, number, 1);
-                    location.href = '/cart.html'
-                }
-                else {
-                    BindTotalPrice(product_id, number, 0);
-                }
-            })
-        }
-
-        // 购买数量发生变化计算总价
-        function BindProductNumber() {
-            $('.shopp-list').on('input propertychange', '.t-productNum', function () {
-                var number = $(this).val();
-                var cprice = $(this).attr('p_price');
-
-                $(this).parent().parent().next('.shopp-subtotal').children('.productTotalPrice').text((cprice * 1 * number).toFixed(2) + '元')
-                BindTotalPrice()
-            })
-        }
-
-
-        // tips
-        var differentindex = '';
-        function BindHover() {
-            $('.invoiceTip').hover(function () {
-                openMsg();
-            }, function () {
-                layer.close(differentindex);
-            });
-        }
-        function openMsg() {
-            differentindex = layer.tips('1、 服务完成后90天内，可联系客服索取发票。', '.invoiceTip', {
-                tips: [1, ''],
-                time: 4000
-            })
-        }
-
-        // 发送最新的购买数量ajax
-        function SendAjax(data) {
-            url = '/cart_number.html';
-            $.ajax({
-                url: url,
-                type: 'POST',
-                data: data,
-                dataType: "json",
-                success: function (arg) {
-                }
-            })
-        }
-
-        // 购物车删除
-        function BindDelete() {
-            var clickState = 0;
-            $('#cartForm').on('click', '.shop_delete', function () {
-                if (clickState == 1) {
-                }
-                else {
-                    clickState = 1;
-                    pid = $(this).attr('pid');
-                    if (pid) {
-                        url = '/cart_del.html?type=0&pid=' + pid;
-                    }
-                    else {
-                        ppid = $(this).attr('ppid');
-                        url = '/cart_del.html?type=1&ppid=' + ppid;
-                    }
-
-                    var ths = this;
-                    $.ajax({
-                        url: url,
-                        type: 'GET',
-                        success: function (arg) {
-                            if (arg['status'] == 200) {
-                                location.href = '/cart.html'
-                            }
-                            else {
-                                alert('非法操作,请重新刷新页面')
-                            }
-                            clickState = 0
-                        }
-
-                    })
-                }
-            })
-        }
-
-        // 发送总价格信息
-        function BindBuySub() {
-            var clickState = 0;
-            $('#orderButton').click(function () {
-                if (clickState == 1) {
-                }
-                else {
-                    clickState = 1;
-                    var total_price = $('#totalPrice').text().trim();
-                    var coupon_price = $('#couponPrice').text().trim();
-                    var pay_price = $('#totalPayPrice').text().trim();
-                    var csrfmiddlewaretoken = $('input[name="csrfmiddlewaretoken"]').val();
-                    data = {
-                        'total_price': total_price,
-                        'coupon_price': coupon_price,
-                        'pay_price': pay_price,
-                        'csrfmiddlewaretoken': csrfmiddlewaretoken
-                    };
-                    url = '/buy_info.html';
-                    $.ajax({
-                        url: url,
-                        type: 'POST',
-                        data: data,
-                        dataType: "json",
-                        success: function (arg) {
-                            if (arg['status'] == 200) {
-                                location.href = arg['url']
-                            }
-                            else if (arg['status'] == 501) {
-                                location.href = arg['url']
-                            }
-                            clickState = 0
-                        }
-                    })
-                }
-
-            });
-        }
-    </script>
 {% endblock %}

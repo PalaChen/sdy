@@ -30,6 +30,31 @@
     {#        </ul>#}
     {#    </div>#}
     {#    精选套餐  #}
+    <div class="minwidth">
+        <div class="prop w_1200" style="">
+            <div class="poa">
+                <form id="queryForm">
+                    {% csrf_token %}
+                    <input type="hidden" name="know" value="6">
+                    <p class="fz14">
+                        <input name="content" maxlength="50" placeholder="您想要查询的公司名称" type="text">
+                    </p>
+                    <p class="fz14">
+                        <input class="math" name="phone" placeholder="您的电话号码" type="text">
+                    </p>
+                    <p class="fz14">
+                        <input name="name" placeholder="姓名" type="text">
+                    </p>
+                    <p class="tc">
+                        <span></span>
+                        <button id="queryCompanyBtn" class="btn_sb white fz16 queryCompanyBtn" type="button">提交查询
+                        </button>
+                    </p>
+                </form>
+            </div>
+        </div>
+        {#        <img src="/static/images/01.jpg">#}
+    </div>
     <div class="minwidth" style="margin: 20px auto 30px">
         <ul class="choiceness-ul">
             <li class="choiceness-title">
@@ -79,7 +104,10 @@
 
         </div>
     </div>
-
+    <div class="minwidth">
+        <img src="/static/images/02.jpg" width="1180px">
+        <img src="/static/images/03.jpg">
+    </div>
     <div class="minwidth">
         <div class="section-title" style="margin-top: 20px;margin-bottom: 5px">
             <span class="line"></span>
@@ -138,6 +166,9 @@
             </div>
         </div>
     </div>
+    <div class="minwidth">
+        <img src="/static/images/04.jpg" width="1180px">
+    </div>
     {% include 'master/footer/_footer_index.html' %}
 
 
@@ -147,9 +178,35 @@
     <script src="/static/js/bxslider/jquery.bxslider.js"></script>
     <script>
         $('.bxslider').bxSlider({
-            auto: true,
+            auto: true
+        });
+        $($('.kfwNaSubSubIsHome').removeClass('hide'));
+
+        $(function () {
+            bindqueryCompanyBtn()
         });
 
-        $($('.kfwNaSubSubIsHome').removeClass('hide'))
+        function bindqueryCompanyBtn() {
+            $('#queryCompanyBtn').click(function () {
+                $.ajax({
+                    type: 'POST',
+                    url: '/get_user_info',
+                    data: $('#queryForm').serialize(),
+                    success: function (arg) {
+                        if (arg['status'] == 200) {
+                            alert('客服会最快把联系您，请耐心等待')
+                        }
+                        else {
+                            alert(arg['message'])
+                        }
+                    },
+                    error: function () {
+                        alert('连接服务器失败，请稍微再试，或者直接联系客服电话：0757-22104040')
+                    }
+
+                })
+            })
+        }
+
     </script>
 {% endblock %}

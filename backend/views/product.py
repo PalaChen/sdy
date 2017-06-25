@@ -4,7 +4,7 @@ from django.shortcuts import get_object_or_404
 from django.http import JsonResponse
 from reposition import models, modal_del
 from backend.forms.product import ProductForm, ImageForm, ProCategoryForm, ProBusinessForm, \
-    ProServiceForm, PackageAdd, PackageBind
+    ProServiceForm, PackageAdd, PackageBind, ConponForm
 from utils.upload_image import save_image
 from utils.pager import paginator
 from utils.upload_image import ckedit_upload_image
@@ -37,7 +37,9 @@ title_dict = {
     'package_add': '套餐添加',
     'package_edit': '套餐修改',
     'package_bind': '产品绑定套餐',
-
+    'coupon': '优惠卷管理',
+    'coupon_add': '优惠卷添加',
+    'coupon_edit': '优惠卷修改',
 }
 
 
@@ -644,3 +646,36 @@ def package_bind(request, package_id, *args, **kwargs):
                                                          'title': title,
                                                          'product2package_obj': product2package_obj,
                                                          'package_obj': package_obj})
+
+
+@login_required
+@permission
+def coupon(request, *args, **kwargs):
+    common_info = {}
+    common_info['menu_string'] = kwargs.get('menu_string')
+    common_info['title'] = title_dict['coupon']
+    common_info['add_url'] = 'coupon_add'
+    common_info['edit_url'] = 'package_edit'
+    common_info['html_url'] = 'product/packages.html'
+    return base.table_obj_list(request, 'reposition', 'coupon', common_info)
+
+
+def coupon_add(request):
+    title = title_dict['coupon_add']
+    form_obj = ConponForm(request.POST or None)
+    error = ''
+    if request.method == 'POST':
+        if form_obj.is_valid():
+            data_dict = form_obj.cleaned_data
+            # print(data_dict)
+            data_dict['employee_id'] = request.session.get('user_info')['employee_id']
+            models.Coupon.objects.create(**data_dict)
+            return redirect('coupon')
+        else:
+            error = list(form_obj.errors.values())[0][0]
+    d = {
+        'title': title,
+        'form': form_obj,
+        'error': error,
+    }
+    return render(request, 'product/coupon_add.html', d)

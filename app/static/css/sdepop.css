@@ -1268,3 +1268,12 @@ body {
 .reg-panel-pop .checkbox-input > input, .reg-panel-pop .forget-pass, .reg-panel-pop .checkbox-input {
     line-height: 20px;
 }
+
+#coupon1 dl dd{
+    float: left;
+    font-size:12px;
+    color:black;
+}
+#coupon1 input{
+    margin-top:-5px
+}

@@ -1,10 +1,9 @@
 from django.shortcuts import render, redirect, HttpResponse
+from django.http import JsonResponse
 from django.urls import reverse
-from app import forms
+from app.forms.account import UserConsultationForm
 from reposition import models, model_query, model_update, model_add
 from utils.check_code import create_validate_code
-import io
-import datetime
 from django.db.models import Q
 from utils.menu import get_cate_list, shop_number
 
@@ -21,8 +20,8 @@ def index(request):
     is_login = None
     if request.method == 'GET':
         bxSlider = models.Bxslider.objects.filter(status=1).order_by('weight').all()
-        articles_list = models.Articles.objects.order_by('-ctime').values('id', 'category_id', 'title')[0:6]
-        articles_images_obj = models.Articles.objects.order_by('-ctime')[6:10]
+        articles_list = models.Articles.objects.order_by('-ctime').values('id', 'category_id', 'title')[4:10]
+        articles_images_obj = models.Articles.objects.order_by('-ctime')[0:4]
         nav_list = models.IndexNav.objects.order_by('-weight').values('name', 'url', 'ishot')[0:7]
         city_obj = models.RegionalManagement.objects.filter(Q(r_code__isnull=False)).all()
         packages_obj = models.Package.objects.filter(status=1, area_id=default_city['area_id']).order_by('weight')[0:3]
@@ -40,8 +39,27 @@ def index(request):
              'user_info': user_info, 'city_obj': city_obj,
              'articles_images_obj': articles_images_obj,
              'default_city': default_city, 'title': title,
-             'recommend_obj': recommend_obj, 'packages_obj': packages_obj,}
+             'recommend_obj': recommend_obj, 'packages_obj': packages_obj, }
         return render(request, 'index.html', d)
+
+
+def get_userInfo(request):
+    result_dict = {'status': 200, 'message': None, 'data': None}
+    if request.method == 'POST':
+        form_obj = UserConsultationForm(request.POST)
+        if form_obj.is_valid():
+            data = form_obj.cleaned_data
+            try:
+                Consulation_obj = models.UserConsultation.objects.filter(phone=request.POST.get('phone')).first()
+                if not Consulation_obj:
+                    models.UserConsultation.objects.get_or_create(**data)
+            except Exception as e:
+                result_dict['status'] = 401
+                result_dict['message'] = '非法数据，输入无效。'
+        else:
+            result_dict['status'] = 401
+            result_dict['message'] = list(form_obj.errors.values())[0][0]
+        return JsonResponse(result_dict)
 
 
 # 切换城市

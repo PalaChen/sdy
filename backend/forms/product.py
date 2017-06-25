@@ -188,3 +188,24 @@ class PackageBind(forms.Form):
                                                      'invalid': '套餐ID必须为数字'})
     # product_id = fields.IntegerField(error_messages={'required': '必须选择一个产品',
     #                                                  'invalid': '非法选择'})
+
+
+class ConponForm(forms.Form):
+    name = fields.CharField(max_length=60, error_messages={'required': '优惠卷名称不能为空',
+                                                           'max_length': '优惠卷名称最长不能超过50'})
+    type = fields.IntegerField(error_messages={'required': '优惠卷类型不能为空',
+                                               'invalid': '请输入数字'})
+    status = fields.IntegerField(error_messages={'required': '必须选择优惠卷状态',
+                                                 'invalid': '优惠卷状态非法选择'})
+    price = fields.IntegerField(error_messages={'required': '优惠卷金额不能为空',
+                                                'invalid': '优惠卷金额必须是整数'})
+    # threshold = fields.IntegerField(error_messages={'required': '优惠卷使用门槛不能为空',
+    #                                                 'invalid': '优惠卷使用门槛必须为整数'})
+    number = fields.IntegerField(error_messages={'required': '优惠卷数量不能为空',
+                                                 'invalid': '优惠卷数量必须为整数'})
+    start_time = fields.DateTimeField(error_messages={'required': '开始时间不能为空',
+                                                      'invalid': '开始时间必须为时间格式'})
+    end_time = fields.DateTimeField(error_messages={'required': '结束时间不能为空',
+                                                    'invalid': '结束时间必须为时间格式'})
+    price_reduction = fields.IntegerField(required=False, error_messages={'required': '开始时间不能为空',
+                                                                          'invalid': '开始时间必须为时间格式'})
