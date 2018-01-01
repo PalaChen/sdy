@@ -3,11 +3,15 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>{% if package_obj.name %}{{ package_obj.name }}{% else %}{{ product_obj.p_name }}{% endif %}-盛德业</title>
+    <meta name="keywords" content="{% if product_obj.p_name %}{{ product_obj.p_seo_keyword }}{% endif %}">
+    <meta name="description" content="{% if product_obj.p_name %}{{ product_obj.p_seo_description }}{% endif %}">
     {% include 'master/_head.html' %}
     {% block css %}{% endblock %}
     <link type="text/css" rel="stylesheet" href="{% static 'css/product.css' %}">
     <link type="text/css" rel="stylesheet" href="{% static 'css/sdepop.css' %}">
+    <link type="text/css" rel="stylesheet" href="{% static 'js/layer/skin/default/layer.css' %}">
 
 </head>
 <body>
@@ -33,6 +37,8 @@
 
 </body>
 <script src="/static/js/jquery-3.1.1.js"></script>
+<script src="/static/js/layer/layer.js"></script>
+{% include '_shangqiao.html' %}
 {#<script src="/static/js/city.js"></script>#}
 {% block scripts %}
 {% endblock %}

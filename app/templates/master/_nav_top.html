@@ -33,7 +33,7 @@
                     <div class="aimationKfw iMyInfo iMyInfoOk">
                         <em style="width: 58px;"></em>
                         <a href="">
-                            <span> 我的消息 (1) </span>
+                            <span> 我的消息 </span>
                         </a>
                         <a href="">
                             <span> 我的优惠券 </span>
@@ -54,7 +54,7 @@
                 <a class="welcome1" href="{% url "shopping_cart" %}">
                     <i class="gw floatLeft"></i>
                     购物车
-                    <em>{{ user_info.shop_number }}</em>
+                    <em>{% if user_info.shop_number %}{{ user_info.shop_number }}{% else %}0{% endif %}</em>
                     件
                 </a>
             </li>

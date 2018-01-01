@@ -1,0 +1,507 @@
+{% extends 'wap/base/base_weui.html' %}
+
+{% block css %}
+    <style>
+        .title_text {
+            font-size: 11px;
+            color: #999;
+            width: 8.37333rem;
+        }
+
+        .text_num {
+            color: #fa454f;
+        }
+
+        .title_edit {
+            display: inline-block;
+            font-size: 12px;
+            color: #01baf8;
+            line-height: 1.12rem;
+        }
+
+        .proname_text {
+            font-size: 14px;
+            color: #000;
+            font-weight: 700;
+            vertical-align: top;
+            width: 6.26667rem;
+
+            display: inline-block;
+        }
+
+        .proname_num-normal {
+            display: inline-block;
+            border: 1.1px solid #000;
+            -moz-border-radius: .06667rem;
+            -webkit-border-radius: .06667rem;
+            border-radius: .06667rem;
+            margin-left: .58667rem;
+            text-align: center;
+        }
+
+        .num_minus {
+            text-align: center;
+            width: .45rem;
+            display: inline-block;
+            vertical-align: middle;
+            margin-left: .3rem;
+            margin-right: .2rem;
+        }
+
+        .num_plus {
+            width: .5rem;
+            height: .5rem;
+            display: inline-block;
+
+            margin-left: .2rem;
+            margin-right: .2rem;
+        }
+
+        .num_text {
+            border-right: 1.1px solid #000;
+            border-left: 1.1px solid #000;
+            display: inline-block;
+            vertical-align: middle;
+            font-size: .65rem;
+            line-height: 1.35rem;
+            width: 1.5rem;
+        }
+
+        .serprovider_msg-normal {
+            width: 7rem;
+            display: inline-block;
+            padding-bottom: .52rem;
+        }
+
+        .serprovider_title-normal {
+            font-size: 12px;
+            color: #333;
+        }
+
+        .serprovider_msg-normal p {
+            color: #999;
+            font-size: 12px;
+            display: inline-block;
+        }
+
+        .serprovider_price-normal {
+            float: right;
+            display: inline-block;
+            font-size: 12px;
+            color: #fa454f;
+            width: 2.54rem;
+            text-align: right;
+        }
+
+        .info-summary {
+            font-size: 12px;
+        }
+
+        .l_total {
+            font-size: 12px;
+            display: inline-block;
+            color: #999;
+        }
+
+        .l_discount {
+            font-size: 12px;
+            display: inline-block;
+            color: #999;
+        }
+
+        .l_yh {
+            font-size: 12px;
+            color: #999;
+            margin-left: 10px;
+            display: inline-block;
+        }
+
+        .l_yf {
+            font-size: 12px;
+            color: #999;
+            display: inline-block;
+            margin-right: 10px;
+        }
+
+        .content_empty {
+            text-align: center;
+            padding-top: 5.5rem;
+            padding-bottom: 5.5rem;
+        }
+
+        .shopping_content .content_empty img {
+            width: 6.5rem;
+            height: 6.5rem;
+        }
+
+        .shopping_content .content_empty p {
+            color: #b5b5b5;
+            font-size: .6rem;
+            margin-top: .41333rem;
+            margin-bottom: 3.21333rem;
+        }
+
+        .shopping_content .content_empty a {
+            font-size: .88rem;
+            color: #01baf8;
+            border: 1.1px solid #01baf8;
+            padding: .5rem 3rem;
+        }
+
+        .shopping_content .content_empty a span {
+            display: inline-block;
+        }
+
+        .actual_price {
+            color: red;
+        }
+
+        .weui-media-box__desc {
+            font-size: 11px;
+        }
+
+        .delete-img {
+            display: inline-block;
+            margin-bottom: .2rem;
+            width: .8rem;
+            margin-left: 2.26667rem;
+            vertical-align: top;
+        }
+    </style>
+
+{% endblock %}
+
+{% block content %}
+    <div class="shopping_content">
+        <div class="weui-cells" style="margin: 0">
+            <div class="weui-cell">
+                <div class="weui-cell__bd">
+                    <p class="title_text">
+                        <span>购物车共有</span>
+                        <span class="text_num">{{ shop_number }}</span>
+                        <span>件商品</span>
+                    </p>
+                </div>
+                {% csrf_token %}
+                {% if shop_list.product %}
+                    <div class="weui-cell__ft">
+                        <p id="title_edit" class="title_edit">编辑</p>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+        {% if shop_list.product %}
+            <div class="weui-cells" style="margin-top: 5px">
+                {% for line in shop_list.product %}
+                    {% if line.basic.type == 0 %}
+                        <div class="single_pro">
+                            <div class="weui-cell" style="padding: 10px 15px 0 15px">
+                                <div class="weui-cell__bd">
+                                    <p class="proname_text">{{ line.basic.info.detail.0.p_name }}</p>
+                                </div>
+                                <div class="weui-cell__ft">
+                                    <div class="proname_num-normal" pid="{{ line.basic.info.pid }}">
+                                        <img class="num_minus" src="/static/wap/images/minus_sign.png">
+                                        <p class="num_text ng-binding">{{ line.basic.info.number }}</p>
+                                        <img class="num_plus" src="/static/wap/images/plus_sign.png">
+                                    </div>
+                                    <img class="delete-img" style="display: none"
+                                         src="/static/wap/images/shopcar_delete.png" pid="{{ line.basic.info.pid }}">
+                                </div>
+                            </div>
+                            <div class="pro_serprovider" style="padding: 8px 15px">
+                                <div class="serprovider_msg-normal">
+                                    <p class="msg_address">{{ line.basic.info.detail.0.city__name }}-{{ line.basic.info.detail.0.area__name }}</p>
+                                </div>
+                                <p class="serprovider_price-normal"
+                                   price="{{ line.basic.info.detail.0.p_price }}">{{ line.basic.info.detail.0.p_price }}元</p>
+                            </div>
+                        </div>
+                    {% else %}
+                        <div class="single_pro" for="packageInfo">
+                            <div class="weui-cell" style="padding: 10px 15px 0 15px">
+                                <div class="weui-cell__bd">
+                                    <p class="proname_text">{{ line.basic.info.name }}</p>
+                                </div>
+                                <div class="weui-cell__ft">
+                                    <div class="proname_num-normal" ppid="{{ line.basic.info.ppid }}">
+                                        <img class="num_minus" src="/static/wap/images/minus_sign.png">
+                                        <p class="num_text ng-binding">1</p>
+                                        <img class="num_plus" src="/static/wap/images/plus_sign.png">
+                                    </div>
+                                    <img class="delete-img" style="display: none"
+                                         src="/static/wap/images/shopcar_delete.png" ppid="{{ line.basic.info.ppid }}">
+                                </div>
+                            </div>
+                            {% for raw in line.basic.info.detail %}
+                                <div class="pro_serprovider" style="padding: 8px 15px">
+                                    <div class="ng-scope">
+                                        <p class="serprovider_title-normal">
+                                            {{ raw.p_name }}
+                                        </p>
+                                    </div>
+                                    <div class="serprovider_msg-normal">
+                                        <p class="msg_address">{{ raw.city__name }}-{{ raw.area__name }}</p>
+                                    </div>
+                                    <p class="serprovider_price-normal" price="{{ raw.p_price }}">{{ raw.p_price }}元</p>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                {% endfor %}
+
+            </div>
+            <div class="weui-cells" style="margin-top: 10px">
+                <a class="weui-cell weui-cell_access" href="{% url 'wap_coupon' %}">
+                    <div class="weui-cell__bd">
+                        <p style="font-size: 12px">代金卷</p>
+                    </div>
+                    <div class="weui-cell__ft" style="font-size: 12px">有0张代金卷可用</div>
+                </a>
+            </div>
+            <div class="weui-panel weui-panel_access" style="margin-top: 0">
+                <div class="weui-panel__bd">
+                    <div class="weui-media-box weui-media-box_text">
+                        <h5 class="weui-media-box__title" style="font-size: 12px">发票说明</h5>
+                        <p class="weui-media-box__desc">如需发票，请在下单支付完成后，进入“个人中心-我的发票”申请开具发票。</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="weui-cells info-summary">
+                <div class="weui-cell">
+                    <div class="weui-cell__bd">
+                        <p>代金卷折扣</p>
+                    </div>
+                    <div class="weui-cell__ft">-0元</div>
+                </div>
+                {#        <div class="weui-cell">#}
+                {#            <div class="weui-cell__bd">#}
+                {#                <p>套餐折扣</p>#}
+                {#            </div>#}
+                {#            <div class="weui-cell__ft">-0元</div>#}
+                {#        </div>#}
+                <div class="weui-cell">
+                    <div class="weui-cell__bd">
+                        <p class="l_total">总计：
+                            <span class="total_price">8876元</span>
+                        </p>
+                        <p class="l_discount">优惠：
+                            <span class="coupon_price">0元</span>
+                        </p>
+                    </div>
+                    <div class="weui-cell__ft">应付：
+                        <span class="actual_price">7176元</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="weui-tabbar">
+                <div class="weui-tabbar__item" style="padding-top: 0;background-color: #fff">
+                    <div style="float:right;line-height: 2.2rem;">
+                        <p class="l_yh">
+                            优惠：
+                            <span class="coupon_price">0元</span>
+                        </p>
+
+                    </div>
+                </div>
+                <div class="weui-tabbar__item" style="padding-top: 0;background-color: #fff">
+                    <div style="float:right;line-height: 2.2rem;">
+                        <p class="l_yf">
+                            应付：
+                            <span class="actual_price">7176元</span>
+                        </p>
+                    </div>
+                </div>
+                <a href="javascript:;" id="buy" class="weui-tabbar__item tabbar__item_right">
+                    <p class="weui-tabbar__label tabbar__item_font">去支付</p>
+                </a>
+            </div>
+        {% else %}
+            <div class="content_empty">
+                <img src="/static/wap/images/shop_cat.png">
+                <p>购物车空空如也，去首页逛逛吧~</p>
+                <a href="/wap/"><span>去首页</span></a>
+            </div>
+
+        {% endif %}
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    <script src="/static/wap/js/api.js"></script>
+    <script src="/static/wap/plugins/layer_mobile/layer.js"></script>
+    <script>
+        $(function () {
+            calcTotalPrice();
+            bindClickPlusBtn();
+            bindClickMinusBtn();
+            bindClickEditBtn();
+            bindClickDeleteBtn();
+            bindClickBuyBtn();
+        });
+        var csrfmiddlewaretoken = $('input[name="csrfmiddlewaretoken"]').val();
+        {# 增加商品购买数据 #}
+        function bindClickPlusBtn() {
+            $('.num_plus').click(function () {
+                var num = $(this).prev('p').text();
+                num = parseInt(num) + 1;
+                $(this).prev('p').text(num);
+                calcProductPrice(this, num);
+                commodityNum(this, num)
+            })
+        }
+        {# 减少商品购买数据 #}
+        function bindClickMinusBtn() {
+            $('.num_minus').click(function () {
+                var num = $(this).next('p').text();
+                if (parseInt(num) == 1) {
+                    return
+                }
+                num = parseInt(num) - 1;
+                $(this).next('p').text(num);
+                calcProductPrice(this, num);
+                commodityNum(this, num)
+            })
+        }
+        {# 商品数据变化时重新计算当个商品的总价 #}
+        function calcProductPrice(that, num) {
+            var ele = $(that).parent().parent().parent().nextAll();
+            for (var i = 0; i < ele.length; i++) {
+
+                var price = ele.eq(i).children().eq(2).attr('price');
+                var status = false
+                if (price == undefined) {
+                    var price = ele.eq(i).children().eq(1).attr('price');
+                    status = true
+                }
+                var total = num * parseFloat(price);
+                var total = total.toFixed(2);
+                if (status) {
+                    ele.eq(i).children().eq(1).text(`${total}元`);
+                }
+                else {
+                    ele.eq(i).children().eq(2).text(`${total}元`);
+                }
+                calcTotalPrice()
+            }
+
+        }
+        {# 商品数量post #}
+        function commodityNum(that, number) {
+            var nid = $(that).parent().attr('pid');
+            if (nid) {
+                var commodity_type = 0
+            } else {
+                var nid = $(that).parent().attr('ppid');
+                var commodity_type = 1
+            }
+            var csrfmiddlewaretoken = $('input[name="csrfmiddlewaretoken"]').val();
+            var data = {
+                'nid': nid,
+                'number': number,
+                'csrfmiddlewaretoken': csrfmiddlewaretoken,
+                'type': commodity_type
+            };
+            api.numOfProduct(data, response)
+        }
+        {#    计算总费用费用    #}
+        function calcTotalPrice() {
+            var ele = $('.serprovider_price-normal');
+            var total_price = 0;
+            for (var i = 0; i < ele.length; i++) {
+                var price = ele.eq(i).text().replace('元', '');
+                total_price += parseFloat(price);
+            }
+            $('.total_price').eq(0).text(`${total_price}元`);
+            var coupon_price = $('.coupon_price').eq(0).text();
+            var actual_price = total_price - parseFloat(coupon_price);
+            $('.actual_price').eq(0).text(`${actual_price}元`);
+            $('.actual_price').eq(1).text(`${actual_price}元`);
+        }
+        {# 点击编辑按钮  #}
+        function bindClickEditBtn() {
+            $('#title_edit').click(function () {
+                var text = $('#title_edit').text();
+                if (text == '编辑') {
+                    var ele = $('.proname_num-normal');
+                    for (var i = 0; i < ele.length; i++) {
+                        ele.eq(i).css('display', 'none');
+                    }
+                    var delete_ele = $('.delete-img');
+                    for (var n = 0; n < delete_ele.length; n++) {
+                        delete_ele.eq(n).css('display', 'block');
+                    }
+                    $('#title_edit').text('完成');
+                }
+                else {
+                    var ele = $('.proname_num-normal');
+                    for (var i = 0; i < ele.length; i++) {
+                        ele.eq(i).css('display', 'block');
+                    }
+                    var delete_ele = $('.delete-img');
+                    for (var n = 0; n < delete_ele.length; n++) {
+                        delete_ele.eq(n).css('display', 'none');
+                    }
+                    $('#title_edit').text('编辑');
+                }
+            })
+        }
+
+        {# 点击删除按钮 #}
+        var del_status = true;
+        function bindClickDeleteBtn() {
+            $('.delete-img').click(function () {
+                var pid = $(this).attr('pid');
+                if (pid) {
+                    var url = '/cart_del.html?type=0&pid=' + pid;
+                } else {
+                    var ppid = $(this).attr('ppid');
+                    var url = '/cart_del.html?type=1&ppid=' + ppid;
+                }
+                layer.open({type: 2});
+                api.delProduct(url, response);
+                layer.closeAll();
+                if (del_status) {
+                    $(this).parent().parent().parent().remove()
+                }
+            })
+        }
+
+        function response(arg) {
+            if (arg.status) {
+                del_status = true
+            } else {
+                layer.open({
+                    content: arg.message,
+                    skin: 'msg',
+                    time: 2 //2秒后自动关闭
+                });
+                del_status = false
+            }
+        }
+        function bindClickBuyBtn() {
+            $('#buy').click(function () {
+                var total_price = $('.total_price').text().replace('元', '');
+                var coupon_price = $('.coupon_price').eq(1).text().replace('元', '');
+                var pay_price = $('.actual_price').eq(1).text().replace('元', '');
+                var data = {
+                    'total_price': total_price,
+                    'coupon_price': coupon_price,
+                    'pay_price': pay_price,
+                    'csrfmiddlewaretoken':csrfmiddlewaretoken
+                };
+                layer.open({type: 2});
+                api.bug(data, buyResponse)
+            })
+        }
+        function buyResponse(arg) {
+            if (arg.status) {
+                window.location.href = arg.url
+            } else {
+                window.location.href = arg.url
+            }
+        }
+    </script>
+{% endblock %}

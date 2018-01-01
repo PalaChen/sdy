@@ -65,9 +65,17 @@
                                     </li>
                                     <li id="bd_weixin">
                                         <div id="nativeCodePayBtn" class="radios radiosW marL40">
+                                            {#  data-toggle="modal"data-target="#wxPay" #}
                                             <input class="group" name="bankid" value="1" type="radio">
                                             <img alt="微信" src="/static/images/icon/icon-weixin.png">
                                             微信支付
+                                        </div>
+                                    </li>
+                                    <li id="bd_offline">
+                                        <div id="offlinePayments" class="radios radiosW marL40">
+                                            <input class="group" name="bankid" value="1" type="radio">
+                                            <img alt="线下支付" src="/static/images/icon/icon-weixin.png">
+                                            线下支付
                                         </div>
                                     </li>
                                 </ol>
@@ -79,28 +87,49 @@
         </div>
     </div>
     <div class="modal fade" tabindex="-1" role="dialog" id="Model_Info">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-                        aria-hidden="true">X</span></button>
-                <h4 class="modal-title">在线付款</h4>
-            </div>
-            <div class="modal-body">
-                <div id="content:alert" class="ui-dialog-content" i="content" style="width: 580px; height: 180px;">
-                    <div id="pay-confirm" class="pay-confirm">
-                        <span class="icon"></span>
-                        <h3>请在新打开的页面完成支付后视情况选择</h3>
-                        <div class="btn-pay-div">
-                            <a class="btn-pay-success" href="javascript:void(0)"
-                               onclick="paySuccess('/pay/success/{{ pay_obj.id }}.html');">支付成功</a>
-                            <a class="btn-pay-error" href="/help/support.html" target="_blank">支付遇到问题</a>
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">X</span></button>
+                    <h4 class="modal-title">在线付款</h4>
+                </div>
+                <div class="modal-body">
+                    <div id="content:alert" class="ui-dialog-content" i="content" style="width: 580px; height: 180px;">
+                        <div id="pay-confirm" class="pay-confirm">
+                            <span class="icon"></span>
+                            <h3>请在新打开的页面完成支付后视情况选择</h3>
+                            <div class="btn-pay-div">
+                                <a class="btn-pay-success" href="javascript:void(0)"
+                                   onclick="paySuccess('/pay/success/{{ pay_obj.id }}.html');">支付成功</a>
+                                <a class="btn-pay-error" href="/help/support.html" target="_blank">支付遇到问题</a>
+                            </div>
+                            <p class="back">
+                                <a href="javascript:void(0)" data-dismiss="modal">返回选择其他支付方式</a>
+                            </p>
+                            <p>如遇到超过限额无法支付，建议通过自助转账的方式。</p>
                         </div>
-                        <p class="back">
-                            <a href="javascript:void(0)" data-dismiss="modal">返回选择其他支付方式</a>
-                        </p>
-                        <p>如遇到超过限额无法支付，建议通过自助转账的方式。</p>
                     </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="wxPay" class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog"
+         aria-labelledby="mySmallModalLabel">
+        <div class="modal-dialog modal-sm" role="document">
+            <div class="modal-content" style="margin-top: 100px">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                    <h5 class="modal-title">请使用微信扫描二维码支付</h5>
+                </div>
+                <div class="modal-body">
+                    <div id="qrcode" style="margin-bottom: 10px;margin-left: 30px"></div>
+                    <p style="line-height:22px;font-size:13px;color:#666666;margin:0 auto;text-align:center;">
+                        请使用微信扫描二维码支付</p>
+                    <p style="line-height:22px;font-size:13px;color:#666666;margin:0 auto;text-align:center;">
+                        二维码30分钟内有效，请尽快支付</p>
+
                 </div>
             </div>
         </div>
@@ -109,14 +138,21 @@
 
 {% block scripts %}
     <script type="text/javascript" src="/static/js/jquery-3.1.1.js"></script>
+    <script type="text/javascript" src="/static/js/api.js"></script>
+    <script src="/static/js/layer/layer.js"></script>
     <script type="text/javascript" src="/static/plugins/bootstrap/js/bootstrap.js"></script>
+    <script type="text/javascript" src="/static/plugins/bootstrap/js/qrcode.js"></script>
     <script>
         $(function () {
             bindClickSendInfo();
             ShowOrder();
+            {#            sendWxPay();#}
+            clickWxPay();
+            clickOffline();
+            {#            clickWxPay();#}
         });
         function bindClickSendInfo() {
-            $('#payform').on('click', '.radios', function () {
+            $('#payform').on('click', '#bd_alipay', function () {
                 var form = $('#payform');
                 form.submit();
                 $('#Model_Info').modal('show')
@@ -149,6 +185,59 @@
                     $(this).removeClass('cur');
                     $('#infoDetails').attr('style', 'display: none');
                 }
+            })
+        }
+
+{#        function clickWxPay() {#}
+{#            $('#nativeCodePayBtn').click(function () {#}
+{#                    var nid = $("input[name='id']").val();#}
+{#                    api.wxPay(nid, wxResponse)#}
+{#                }#}
+{#            )#}
+{#        }#}
+        // 自动请求获取微信支付二维码
+        {#        function sendWxPay() {#}
+        {#            var nid = $("input[name='id']").val();#}
+        {#            api.wxPay(nid, wxResponse)#}
+        {#        }#}
+        // 点击微信支付按钮
+        function clickWxPay() {
+            $('#nativeCodePayBtn').click(function () {
+                var nid = $("input[name='id']").val();
+                api.wxPay(nid, wxResponse)
+            })
+        }
+        function wxResponse(arg) {
+            if (arg.status = 200) {
+                var url = arg.url;
+                // 设置参数方式
+                var qrcode = new QRCode('qrcode', {
+                    width: 200,
+                    height: 200,
+                    colorDark: '#000000',
+                    colorLight: '#ffffff',
+                    correctLevel: QRCode.CorrectLevel.H
+                });
+                // 使用 API
+                qrcode.clear();
+                qrcode.makeCode(url);
+                $('#wxPay').modal('show')
+            }
+            else if (arg.status = 301) {
+                var url = arg.url;
+                self.location.href = url
+            }
+            else {
+
+            }
+        }
+        // 点击线下支付按钮
+        function clickOffline() {
+            $('#bd_offline').click(function () {
+                layer.confirm('线下支付成功后，请联系客服人员修改订单状态', {icon: 3, title: '线下支付确认提示'}, function (index) {
+                    {#                    layer.msg('线下支付成功后，请联系客服人员修改订单状态', {icon: 1,time: 3});#}
+                    window.location.href = '/user/order.html'
+                });
             })
         }
     </script>

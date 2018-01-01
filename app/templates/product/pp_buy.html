@@ -1,0 +1,219 @@
+{% load staticfiles %}
+{% load app_tags %}
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ title }}-盛德业</title>
+    <link type="text/css" rel="stylesheet" href="{% static 'css/base.css' %}">
+    <link type="text/css" rel="stylesheet" href="{% static 'css/header.css' %}">
+    <link type="text/css" rel="stylesheet" href="{% static 'css/home_index.css' %}">
+    <link type="text/css" rel="stylesheet" href="{% static 'css/ui-dialog.css' %}">
+    <link type="text/css" rel="stylesheet" href="{% static 'css/buy.css' %}">
+</head>
+<body style="background: #fff">
+
+{% include 'shop/master/_nav.html' %}
+<div class="main padB26 greyf5f5f5 overFlowVisi">
+    <form id="confirmOrdersForm">
+        <div class="minwidth orderDetails overFlowVisi clearfix marT40">
+            <div class="floatLeft le920">
+                <div class="confirmOrder">
+                    {% csrf_token %}
+                    {% for pp in pp_obj %}
+                        <div class="inforModel">
+                            <div class="inforHeader">
+                                <h3>{{ pp.pp_name }}</h3>
+                                <span>{{ pp.pp_description }}</span>
+                                <div id="buy_{{ forloop.counter0 }}" class="infoPrice t-buyList"></div>
+                            </div>
+                            <ul class="infoList clearfix">
+                                {% package_info forloop.counter0 pp2p_dict pp %}
+                            </ul>
+                        </div>
+                    {% endfor %}
+
+                    <div class="demandDescribe">
+                        <h3>需求描述</h3>
+                        <textarea id="" class="demandTextarea bordrec8c8c8" placeholder="还有什么其他需求" name="desc"
+                                  cols="32" rows="6"></textarea>
+                    </div>
+                </div>
+
+            </div>
+            <div id="addcart" class="floatRight ri240" style="position: relative;">
+                <div class="shoppingCart clearfix postop">
+                    <div class="shopContent">
+                        <p class="cartTitle">加入购物车</p>
+                        <ul id="cartProductList" class="cartList">
+                            <li>
+                                <p class="proTitle">{{ product_obj.p_name }}</p>
+                            </li>
+                        </ul>
+                        <p class="subtotal">
+                            小计：
+                            <em id="totalPrice">{{ product_obj.p_price }}</em>
+                            <em>元</em>
+                        </p>
+                    </div>
+                    <div class="cartBalance">
+                        <a id="confirmOrdersbtn" class="butRed cartBalance" href="javascript:;"
+                           data-urlkey="company">去结算</a>
+                    </div>
+                    <div class="checkboxs buyButs checkboxok">
+                        <input name="agreement" value="1" checked="checked" type="checkbox">
+                        我已阅读并同意
+                        <a id="showAgreementBtn" class="showAgreementBtn" href="javascript:;">《用户服务协议》</a>
+                    </div>
+                    <div id="buyProductList" style="display:none;">
+                        <input type="hidden" name="data[buys][{{ product_obj.id }}]" value="{{ product_obj.id }}"
+                               id="cartProduct_{{ product_obj.id }}" price="{{ product_obj.p_price }}" key="-1">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+{% include 'master/footer/_footer_pay.html' %}
+
+
+<script src="/static/js/jquery-3.1.1.js"></script>
+<script src="/static/js/layer/layer.js"></script>
+<script src="/static/js/api.js"></script>
+<script>
+    $(function () {
+        confirmOrdersBtn();
+    });
+
+    function addProduct(key, ppid, isMulti, saleprice) {
+        var html = '<input type="hidden" name="data[buys][' + ppid + ']" id="cartProduct_' + ppid + '"value="' + ppid + '" price="' + saleprice + '" key="' + key + '" class="t-hiddenCartProduct_' + key + '"/>';
+        var isSelected = $("#t-buyProduct_" + key + '_' + ppid).hasClass('active');
+        // 多选
+        if (isMulti == 2) {
+            // 默认选项
+            if (isSelected) {
+                $("#t-buyProduct_" + key + '_' + ppid).removeClass('active');
+                $("#cartProduct_" + ppid).remove();
+                $("#t-cartProduct_" + key + '_' + ppid).remove();
+            }
+            // 选中
+            else {
+                $("#t-buyProduct_" + key + '_' + ppid).addClass('active');
+                $("#buyProductList").append(html);
+                var phtml = '<li id="t-cartProduct_' + key + '_' + ppid + '" class="t-cartProduct_"' + key + '" >' + $("#buyP_" + key + '_' + ppid).html() + '</li>';
+                $("#cartProductList").append(phtml);
+            }
+        }
+        // 单选
+        else {
+            $(".t-hiddenCartProduct_" + key).remove();
+            // 默认选项
+            if (ppid == 0) {
+                // 点击取消
+                if (isSelected) {
+                    $(".t-cartProduct_" + key).remove();
+                    $(".t-buyProduct_" + key).removeClass('active');
+                }
+                // 选中
+                else {
+                    $(".t-cartProduct_" + key).remove();
+                    $(".t-buyProduct_" + key).removeClass('active');
+                    $("#t-buyProduct_" + key + '_' + ppid).addClass('active');
+                }
+            }
+            // 非默认
+            else {
+                // 取消
+                if (isSelected) {
+                    $(".t-cartProduct_" + key).remove();
+                    $(".t-buyProduct_" + key).removeClass('active');
+                    $("#cartProduct_" + ppid).remove();
+                    $("#t-cartProduct_" + key + '_' + ppid).remove();
+                }
+                // 选中
+                else {
+                    $(".t-cartProduct_" + key).remove();
+                    $(".t-buyProduct_" + key).removeClass('active');
+                    $("#t-buyProduct_" + key + '_' + ppid).addClass('active');
+                    $("#buyProductList").append(html);
+                    var phtml = '<li id="t-cartProduct_' + key + '_' + ppid + '" class="t-cartProduct_' + key + '" >' + $("#buyP_" + key + '_' + ppid).html() + '</li>';
+                    $("#cartProductList").append(phtml);
+                }
+            }
+        }
+        calculationPrice();
+    }
+
+    /**
+     * 删除要购买的产品
+     */
+    function deleteProduct(key, ppid, isMulti) {
+        $("#t-cartProduct_" + key + '_' + ppid).remove();
+        $("#cartProduct_" + ppid).remove();
+        $("#t-buyProduct_" + key + '_' + ppid).removeClass('active');
+        calculationPrice();
+    }
+
+    /**
+     * 计算价格
+     */
+    function calculationPrice() {
+        var perTotal = new Array();
+        var total = 0;
+        $("input[id*='cartProduct_']").each(function () {
+            var key = $(this).attr('key');
+            var price = parseFloat($(this).attr('price'));
+            total = parseFloat(total);
+            total = total + price;
+            if (!perTotal[key]) {
+                perTotal[key] = 0;
+            }
+            perTotal[key] = parseFloat(perTotal[key]);
+            perTotal[key] += price;
+        });
+        total = parseFloat(total).toFixed(2);
+        total = total.toString().replace('.00', '');
+        $("#totalPrice").html(total);
+        $(".t-buyList").html('');
+        for (flag in perTotal) {
+            if ($("#buy_" + flag)) {
+                $("#buy_" + flag).html(perTotal[flag] + '元');
+            }
+            perTotal[flag] = 0;
+        }
+    }
+    function confirmOrdersBtn() {
+        $('#confirmOrdersbtn').on('click', function () {
+            var input_ele = $('#buyProductList input');
+            var data_list = [];
+            for (var i = 0; i < input_ele.length; i++) {
+                var nid = input_ele.eq(i).val();
+                var price = input_ele.eq(i).attr('price');
+                var csrfmiddlewaretoken = $('input[name="csrfmiddlewaretoken"]').val();
+                var data_dict = {
+                    'nid': nid,
+                    'price': price,
+
+
+                };
+                data_list.push(data_dict)
+            }
+            var data = {
+                'nid': JSON.stringify(data_list),
+                'csrfmiddlewaretoken': csrfmiddlewaretoken,
+            };
+            {#            console.log('data', data)#}
+            api.bugPackage(data, packageResponse)
+
+        })
+    }
+    var packageResponse = function (arg) {
+        if (arg.status == 200) {
+            window.location.href = arg.url
+        } else {
+            layer.msg('1111')
+        }
+    }
+</script>
+</body>
+</html>

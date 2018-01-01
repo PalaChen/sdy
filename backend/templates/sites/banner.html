@@ -1,84 +1,164 @@
 {% extends 'master_b/layout.html' %}
 
 
-
 {% block page_content %}
 
 
+    <div style="position: absolute; left: 100px;right: 0">
+        <div>
+            <button type="button" class="btn btn-primary" id="add_bxslider">添加</button>
+        </div>
+        <table id="tb_content" class="table table-striped">
+            <thead>
+            <tr>
+                <th>id</th>
+                <th>图片</th>
+                <th>状态</th>
+                <th>位置</th>
+                <th>跳转链接</th>
+                <th>名字</th>
+                <th>日期</th>
+                <th>员工</th>
+                <th>操作</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for line in obj %}
+                <tr for="banner_edit" nid="{{ line.id }}">
+                    <td for="nid">{{ line.id }}</td>
+                    <td>
+                        <img src="/{{ line.img }}" style="width: 100px;height: 50px">
+                    </td>
+                    <td for="weight">{{ line.weight }}</td>
+                    <td for="status">
+                        {% if line.status == 0 %}
+                            下架
+                        {% else %}
+                            上架
+                        {% endif %}
+                    </td>
+                    <td for="position">{{ line.position }}</td>
+                    <td for="url">{{ line.url }}</td>
+                    <td for="name">{{ line.name }}</td>
+                    <td>{{ line.create_date|date:"Y-m-d H:i:s" }}</td>
+                    <td for="employee_id">{{ line.employee.name }}</td>
+                    <td>
+                        <a class="initialize btn glyphicon glyphicon-pencil initialize"></a>
+                        <a class="initialize btn glyphicon glyphicon-remove initialize"></a>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+
+    </div>
     {% include 'master_b/_aside_second.html' %}
 
-    <div style="position: absolute; left: 100px;right: 0">
-        <button type="button" class="btn btn-primary" id="add_bxslider">添加</button>
-        {% include 'master_b/_table_obj_list.html' %}
-    </div>
-    <div class="modal fade bs-example-modal-sm model_marigin" id="Model_ProductRecommend" tabindex="-1" role="dialog"
-         aria-labelledby="mySmallModalLabel" for="category_add">
+    <div class="modal fade bs-example-modal-sm marT100" for="banner_add" id="Model_UploadInfo" tabindex="-1"
+         role="dialog"
+         aria-labelledby="mySmallModalLabel">
         <div class="modal-dialog modal-sm" role="document">
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
                             aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title">添加产品推荐</h4>
+                    <h4 class="modal-title">添加广告图片</h4>
                 </div>
                 <div class="modal-body">
-                    <form id="fm3_add" method="post" action="{% url 'p_category_add' %}">
+                    <form id="fm_body" enctype="multipart/form-data" method="post">
                         {% csrf_token %}
-                        <div class="form-group">
-                            <label>编号</label>
-                            <input type="text" class="form-control" placeholder="数字越大，排序越靠前" name="sort"
-                                   required="">
+                        <div class="form-group form-inline">
+                            <label>跳转链接：</label>
+                            <input type="text" class="form-control" name="url">
+                            {{ form.errors.url.0 }}
                         </div>
-                        <div class="form-group">
-                            <label>分类名称</label>
-                            <input type="text" class="form-control" name="name" required="">
+                        <div class="form-group form-inline">
+                            <label>状态：</label>
+                            <label class="radio-inline">
+                                <input type="radio" name="status" value="1" checked="">上架
+                            </label>
+                            <label class="radio-inline">
+                                <input type="radio" name="status" value="0">下架
+                            </label>
                         </div>
-                        <div class="form-group">
-                            <label>选择服务</label>
-                            {{ form.root_id }}
+                        <div class="form-group form-inline">
+                            <label>位置：</label>
+                            <label class="radio-inline">
+                                <select name="position" class="form-control">
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                    <option value="4">4</option>
+                                </select>
+                            </label>
+                        </div>
+                        <div class="form-group form-inline">
+                            <label>图片上传：</label>
+                            <input type="file" name="img" class="img_upload">
+                            {{ form.errors.img.0 }}
                         </div>
                     </form>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-                    <button type="button" class="btn btn-primary btn_send_add" name="submit">确定</button>
+                    <button type="button" class="btn btn-primary btn_Save">保存</button>
                 </div>
             </div>
         </div>
     </div>
-    <div class="modal fade bs-example-modal-sm model_marigin" id="Model_EditInfo" tabindex="-1" role="dialog"
-         aria-labelledby="mySmallModalLabel" for="p_category_edit">
+    <div class="modal fade bs-example-modal-sm marT100" for="banner_edit" id="Model_UploadEditInfo" tabindex="-1"
+         role="dialog"
+         aria-labelledby="mySmallModalLabel">
         <div class="modal-dialog modal-sm" role="document">
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
                             aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title">修改分类</h4>
+                    <h4 class="modal-title">修改广告图片</h4>
                 </div>
                 <div class="modal-body">
-                    <form id="fm4_add" method="post" action="{% url 'p_category_edit' %}">
+                    <form id="fm_body" enctype="multipart/form-data" method="post">
                         {% csrf_token %}
-                        <div class="form-group">
-                            <label>编号</label>
-                            <input type="text" class="form-control hide" name="nid">
-                            <input type="text" class="form-control" placeholder="数字越大，排序越靠前" name="sort"
-                                   required="">
+                        <input type="text" class="form-control hide" name="nid" value="">
+                        <div class="form-group form-inline">
+                            <label>URL：</label>
+                            <input type="text" class="form-control" name="url">
+                            {{ form.errors.url.0 }}
                         </div>
-                        <div class="form-group">
-                            <label>分类名称</label>
-                            <input type="text" class="form-control" name="name" required="">
+                        <div class="form-group form-inline">
+                            <label>状态：</label>
+                            <label class="radio-inline">
+                                <input type="radio" name="status" value="1">上架
+                            </label>
+                            <label class="radio-inline">
+                                <input type="radio" name="status" value="0">下架
+                            </label>
                         </div>
-                        <div class="form-group">
-                            <label>选择服务</label>
-                            {{ form.root_id }}
+                        <div class="form-group form-inline">
+                            <label>位置：</label>
+                            <label class="radio-inline">
+                                <select name="position" class="form-control">
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                    <option value="4">4</option>
+                                </select>
+                            </label>
+                        </div>
+                        <div class="form-group form-inline">
+                            <label>图片上传：</label>
+                            <input type="file" name="img" class="img_upload">
+                            {{ form.errors.img.0 }}
                         </div>
                     </form>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-                    <button type="button" class="btn btn-primary btn_send_add" name="submit">确定</button>
+                    <button type="button" class="btn btn-primary btn_Save">保存</button>
                 </div>
             </div>
         </div>
     </div>
+    {% include  'master_b/_delSubmit.html' %}
 {% endblock %}
 

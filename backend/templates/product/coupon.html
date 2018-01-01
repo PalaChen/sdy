@@ -1,0 +1,71 @@
+{% extends 'master_b/layout.html' %}
+
+
+{% block page_content %}
+    {% if common_info.add_url %}
+        <p>
+            <a class="btn btn-primary" href="{% url common_info.add_url %}">添加</a>
+        </p>
+    {% endif %}
+    {% include 'product/master/_table_obj_couponj_list.html' %}
+
+
+    <div id="handselModel" class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-sm" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">赠送优惠卷给用户</h4>
+                </div>
+                <div class="modal-body">
+                    <form id="handselCouponForm" class="form-horizontal">
+                        <input type="hidden" id="counpon_id" name="nid" value="">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            <label class="col-sm-4 control-label">用户手机号</label>
+                            <div class="col-sm-7">
+                                <input type="text" class="form-control" name="phone" placeholder="赠送人的手机号码">
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                    <button type="button" class="btn btn-primary">赠送</button>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block scripts %}
+    <script src="/static/js/admin_index.js"></script>
+    <script>
+        $(function () {
+            clickHandsel();
+            clickConfirmbtn()
+        });
+        function clickHandsel() {
+            $('.handsel_coupon').click(function () {
+                var nid = $(this).attr('nid');
+                $('#counpon_id').val(nid);
+                $('#handselModel').modal('show')
+            })
+        }
+        function clickConfirmbtn() {
+            $('.btn-primary').click(function () {
+                var data = $('#handselCouponForm').serialize();
+                api.handselCoupon(data, CounponResponse)
+            })
+        }
+        function CounponResponse(data) {
+            if (data.status == 200) {
+                layer.msg(data.message);
+                $('#handselModel').modal('hide')
+            } else {
+                layer.msg(data.message)
+            }
+        }
+    </script>
+{% endblock %}

@@ -1,3 +1,4 @@
+# coding:utf-8
 from django.shortcuts import render, redirect, HttpResponse
 from django.http import JsonResponse
 from django.urls import reverse
@@ -7,14 +8,14 @@ from utils.check_code import create_validate_code
 import io
 import datetime
 from django.utils import timezone
-from utils.menu import shop_number
+from utils.menu import user_info
+from django.db.models import Q
+result_dict = {'status': True, 'message': None, 'data': None, }
 
-result_dict = {'status': True, 'message': None, 'data': None,}
-
-
+city_obj = models.RegionalManagement.objects.filter(Q(r_code__isnull=False)).all()
 def login(req):
     form = account.LoginForm(req.POST or None)
-    user_info = shop_number(req)
+    user_dict = user_info(req)
     error = ''
     default_city = req.session.get('default_city')
     if req.method == 'POST':
@@ -40,7 +41,7 @@ def login(req):
         else:
             error = list(form.errors.values())[0][0]
     return render(req, 'login.html', {'form': form, 'error': error, 'default_city': default_city,
-                                      'user_info': user_info})
+                                      'user_info': user_dict, 'city_obj': city_obj, })
 
 
 def login_ajax(request):
@@ -76,7 +77,7 @@ def register(request):
     :param req:
     :return:
     """
-    user_info = shop_number(request)
+    user_dict = user_info(request)
     default_city = request.session.get('default_city')
     form_obj = account.RegisterForm(request.POST or None)
     if request.method == 'POST':
@@ -93,7 +94,7 @@ def register(request):
                 else:
                     form_obj.errors['phone'] = ['手机号码已存在', ]
     return render(request, 'register.html', {'form': form_obj, 'default_city': default_city,
-                                             'user_info':user_info})
+                                             'user_info': user_dict, 'city_obj': city_obj, })
 
 
 def register_ajax(request):
@@ -117,16 +118,16 @@ def register_ajax(request):
 
 def forgetpass(request):
     default_city = request.session.get('default_city')
-    user_info = shop_number(request)
+    user_dict = user_info(request)
     form_obj = account.ForgetPassForm(request.POST or None)
-    if form_obj.is_valid():
-        data = form_obj.cleaned_data
-        del data['password2']
-        form_obj, res = register_generate(data, request, form_obj, 'forgetpass')
-        if not res:
-            return render(request, 'forgetpass_2.html')
+    if request.method == 'POST':
+        if form_obj.is_valid():
+            data = form_obj.cleaned_data
+            form_obj, res = register_generate(data, request, form_obj, 'forgetpass')
+            if not res:
+                return render(request, 'forgetpass_2.html')
     return render(request, 'forgetpass.html', {'form': form_obj, 'default_city': default_city,
-                                               'user_info':user_info})
+                                               'user_info': user_dict, 'city_obj': city_obj})
 
 
 def register_generate(data, request, form, type):

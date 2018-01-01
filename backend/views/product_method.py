@@ -24,7 +24,7 @@ def package_edit_update(product_list, package_id):
     if left_intersection:
         for product_id in left_intersection:
             models.Package2Product.objects.create(product_id=product_id, package_id=package_id)
-    # 有交集
+    # 右交集
     right_intersection = package2product_list_set - product_list_set
     if right_intersection:
         for product_id in right_intersection:
@@ -50,8 +50,9 @@ def product2package_edit_update(product_list, package_id):
     if left_intersection:
         for product_id in left_intersection:
             models.Product2Package.objects.create(product_id=product_id, package_id=package_id)
-    # 有交集
+    # 右交集
     right_intersection = product2package_list_set - product_list_set
     if right_intersection:
         for product_id in right_intersection:
             models.Product2Package.objects.filter(product_id=product_id, package_id=package_id).delete()
+

@@ -1,3 +1,4 @@
+# coding:utf-8
 from django.shortcuts import render, redirect, HttpResponseRedirect, HttpResponse
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
@@ -7,8 +8,10 @@ from utils.alipay import alipay
 import datetime
 import time
 import random
+from django.db.models import Q
+from django.db import connection, connections
 
-from utils.menu import shop_number
+from utils.menu import user_info
 
 # 方法
 from . import product_method
@@ -22,6 +25,7 @@ status = {
     802: '支付失败'
 
 }
+city_obj = models.RegionalManagement.objects.filter(Q(r_code__isnull=False)).all()
 
 
 @login_required
@@ -31,54 +35,72 @@ def cart(request):
     :param request:
     :return:
     """
-    default_city = request.session.get('default_city')
-    user_info = shop_number(request)
-    is_login = request.session.get('is_login')
-    shop_list = product_method.cart_info(request)
-    # print(user_info['id'])
-    coupon_obj = models.Coupon2User.objects.filter(user_id=user_info['id'])
-    # print(shop_list)
-    request.session['shop_list'] = shop_list
-    user_info['shop_number'] = len(shop_list)
-    context = {'shop_list': shop_list,
-               'user_info': user_info,
-               'is_login': is_login,
-               'default_city': default_city,
-               'coupon_obj': coupon_obj,
-               'title': title_dict['cart']}
-    return render(request, 'shop/index.html', context)
+    if request.method == 'POST':
+        result_dict = {'status': 200, 'message': None, 'data': None}
+        shop_list = product_method.productPackage_info(request)
+        if shop_list:
+            request.session['shop_list'] = shop_list
+            result_dict['status'] = 200
+            result_dict['url'] = '/cart.html'
+        # product_method.shop_list_append(package_obj, product_dict, shop_list)
+        else:
+            result_dict['status'] = False
+            result_dict['message'] = '请求非法数据'
+        return JsonResponse(result_dict)
+
+    else:
+        default_city = request.session.get('default_city')
+        user_dict = user_info(request)
+        is_login = request.session.get('is_login')
+        shop_list = product_method.cart_info(request)
+
+        # print(user_info['id'])
+        coupon_obj = models.Coupon2User.objects.filter(user_id=user_dict['id'])
+        # print(shop_list)
+
+        request.session['shop_list'] = shop_list
+        if shop_list:
+            user_dict['shop_number'] = len(shop_list['product'])
+        else:
+            user_dict['shop_number'] = 0
+        # print('user_info.shop_number-->', user_info['shop_number'])
+        context = {'shop_list': shop_list,
+                   'user_info': user_dict,
+                   'is_login': is_login,
+                   'default_city': default_city,
+                   'coupon_obj': coupon_obj,
+                   'city_obj': city_obj,
+                   'title': title_dict['cart']}
+        return render(request, 'shop/index.html', context)
 
 
 @login_required
 def cart_number(request):
     data = request.POST
-    print(data)
+    result_dict = {'status': 200, 'message': None, 'data': None}
     shop_list = request.session['shop_list']
 
     if data.get('number'):
         commodity_type = 'p_id'
-        print("data.get('type')", data.get('type'))
         if int(data.get('type')) == 1:
             commodity_type = 'pp_id'
 
-        for n, key in enumerate(shop_list):
-            print("data['number']", data['number'])
-            print(key.get(commodity_type),data['nid'])
-            print(type(key.get(commodity_type)),type(data['nid']))
+        for n, key in enumerate(shop_list['product']):
             if str(key.get(commodity_type)) == str(data['nid']):
-                print(2222222222222222222222222222222)
-                shop_list[n]['basic']['info']['number'] = data['number']
+                shop_list['product'][n]['basic']['info']['number'] = data['number']
         # print(shop_list[n]['basic']['info']['number'], '--------', data['number'])
-        print(shop_list)
+        # print(shop_list)
         request.session['shop_list'] = shop_list
-    print(shop_list)
+    # print(shop_list)
     return JsonResponse(result_dict)
 
 
 @login_required
 def cart_del(request, ):
+    result_dict = {'status': 200, 'message': None, 'data': None}
     pid = None
     key = None
+    # print(request.GET)
     try:
         shop_type = int(request.GET.get('type'))
         if shop_type == 0:
@@ -92,23 +114,53 @@ def cart_del(request, ):
         return JsonResponse(result_dict)
 
     shop_list = request.session.get('shop_list')
-    for index, shop in enumerate(shop_list):
-        if key in shop.keys() and str(shop[key]) == pid:
-            del shop_list[index]
+    for index, shop in enumerate(shop_list['product']):
+        if key in shop.keys() and str(shop[key]) == str(pid):
+            del shop_list['product'][index]
     request.session['shop_list'] = shop_list
 
     return JsonResponse(result_dict)
 
 
 @login_required
+def coupon_add(request):
+    coupon_id = request.POST.get('nid')
+    price = request.POST.get('price')
+    result_dict = {'status': 200, 'message': None, 'data': None}
+    if coupon_id and coupon_id.isdigit() and price.isdigit():
+        shop_list = request.session['shop_list']
+        if int(coupon_id) not in shop_list['coupon']['coupon_id']:
+            shop_list['coupon']['coupon_id'].append(int(coupon_id))
+            shop_list['coupon']['price'] += int(price)
+            request.session['shop_list'] = shop_list
+
+    return JsonResponse(result_dict)
+
+
+@login_required
+def coupon_del(request):
+    coupon_id = request.POST.get('nid')
+    price = request.POST.get('price')
+    result_dict = {'status': 200, 'message': None, 'data': None}
+    if coupon_id and coupon_id.isdigit() and price.isdigit():
+        shop_list = request.session['shop_list']
+        if int(coupon_id) in shop_list['coupon']['coupon_id']:
+            shop_list['coupon']['coupon_id'].remove(int(coupon_id))
+            shop_list['coupon']['price'] -= int(price)
+            request.session['shop_list'] = shop_list
+    return JsonResponse(result_dict)
+
+
+@login_required
 # 　生成订单信息
 def buy_info(request):
-    user_info = request.session.get('user_info')
+    user_dict = request.session.get('user_info')
     shop_list = request.session.get('shop_list')
+    result_dict = {'status': 200, 'message': None, 'data': None}
     order_code = time.strftime('%Y%m%d%H%M%S', time.localtime()) + str(random.randint(11, 99))
-    if shop_list:
+    if shop_list.get('product'):
         # 创建数据
-        for item in shop_list:
+        for item in shop_list.get('product'):
             # shop_list表的样子
             """
             [{'p_id': 14, 'basic': {'type': '0', 'info': {
@@ -127,23 +179,25 @@ def buy_info(request):
             """
             # print(item)
             for line in item['basic']['info']['detail']:
-                # print(line)
+                number = item['basic']['info']['number']
+                cprice = line['p_price']
+                total_price = float(number) * float(cprice)
+
                 data = {}
                 data['product_id'] = line['product_id']
                 data['product_name'] = line['p_name']
                 data['cprice'] = line['p_price']
-                data['total_price'] = line['p_price']
+                data['number'] = item['basic']['info']['number']
+                data['total_price'] = total_price
                 data['category'] = line['p_category__name']
                 data['p_business_id'] = line['p_business_id']
                 data['city'] = line['city__name']
                 data['area'] = line['area__name']
-                data['phone'] = user_info['phone']
-                data['name'] = user_info['name']
-                data['user_id'] = user_info['id']
+                data['phone'] = user_dict['phone']
+                data['name'] = user_dict['name']
+                data['user_id'] = user_dict['id']
                 data['order_code'] = order_code
-
-                for i in range(0, int(item['basic']['info']['number'])):
-                    models.Orders.objects.create(**data)
+                models.Orders.objects.create(**data)
     else:
         result_dict['status'] = 501
         result_dict['url'] = '/cart.html'
@@ -151,7 +205,7 @@ def buy_info(request):
     order_obj = models.Orders.objects.filter(order_code=order_code).values('order_code', 'product_name', 'number').all()
     pay_data = {}
     pay_data['order_code'] = order_code
-    pay_data['user_id'] = user_info['id']
+    pay_data['user_id'] = user_dict['id']
     pay_data['total_price'] = request.POST.get('total_price')
     pay_data['coupon_price'] = request.POST.get('coupon_price')
     pay_data['pay_price'] = request.POST.get('pay_price')
@@ -165,7 +219,7 @@ def buy_info(request):
 def pay(request, id):
     default_city = request.session.get('default_city')
 
-    user_info = shop_number(request)
+    user_dict = user_info(request)
     is_login = request.session.get('is_login')
     pay_obj = models.OrderPayment.objects.filter(id=id).first()
     if pay_obj:
@@ -177,14 +231,44 @@ def pay(request, id):
         return render(request, 'shop/pay.html', {'order_obj': order_obj,
                                                  'is_login': is_login,
                                                  'pay_obj': pay_obj,
-                                                 'user_info': user_info,
+                                                 'user_info': user_dict,
                                                  'default_city': default_city,
                                                  'title': title_dict['pay']})
     return redirect('web_index')
 
 
+def weixin(request, id):
+    result_dict = {'status': 200, 'message': None, 'data': None}
+    if request.META.get('HTTP_X_FORWARDED_FOR'):
+        ip = request.META['HTTP_X_FORWARDED_FOR']
+    else:
+        ip = request.META['REMOTE_ADDR']
+    pay_obj = models.OrderPayment.objects.filter(id=id).first()
+    if pay_obj:
+        if pay_obj.status == 1:
+            result_dict['status'] = 301
+            result_dict['url'] = '/user/order.html'
+        else:
+            from utils.wechatpay.wechatpay import WeChatPay
+            wp = WeChatPay()
+            price = int(pay_obj.pay_price * 100)
+            res = wp.createPayment(ip, price, pay_obj.order_code)
+            url = res.get('code_url')
+            if url:
+                result_dict['url'] = url
+            else:
+                result_dict['status'] = 201
+                result_dict['message'] = '服务器请求出错，请重新购买'
+
+    else:
+        result_dict['status'] = 201
+        result_dict['message'] = '非法请求'
+    return JsonResponse(result_dict)
+
+
 # 支付成功判断
 def pay_judgment(request, nid):
+    result_dict = {'status': 200, 'message': None, 'data': None}
     if request.method == 'GET':
         pay_obj = models.OrderPayment.objects.filter(id=nid).values('status').first()
         if pay_obj['status'] == 1:
@@ -196,6 +280,10 @@ def pay_judgment(request, nid):
             result_dict['status'] = False
             result_dict['url'] = '/pay/pay_fail.html?pid={}'.format(nid)
             return JsonResponse(result_dict)
+    else:
+        result_dict['status'] = False
+        result_dict['message'] = '非法请求'
+    return JsonResponse(result_dict)
 
 
 # 支付失败
@@ -235,6 +323,22 @@ def alipay_notify_url(request):
             save_alipy_info(alipay_dict)
             return HttpResponse("success")
     return HttpResponse("fail")
+
+
+# 微信异步通知
+@csrf_exempt
+def wxpay_ruturn_url(request):
+    data_xml = request.body
+    import xml.etree.ElementTree as ET
+    data_dict = dict((child.tag, child.text) for child in ET.fromstring(data_xml))
+    from utils.wechatpay.wechatpay import appid, mch_id
+    if appid == data_dict.get('appid') and mch_id == data_dict.get('mch_id'):
+        data_dict.pop('nonce_str')
+        wechat_exit = models.PaymentWechat.objects.filter(**data_dict).first()
+        if not wechat_exit:
+            models.PaymentWechat.objects.create(**data_dict)
+
+    return HttpResponse('OK')
 
 
 # 同步通知

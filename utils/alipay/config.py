@@ -1,3 +1,6 @@
+URL = '120.77.222.60:9002'
+
+
 class settings:
     # 安全检验码，以数字和字母组成的32位字符
     ALIPAY_KEY = 'hx7qx6xur0vu51pj22izwyc0nj81qh8e'
@@ -13,7 +16,7 @@ class settings:
     ALIPAY_SIGN_TYPE = 'MD5'
 
     # 付完款后跳转的页面（同步通知） 要用 http://格式的完整路径，不允许加?id=123这类自定义参数
-    ALIPAY_RETURN_URL = 'http://127.0.0.1:8000/alipay/return/'
+    ALIPAY_RETURN_URL = 'http://{}/alipay/return/'.format(URL)
 
     # 交易过程中服务器异步通知的页面 要用 http://格式的完整路径，不允许加?id=123这类自定义参数
-    ALIPAY_NOTIFY_URL = 'http://127.0.0.1:8000/alipay/notify/'
+    ALIPAY_NOTIFY_URL = 'http://{}/alipay/notify/'.format(URL)

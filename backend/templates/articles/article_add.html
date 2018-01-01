@@ -64,7 +64,7 @@
                 <div style="width: 170px; height: 170px; background-color: #EDEDED;">
                     <div id="pro_image"></div>
                     <div id="pro_upload" >
-                        <input class="a_upload_image" onchange="UploadImage()" name="img" type="file">
+                        <input class="a_upload_image" onchange="UploadImage()" name="imgFile" type="file">
                         <div class="noImgUploadButton" style="margin: 30px 20px 20px 30px;"></div>
                     </div>
                 </div>
@@ -108,7 +108,7 @@
     <script src="/static/js/admin_index.js"></script>
     {#    <script src="/static/js/ckeditor.js"></script>#}
     <script src="/static/plugins/kindeditor/kindeditor-all.js"></script>
-    {# 上传文章图片 #}
+    {# 上传文章封面图 #}
     <script>
         function UploadImage() {
             document.getElementById('iframe_image').onload = reloadIframe;
@@ -116,10 +116,9 @@
         }
         function reloadIframe() {
             var content = this.contentWindow.document.body.innerText;
-            console.log(content);
             var obj = JSON.parse(content);
             var tag = document.createElement('img');
-            tag.src = '/' + obj.data;
+            tag.src = '/' + obj.url;
             tag.className = 'art_image';
             document.getElementById('pro_image').innerHTML = '';
             document.getElementById('pro_image').appendChild(tag);

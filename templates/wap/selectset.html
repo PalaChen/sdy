@@ -1,0 +1,199 @@
+{% extends 'wap/base/base_weui.html' %}
+
+{% block css %}
+    <style>
+        .weui-cells {
+            margin-top: 1.17647059em;
+            background-color: #fff;
+            line-height: 1.41176471;
+            font-size: 17px;
+            overflow: hidden;
+            position: static;
+        }
+
+        .weui-navbar {
+            display: -webkit-box;
+            display: -webkit-flex;
+            display: flex;
+            position: absolute;
+            background-color: white;
+            z-index: 500;
+            top: 0;
+            width: 100%;
+        }
+
+        .weui-navbar {
+            position: static;
+        }
+
+        .weui-navbar__item {
+            position: relative;
+            display: block;
+            -webkit-box-flex: 1;
+            -webkit-flex: 1;
+            flex: 1;
+            padding: 2px 0;
+            text-align: center;
+            font-size: 15px;
+            -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+        }
+
+        .weui-tabbar {
+            position: fixed;
+        }
+
+        .weui-cells__title {
+            background-color: white;
+            margin-bottom: 0;
+            margin-top: 0;
+            padding: 10px 15px;
+            color: black;
+        }
+
+        .weui-grid {
+            position: relative;
+            float: left;
+            padding: 2.5px 5px;
+            width: 30%;
+            margin: 1.65%;
+            border: 1.1px solid #d9d9d9;
+            box-sizing: border-box;
+        }
+
+        .weui-grid__label {
+            font-size: 12px
+        }
+
+        .weui-panel__bd {
+            background-color: white;
+        }
+
+        .hr-line {
+            width: 97%;
+            margin-left: 10px;
+
+        }
+
+        .hr-line hr {
+            border: 0 solid #d9d9d9;
+            height: .05rem;
+            background-color: #d9d9d9;
+            padding: 0;
+        }
+
+        .weui-grids:before {
+            border-top: none;
+        }
+
+        .weui-grids:after {
+            border-left: none;
+        }
+
+        .weui-cells {
+            padding-bottom: 10px;
+        }
+
+        .weui-grid__label {
+            color: inherit;
+        }
+
+        .weui-cell__bd {
+            color: #999;
+        }
+    </style>
+{% endblock %}
+{% block content %}
+
+    <div class="weui-cells__title">优惠套餐</div>
+    <div class="weui-tab">
+        {#   套餐列表     #}
+        <div class="weui-grids" style="background-color: white;padding:10px 0">
+            <input type="hidden" id="pid" value="{{ product_id }}">
+            {% csrf_token %}
+            {% for p in pacakage_list %}
+                <a href="#tab{{ forloop.counter }}"
+                   class="weui-grid js_grid weui-navbar__item weui-flex__item {% if forloop.counter == 1 %}weui-bar__item--on{% endif %}"
+                   for="{{ p.info.id }}">
+                    <p class="weui-grid__label">
+                        {{ p.name }}
+                    </p>
+                </a>
+            {% endfor %}
+        </div>
+        <div class="weui-tab__bd">
+            {% for line in pacakage_list %}
+                <div id="tab{{ forloop.counter }}"
+                     class="weui-tab__bd-item {% if forloop.counter == 1 %}weui-tab__bd-item--active{% endif %}">
+                    <div class="weui-panel__bd">
+                        <div class="hr-line">
+                            <hr>
+                        </div>
+                        <div class="weui-media-box weui-media-box_text">
+                            <div class="weui-cells__title" style="padding-left: 0">套餐说明</div>
+                            <p class="weui-media-box__desc">{{ line.info.description }}</p>
+                        </div>
+                    </div>
+                    <div class="hr-line">
+                        <hr>
+                    </div>
+                    <div class="weui-cells__title">套餐内容</div>
+                    <div class="weui-cells">
+                        {% for raw in line.info.product %}
+                            <div class="weui-cell package-cell">
+                                <div class="weui-cell__bd">
+                                    <p>{{ raw.p_name }}</p>
+                                </div>
+                                <div class="weui-cell__ft">{{ raw.p_price }}元</div>
+                            </div>
+                        {% endfor %}
+
+                    </div>
+                    <div class="hr-line">
+                        <hr>
+                    </div>
+                    <div class="weui-cells__title">价格说明</div>
+                    <div class="weui-cells">
+                        <div class="weui-cell package-cell">
+                            <div class="weui-cell__bd">
+                                <p>原价：{{ line.info.original_price }}元</p>
+                            </div>
+                            <div class="weui-cell__ft">套餐价：<span style="color: red">{{ line.info.cprice }}元</span></div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+    <div class="weui-tabbar">
+        <a href="{% url 'wap_serinfverify' product_id %}" id="bugProduct" class="weui-tabbar__item tabbar__item_left">
+            <p class="weui-tabbar__label tabbar__item_font">暂不选套餐</p>
+        </a>
+        <a href="javascript:;" id="buyPackage" class="weui-tabbar__item tabbar__item_right">
+            <p class="weui-tabbar__label tabbar__item_font">购买套餐</p>
+        </a>
+    </div>
+
+{% endblock %}
+
+{% block javascripts %}
+    <script src="/static/wap/js/api.js"></script>
+    <script src="/static/wap/plugins/layer_mobile/layer.js"></script>
+    <script>
+        $(function () {
+            buyPackageProduct();
+        });
+        var csrfmiddlewaretoken = $('input[name="csrfmiddlewaretoken"]').val();
+        function buyPackageProduct() {
+            $('#buyPackage').click(function () {
+                var ppid = $('.weui-bar__item--on').attr('for');
+                var pid = $('#pid').val();
+                var data = {
+                    'ppid': ppid,
+                    'pid': pid,
+                    'csrfmiddlewaretoken': csrfmiddlewaretoken
+                };
+                api.bugPackage(data, response)
+            })
+        }
+    </script>
+{% endblock %}

@@ -1656,3 +1656,27 @@ h4.validateForm-nobg {
 .search-radius-left.search-radius {
     border-radius: 0 4px 4px;
 }
+.vouchers li {
+    color: #fff;
+    border-radius: 8px;
+    color: #fff;
+    display: inline-block;
+    height: 145px;
+    margin-left: 6px;
+    text-align: center;
+    width: 220px;
+}
+.vouchers li .num1 {
+    background: rgba(0, 0, 0, 0) url("../images/icon/num1.png") no-repeat scroll center center;
+}
+.vouchers li .num2 {
+    background: rgba(0, 0, 0, 0) url("../images/icon/num1.png") no-repeat scroll center center;
+}
+.vouchers li .num3 {
+    background: rgba(0, 0, 0, 0) url("../images/icon/num1.png") no-repeat scroll center center;
+}
+.vouchers li .num {
+    height: 60px;
+    margin: 20px auto 0;
+    width: 60px;
+}

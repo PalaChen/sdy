@@ -1,0 +1,34 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>{% block title %}{{ title }}-盛德业{% endblock %}</title>
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+    <link rel="shortcut icon" href="/favicon.ico">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+    <link rel="stylesheet" href="//cdn.bootcss.com/weui/1.1.1/style/weui.min.css">
+    <link rel="stylesheet" href="//cdn.bootcss.com/jquery-weui/1.0.1/css/jquery-weui.min.css">
+    <link rel="stylesheet" href="/static/wap/css/index.css">
+    <meta name="keyword" content="{% block keyword %}德盛业,注册公司,代理记账,商标注册,个人社保,企业社保,创业法律服务{% endblock %}">
+    <meta name="description"
+          content="{% block description %}德盛业专注为中小微企业提供在线注册公司,代理记账,商标注册,个人社保,企业社保,创业法律服务。{% endblock %}">
+    {% block css %}{% endblock %}
+    {% block javascript %}{% endblock %}
+</head>
+<body style="background-color: #f3f6f6">
+<div class="page-group">
+    <div class="page page-current">
+        {% block content %}{% endblock %}
+    </div>
+</div>
+{#<script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>#}
+<script src="//cdn.bootcss.com/jquery/1.11.0/jquery.min.js"></script>
+<script src="//cdn.bootcss.com/jquery-weui/1.0.1/js/jquery-weui.min.js"></script>
+<script src="//cdn.bootcss.com/jquery-weui/1.0.1/js/swiper.min.js"></script>
+{#<script src="//cdn.bootcss.com/jquery-weui/1.0.1/js/city-picker.min.js"></script>#}
+{% block javascripts %}{% endblock %}
+</body>
+
+</html>

@@ -1,25 +1,18 @@
 from django import forms
 from django.forms import fields
 from django.forms import widgets
+from django.core.validators import RegexValidator
 from django.core.exceptions import ValidationError
 
 
 class EditProfileForm(forms.Form):
-    email = fields.EmailField(
-        required=True,
-        error_messages={
-            'required': '该字段不能为空',
-            'invalid': '请输入正确的邮箱'
-        }
-    )
-    name = fields.CharField(
-        required=True,
-        max_length=10,
-        error_messages={
-            'required': '该字段不能为空',
-            'max_length': '最大长度不能超过10',
-        }
-    )
+    email = fields.EmailField(error_messages={'required': '该字段不能为空',
+                                              'invalid': '请输入正确的邮箱'
+                                              })
+    name = fields.CharField(max_length=10, error_messages={'required': '该字段不能为空',
+                                                           'max_length': '最大长度不能超过10',
+                                                           }
+                            )
     address = fields.CharField(required=False)
     # province = fields.IntegerField(error_messages={'invalid': '选择错误'})
     # city = fields.IntegerField(error_messages={'invalid': '选择错误'})
@@ -95,3 +88,20 @@ class EditPwdForm(forms.Form):
                 pass
             else:
                 raise ValidationError('密码输入不一致')
+
+
+class UserRecommendForm(forms.Form):
+    name = fields.CharField(max_length=30, error_messages={
+        'required': '该字段不能为空',
+        'max_length': '最大长度不能超过30',
+    })
+    phone = fields.IntegerField(
+        validators=[RegexValidator(r'^[1][3578][0-9]{9}$', '请输入正确的手机号码')],
+        error_messages={'required': '手机号码不能为空',
+                        'invalid': '请输入正确的手机号码',
+                        })
+    # business = fields.IntegerField(error_messages={'required': '业务类型不能为空',
+    #                                                'invalid': '请正确勾选的业务类型', })
+    # ctime = fields.DateField(error_messages={'invalid': '时间格式错误'})
+    remark = fields.CharField(max_length=300, required=False)
+    isknow = fields.IntegerField(required=False, error_messages={'invalid': '请勾选客户知晓您为其推荐', })

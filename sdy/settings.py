@@ -40,14 +40,15 @@ INSTALLED_APPS = [
     'reposition',
     'utils',
     'cxmadmin',
-
+    'weixin',
+    'wap',
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
-    # 'django.middleware.csrf.CsrfViewMiddleware',
+    'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
@@ -138,7 +139,5 @@ TEMPLATES_DIRS = (
     os.path.join(BASE_DIR, 'cxmadmin/templates'),
 )
 
-STATIC_ROOT = os.path.join(BASE_DIR, 'static/ueditor')
+# STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 STATIC_STORAGE = 'django.contrib.staticfiles.storage.StaticFilesStorage'
-
-

@@ -6,7 +6,7 @@ import re
 
 def send_verification_code(phone, type):
     verify_code = random.randint(1001, 9999)
-    text = '验证码为：{},30分钟内有效。如非您本人操作，请忽略该短信。如需帮助，请拨打客服电话：0757-22104040'.format(verify_code)
+    text = '验证码为：{},30分钟内有效。如非您本人操作，请忽略该短信。如需帮助，请拨打客服电话：4008813338'.format(verify_code)
     try:
         res = sms.send_sms(text, phone).decode('utf-8')
         res_list = re.findall('\d+', res)
@@ -25,13 +25,13 @@ def send_verification_code(phone, type):
                                                  )
         return True
     except Exception as e:
-        print('---------短信错误提示:', e)
+        # print('---------短信错误提示:', e)
         return
 
 
 def process_message_send(order, step_name, employee_id):
-    text = '用户您好，您的服务订单:{}，进度更新：{}；' \
-           '如有疑问关注微信公众号DE0757咨询。'.format(order.order_code, step_name)
+    text = '用户您好，您购买的产品:{}，进度更新：{}；' \
+           '如有疑问请拨打客服电话：4008813338。'.format(order.product_name, step_name)
     # text = '【盛德业】用户您好，您的服务订单:{}，进度更新：{}；' \
     #        '如有疑问登陆m.shengdeye.com官网咨询。'.format(order.order_code, step_name[0])
 

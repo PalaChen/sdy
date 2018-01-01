@@ -1,0 +1,38 @@
+<footer class="footer">
+    <style>
+        .footer .active, .footer .footer-item:active {
+            color: #00baf8;
+        }
+
+        .footer {
+            height: 2.5rem;
+            background-color: white;
+        }
+
+        .footer .footer-item .icon {
+            top: .1rem;
+            width: 1rem;
+            height: 1rem;
+            font-size: 1rem;
+            line-height: 1rem;
+        }
+        .footer .footer-item .icon~label{
+            top:0
+        }
+    </style>
+    <a href="{% url 'wap_index' %}" class="footer-item {% if currentPage == 1 %}active{% endif %}">
+        <span class="icon home_bar1_sel"></span>
+        <label>首页</label>
+    </a>
+    <a href="{% url 'wap_category' %}" class="footer-item {% if currentPage == 2 %}active{% endif %}">
+        <span class="icon home_bar2_no"></span>
+        <label>分类</label></a>
+    <a href="{% url 'wap_orderlist' %}" class="footer-item {% if currentPage == 3 %}active{% endif %}">
+        <span class="icon home_bar3_no"></span>
+        {#        <span class="badge">2</span>#}
+        <label>订单</label></a>
+    <a href="{% url 'wap_mycenter' %}" class="footer-item {% if currentPage == 4 %}active{% endif %}">
+        <span class="icon home_bar4_no"></span>
+        <label>我的</label>
+    </a>
+</footer>

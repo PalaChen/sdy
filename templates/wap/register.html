@@ -1,0 +1,157 @@
+{% extends 'wap/base/base_weui.html' %}
+
+{% block css %}
+    <style>
+        .weui-btn_primary {
+            background-color: #00cafa;
+        }
+
+        .weui-vcode-btn {
+            color: white;
+        }
+
+        button.weui-vcode-btn {
+            background-color: #00cafa;
+        }
+
+        .verCode-down {
+            background-color: #d9d9d9;
+        }
+    </style>
+{% endblock %}
+
+{% block content %}
+    <div class="login_logo">
+        <img src="">
+    </div>
+    <form id="registerForm">
+        <div class="weui-cells weui-cells_form">
+            {% csrf_token %}
+            <div class="weui-cell">
+                <div class="weui-cell__hd"><label class="weui-label">手机号</label></div>
+                <div class="weui-cell__bd">
+                    <input class="weui-input" type="tel" name="phone" pattern="[0-9]*" placeholder="将通过此号码联系">
+                </div>
+            </div>
+            <div class="weui-cell weui-cell_vcode">
+                <div class="weui-cell__hd">
+                    <input class="weui-input" type="number" pattern="[0-9]*" name="verify_code" placeholder="请输入短信验证码">
+                </div>
+                <div class="weui-cell__ft">
+                    <button id="sms-btn" class="weui-vcode-btn">获取验证码</button>
+                </div>
+            </div>
+            <div class="weui-cell">
+                <div class="weui-cell__hd"><label class="weui-label">密码</label></div>
+                <div class="weui-cell__bd">
+                    <input class="weui-input" type="password" name="password" placeholder="6-18位数字或字母">
+                </div>
+            </div>
+            <div class="weui-cell">
+                <div class="weui-cell__hd"><label class="weui-label">确认密码</label></div>
+                <div class="weui-cell__bd">
+                    <input class="weui-input" type="password" name="password2" placeholder="确认密码">
+                </div>
+            </div>
+            <div class="weui-cell">
+                <div class="weui-cell__hd"><label class="weui-label">姓名</label></div>
+                <div class="weui-cell__bd">
+                    <input class="weui-input" type="text" name="name" placeholder="请输入姓名">
+                </div>
+            </div>
+            <div class="weui-cell">
+                <div class="weui-cell__hd"><label class="weui-label">常用邮箱</label></div>
+                <div class="weui-cell__bd">
+                    <input class="weui-input" type="text" name="email" placeholder="请输入常用邮箱">
+                </div>
+            </div>
+        </div>
+    </form>
+    <label for="weuiAgree" class="weui-agree">
+        <input id="weuiAgree" type="checkbox" class="weui-agree__checkbox">
+        <span class="weui-agree__text">
+        阅读并同意<a href="javascript:void(0);">《相关条款》</a>
+      </span>
+    </label>
+    <div class="weui-btn-area">
+        <a class="weui-btn weui-btn_primary" href="javascript:" id="register_btn">确定</a>
+    </div>
+
+    {% include 'wap/base/__footer.html' %}
+{% endblock %}
+
+{% block javascripts %}
+    <script src="/static/wap/js/api.js"></script>
+    <script>
+
+
+        $(function () {
+            bindClickSMS();
+            bindClickRegister()
+        });
+        function bindClickRegister() {
+            $('#register_btn').click(function () {
+                var data = $('#registerForm').serialize();
+                api.register(data, response)
+            })
+        }
+        function bindClickSMS() {
+            $('#sms-btn').click(function () {
+                var phone = $('input[name="phone"]').val();
+                if (phone) {
+                    var url = `/user/get_verify_code.html?phone=${phone}`;
+                    api.ajax(url, 'get', {}, codeResponse);
+                    $(this).addClass('verCode-down');
+                    var btn = document.getElementById("sms-btn");
+                    timeCountDown.init(btn)
+                } else {
+                    alert('手机号码不能为空')
+                }
+
+
+            })
+        }
+        var timeCountDown = {
+            node: null,
+            count: 60,
+            start: function () {
+                if (this.count > 0) {
+                    this.node.innerHTML = this.count-- + "秒重新发送";
+                    var _this = this;
+                    setTimeout(function () {
+                        _this.start();
+                    }, 1000);
+                } else {
+                    this.node.removeAttribute("disabled");
+                    this.node.innerHTML = "获取验证码";
+                    this.count = 60;
+                }
+            },
+            //初始化
+            init: function (node) {
+                this.node = node;
+                this.node.setAttribute("disabled", true);
+                this.start();
+            }
+        };
+
+
+        function codeResponse(data) {
+            if (data.status) {
+            }
+            else {
+                alert(data.message);
+                var btn = document.getElementById("sms-btn");
+                btn.removeAttribute("disabled");
+                btn.innerHTML = "获取验证码";
+            }
+        }
+        function response(data) {
+            if (data.status) {
+                window.location.href = '/wap/mycenter.html'
+            } else {
+                alert(data.message)
+            }
+        }
+    </script>
+{% endblock %}

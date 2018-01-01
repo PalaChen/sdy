@@ -7,9 +7,9 @@ class MyTaskAdmin(admin.BaseCxmAdmin):
 
 
 class ClientInfoAdmin(admin.BaseCxmAdmin):
-    list_display = ['name', 'mobile', 'source', 'group', 'employee', 'is_reg', 'user']
+    list_display = ['name', 'phone', 'source', 'group', 'employee', 'is_reg', 'user']
     list_filter = ['source', 'group', 'is_reg']
-    search_fields = ['name', 'mobile']
+    search_fields = ['name', 'phone']
     # readonly_fields = ['status']
 
 
@@ -22,8 +22,9 @@ class UsersAdmin(admin.BaseCxmAdmin):
                        'source', 'know', 'reg_employee', 'last_time']
 
 
-class UserConsultationAdmin(admin.BaseCxmAdmin):
-    list_display = ['name', 'phone', 'content', 'ctime']
+class UserRecommendAdmin(admin.BaseCxmAdmin):
+    list_display = ['name', 'phone', 'recommend', 'remark', 'type', 'isknow', 'isreg', 'ispay', 'ctime']
+    list_filter = ['type', 'isknow', 'isreg', 'ispay']
 
 
 class EmployeesAdmin(admin.BaseCxmAdmin):
@@ -119,7 +120,7 @@ class LinkAdmin(admin.BaseCxmAdmin):
 admin.site.register(models.MyTask, MyTaskAdmin)
 admin.site.register(models.ClientInfo, ClientInfoAdmin)
 admin.site.register(models.Users, UsersAdmin)
-admin.site.register(models.UserConsultation, UserConsultationAdmin)
+admin.site.register(models.UserRecommend, UserRecommendAdmin)
 
 admin.site.register(models.Employees, EmployeesAdmin)
 admin.site.register(models.Role, EmployeesAdmin)
@@ -137,6 +138,7 @@ admin.site.register(models.ArticlesTag)
 admin.site.register(models.Author, AuthorAdmin)
 admin.site.register(models.Menu)
 admin.site.register(models.Bxslider)
+admin.site.register(models.Banner)
 admin.site.register(models.Role, RoleAdmin)
 admin.site.register(models.IndexNav)
 admin.site.register(models.MessagesSend)

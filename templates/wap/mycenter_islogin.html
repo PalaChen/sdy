@@ -1,0 +1,118 @@
+{% extends 'wap/base/base_weui.html' %}
+
+{% block css %}
+    <style>
+        .weui-grid {
+            padding: 5px 0;
+        }
+
+        .weui-grid__icon {
+            text-align: center;
+        }
+
+        .weui-grid__icon + .weui-grid__label {
+            margin-top: 0;
+        }
+
+        .weui-grid__icon {
+            color: #007bc7;
+            height: auto;
+            font-size: .6rem
+        }
+
+        .weui-grid__label {
+            font-size: .55rem;
+            color: #333;
+        }
+
+        .weui-cell__bd {
+            font-size: .55rem;
+            color: #333;
+        }
+    </style>
+{% endblock %}
+
+{% block content %}
+    <div class="weui-panel weui-panel_access">
+
+        <div class="weui-panel__bd">
+            <a href="javascript:void(0);" class="weui-media-box weui-media-box_appmsg">
+                <div class="weui-media-box__hd">
+                    <img class="weui-media-box__thumb"
+                         src="/static/wap/images/default_pic.png"
+                         alt="">
+                </div>
+                <div class="weui-media-box__bd">
+                    <h5 class="weui-media-box__title" style="font-size: 14px">{{ user_dict.name }}</h5>
+                    {#                    <p class="weui-media-box__desc" style="font-size: 11px">您还不是法律顾问会员</p>#}
+                </div>
+            </a>
+        </div>
+    </div>
+    <div class="weui-grids" style="background-color: white">
+        <a href="{% url 'wap_coupon' %}" class="weui-grid js_grid">
+            <div class="weui-grid__icon">
+                <span>{{ user_dict.coupon_number }}</span>
+            </div>
+            <p class="weui-grid__label">
+                代金卷
+            </p>
+        </a>
+        <a href="{% url 'wap_myinvoice' %}" class="weui-grid js_grid">
+            <div class="weui-grid__icon">
+                <span>0</span>
+            </div>
+            <p class="weui-grid__label">
+                发票
+            </p>
+        </a>
+        <a href="{% url 'wap_shopping' %}" class="weui-grid js_grid">
+            <div class="weui-grid__icon">
+                <span>{{ user_dict.shop_number }}</span>
+            </div>
+            <p class="weui-grid__label">
+                购物车
+            </p>
+        </a>
+    </div>
+    <div class="weui-cells">
+        <a class="weui-cell weui-cell_access" href="{% url 'wap_question' %}">
+            <div class="weui-cell__bd">
+                <p>常见问题</p>
+            </div>
+            <div class="weui-cell__ft">
+            </div>
+        </a>
+        <a class="weui-cell weui-cell_access" href="{% url 'wap_aboutus' %}">
+            <div class="weui-cell__bd">
+                <p>关于我们</p>
+            </div>
+            <div class="weui-cell__ft">
+            </div>
+        </a>
+        {#        <a class="weui-cell weui-cell_access" href="javascript:;">#}
+        {#            <div class="weui-cell__bd">#}
+        {#                <p>在线客服</p>#}
+        {#            </div>#}
+        {#            <div class="weui-cell__ft">#}
+        {#            </div>#}
+        {#        </a>#}
+    </div>
+
+    <div class="weui-flex" style="background-color: white;margin-top: 10px">
+        <div class="weui-flex__item">
+            <div class="placeholder">
+                <a style="font-size: 12px">客服热线:400-6683-666</a>
+            </div>
+        </div>
+    </div>
+    <div class="weui-flex" style="background-color: white;margin-top: 20px">
+        <div class="weui-flex__item">
+            <div class="placeholder">
+                <a href="{% url 'wap_logout' %}" style="font-size: 12px;color: black">退出登陆</a>
+            </div>
+        </div>
+    </div>
+    {% include 'wap/base/__footer.html' %}
+
+{% endblock %}

@@ -1,0 +1,32 @@
+{% extends 'wap/base/base.html' %}
+
+
+
+{% block content %}
+    <div class="login_logo">
+        <img src="/static/wap/images/login_logo.png">
+    </div>
+    <form method="post" data-url="/login" id="formlogin">
+        <div class="weui-cells weui-cells_form">
+            <div class="weui-cell">
+                <div class="weui-cell__hd">
+                    <input class="weui-input" type="text" placeholder="请输入手机号" name="username" value="">
+                </div>
+            </div>
+            <div class="weui-cell">
+                <div class="weui-cell__hd">
+                    <input class="weui-input" placeholder="请输入密码" type="password" name="password"
+                           value="">
+                </div>
+            </div>
+
+        </div>
+    </form>
+    <div class="weui-btn-area">
+        <a class="weui-btn weui-btn_primary" href="javascript:" id="showTooltips">登陆</a>
+        <a class="weui-btn weui-btn_default" href="{% url 'wap_register' %}" id="showTooltips">注册</a>
+    </div>
+    <div class="qifeng_p"><a href="{% url 'wap_findpass' %}" style="float:right">忘记密码？</a></div>
+
+    {% include 'wap/base/__footer.html' %}
+{% endblock %}

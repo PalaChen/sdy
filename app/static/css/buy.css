@@ -1378,7 +1378,7 @@ body {
     font-size: 12px;
     left: 50%;
     line-height: 20px;
-    margin-left: -90px;
+    margin-left: -45px;
     padding: 9px 16px;
     position: absolute;
     top: 47px;
@@ -1386,7 +1386,7 @@ body {
     z-index: 10;
 }
 .confirmOrder .infoList li i {
-    background: rgba(0, 0, 0, 0) url("../images/icon/Order/iconArrowT.png") no-repeat scroll 0 0;
+    background: rgba(0, 0, 0, 0) url("../images/icon/iconArrowT.png") no-repeat scroll 0 0;
     display: none;
     height: 7px;
     left: 50%;
@@ -1472,11 +1472,11 @@ body {
     width: 142px;
 }
 .shoppingCart .cartDel {
-    padding: 20px 0 0 5px;
+    padding: 5px 0 0 5px;
     width: 23px;
 }
 .shoppingCart .cartDel a {
-    background: rgba(0, 0, 0, 0) url("../images/icon/Order/iconDel.png") no-repeat scroll 0 0;
+    background: rgba(0, 0, 0, 0) url("../images/icon/iconDel.png") no-repeat scroll 0 0;
     display: block;
     height: 9px;
     width: 9px;

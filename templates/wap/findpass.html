@@ -1,0 +1,166 @@
+{% extends 'wap/base/base_weui.html' %}
+
+{% block css %}
+    <style>
+        .weui-cell__hd {
+            width: 100%;
+            font-size: 13px;
+        }
+
+        button.weui-vcode-btn {
+            background-color: #00cafa;
+        }
+
+        .weui-vcode-btn {
+            color: white;
+        }
+
+        .weui-btn_primary {
+            background-color: #00cafa;
+        }
+    </style>
+{% endblock %}
+
+{% block content %}
+    <form id="find-pass-form">
+        <div id="tab1">
+            <div class="findpass_head">
+                <img src="/static/wap/images/find_title.png">
+            </div>
+            {% csrf_token %}
+            <div class="weui-cells weui-cells_form">
+                <div class="weui-cell">
+                    <div class="weui-cell__hd">
+                        <input class="weui-input" type="number" pattern="[0-9]*" name="phone" placeholder="请注册手机号码">
+                    </div>
+                </div>
+                <div class="weui-cell weui-cell_vcode">
+                    <div class="weui-cell__hd" style="width: 60%">
+                        <input class="weui-input" type="tel" name="verify_code" placeholder="请输入验证码">
+                    </div>
+                    <div class="weui-cell__ft">
+                        <button type="button" id="sms-btn" class="weui-vcode-btn">获取验证码</button>
+                    </div>
+                </div>
+                <div class="weui-cell">
+                    <div class="weui-cell__hd">
+                        <input class="weui-input" type="password" name="password" placeholder="请输入新密码，6-18位数字或字母">
+                    </div>
+
+                </div>
+                <div class="weui-cell">
+                    <div class="weui-cell__hd">
+                        <input class="weui-input" type="password" name="password2" placeholder="请确认密码">
+                    </div>
+                </div>
+            </div>
+            <div class="weui-btn-area">
+                <a class="weui-btn weui-btn_primary" href="javascript:" id="find-pss-btn">完成</a>
+{#                <a class="weui-btn weui-btn_primary" href="javascript:" id="next-btn">下一步</a>#}
+            </div>
+        </div>
+{#        <div id="tab2" style="display: none">#}
+{#            <div class="weui-cells weui-cells_form">#}
+{#                <div class="weui-cell">#}
+{#                    <div class="weui-cell__hd">#}
+{#                        <input class="weui-input" type="password" name="password" placeholder="请输入新密码，6-18位数字或字母">#}
+{#                    </div>#}
+{##}
+{#                </div>#}
+{#                <div class="weui-cell">#}
+{#                    <div class="weui-cell__hd">#}
+{#                        <input class="weui-input" type="password" name="password2" placeholder="请确认密码">#}
+{#                    </div>#}
+{#                </div>#}
+{#            </div>#}
+{#            <div class="weui-btn-area">#}
+{#                <a class="weui-btn weui-btn_primary" href="javascript:" id="find-pss-btn">完成</a>#}
+{#            </div>#}
+{#        </div>#}
+    </form>
+    {% include 'wap/base/__footer.html' %}
+{% endblock %}
+
+{% block javascripts %}
+    <script src="/static/wap/js/api.js"></script>
+    <script>
+        $(function () {
+{#            bindClickNextBtn();#}
+            bindClickBtn();
+            bindClickSMS();
+        });
+{#        function bindClickNextBtn() {#}
+{#            $('#next-btn').click(function () {#}
+{#                var verify_code = $('input[name="verify_code"]').val();#}
+{#                var phone = $('input[name="phone"]').val();#}
+{#                if (verify_code && phone) {#}
+{#                    $('#tab1').css('display', 'none');#}
+{#                    $('#tab2').css('display', 'block')#}
+{#                } else {#}
+{#                    alert('数据不能为空，请输入对应数据')#}
+{#                }#}
+{##}
+{#            })#}
+{#        }#}
+        function bindClickBtn() {
+            $('#find-pss-btn').click(function () {
+                var data = $('#find-pass-form').serialize();
+                api.findpass(data, response)
+            })
+        }
+        function bindClickSMS() {
+            $('#sms-btn').click(function () {
+                var phone = $('input[name="phone"]').val();
+                if (phone) {
+                    var url = `/user/get_verify_code.html?phone=${phone}`;
+                    api.ajax(url, 'get', {}, codeResponse);
+                    $(this).addClass('verCode-down');
+                    var btn = document.getElementById("sms-btn");
+                    timeCountDown.init(btn)
+                } else {
+                    alert('手机号码不能为空')
+                }
+
+
+            })
+        }
+
+        var timeCountDown = {
+            node: null,
+            count: 60,
+            start: function () {
+                if (this.count > 0) {
+                    this.node.innerHTML = this.count-- + "秒重新发送";
+                    var _this = this;
+                    setTimeout(function () {
+                        _this.start();
+                    }, 1000);
+                } else {
+                    this.node.removeAttribute("disabled");
+                    this.node.innerHTML = "获取验证码";
+                    this.count = 60;
+                }
+            },
+            //初始化
+            init: function (node) {
+                this.node = node;
+                this.node.setAttribute("disabled", true);
+                this.start();
+            }
+        };
+
+
+        function codeResponse(data) {
+            if (data.status) {
+            }
+            else {
+                alert(data.message);
+                var btn = document.getElementById("sms-btn");
+                btn.removeAttribute("disabled");
+                btn.innerHTML = "获取验证码";
+            }
+        }
+
+
+    </script>
+{% endblock %}

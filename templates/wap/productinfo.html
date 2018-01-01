@@ -1,0 +1,255 @@
+{% extends 'wap/base/base_weui.html' %}
+
+{% block css %}
+    <link rel="stylesheet" href="/static/wap/css/product.css" type="text/css">
+{% endblock %}
+
+{% block content %}
+    <div class="prdctinfo_top">
+        <img src="/{{ product_obj.pro_image.all.first.ul_url }}" alt="{{ product_obj.p_name }}" style="width: 100%">
+    </div>
+    <div class="weui-panel__bd">
+        <div class="weui-media-box weui-media-box_text">
+            <h4 class="weui-media-box__title">{{ product_obj.p_name }}</h4>
+            <p class="weui-media-box__desc"></p>
+            <ul class="weui-media-box__info">
+                <li class="weui-media-box__info__meta">普通</li>
+                <li class="weui-media-box__info__meta">
+                    <span style="color: red;font-size: 16px;vertical-align:bottom">{{ product_obj.p_price }}元</span>
+                </li>
+                <li class="weui-media-box__info__meta weui-media-box__info__meta_extra">
+                    市场价 {{ product_obj.p_market_price }}</li>
+            </ul>
+        </div>
+    </div>
+    {% if  service_obj %}
+        <div class="weui-panel">
+            <div class="weui-panel__hd">类型</div>
+            <div style="width: 98%;margin: auto;margin-bottom: 10px">
+                <div class="weui-flex" style="font-size: 11px">
+                    {% for service in service_obj %}
+                        {% if service.id == product_obj.p_service_id %}
+                            <a href="{% url 'wap_getProduct' service.id %}" id="click-category"
+                               class="weui-flex__item product-category"
+                               for="{{ service.id }}">{{ service.name }}</a>
+                        {% else %}
+                            <a href="{% url 'wap_getProduct' service.id %}"
+                               class="weui-flex__item product-category">{{ service.name }}</a>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    {% endif %}
+    <div class="weui-panel">
+
+        <div class="weui-cell weui-cell_access" style="color: #999;font-size: 12px;">
+            <div class="weui-cell__hd" style="margin-right: 20px;">地区</div>
+            <div class="weui-cell__bd">
+                <p>{{ product_obj.city }}-{{ product_obj.area }}</p>
+            </div>
+            <div class="weui-cell__ft">
+                <a href="javascript:;" class="open-popup" data-target="#city-choose" style="color: #01baf8">更换</a>
+            </div>
+        </div>
+    </div>
+    <div class="weui-cells">
+        <div class="weui-cell weui-cell_access" style="font-size: 13px">
+            <div class="weui-cell__bd">
+                <p>用户评价 <span style="color: #999;font-size: .6rem">0条评价</span></p>
+            </div>
+            <div>好评率: <span style="color: red">100%</span></div>
+        </div>
+        <div style="width: 98%;margin: auto">
+            <div class="weui-flex" style="font-size: 11px">
+                <div class="weui-flex__item comment-category">服务态度好</div>
+                <div class="weui-flex__item comment-category">办事效率高</div>
+                <div class="weui-flex__item comment-category">响应速度快</div>
+            </div>
+        </div>
+
+        <div class="weui-panel__bd" style="margin-bottom: 20px">
+            <div class="weui-cell" style="border-top:none;font-size: 12px">
+                <div class="weui-cell__bd">
+                    <div class="top_left">
+                        广东 135**9419
+                        <ul class="k-start">
+                            <li class="start_range">
+                                <span></span>
+                            </li>
+                            <li class="start_range">
+                                <span></span>
+                            </li>
+                            <li class="start_range">
+                                <span></span>
+                            </li>
+                            <li class="start_range">
+                                <span></span>
+                            </li>
+                            <li class="start_range">
+                                <span></span>
+                            </li>
+                        </ul>
+                    </div>
+
+                </div>
+                <div class="">2017-4-29</div>
+            </div>
+            <div class="weui-media-box weui-media-box_text">
+                <p class="weui-media-box__desc">由各种物质组成的巨型球状天体，叫做星球。星球有一定的形状，有自己的运行轨道。</p>
+                <div class="weui-flex__item" style="margin-top: 10px">
+                    <div class="example_seeall">
+                        <a href="{% url 'wap_commentlist' %}" style="color: #009fe6">查看全部评价</a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <div class="weui-tab">
+        <div class="weui-navbar">
+            <a id="switch-iteml" class="weui-navbar__item weui-bar__item--on swich_item-sel" href="#tab1">
+                服务介绍
+            </a>
+            <a class="weui-navbar__item swich_item-sel" href="#tab2">
+                服务保障
+            </a>
+        </div>
+        <div class="weui-tab__bd">
+            <div id="tab1" class="weui-tab__bd-item weui-tab__bd-item--active">
+                <div>
+                    {{ product_obj.p_details|safe }}
+                </div>
+            </div>
+            <div id="tab2" class="weui-tab__bd-item">
+                <div class="k-wyk-prodergtee">
+                    <div class="prodergtee_block">
+                        <div class="block_t">
+                            <img src="/static/wap/images/product_svcgnt1.png">
+                            <p>我们承诺</p>
+                        </div>
+                        <p class="block_words">关于服务质量的反馈，我们会第一时间专人处理。保证及时解决您的问题。</p>
+                    </div>
+                    <div class="prodergtee_block">
+                        <div class="block_t">
+                            <img src="/static/wap/images/product_svcgnt2.png">
+                            <p>投诉渠道</p>
+                        </div>
+                        <p class="block_words">
+                            1、拨打400-6683-666，选择投诉；<br>
+                            2、点击在线投诉按钮，描述详情；<br>
+                            3、通过微博、微信公众号等方式，联系我们
+                        </p>
+                    </div>
+                    <div class="prodergtee_block">
+                        <div class="block_t">
+                            <img src="/static/wap/images/product_svcgnt3.png">
+                            <p>处理流程</p>
+                        </div>
+                        <div class="block_process">
+                            <p class="process_big"><span>服务中遇到困难</span></p>
+                            <img src="/static/wap/images/product_svcgnt_jt.png">
+                            <p class="process_big"><span>使用400电话或者在微博/微信上联系快法务</span></p>
+                            <img src="/static/wap/images/product_svcgnt_jt.png">
+                            <p class="process_big"><span>快法务立即核实情况并马上处理</span></p>
+                            <img class="process_spacing" src="/static/wap/images/product_svcgnt_jt.png">
+                            <p class="process_line"><span></span></p>
+                            <div class="process_thrsign">
+                                <img src="/static/wap/images/product_svcgnt_jt.png">
+                                <p><span>解决问题<br>服务继续</span></p>
+                            </div>
+                            <div class="process_thrsign">
+                                <img src="/static/wap/images/product_svcgnt_jt.png">
+                                <p><span>确定为服务者<br>责任</span></p>
+                            </div>
+                            <div class="process_thrsign">
+                                <img src="/static/wap/images/product_svcgnt_jt.png">
+                                <p><span>确定为<br>用户责任</span></p>
+                            </div>
+                            <div class="process_thrsign">
+                                <img src="/static/wap/images/product_svcgnt_jt.png">
+                                <p><span>不涉及退款<br>与赔付</span></p>
+                            </div>
+                            <div class="process_thrsign">
+                                <img src="/static/wap/images/product_svcgnt_jt.png">
+                                <p><span>确认退款/<br>赔付标准</span></p>
+                            </div>
+                            <div class="process_thrsign">
+                                <img src="/static/wap/images/product_svcgnt_jt.png">
+                                <p><span>解释清楚<br>处理完毕</span></p>
+                            </div>
+                            <div class="process_thrsign">
+                                <img src="/static/wap/images/product_svcgnt_jt.png">
+                                <p><span>依客户凭证退<br>款/赔付到账</span></p>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="weui-tabbar">
+
+        <a href="{% url 'wap_shopping' %}" class="tabbar__item_left" style="width: 30%">
+            <p class="weui-tabbar__label tabbar__item_font">购物车</p>
+        </a>
+
+        <a href="{% url 'wap_selectset' product_obj.id %}" class="weui-tabbar__item tabbar__item_right">
+            <p class="weui-tabbar__label tabbar__item_font">购买</p>
+        </a>
+    </div>
+    {% csrf_token %}
+    {# 城市区域模态框 #}
+    <div id="city-choose" class="weui-popup__container popup-bottom" style="display: none;z-index: 501">
+        <div class="weui-popup__overlay"></div>
+        <div class="weui-popup__modal" style="background-color: white">
+            <div style="width: 98%;margin: auto;margin-top: 15px;">
+                <div class="weui-flex" style="font-size: 12px">
+                    {% for area in ared_obj %}
+                        <a href="javascript:;"
+                           class="weui-flex__item product-category switch-area"
+                           nid="{{ product_obj.p_service_id }}" code="{{ area.code }}">{{ area.name }}</a>
+                    {% endfor %}
+                </div>
+                <div class="weui-loadmore" id="load" style="display: none">
+                    <i class="weui-loading"></i>
+                    <span class="weui-loadmore__tips">正在加载</span>
+                </div>
+            </div>
+            <div class="content-curr">
+                <p class="curr-city">当期城市：{{ default_city.city }}</p>
+
+                <a href="/wap/city.html" class="curr-text">更换></a>
+
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block javascripts %}
+    <script src="/static/wap/js/api.js"></script>
+    <script src="/static/wap/plugins/layer_mobile/layer.js"></script>
+    <script>
+        $(function () {
+            bindClickSwitchProductBtn();
+        });
+        function bindClickSwitchProductBtn() {
+            $('.switch-area').click(function () {
+                var code = $(this).attr('code');
+                var nid = $(this).attr('nid');
+                var csrfmiddlewaretoken = $('input[name="csrfmiddlewaretoken"]').val();
+                var data = {
+                    'code': code,
+                    'nid': nid,
+                    'csrfmiddlewaretoken': csrfmiddlewaretoken
+                };
+                layer.open({type: 2});
+                api.switchProduct(data, response);
+                layer.closeAll()
+            })
+        }
+    </script>
+{% endblock %}

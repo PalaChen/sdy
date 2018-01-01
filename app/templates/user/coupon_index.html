@@ -1,0 +1,105 @@
+{% extends 'user/master/base.html' %}
+
+{% block content %}
+
+    <div class="uTop">
+        <span></span>
+        <h1>我的优惠券</h1>
+    </div>
+    <div class="uCont">
+        <ul class="uC">
+            <li class="panel">
+                <div class="tabWrap">
+                    {% if user_info.coupon_link == 1 %}
+                        <ul class="tables myProfile">
+                            <li class="current">
+                                <a href="{% url 'user_coupon' %}">可用的优惠券</a>
+                            </li>
+                            <li>
+                                <a href="{% url 'coupon_used' %}">已使用的优惠券</a>
+                            </li>
+                            <li>
+                                <a href="{% url 'coupon_expired' %}">已过期的优惠券</a>
+                            </li>
+                        </ul>
+                    {% elif user_info.coupon_link == 2 %}
+                        <ul class="tables myProfile">
+                            <li>
+                                <a href="{% url 'user_coupon' %}">可用的优惠券</a>
+                            </li>
+                            <li class="current">
+                                <a href="{% url 'coupon_used' %}">已使用的优惠券</a>
+                            </li>
+                            <li>
+                                <a href="{% url 'coupon_expired' %}">已过期的优惠券</a>
+                            </li>
+                        </ul>
+                    {% else %}
+                        <ul class="tables myProfile">
+                            <li>
+                                <a href="{% url 'user_coupon' %}">可用的优惠券</a>
+                            </li>
+                            <li>
+                                <a href="{% url 'coupon_used' %}">已使用的优惠券</a>
+                            </li>
+                            <li class="current">
+                                <a href="{% url 'coupon_expired' %}">已过期的优惠券</a>
+                            </li>
+                        </ul>
+                    {% endif %}
+                    <div class="tabCont">
+                        <div class="state current">
+                            <table class="vouchers">
+                                <tbody>
+                                <tr>
+                                    <th>类别</th>
+                                    <th>面值</th>
+                                    <th>使用范围</th>
+                                    <th>有效期</th>
+                                    <th>状态</th>
+                                </tr>
+                                {% if coupon_obj %}
+                                    {% for coupon in coupon_obj %}
+                                        <tr>
+                                            <td>{{ coupon.coupon.get_type_display }}</td>
+                                            <td>{{ coupon.coupon.price }}</td>
+                                            <td></td>
+                                            <td>{{ coupon.coupon.start_time|date:"Y-m-d" }}-{{ coupon.coupon.end_time|date:"Y-m-d" }}</td>
+                                            <td>{{ coupon.get_used_display }}</td>
+                                        </tr>
+                                    {% endfor %}
+                                {% else %}
+                                    <tr>
+                                        <td colspan="6">暂无数据</td>
+                                    </tr>
+                                {% endif %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </li>
+            <li class="panel">
+                <div class="vouch container">
+                    <div class="vouchLe group">
+                        <span>如何获取优惠券</span>
+                        <p>对已服务完成的订单进行评价，可以获得优惠券。</p>
+                    </div>
+                    <div class="vouchRi group">
+                        <p></p>
+                    </div>
+                </div>
+                <h2></h2>
+                <div class="vouchLe vouchAll group">
+                    <span>优惠券如何使用</span>
+                    <p>1.购买服务时在支付页面，使用优惠券支付即可减少支付相应费用。</p>
+                    <p>2.优惠券都有有效期，如过期不使用，则会失效。</p>
+                    <p>3.优惠券每次仅限使用1张。</p>
+                    <p>4.特殊商品不可使用优惠券。</p>
+                </div>
+            </li>
+        </ul>
+    </div>
+
+
+{% endblock %}

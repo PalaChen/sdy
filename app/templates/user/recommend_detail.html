@@ -1,0 +1,71 @@
+{% extends 'user/master/base.html' %}
+{% load staticfiles %}
+
+{% block css %}
+    {#    <link rel="stylesheet" type="text/css" href="{% static 'js/jquery-ui/jquery-ui.css' %}">#}
+{% endblock %}
+
+{% block content %}
+
+    <div class="uTop">
+        <span></span>
+        <h1>我要推荐</h1>
+    </div>
+    <div class="uCont">
+        <ul class="uC">
+            <li class="panel">
+                <div class="tabWrap">
+                    <ul class="tables myProfile">
+                        <li>
+                            <a href="{% url 'recmomend_index' %}">我要推荐</a>
+                        </li>
+                        <li>
+                            <a href="{% url 'recmomend_count' %}">推荐人数</a>
+                        </li>
+                        <li class="current">
+                            <a href="{% url 'recmomend_detail' %}">推荐明细</a>
+                        </li>
+                    </ul>
+                    <div class="tabCont">
+                        <div class="state current">
+                            <table class="vouchers">
+                                <tbody>
+                                <tr>
+                                    <th>客户名称</th>
+                                    <th>客户手机号码</th>
+                                    <th>客户是否注册</th>
+                                    <th>客户是否付款</th>
+                                </tr>
+                                {% for recommend in recommend_obj %}
+                                    <tr>
+                                        <td>{{ recommend.name }}</td>
+                                        <td>{{ recommend.phone }}</td>
+                                        <td>{{ recommend.get_isreg_display }}</td>
+                                        <td>{{ recommend.get_isreg_display }}</td>
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </li>
+        </ul>
+    </div>
+
+
+{% endblock %}
+
+{% block scripts %}
+    {#    <script src="/static/js/jquery-3.1.1.js"></script>#}
+    {#    <script src="/static/js/jquery-ui/jquery-ui.js"></script>#}
+    {#    <script src="/static/js/jquery-ui/datapicker-zh.js"></script>#}
+    {#    <script>#}
+    {#        $(function () {#}
+    {#            $(".date").datepicker({#}
+    {#                showOtherMonths: true,#}
+    {#                selectOtherMonths: true#}
+    {#            });#}
+    {#        });#}
+    {#    </script>#}
+{% endblock %}

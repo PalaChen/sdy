@@ -17,8 +17,10 @@ urlpatterns = [
     url(r'^my_client_edit/(\d+).html$', views.my.client_edit, name='my_client_edit'),
     # 服务管理
     url(r'^service/order.html', views.service.order, name='service_order'),
+
     # url(r'^service/order_add.html', views.service.order_add, name='service_order_add'),
     url(r'^service/payment.html', views.service.payment, name='service_payment'),
+    url(r'^service/pay_state.html', views.service.pay_state, name='service_pay_state'),
     url(r'^service/manage.html', views.service.manage, name='service_manage'),
     url(r'^service/order_business/(\d+).html', views.service.order_business, name='service_order_business'),
     url(r'^service/assign_employee.html', views.service.assign_employee, name='service_assign_employee'),
@@ -68,7 +70,9 @@ urlpatterns = [
     url(r'^product.html', views.product.product, name='product_all'),
     url(r'^product_add.html', views.product.product_add, name='product_add'),
     url(r'^get_city_info.html', views.product.get_city_info, ),
+    url(r'^get_area_product.html', views.product.get_area_product, ),
     url(r'^product_edit/(\d+).html', views.product.product_edit, name='product_edit'),
+    url(r'^product_pacakage_edit/(\d+).html', views.product.productPackage_edit, name='productPackage_edit'),
     url(r'^product_del/(\d+).html', views.product.product_del, name='product_del'),
     url(r'^product/image.html', views.product.product_image_upload, name='product_image'),
     url(r'^product/upload_image.html', views.product.product_ck_image, name='product_ck_image'),
@@ -80,6 +84,8 @@ urlpatterns = [
     url(r'^package_bind/(\d+).html', views.product.package_bind, name='package_bind'),
     url(r'^coupon.html', views.product.coupon, name='coupon'),
     url(r'^coupon_add.html', views.product.coupon_add, name='coupon_add'),
+    url(r'^coupon_edit/(\d+).html', views.product.coupon_edit, name='coupon_edit'),
+    url(r'^handsel_coupon.html', views.product.handsel_coupon, name='handsel_coupon'),
 
     # 系统配置
     url(r'^site.html$', views.site.site_manage, name='site_manage'),
@@ -92,6 +98,9 @@ urlpatterns = [
     url(r'^site/nav_edit.html$', views.site.nav_edit, name='nav_edit_index'),
     url(r'^site/nav_del/(\d+).html$', views.site.nav_del, name='nav_del_index'),
     url(r'^site/banner.html$', views.site.banner, name='banner'),
+    url(r'^site/banner_add.html', views.site.banner_upload),
+    url(r'^site/banner_edit.html', views.site.banner_edit),
+    url(r'^site/banner_del/(\d+).html', views.site.banner_del),
 
     url(r'^site/product_recommendation.html$', views.site.product_recommend, name='product_recommendation'),
 

@@ -1,0 +1,45 @@
+{% extends 'wap/base/base_weui.html' %}
+
+{% block css %}
+    <style>
+
+    </style>
+{% endblock %}
+
+{% block content %}
+    <div class="weui-cells" style="margin-top: .5rem">
+
+        {% csrf_token %}
+        <input name="nid" value="{{ pay_obj.id }}" type="hidden">
+        <div class="weui-cell">
+            <div class="weui-cell__hd">
+                <img src="/static/wap/images/pay_zhifubao.png" class="pay-btn" bankid="0"
+                     style="width:60%;margin-right:5px;display:block">
+            </div>
+        </div>
+
+    </div>
+
+{% endblock %}
+
+{% block javascripts %}
+    <script src="/static/wap/js/api.js"></script>
+    <script>
+        $(function () {
+            bindClickPayBtn()
+        });
+        function bindClickPayBtn() {
+            $('.pay-btn').click(function () {
+                var csrfmiddlewaretoken = $('input[name="csrfmiddlewaretoken"]').val();
+                var nid = $('input[name="nid"]').val();
+                var bankid = $(this).attr('bankid');
+                var data = {
+                    'nid': nid,
+                    'bankid': bankid,
+                    'csrfmiddlewaretoken': csrfmiddlewaretoken
+                };
+                api.pay(data, response)
+            })
+        }
+    </script>
+{% endblock %}

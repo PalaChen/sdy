@@ -14,20 +14,21 @@ Including another URLconf
     2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
 """
 from django.conf.urls import url, include
-from django.contrib import admin
-from .views import *
+from django.views import static
+from sdy import settings, views
 from app.views import index
-from backend.views import site
 
-
-handler404 = page_not_found
-handler500 = page_error
+handler404 = views.page_not_found
+handler500 = views.page_error
 
 urlpatterns = [
     # url(r'^admin/', admin.site.urls),
     url(r'^index', index.index),
     url(r'^admin/', include('backend.urls')),
+    url(r'^wap/', include('wap.urls')),
+    url(r'^weixin/', include('weixin.urls')),
     url(r'^cxmadmin/', include('cxmadmin.urls')),
+    # url(r'^static/(?P<path>.*)$', static.serve, {'document_root': settings.STATIC_ROOT}, name='static'),
     url(r'', include('app.urls')),
 
 ]

@@ -1,4 +1,13 @@
+# coding:utf-8
 from django.db import models
+
+
+# class GeneralName(models.Model):
+#     name = models.CharField(max_length=100, verbose_name='姓名')
+#     phone = models.CharField(max_length=11, verbose_name='手机号码')
+#
+#     class Meta:
+#         abstract = True
 
 
 class Articles(models.Model):
@@ -176,6 +185,29 @@ class Bxslider(models.Model):
         verbose_name_plural = "首页轮播图表"
 
 
+class Banner(models.Model):
+    """
+    广告位置表
+    """
+    status_choice = ((0, '下架'), (1, '上架'))
+    status = models.BooleanField(default=1, choices=status_choice)
+    # 广告位置
+    position = models.SmallIntegerField()
+    # type_choice = ((0, '首页'))
+    # type = models.SmallIntegerField(choices=type_choice)
+    name = models.CharField(max_length=50)
+    img = models.CharField(max_length=100)
+    url = models.CharField(max_length=100)
+    create_date = models.DateTimeField(auto_now_add=True)
+    employee = models.ForeignKey('Employees')
+    size = models.IntegerField(null=True)
+
+    class Meta:
+        db_table = 'banner'
+        verbose_name = "广告位置表"
+        verbose_name_plural = "广告位置表"
+
+
 class Employees(models.Model):
     """
     员工表
@@ -253,7 +285,7 @@ class Orders(models.Model):
     """
     product_id = models.IntegerField(blank=True)
     product_name = models.CharField(max_length=100, blank=True)
-    order_code = models.CharField(max_length=18, )
+    order_code = models.CharField(max_length=18)
     ctime = models.DateTimeField(auto_now_add=True)
     cprice = models.FloatField(db_column='cPrice')
     number = models.IntegerField(default=1)
@@ -275,7 +307,7 @@ class Orders(models.Model):
     # 服务分类
     category = models.CharField(max_length=30, null=True)
     # 业务ID
-    p_business = models.ForeignKey('ProcessStep')
+    p_business = models.ForeignKey('ProcessStep', null=True)
     province = models.CharField(max_length=20, null=True)
     city = models.CharField(max_length=64, null=True)
     area = models.CharField(max_length=64, null=True)
@@ -296,7 +328,7 @@ class OrderPayment(models.Model):
     """
     order_code = models.CharField(max_length=18, verbose_name='订单号', unique=True)
     user = models.ForeignKey('Users', verbose_name='支付用户')
-    status_choice = ((0, '待支付'), (1, '支付成功'), (2, '支付失败'), (3, '交易关闭'))
+    status_choice = ((0, '待支付'), (1, '支付成功'), (2, '支付失败'), (3, '交易关闭'), (4, '线下支付待确认'))
     status = models.SmallIntegerField(choices=status_choice, default=0, verbose_name='支付状态')
     total_price = models.FloatField(verbose_name='总价格')
     coupon_price = models.IntegerField(default=0, verbose_name='优惠价格')
@@ -324,14 +356,43 @@ class PaymengAlipy(models.Model):
     notify_time = models.CharField(max_length=25, verbose_name='交易时间')
     is_success = models.CharField(max_length=5, verbose_name='成功状态')
     notify_type = models.CharField(max_length=20, verbose_name='通知类型')
-    buyer_id = models.CharField(max_length=16, verbose_name='用户标识')
-    buyer_email = models.CharField(max_length=64, verbose_name='买家邮箱')
+    buyer_id = models.CharField(max_length=16, verbose_name='用户标识', null=True)
+    buyer_email = models.CharField(max_length=64, verbose_name='买家邮箱', null=True)
     total_fee = models.FloatField(verbose_name='交易金额')
 
     class Meta:
         db_table = 'orders_payment_alipy'
         verbose_name = "支付宝支付信息表"
         verbose_name_plural = "支付宝支付信息表"
+
+
+class PaymentWechat(models.Model):
+    openid = models.CharField(max_length=128, verbose_name='用户标识')
+    is_subscribe = models.CharField(max_length=1, verbose_name='是否关注公众账号')
+    trade_type = models.CharField(max_length=16, verbose_name='交易类型')
+    bank_type = models.CharField(max_length=32, verbose_name='付款银行')
+    fee_type = models.CharField(max_length=16, verbose_name='货币类型')
+    total_fee = models.IntegerField(verbose_name='订单金额(单位为分)')
+    settlement_total_fee = models.IntegerField(null=True, verbose_name='应结订单金额')
+    coupon_fee = models.IntegerField(null=True, verbose_name='代金券金额')
+    cash_fee_type = models.CharField(max_length=16, null=True, verbose_name='现金支付货币类型')
+    cash_fee = models.IntegerField(verbose_name='现金支付金额')
+    transaction_id = models.CharField(max_length=32, verbose_name='微信支付订单号')
+    out_trade_no = models.CharField(max_length=32, verbose_name='商户订单号')
+    attach = models.CharField(max_length=128, null=True, verbose_name='商家数据包')
+    time_end = models.CharField(max_length=14, verbose_name='支付完成时间')
+    promotion_detail = models.TextField(null=True, verbose_name='营销详情')
+    appid = models.CharField(max_length=32, verbose_name='公众账号ID')
+    mch_id = models.CharField(max_length=32, verbose_name='商户号')
+    result_code = models.CharField(max_length=16, verbose_name='业务结果')
+    return_code = models.CharField(max_length=16, verbose_name='返回状态码')
+    return_msg = models.CharField(max_length=128, null=True, verbose_name='返回信息')
+    sign = models.CharField(max_length=32, verbose_name='签名')
+
+    class Meta:
+        db_table = 'orders_payment_wechat'
+        verbose_name = "微信付信息表"
+        verbose_name_plural = verbose_name
 
 
 class OrderSerice(models.Model):
@@ -481,16 +542,18 @@ class ProductTImage(models.Model):
     class Meta:
         db_table = 'product_t_image'
         verbose_name = "产品首图片表"
-        verbose_name_plural = "产品首图片表"
+        verbose_name_plural = verbose_name
 
 
 class Products(models.Model):
     """
     产品表
     """
-    p_name = models.CharField(db_column='p_Name', max_length=64, )
-    p_price = models.FloatField(db_column='p_Price', )
-    p_market_price = models.FloatField(db_column='p_Market_Price', null=True)
+    p_name = models.CharField(db_column='p_Name', max_length=64, verbose_name='产品名字')
+    p_price = models.FloatField(db_column='p_Price', verbose_name='价格')
+    p_market_price = models.FloatField(db_column='p_Market_Price', null=True, verbose_name='原价格')
+    type_choices = ((0, '工商'), (1, '商标'), (2, '财税'), (3, '其他'))
+    type = models.SmallIntegerField(choices=type_choices, null=True, verbose_name='类型')
     p_details = models.TextField(db_column='p_Details', verbose_name='产品内容')
     p_putaway_choices = ((0, '下架'), (1, '上架'))
     p_putaway = models.SmallIntegerField(db_column='p_Putaway', choices=p_putaway_choices, default=1)
@@ -498,18 +561,67 @@ class Products(models.Model):
     p_top = models.SmallIntegerField(db_column='p_Top', choices=p_top_choices, default=0)
     p_seo_keyword = models.CharField(db_column='p_Seo_Keyword', max_length=100, null=True)
     p_seo_description = models.CharField(db_column='p_Seo_Description', max_length=200, null=True)
-    p_ctime = models.DateTimeField(null=True, auto_now_add=True)
-    p_category = models.ForeignKey(ProductCategory, models.DO_NOTHING, db_column='p_Category_id', )
-    p_employee = models.ForeignKey(Employees, models.DO_NOTHING, db_column='p_Employee_id', )
+    p_ctime = models.DateTimeField(null=True, auto_now_add=True, verbose_name='创建时间')
+    p_category = models.ForeignKey(ProductCategory, models.DO_NOTHING, db_column='p_Category_id', verbose_name='分类')
+    p_employee = models.ForeignKey(Employees, models.DO_NOTHING, db_column='p_Employee_id', verbose_name='创建人')
     p_service = models.ForeignKey('ProductService', null=True)
     p_business = models.ForeignKey('ProcessName', )
-    city = models.ForeignKey('RegionalManagement', related_name='regional_city')
-    area = models.ForeignKey('RegionalManagement', )
+    province = models.ForeignKey('RegionalManagement', related_name='regional_province', verbose_name='省份', null=True,
+                                 blank=True)
+    city = models.ForeignKey('RegionalManagement', related_name='regional_city', verbose_name='城市')
+    area = models.ForeignKey('RegionalManagement', null=True, verbose_name='区域')
+
+    def __str__(self):
+        return self.p_name
 
     class Meta:
         db_table = 'products'
         verbose_name = "产品表"
         verbose_name_plural = "产品表"
+
+
+class ProductComemnts(models.Model):
+    user = models.ForeignKey('Users', verbose_name='用户id')
+    product = models.ForeignKey('Products', verbose_name='产品')
+    star = models.SmallIntegerField(verbose_name='评分')
+    content = models.TextField(verbose_name='评价内容')
+    evaluation_choices = ((0, '好评'), (1, '中评'), (2, '差评'))
+    evaluation = models.SmallIntegerField(choices=evaluation_choices, verbose_name='评价')
+    ctime = models.DateTimeField(auto_created=True)
+
+    class Meta:
+        db_table = 'product_comments'
+        verbose_name = "产品评论表"
+        verbose_name_plural = verbose_name
+
+
+class ProductsPackages(models.Model):
+    product = models.ForeignKey('Products')
+    pp_name = models.CharField(max_length=100, verbose_name='名称')
+    pp_description = models.TextField(verbose_name='描述')
+    sort = models.SmallIntegerField(verbose_name='排序')
+
+    def pp2pInfo(self):
+        return self.productspackages2p_set.all()
+
+    class Meta:
+        db_table = "products_packages"
+        verbose_name = "产品套餐表"
+        verbose_name_plural = "产品套餐表"
+
+
+class ProductsPackages2P(models.Model):
+    pp2p = models.ForeignKey(ProductsPackages)
+    pp2p_product = models.ForeignKey(Products, null=True)
+    pp2p_notbuy = models.CharField(max_length=20, null=True)
+    pp2p_description = models.TextField(verbose_name='产品描述')
+
+    # pp2p_price = models.IntegerField(verbose_name='价格', null=True)
+
+    class Meta:
+        db_table = "products_packages2p"
+        verbose_name = "产品套餐对应的商品"
+        verbose_name_plural = "产品套餐对应的商品"
 
 
 class Users(models.Model):
@@ -519,7 +631,7 @@ class Users(models.Model):
     # username = models.CharField(max_length=20, unique=True)
     phone = models.CharField(max_length=11, unique=True, verbose_name='手机号码')
     email = models.CharField(max_length=100, null=True, blank=True, verbose_name='邮箱', )
-    name = models.CharField(max_length=30, null=True, verbose_name='称呼', )
+    name = models.CharField(max_length=30, null=True, verbose_name='姓名', )
     password = models.CharField(max_length=40, null=True, verbose_name='密码')
     qq = models.CharField(max_length=15, null=True, blank=True, verbose_name='QQ')
     wechat = models.CharField(max_length=30, null=True, blank=True, verbose_name='微信')
@@ -533,7 +645,7 @@ class Users(models.Model):
     area = models.SmallIntegerField(null=True, blank=True, verbose_name='区')
     address = models.CharField(null=True, max_length=100, blank=True, verbose_name='地址')
     source = models.CharField(null=True, max_length=30, blank=True, verbose_name='来源')
-    know_choice = ((1, '搜索引擎'), (2, '线下活动'), (3, '微信微博'), (4, '朋友土建'), (5, '名片传单'), (6, '主页'), (7, '其他'))
+    know_choice = ((1, '搜索引擎'), (2, '线下活动'), (3, '微信微博'), (4, '朋友推荐'), (5, '名片传单'), (6, '主页'), (7, '其他'))
     know = models.SmallIntegerField(null=True, choices=know_choice, verbose_name='了解')
     reg_employee = models.IntegerField(null=True, blank=True, verbose_name='注册员工')
     reg_time = models.DateTimeField(auto_now_add=True, blank=True, verbose_name='注册时间')
@@ -706,7 +818,7 @@ class Permission2Action2Role(models.Model):
 
 class ClientInfo(models.Model):
     name = models.CharField(max_length=30, verbose_name='客户姓名')
-    mobile = models.CharField(max_length=11, verbose_name='客户手机')
+    phone = models.CharField(max_length=11, verbose_name='客户手机')
     source_choices = ((0, 'web端'), (1, 'pc端'), (2, '微信'), (3, '推荐'))
     source = models.SmallIntegerField(choices=source_choices, verbose_name='客户来源')
     group_choices = ((0, '潜在客户'), (1, '意向客户'), (2, '无效用户'))
@@ -793,6 +905,7 @@ class ProductRecommend(models.Model):
     description = models.CharField(max_length=100, verbose_name='描述')
     status_choices = ((0, '推荐'), (1, '下线'))
     status = models.SmallIntegerField(choices=status_choices, default=0, verbose_name='状态')
+    ctime = models.DateTimeField(null=True, auto_now_add=True, verbose_name='创建时间')
 
     class Meta:
         db_table = 'product_recommend'
@@ -810,6 +923,7 @@ class Package(models.Model):
     employee = models.ForeignKey('Employees', verbose_name='创建人')
     area = models.ForeignKey('RegionalManagement', verbose_name='地区')
     cover_image = models.ForeignKey('ProductTImage', verbose_name='封面图', null=True, blank=True)
+    ctime = models.DateTimeField(null=True, auto_now_add=True, verbose_name='创建时间')
 
     class Meta:
         db_table = 'packages'
@@ -819,6 +933,7 @@ class Package(models.Model):
 class Product2Package(models.Model):
     product = models.ForeignKey('Products', null=True)
     package = models.ForeignKey('Package', null=True)
+    ctime = models.DateTimeField(null=True, auto_now_add=True, verbose_name='创建时间')
 
     class Meta:
         db_table = 'product2package'
@@ -828,12 +943,16 @@ class Product2Package(models.Model):
 class Package2Product(models.Model):
     product = models.ForeignKey('Products', )
     package = models.ForeignKey('Package', related_name='package2product')
+    ctime = models.DateTimeField(null=True, auto_now_add=True, verbose_name='创建时间')
 
     class Meta:
         db_table = 'package2product'
 
 
 class Coupon(models.Model):
+    """
+    优惠卷
+    """
     name = models.CharField(max_length=60, verbose_name='优惠卷名称')
     price = models.IntegerField(verbose_name='金额')
     number = models.IntegerField(verbose_name='数量')
@@ -857,16 +976,23 @@ class Coupon(models.Model):
 
 
 class Coupon2User(models.Model):
+    """
+    优惠卷的所有者
+    """
     coupon = models.ForeignKey(Coupon, null=True)
     user = models.ForeignKey(Users)
     used_choices = ((0, '未使用'), (1, '已使用'))
     used = models.SmallIntegerField(choices=used_choices, default=0)
+    ctime = models.DateTimeField(auto_now_add=True, verbose_name='创建日期')
 
     class Meta:
         db_table = 'coupon2user'
 
 
 class Link(models.Model):
+    """
+    外链表
+    """
     name = models.CharField(max_length=64, verbose_name='名字')
     url = models.URLField(verbose_name='网址')
     status_choices = ((0, '下线'), (1, '上线'))
@@ -886,3 +1012,24 @@ class UserConsultation(models.Model):
 
     class Meta:
         db_table = 'users_consultation'
+
+
+class UserRecommend(models.Model):
+    name = models.CharField(max_length=30, verbose_name='姓名')
+    phone = models.CharField(max_length=11, verbose_name='手机号码')
+    type_choices = ((0, '主页查询'), (1, '用户推荐'))
+    type = models.SmallIntegerField(choices=type_choices, verbose_name='类型')
+    business_choices = ((0, '注册公司'), (1, '记账报税'), (2, '工商变更'), (3, '商标注册'), (4, '其他'))
+    business = models.CharField(max_length=100, null=True, verbose_name='业务类型')
+    ctime = models.DateTimeField(auto_now_add=True, verbose_name='创建时间')
+    remark = models.CharField(max_length=300, null=True, blank=True, verbose_name='备注')
+    isknow_choices = ((0, '不知道'), (1, '知道'), (2, '无'))
+    isknow = models.SmallIntegerField(choices=isknow_choices, default=0, null=True, verbose_name='客户是否被推荐')
+    isreg_choices = ((0, '未注册'), (1, '已注册'))
+    isreg = models.SmallIntegerField(choices=isreg_choices, default=0, verbose_name='是否注册')
+    ispay_choices = ((0, '未付款'), (1, '已付款'))
+    ispay = models.SmallIntegerField(choices=isreg_choices, default=1, verbose_name='是否付款')
+    recommend = models.ForeignKey('Users', null=True, verbose_name='推荐人')
+
+    class Meta:
+        db_table = 'user_recommend'

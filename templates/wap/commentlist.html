@@ -1,0 +1,62 @@
+{% extends 'wap/base/base_weui.html' %}
+{% block css %}
+    <style>
+        .weui-navbar__item {
+            padding: 5px 0;
+        }
+
+        .weui-navbar + .weui-tab__bd {
+            padding-top: 40px;
+        }
+    </style>
+{% endblock %}
+
+{% block content %}
+
+    <div class="weui-tab">
+        <div class="weui-navbar">
+            <a id="switch-iteml" class="weui-navbar__item weui-bar__item--on swich_item-sel control_item" href="#tab1">
+                全部评价
+                <br>
+                4226
+            </a>
+            <a class="weui-navbar__item swich_item-sel control_item" href="#tab2">
+                好评
+                <br>
+                1000
+            </a>
+            <a class="weui-navbar__item swich_item-sel control_item" href="#tab3">
+                中评
+            </a>
+            <a class="weui-navbar__item swich_item-sel control_item" href="#tab4">
+                差评
+            </a>
+        </div>
+        <div class="weui-tab__bd">
+            <div id="tab1" class="weui-tab__bd-item weui-tab__bd-item--active">
+                <div class="weui-cells">
+                    <div class="weui-panel__bd">
+                        <div class="weui-cell" style="border-top:none">
+                            <div class="weui-cell__bd">
+                                <p class="comment-phone">广东 135**9419</p>
+                            </div>
+                            <div class="comment-time">2017-4-29</div>
+                        </div>
+                        <div class="weui-media-box weui-media-box_text">
+                            <p class="weui-media-box__desc">由各种物质组成的巨型球状天体，叫做星球。星球有一定的形状，有自己的运行轨道。</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="tab2" class="weui-tab__bd-item">
+                <h1>页面二</h1>
+            </div>
+            <div id="tab3" class="weui-tab__bd-item">
+                <h1>页面二</h1>
+            </div>
+            <div id="tab4" class="weui-tab__bd-item">
+                <h1>页面二</h1>
+            </div>
+        </div>
+    </div>
+{% endblock %}

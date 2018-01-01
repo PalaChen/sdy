@@ -9,6 +9,10 @@ def cart_info(request):
         package_obj = models.Package.objects.filter(id=pp_id).first()
     else:
         package_obj = None
+    # print('shop_list',shop_list)
+    shop_list = request.session.get('shop_list')
+    if not shop_list:
+        shop_list = {'info': {}, 'coupon': {'price': 0, 'coupon_id': []}, 'product': []}
 
     # 产品
     if p_id:
@@ -21,16 +25,36 @@ def cart_info(request):
     if product_dict:
         product_dict.update({'product_id': p_id})
 
-    # request.session['shop_list'] = []
-    shop_list = request.session.get('shop_list')
-    if not shop_list:
-        shop_list = []
+    shop_list = shop_list_append(product_dict, shop_list, package_obj)
 
-    shop_list = shop_list_append(package_obj, product_dict, shop_list)
     return shop_list
 
 
-def shop_list_append(package_obj, product_dict, shop_list):
+def productPackage_info(request):
+    data_list = request.POST.getlist('nid')
+    shop_list = request.session.get('shop_list')
+    if not shop_list:
+        shop_list = {'info': {}, 'coupon': {'price': 0, 'coupon_id': []}, 'product': []}
+    # print('data_list',type(data_list[0]))
+    for data in eval(data_list[0]):
+        # print('data', type(data), data)
+        p_id = data['nid']
+        # 产品
+        if p_id:
+            product_dict = models.Products.objects.filter(id=p_id).values('p_name', 'p_business_id', 'p_price',
+                                                                          'p_category__name', 'area__name',
+                                                                          'city__name').first()
+        else:
+            product_dict = {}
+
+        if product_dict:
+            product_dict.update({'product_id': p_id})
+        shop_list = shop_list_append(product_dict, shop_list)
+
+    return shop_list
+
+
+def shop_list_append(product_dict, shop_list, package_obj=None):
     """
     把产品或者套餐放入购物车中
     :param package_obj: 套餐对象
@@ -40,7 +64,10 @@ def shop_list_append(package_obj, product_dict, shop_list):
     """
     # shop_list表的样子
     """
-    [{'p_id': 14, 'basic': {'type': '0', 'info': {
+    {
+    info:{},
+    coupon:[],
+    product:[{'p_id': 14, 'basic': {'type': '0', 'info': {
         'pid': 14, 'number': 1, 'detail': {
             'p_business': 1, 'area__name': '顺德区', 'city__name': '佛山市', 'p_category__name': '有限公司注册',
             'p_name': '111', 'p_price': 111.1}}}}
@@ -53,6 +80,7 @@ def shop_list_append(package_obj, product_dict, shop_list):
                                                               'city__name': '佛山市', 'p_category__name': '有限公司注册',
                                                               'p_name': '111', 'p_price': 111.1}, ]}}}}
     ]
+    }
     """
     if package_obj:
         # 判断套餐是否已经放入购物车中 返回结果为True 代表没有
@@ -68,7 +96,7 @@ def shop_list_append(package_obj, product_dict, shop_list):
                                  'basic': {'type': 0, 'info': {'number': 1,
                                                                'pid': product_dict['product_id'],
                                                                'detail': [product_dict, ]}}}
-            shop_list.append(product_info_dict)
+            shop_list['product'].append(product_info_dict)
     return shop_list
 
 
@@ -104,7 +132,7 @@ def shop_list_package_append(product_dict, package_obj, shop_list):
                                                                         'detail': product_list}
                                                     }
                  }
-    shop_list.append(info_dict)
+    shop_list['product'].append(info_dict)
     return shop_list
 
 
@@ -117,7 +145,7 @@ def get_status(shop_list, type, id):
     :return:True 代表没有
     """
     status = True
-    for line in shop_list:
+    for line in shop_list['product']:
         # print('line.get(type)', line.get(type))
         if id == line.get(type):
             status = False

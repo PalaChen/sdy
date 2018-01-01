@@ -1,0 +1,47 @@
+<style>
+    .weui-tabbar {
+        background-color: white;
+    }
+
+    .weui-tabbar__icon {
+        width: 2rem;
+        height: 2rem;
+    }
+
+    .weui-tabbar__icon img {
+        width: 50%;
+    }
+
+    .weui-tabbar__item {
+        padding: 5px 0;
+    }
+</style>
+<div class="weui-tabbar">
+    <a href="{% url 'wap_index' %}" class="weui-tabbar__item {% if currentPage == 1 %} weui-bar__item--on{% endif %}">
+        <div class="weui-tabbar__icon">
+            <img src="/static/wap/images/home_bar1_{% if currentPage == 1 %}sel{% else %}no{% endif %}.png" alt="">
+        </div>
+        {#        <p class="weui-tabbar__label">首页</p>#}
+    </a>
+    <a href="{% url 'wap_category' %}"
+       class="weui-tabbar__item {% if currentPage == 2 %} weui-bar__item--on{% endif %}">
+        <div class="weui-tabbar__icon">
+            <img src="/static/wap/images/home_bar2_{% if currentPage == 2 %}sel{% else %}no{% endif %}.png" alt="">
+        </div>
+        {#        <p class="weui-tabbar__label">分类</p>#}
+    </a>
+    <a href="{% url 'wap_orderlist' %}"
+       class="weui-tabbar__item {% if currentPage == 3 %} weui-bar__item--on{% endif %}">
+        <div class="weui-tabbar__icon">
+            <img src="/static/wap/images/home_bar3_{% if currentPage == 3 %}sel{% else %}no{% endif %}.png" alt="">
+        </div>
+        {#        <p class="weui-tabbar__label">订单</p>#}
+    </a>
+    <a href="{% url 'wap_mycenter' %}"
+       class="weui-tabbar__item {% if currentPage == 4 %} weui-bar__item--on{% endif %}">
+        <div class="weui-tabbar__icon">
+            <img src="/static/wap/images/home_bar4_{% if currentPage == 4 %}sel{% else %}no{% endif %}.png" alt="">
+        </div>
+        {#        <p class="weui-tabbar__label">我的</p>#}
+    </a>
+</div>

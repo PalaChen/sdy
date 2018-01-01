@@ -1,0 +1,52 @@
+{% extends 'wap/base/base_weui.html' %}
+
+
+
+
+{% block content %}
+    <div class="weui-cells__title">已定位城市</div>
+    <div class="weui-cells">
+        <a class="weui-cell weui-cell_access" href="javascript:;">
+            <div class="weui-cell__bd">
+                <p>{{ default_city.city }}</p>
+            </div>
+            <div class="weui-cell__ft">
+            </div>
+        </a>
+    </div>
+
+
+    <div class="weui-cells__title">热门城市</div>
+    <div class="weui-cells">
+        {% for city in city_obj %}
+            <a class="weui-cell weui-cell_access switch-city" href="javascript:;" nid="{{ city.id }}">
+                <div class="weui-cell__bd">
+                    <p>{{ city.name }}</p>
+                </div>
+                <div class="weui-cell__ft">
+                </div>
+            </a>
+        {% endfor %}
+        <input type="hidden" id="p_id" value="{{ nid }}">
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    <script src="/static/wap/js/api.js"></script>
+    <script src="/static/wap/plugins/layer_mobile/layer.js"></script>
+    <script>
+        $(function () {
+            bindClickSwitchCityBtn();
+        });
+        function bindClickSwitchCityBtn() {
+            $('.switch-city').click(function () {
+                var nid = $(this).attr('nid');
+                var pid = $('#p_id').val();
+                var data = {'nid': nid, 'pid': pid};
+                layer.open({type: 2});
+                api.switchCity(data, response)
+                layer.closeAll()
+            })
+        }
+    </script>
+{% endblock %}

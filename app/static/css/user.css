@@ -2432,3 +2432,7 @@ width: 144px;
 .pull-right_1 {
     float: right;
 }
+.width_400{
+    width: 320px;
+    height: 20px;
+}

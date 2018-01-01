@@ -19,7 +19,7 @@
             <td>手机号码</td>
             <td>支付方式</td>
             <td>备注</td>
-            {#            <td>操作</td>#}
+            <td>操作</td>
         </tr>
         </thead>
         <tbody>
@@ -30,6 +30,7 @@
                 <td><input type="checkbox"></td>
                 <td colspan="2">下单时间：{{ row.ctime|date:"Y-m-d H:i:s" }}</td>
                 <td colspan="2">订单号：{{ row.order_code }}</td>
+                <td><a class="glyphicon glyphicon-edit" code="{{ row.order_code }}" data-toggle="modal"></a></td>
             </tr>
 
             {% for line in order_obj %}
@@ -40,12 +41,12 @@
                         <td>{{ line.cPrice }}</td>
                         <td>{{ line.number }}</td>
                         <td>{{ line.total_price }}</td>
-                        <td>{% get_status order_status_dict 'status' line.order_state %}</td>
+                        <td>{% get_status order_status_dict 'status' line.order_state %}
+                        </td>
                         <td>{{ line.name }}</td>
                         <td>{{ line.phone }}</td>
                         <td>{% get_status order_status_dict 'payment' line.payment %}</td>
                         <td>{{ line.remark }}</td>
-                        {#                        <td>{{ line.remark }}</td>#}
                         <td>
 
                         </td>
@@ -55,4 +56,80 @@
         {% endfor %}
         </tbody>
     </table>
+
+    <div id="myModal" class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog"
+         aria-labelledby="mySmallModalLabel">
+        <div class="modal-dialog modal-sm" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">修改订单状态</h4>
+                </div>
+                <div class="modal-body">
+                    <form id="myForm" class="form-horizontal">
+                        <input name="code" id="order_code" type="hidden">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            <label class="col-sm-4 control-label">订单状态</label>
+                            <div class="col-sm-6">
+                                <select class="form-control" name="status">
+                                    <option value="1">支付成功</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-4 control-label">支付方式</label>
+                            <div class="col-sm-6">
+                                <select class="form-control" name="payment">
+                                    <option value="0">支付宝</option>
+                                    <option value="1">微信支付</option>
+                                    <option value="2">线下支付</option>
+                                    <option value="3">网银支付</option>
+                                </select>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                    <button type="button" class="btn btn-primary" id="editSatus">保存</button>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block scripts %}
+    <script>
+        $(function () {
+            clickEditButton();
+            clickSaveBuntton()
+        });
+        function statusResponse(arg) {
+            if (arg.status == 200) {
+                layer.msg(arg.message);
+                window.location.href = '/admin/service/order.html'
+            } else {
+                layer.msg(arg.error_message);
+            }
+        }
+
+        function clickEditButton() {
+            $('.glyphicon-edit').click(function () {
+                var code = $(this).attr('code');
+                $('#myModal').modal('show');
+                $('#order_code').val(code)
+            })
+        }
+        function clickSaveBuntton() {
+            $('#editSatus').click(function () {
+                var data = $('#myForm').serialize();
+                console.log(data);
+                console.log(111111111111);
+                api.codeStatusEdit(data, statusResponse)
+            })
+        }
+
+    </script>
 {% endblock %}

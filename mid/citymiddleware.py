@@ -12,4 +12,4 @@ class CityMid(MiddlewareMixin):
             # 网站刚运行时第一次没有城市信息
             if city_obj:
                 request.session['default_city'] = {'city_id': city_obj.id, 'city': city_obj.name,
-                                                   'area_id': area_obj.id}
+                                                   'area_id': area_obj.id, 'city_code': city_obj.code}

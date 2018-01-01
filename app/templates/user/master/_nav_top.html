@@ -4,13 +4,13 @@
             <li class="navLocation">
                 <a class="locatinIcon" href="javascript:;">
                     <i class="mykfw floatRight"></i>
-                    佛山市
+                    {{ default_city.city }}
                 </a>
                 <div class="locationLayer">
                     <em></em>
                     <ul>
                         {% for line in city_obj %}
-                            <li><a href="">{{ line.name }}</a> </li>
+                            <li><a href="{% url 'switch_city' line.id %}">{{ line.name }}</a></li>
                         {% endfor %}
                     </ul>
                 </div>

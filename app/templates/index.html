@@ -1,6 +1,8 @@
 {% extends 'master/layout.html' %}
 
 {% block title %} {{ title }}{% endblock %}
+{% block keywords %} {{ keywords }}{% endblock %}
+{% block description %} {{ description }}{% endblock %}
 {% block css %}
     <link type="text/css" rel="stylesheet" href="/static/js/bxslider/jquery.bxslider.css">
     <link type="text/css" rel="stylesheet" href="/static/css/home_index1.css">
@@ -37,7 +39,7 @@
                     {% csrf_token %}
                     <input type="hidden" name="know" value="6">
                     <p class="fz14">
-                        <input name="content" maxlength="50" placeholder="您想要查询的公司名称" type="text">
+                        <input name="remark" maxlength="50" placeholder="您想要查询的公司名称" type="text">
                     </p>
                     <p class="fz14">
                         <input class="math" name="phone" placeholder="您的电话号码" type="text">
@@ -55,28 +57,35 @@
         </div>
         {#        <img src="/static/images/01.jpg">#}
     </div>
-    <div class="minwidth" style="margin: 20px auto 30px">
-        <ul class="choiceness-ul">
-            <li class="choiceness-title">
-                <h3>精选套餐</h3>
-                <p style="margin-top: 10px;">省去选择烦恼</p>
-                <i></i>
-            </li>
-            {% for package in packages_obj %}
-                <li class="choiceness-list">
-                    <a href="{% url 'pacakage_index' package.id %}" target="_blank">
-                        <h3>{{ package.name }}</h3>
-                        <p> {{ package.dscription }} </p>
-                        <div class="choiceness-price">
-                            <big class="gsh">￥{{ package.cprice }}</big>
-                            <del class="gsh">￥{{ package.original_price }}</del>
-                            <i>立即抢购</i>
-                        </div>
-                    </a>
-                </li>
-            {% endfor %}
-        </ul>
+    <div class="minwidth">
+        {% if ad_obj.0 %}
+            <img src="/{{ ad_obj.0.img }}" width="1180px">
+        {% endif %}
     </div>
+    {% if packages_obj %}
+        <div class="minwidth" style="margin: 20px auto 30px">
+            <ul class="choiceness-ul">
+                <li class="choiceness-title">
+                    <h3>精选套餐</h3>
+                    <p style="margin-top: 10px;">省去选择烦恼</p>
+                    <i></i>
+                </li>
+                {% for package in packages_obj %}
+                    <li class="choiceness-list">
+                        <a href="{% url 'pacakage_index' package.id %}" target="_blank">
+                            <h3>{{ package.name }}</h3>
+                            <p> {{ package.dscription }} </p>
+                            <div class="choiceness-price">
+                                <big class="gsh">￥{{ package.cprice }}</big>
+                                <del class="gsh">￥{{ package.original_price }}</del>
+                                <i>立即抢购</i>
+                            </div>
+                        </a>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+    {% endif %}
     <div class="minwidth">
         <div class="section-title">
             <span class="line"></span>
@@ -105,8 +114,12 @@
         </div>
     </div>
     <div class="minwidth">
-        <img src="/static/images/02.jpg" width="1180px">
-        <img src="/static/images/03.jpg">
+        {% if ad_obj.1 %}
+            <img src="/{{ ad_obj.1.img }}" width="1180px">
+        {% endif %}
+        {% if ad_obj.2 %}
+            <img src="/{{ ad_obj.2.img }}">
+        {% endif %}
     </div>
     <div class="minwidth">
         <div class="section-title" style="margin-top: 20px;margin-bottom: 5px">
@@ -167,7 +180,9 @@
         </div>
     </div>
     <div class="minwidth">
-        <img src="/static/images/04.jpg" width="1180px">
+        {% if ad_obj.3 %}
+            <img src="/{{ ad_obj.3.img }}" width="1180px">
+        {% endif %}
     </div>
     {% include 'master/footer/_footer_index.html' %}
 
@@ -201,7 +216,7 @@
                         }
                     },
                     error: function () {
-                        alert('连接服务器失败，请稍微再试，或者直接联系客服电话：0757-22104040')
+                        alert('连接服务器失败，请稍微再试，或者直接联系客服电话：400-881-3338')
                     }
 
                 })

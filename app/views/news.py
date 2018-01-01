@@ -4,7 +4,7 @@ from django.http import JsonResponse
 from reposition import models
 from utils.pager import CustonPaginator
 from django.db.models import Q
-from utils.menu import shop_number
+from utils.menu import user_info
 
 title_dict = {'index': '新闻资讯'}
 hot_articles_obj = models.Articles.objects.order_by('-views')[0:5]
@@ -26,7 +26,7 @@ def paginator(req, obj):
 
 def index(req):
     default_city = req.session.get('default_city')
-    user_info = shop_number(req)
+    user_dict = user_info(req)
     category_id = 1
     is_login = req.session.get('is_login')
     articles_obj = models.Articles.objects.all().order_by('-ctime')
@@ -38,7 +38,7 @@ def index(req):
                                                 'category_boj': category_boj,
                                                 'category_id': category_id,
                                                 'is_login': is_login,
-                                                'user_info': user_info,
+                                                'user_info': user_dict,
                                                 'city_obj': city_obj,
                                                 'default_city': default_city,
                                                 })
@@ -47,7 +47,7 @@ def index(req):
 def category(request, category_id):
     default_city = request.session.get('default_city')
     is_login = request.session.get('is_login')
-    user_info = shop_number(request)
+    user_dict = user_info(request)
     articles_obj = models.Articles.objects.filter(category_id=category_id).order_by('-ctime')
     posts = paginator(request, articles_obj)
     category_boj = models.ArticlesCategory.objects.all()
@@ -55,7 +55,7 @@ def category(request, category_id):
                                                 'hot_articles_obj': hot_articles_obj,
                                                 'category_boj': category_boj,
                                                 'is_login': is_login,
-                                                'user_info': user_info,
+                                                'user_info': user_dict,
                                                 'city_obj': city_obj,
                                                 'default_city': default_city,
                                                 'category_id': int(category_id)}, )
@@ -64,14 +64,14 @@ def category(request, category_id):
 def author(request, author_id):
     default_city = request.session.get('default_city')
     is_login = request.session.get('is_login')
-    user_info = shop_number(request)
+    user_dict = user_info(request)
     articles_obj = models.Articles.objects.filter(author_id=author_id).order_by('-ctime')
     posts = paginator(request, articles_obj)
     author_obj = models.Author.objects.filter(id=author_id).first()
     return render(request, 'news/news_author.html', {'posts': posts,
                                                  'hot_articles_obj': hot_articles_obj,
                                                  'is_login': is_login,
-                                                 'user_info': user_info,
+                                                 'user_info': user_dict,
                                                  'city_obj': city_obj,
                                                  'default_city': default_city,
                                                  'author_obj': author_obj})
@@ -80,7 +80,7 @@ def author(request, author_id):
 def article(request, category_id, article_id):
     default_city = request.session.get('default_city')
     is_login = request.session.get('is_login')
-    user_info = shop_number(request)
+    user_dict = user_info(request)
     article_obj = models.Articles.objects.filter(id=article_id).select_related('articlesdetails').first()
     articles_obj = models.Articles.objects.order_by('-ctime')[0:4]
     article_obj.views += 1
@@ -93,7 +93,7 @@ def article(request, category_id, article_id):
     return render(request, 'news/news_article.html', {'post': article_obj,
                                                   'is_login': is_login,
                                                   'articles_obj': articles_obj,
-                                                  'user_info': user_info,
+                                                  'user_info': user_dict,
                                                   'city_obj': city_obj,
                                                   'default_city': default_city,
                                                   'hot_articles_obj': hot_articles_obj,

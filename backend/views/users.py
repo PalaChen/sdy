@@ -75,4 +75,4 @@ def users_consultation(request, *args, **kwargs):
     common_info = {}
     common_info['menu_string'] = kwargs.get('menu_string')
     common_info['title'] = title_dict['users_consultation']
-    return base.table_obj_list(request, 'reposition', 'userconsultation', common_info)
+    return base.table_obj_list(request, 'reposition', 'userrecommend', common_info)

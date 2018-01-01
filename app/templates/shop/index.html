@@ -8,7 +8,7 @@
 
 {% block page_content %}
     <div class="main greyf5f5f5">
-        {% if shop_list %}
+        {% if shop_list.product %}
             <form id="cartForm" noenter="1" method="post">
                 {% csrf_token %}
                 <div class="minwidth marT40">
@@ -23,7 +23,7 @@
                                     <li class="operation">操作</li>
                                 </ol>
                             </div>
-                            {% for line in shop_list %}
+                            {% for line in shop_list.product %}
                                 {# 产品 #}
                                 {% if line.basic.type == 0 %}
                                     <ol>
@@ -168,13 +168,23 @@
                                             {% for coupon in coupon_obj %}
                                                 {% if coupon.coupon.type == 0 %}
                                                     <dd>
-                                                        <input type="checkbox" name="coupon_id" value="{{ coupon.id }}" kind="0" price="{{ coupon.coupon.price }}">
+                                                        {% if coupon.id in shop_list.coupon.coupon_id %}
+                                                        <input type="checkbox" name="coupon_id" value="{{ coupon.id }}" kind="0" price="{{ coupon.coupon.price }}" checked="checked">
+                                                        {% else %}
+                                                            <input type="checkbox" name="coupon_id" value="{{ coupon.id }}" kind="0" price="{{ coupon.coupon.price }}">
+                                                        {% endif %}
                                                         立减{{ coupon.coupon.price }}元，有效期至{{ coupon.coupon.end_time|date:"Y-m-d" }}
                                                     </dd>
                                                 {% else %}
                                                     <dd>
-                                                        <input type="checkbox" name="coupon_id" value="{{ coupon.id }}" kind="1" price="{{ coupon.coupon.price }}">
-                                                        满{{ coupon.coupon.price_reduction }}元减{{ coupon.coupon.price }}元，有效期至{{ coupon.coupon.end_time|date:"Y-m-d" }}
+{#                                                    {% for coupon_id in shop_list.coupon.coupon_id %}#}
+{#                                                        {% if coupon.id == coupon_id %}#}
+{#                                                            {{ coupon.id }}---{{ coupon_id }}#}
+{#                                                            <input type="checkbox" name="coupon_id" value="{{ coupon.id }}" kind="1" price="{{ coupon.coupon.price }}" checked="checked">#}
+{#                                                        {% endif %}#}
+{#                                                    {% endfor %}#}
+                                                            <input type="checkbox" name="coupon_id" value="{{ coupon.id }}" kind="1" price="{{ coupon.coupon.price }}">
+                                                            满{{ coupon.coupon.price_reduction }}元减{{ coupon.coupon.price }}元，有效期至{{ coupon.coupon.end_time|date:"Y-m-d" }}
                                                     </dd>
                                                 {% endif %}
                                             {% endfor %}
@@ -197,7 +207,7 @@
                             <li>
                                 <span class="checkout-le">代金券抵扣：</span>
                                 <span class="checkout-ri">
-                                <span id="couponPrice">0</span>元
+                                <span id="couponPrice">{{ shop_list.coupon.price }}</span>元
                             </span>
                             </li>
                             <li>
@@ -209,7 +219,7 @@
                         </ul>
                         <div class="marT30 floatRight">
                             <a id="orderButton" class="butpadding64 inlineBlock floatRight butRed">去结账</a>
-                            <a class="butpadding21 inlineBlock floatRight butWhiteGreyborder marR20">继续购物</a>
+                            <a class="butpadding21 inlineBlock floatRight butWhiteGreyborder marR20" href="{% url 'web_index' %}">继续购物</a>
                         </div>
                         <div class="invoiceWrap">
                             <div class="invoiceTip">
@@ -241,6 +251,7 @@
 
 {% block scripts %}
     <script src="/static/js/jquery-3.1.1.js"></script>
+    <script src="/static/js/api.js"></script>
     <script src="/static/js/shop.js"></script>
     <script src="/static/js/layer/layer.js"></script>
 

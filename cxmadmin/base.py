@@ -1,3 +1,4 @@
+# coding:utf-8
 from django.shortcuts import render, redirect
 from cxmadmin import app_setup
 from reposition import models
@@ -83,7 +84,7 @@ def table_obj_list(request, app_name, model_name, common_dict):
     filter_dict = common_dict.get('filter_dict')
     if not filter_dict:
         # 读取所有数据
-        querysets = admin_class.model.objects.all()
+        querysets = admin_class.model.objects.order_by('-id')
     else:
         querysets = admin_class.model.objects.filter(**filter_dict).all()
     # 筛选字段

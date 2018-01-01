@@ -1,0 +1,153 @@
+{% extends 'master_b/layout.html' %}
+
+
+{% block page_content %}
+    <form id="fm" class="form-horizontal" method="post" style="width: 100%;overflow-x: hidden">
+        {% csrf_token %}
+        <input type="hidden" id="product-id" value="{{ product_id }}">
+
+        <div id="ProductInfo">
+            <div id="advancedSettings" class="basicInfo">
+                {% if pp2p_dict %}
+                    {% for pp,v in pp2p_dict.items %}
+                        <input type="hidden" class="form-control" name="has_pp_id" value="{{ pp.id }}">
+                        <div class="package-info" style="border: 1px solid black;padding: 5px;margin-bottom: 5px">
+                            <input type="hidden" name="sort">
+                            <div class="form-group">
+                                <label class="col-sm-1 control-label">套餐名称</label>
+                                <div class="col-sm-5">
+                                    <input type="hidden" class="form-control" name="pp_id" value="{{ pp.id }}">
+                                    <input type="text" class="form-control" name="pp_name" value="{{ pp.pp_name }}">
+                                </div>
+                                <span class="glyphicon glyphicon-arrow-up margin-top-8"></span>
+                                <span class="glyphicon glyphicon-arrow-down margin-top-8"></span>
+                                <span class="glyphicon glyphicon-plus package-plus margin-top-8"
+                                      onclick="packagePlus(this)"></span>
+                                <span class="glyphicon glyphicon-minus package-minus margin-top-8"></span>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-1 control-label">套餐描述</label>
+                                <div class="col-sm-5">
+                                <textarea type="text" name="pp_description"
+                                          class="form-control">{{ pp.pp_description }}</textarea>
+                                </div>
+                            </div>
+                            {% for pp2p in v %}
+                                <input type="hidden" name="has_pp2p_id" value="{{ pp2p.id }}">
+                                <div class="product_list">
+                                    <div class="form-group">
+                                        <label class="col-sm-1 control-label">添加产品</label>
+                                        <input type="hidden" name="pp2p_id" value="{{ pp2p.id }}">
+                                        {% if pp2p.pp2p_product %}
+                                            <div class="col-sm-2">
+                                                <select class="form-control productID_select"
+                                                        name="pp2p_product_id">
+                                                    <option value="">---------------</option>
+                                                    {% for product in pp2p_product_list %}
+                                                        {% if pp2p.pp2p_product_id ==  product.id %}
+                                                            <option value="{{ product.id }}"
+                                                                    selected>{{ product.p_name }}</option>
+                                                        {% else %}
+                                                            <option value="{{ product.id }}">{{ product.p_name }}</option>
+                                                        {% endif %}
+                                                    {% endfor %}
+                                                    <option value="noBuy" class="noBuyOption">不购买该产品</option>
+                                                </select>
+                                            </div>
+{#                                            <label class="col-sm-1 control-label">价格</label>#}
+{#                                            <div class="col-sm-1">#}
+{#                                                <input type="text" class="form-control" name="pp2p_price"#}
+{#                                                       value="{{ pp2p.pp2p_price }}">#}
+{#                                            </div>#}
+                                        {% else %}
+                                            <div class="col-sm-2">
+                                                <input type="text" name="pp2p_product_id" class="form-control"
+                                                       value="{{ pp2p.pp2p_notbuy }}">
+                                            </div>
+                                        {% endif %}
+                                        <span class="glyphicon glyphicon-plus product-plus margin-top-8"
+                                              onclick="productPlus(this)"></span>
+                                        <span class="glyphicon glyphicon-minus product-minus margin-top-8"></span>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-1 control-label">产品描述</label>
+                                        <div class="col-sm-5">
+                                        <textarea type="text" name="pp2p_description"
+                                                  class="form-control">{{ pp2p.pp2p_description }}</textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    {% endfor %}
+                {% else %}
+                    <div id="advancedSettings" class="basicInfo">
+                        <div style="border: 1px solid black;padding: 5px;margin-bottom: 5px">
+                            <input type="hidden" name="sort" value="0">
+                            <div class="form-group">
+                                <label class="col-sm-1 control-label">套餐名称</label>
+                                <div class="col-sm-5">
+                                    <input type="text" class="form-control" name="pp_name">
+                                </div>
+                                <span class="glyphicon glyphicon-arrow-up margin-top-8"></span>
+                                <span class="glyphicon glyphicon-arrow-down margin-top-8"></span>
+                                <span class="glyphicon glyphicon-plus package-plus margin-top-8"
+                                      onclick="packagePlus(this)"></span>
+                                <span class="glyphicon glyphicon-minus package-minus margin-top-8"></span>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-1 control-label">套餐描述</label>
+                                <div class="col-sm-5">
+                                    <textarea type="text" name="pp_description" class="form-control"></textarea>
+                                </div>
+                            </div>
+                            <div class="product_list">
+                                <div class="form-group">
+                                    <label class="col-sm-1 control-label">添加产品</label>
+                                    <div class="col-sm-2">
+                                        <select class="form-control productID_select" name="pp2p_product_id_0">
+                                            <option value="">---------------</option>
+                                            {% for product in pp2p_product_list %}
+                                                {% if pp2p.pp2p_product_id ==  product.id %}
+                                                    <option value="{{ product.id }}"
+                                                            selected>{{ product.p_name }}</option>
+                                                {% else %}
+                                                    <option value="{{ product.id }}">{{ product.p_name }}</option>
+                                                {% endif %}
+                                            {% endfor %}
+                                            <option value="noBuy" class="noBuyOption">不购买该产品</option>
+                                        </select>
+                                    </div>
+{#                                    <label class="col-sm-1 control-label">价格</label>#}
+{#                                    <div class="col-sm-1">#}
+{#                                        <input type="text" class="form-control" name="pp2p_price_0">#}
+{#                                    </div>#}
+                                    <span class="glyphicon glyphicon-plus product-plus margin-top-8"
+                                          onclick="productPlus(this)"></span>
+                                    <span class="glyphicon glyphicon-minus product-minus margin-top-8"></span>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-1 control-label">产品描述</label>
+                                    <div class="col-sm-5">
+                                        <textarea type="text" name="pp2p_description_0" class="form-control"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+        <div class="btn-block" style="margin-left: 300px;margin-top: 10px">
+            <a class="btn btn-default" style="width: 100px" href="{% url 'product_all' %}">取消</a>
+            <button type="button" id="product-btn" class="btn btn-primary" style="width: 100px">保存</button>
+        </div>
+    </form>
+
+
+{% endblock %}
+
+{% block scripts %}
+    <script type="text/javascript" src="/static/js/product_add.js"></script>
+    <script type="text/javascript" src="/static/js/pp_edit.js"></script>
+{% endblock %}

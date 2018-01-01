@@ -1,3 +1,4 @@
+# coding:utf-8
 from django.shortcuts import render, redirect, HttpResponse
 from django.db import connection
 from django.http import JsonResponse
@@ -26,6 +27,7 @@ def manage(request, *args, **kwargs):
 
 @login_required
 def assign_employee(request):
+    result_dict = {'status': 200, 'message': None, 'data': None}
     form_obj = AssignEmployeeForm(request.POST)
     if form_obj.is_valid():
         form_obj.save()
@@ -43,6 +45,7 @@ def assign_employee(request):
 
 # @login_required
 def order_business(request, id, *args, **kwargs):
+    result_dict = {'status': 200, 'message': None, 'data': None}
     process_obj = models.Process.objects.filter(order_id=id).values('process_name',
                                                                     'step_name',
                                                                     'employee_name',
@@ -63,7 +66,6 @@ def order(request, *args, **kwargs):
     action_list = kwargs.get('action_list')
     menu_string = kwargs.get('menu_string')
     order_code_list = models.Orders.objects.values('ctime', 'order_code').distinct()
-    import pymysql
     from django.db import DefaultConnectionProxy
     cursor = connection.cursor()
     cursor.execute("SELECT B.*,A.payment FROM orders_payment AS A LEFT JOIN orders AS B ON A.order_code=B.order_code")
@@ -77,6 +79,36 @@ def order(request, *args, **kwargs):
                                                   'order_code_list': order_code_list,
                                                   'order_status_dict': order_status_dict,
                                                   'title': title_dict['order']})
+
+
+@login_required
+def pay_state(request):
+    result_dict = {'status': 200, 'message': '订单状态修改成功', 'data': None}
+    code = request.POST.get('code')
+    status = request.POST.get('status')
+    payment = request.POST.get('payment')
+
+    models.OrderPayment.objects.filter(order_code=code).update(status=status, payment=payment)
+    order_obj = models.Orders.objects.filter(order_code=code).all()
+    if order_obj:
+        for line in order_obj:
+            line.order_state = 1
+            line.save()
+            order_serice_dict = {
+                'order_id': line.id,
+                'city': line.city,
+                'area': line.area,
+
+            }
+            try:
+                models.OrderSerice.objects.create(**order_serice_dict)
+            except Exception as e:
+                pass
+        return JsonResponse(result_dict)
+    else:
+        result_dict['status'] = 404
+        result_dict['message'] = '非法操作'
+    return JsonResponse(result_dict)
 
 
 # @login_required
@@ -97,4 +129,5 @@ def payment(request, *args, **kwargs):
     common_info = {}
     common_info['menu_string'] = kwargs.get('menu_string')
     common_info['title'] = title_dict['payment']
+    # common_info['html_url'] = 'service/payment.html'
     return base.table_obj_list(request, 'reposition', 'orderpayment', common_info)

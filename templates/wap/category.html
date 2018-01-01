@@ -1,0 +1,114 @@
+{% extends 'wap/base/base_weui.html' %}
+
+{% block css %}
+    <style>
+        .weui-cells {
+            line-height: 1.41176471;
+            background-color: inherit;
+            font-size: 12px;
+            margin-top: 0;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .title_line {
+            background-color: #01baf8;
+            vertical-align: middle;
+            width: .2rem;
+            height: .8rem;
+            display: inline-block;
+        }
+
+        .weui-navbar {
+            z-index: 500;
+            top: 0;
+            position: relative;
+        }
+
+        .weui-navbar__item {
+            position: relative;
+            background-color: #f3f6f6;
+            -webkit-box-flex: 1;
+            -webkit-flex: 1;
+            flex: 1;
+            display: inline;
+            text-align: center;
+            font-size: 15px;
+            -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+        }
+
+        .weui-navbar + .weui-tab__bd {
+            padding-top: 0;
+        }
+
+        .weui-tab__bd-item {
+            background-color: white;
+        }
+
+        .weui-navbar__item.weui-bar__item--on {
+            background-color: white;
+        }
+    </style>
+{% endblock %}
+
+{% block content %}
+    <div class="weui-flex weui-tab">
+        <div class="item-category weui-navbar">
+            {% for cate in cate_list %}
+                {% for key in cate.keys %}
+                    <a class="weui-navbar__item {% if forloop.parentloop.counter == 1 %}weui-bar__item--on{% endif %}"
+                       href="#tab{{ forloop.parentloop.counter }}">
+                        <div class="weui-cells">
+                            <div class="weui-cell">
+                                <div class="weui-cell__bd">
+                                    <p style="font-size: 13px">{{ key.1 }}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                {% endfor %}
+            {% endfor %}
+        </div>
+        <div class="weui-flex__item weui-tab__bd">
+            {% for cate in cate_list %}
+
+                {#                    {% for k,v in values.items %}#}
+                <div id="tab{{ forloop.counter }}"
+                     class="weui-tab__bd-item {% if forloop.counter == 1 %}weui-tab__bd-item--active{% endif %}">
+                    {% for values_list in cate.values %}
+                        {% for dict in values_list %}
+                            {% for k,value in dict.items %}
+                                <div class="weui-cells">
+                                    <div class="weui-cell">
+                                        <div class="weui-cell__bd">
+                                            <p>
+                                                <span class="title_line"></span>
+                                                {{ k.1 }}
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="item-list">
+                                    <div class="weui-cells">
+                                        {% for v in value %}
+                                            <a class="weui-cell weui-cell_access" href="{% url 'wap_p_category' v.0 %}">
+                                                <div class="weui-cell__bd">
+                                                    <p>{{ v.1 }}</p>
+                                                </div>
+                                                <div class="weui-cell__ft">
+                                                </div>
+                                            </a>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        {% endfor %}
+                    {% endfor %}
+                </div>
+                {#                    {% endfor %}#}
+
+            {% endfor %}
+        </div>
+    </div>
+    {% include 'wap/base/__footer.html' %}
+{% endblock %}

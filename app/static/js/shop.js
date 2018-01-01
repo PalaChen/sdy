@@ -14,6 +14,7 @@ $(function () {
     BindClickCoupon();
     CouponLinkage();
     ClickCoupon();
+
 });
 
 coupon_price = 0;
@@ -50,13 +51,13 @@ function BindTotalPrice(product_id, number, commodity_type) {
 
     $('#totalPayPrice').text(p_total);
     var csrfmiddlewaretoken = $('input[name="csrfmiddlewaretoken"]').val();
-    data = {
+    var data = {
         'nid': product_id,
         'number': number,
         'csrfmiddlewaretoken': csrfmiddlewaretoken,
         'type': commodity_type
     };
-    console.log(data)
+    // console.log(data)
     SendAjax(data)
 
 }
@@ -67,7 +68,8 @@ function BindReduceNumber() {
         var number = $(this).next('.t-productNum').val();
         var product_id = $(this).next('.t-productNum').attr('nid');
         var cprice = $(this).next('.t-productNum').attr('p_price');
-        if (number == 1) {}
+        if (number == 1) {
+        }
         else {
             number = number * 1 - 1;
             $(this).next('.t-productNum').val(number);
@@ -141,13 +143,13 @@ function BindDelete() {
         }
         else {
             clickState = 1;
-            pid = $(this).attr('pid');
+            var pid = $(this).attr('pid');
             if (pid) {
-                url = '/cart_del.html?type=0&pid=' + pid;
+                var url = '/cart_del.html?type=0&pid=' + pid;
             }
             else {
-                ppid = $(this).attr('ppid');
-                url = '/cart_del.html?type=1&ppid=' + ppid;
+                var ppid = $(this).attr('ppid');
+                var url = '/cart_del.html?type=1&ppid=' + ppid;
             }
 
             var ths = this;
@@ -161,10 +163,10 @@ function BindDelete() {
                     else {
                         alert('非法操作,请重新刷新页面')
                     }
-                    clickState = 0
                 }
 
             })
+            clickState = 0
         }
     })
 }
@@ -251,21 +253,33 @@ function ClickCoupon() {
     $('#coupon1 input').click(function () {
         var price = parseInt($(this).attr('price'));
         var kind = $(this).attr('kind');
+        var coupon_id = $(this).val();
+        var csrfmiddlewaretoken = $('input[name="csrfmiddlewaretoken"]').val();
+        var coupon_data = {'nid': coupon_id, 'csrfmiddlewaretoken': csrfmiddlewaretoken, 'price': price};
         if ($(this).is(':checked')) {
             if (kind == 0) {
                 coupon_price += price;
                 $('#couponPrice').text(coupon_price);
                 BindTotalPrice();
+
+                api.couponAdd(coupon_data, CouponCallback)
             }
+
         }
         else {
             if (kind == 0) {
-                coupon_price -= price;
+                coupon_price = coupon_price - price;
                 $('#couponPrice').text(coupon_price);
                 BindTotalPrice();
+                api.couponDel(coupon_data, CouponCallback)
+
             }
+
         }
 
     })
+
+}
+function CouponCallback() {
 
 }

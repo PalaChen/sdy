@@ -14,13 +14,7 @@
         </p>
     </div>
     <div class="article-content">
-        <div class="article-content">
-            <div>
-                <p>
-                    {{ post.articlesdetails.content|safe }}
-                </p>
-            </div>
-        </div>
+        {{ post.articlesdetails.content|safe }}
     </div>
 
 {% endblock %}

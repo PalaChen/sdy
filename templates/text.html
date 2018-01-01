@@ -1,0 +1,360 @@
+{% extends 'wap/base/base_weui.html' %}
+
+{% block css %}
+    <style>
+        .weui-navbar__item {
+            font-size: 11px;
+        }
+
+        .serprovider_msg-normal {
+            width: 100px;
+            display: inline-block;
+            padding-bottom: .52rem;
+        }
+
+        .serprovider_price-normal {
+            float: right;
+            display: inline-block;
+            width: 4rem;
+            text-align: right;
+        }
+
+        .proname_text {
+            font-size: .65rem;
+            color: #333;
+            font-weight: 700;
+        }
+
+        .title_type {
+            font-size: 0.6rem;
+            color: #fa444e;
+        }
+
+        .item_msg {
+            font-size: .55rem;
+            color: #666;
+        }
+
+        .item_price {
+            font-size: .5rem;
+            color: #999;
+        }
+
+        .total_price {
+            font-size: .6rem;
+            color: #666;
+        }
+
+        .single_btn {
+            padding: .26667rem 0;
+            text-align: right;
+            border-top: 1.1px solid #d9d9d9;
+            margin: 0 .29333rem;
+        }
+
+        .btn_cancel, .btn_pay {
+            line-height: 1rem;
+            width: 3.5rem;
+            background-color: #fff;
+            font-size: .6rem;
+            -moz-border-radius: .06667rem;
+            -webkit-border-radius: .06667rem;
+            border-radius: .06667rem;
+            text-align: center;
+            display: inline-block;
+        }
+
+        .btn_cancel {
+            border: 1.1px solid #999;
+            color: #666;
+        }
+
+        .btn_pay {
+            border: 1.1px solid #fa444e;
+            margin-left: .13333rem;
+            color: #fa444e;
+        }
+
+        .nobody {
+            display: inline-block;
+            font-size: .5rem;
+            margin-left: .26667rem;
+            color: #999;
+            vertical-align: middle;
+        }
+
+        .content_progress {
+            background-color: #f3f6f6;
+
+            line-height: .8rem;
+            margin-top: 10px;
+        }
+
+        .weui-navbar + .weui-tab__bd {
+            padding-top: 40px;
+        }
+
+        .weui-navbar__item.weui-bar__item--on {
+            color: #00baf8;
+        }
+    </style>
+{% endblock %}
+
+{% block content %}
+
+    <div class="weui-tab">
+        <div class="weui-navbar">
+            <a class="weui-navbar__item weui-bar__item--on" href="#tab1">
+                全部
+            </a>
+            <a class="weui-navbar__item" href="#tab2">
+                待付款
+            </a>
+            <a class="weui-navbar__item" href="#tab3">
+                办理中
+            </a>
+            <a class="weui-navbar__item" href="#tab4">
+                待评价
+            </a>
+        </div>
+        <div class="weui-tab__bd">
+            <div id="tab1" class="weui-tab__bd-item weui-tab__bd-item--active">
+                <div class="content_progress">
+                    {% if order_dict %}
+                        {% for order_code,data in order_dict.items %}
+                            <div class="weui-cells"
+                                 style="margin-top: 10px;{% if forloop.revcounter0 == 0 %}margin-bottom: 60px"{% endif %}>
+                                <div class="single_pro">
+                                    {% if data.num == 1 %}
+                                        <div class="weui-cell" style="padding: 10px 15px 0 15px">
+                                            <div class="weui-cell__bd">
+                                                <p class="proname_text">{{ data.product.0.product_name }}</p>
+                                            </div>
+                                            <div class="weui-cell__ft">
+                                                <span class="title_type">{{ data.product.0.get_order_state_display }}</span>
+                                            </div>
+                                        </div>
+                                    {% else %}
+                                        <div class="weui-cell" style="padding: 10px 15px 0 15px">
+                                            <div class="weui-cell__bd">
+                                                <p class="proname_text">必备套餐</p>
+                                            </div>
+                                            <div class="weui-cell__ft">
+                                                <span class="title_type">{{ data.product.0.get_order_state_display }}</span>
+                                            </div>
+                                        </div>
+                                    {% endif %}
+                                    {% for p in data.product %}
+                                        <div class="pro_serprovider" style="padding: 8px 15px">
+                                            <p class="item_msg">
+                                                <span class="msg_area">北京-朝阳区</span>
+                                                <span class="msg_price">{{ p.cprice }}元</span>
+                                                <span class="msg_num">×{{ p.number }}</span>
+                                            </p>
+
+                                        </div>
+                                        <div class="item_price" style="padding: 8px 15px">
+                                            <div class="serprovider_msg-normal">
+                                                <p class="coupon">优惠{{ p.coupon }}元</p>
+                                            </div>
+                                            <p class="serprovider_price-normal">实付：<span
+                                                    class="total_price">{{ p.total_price }}元</span>
+                                            </p>
+                                        </div>
+                                    {% endfor %}
+                                    <div class="single_btn">
+                                        <a class="btn_cancel">取消订单</a>
+                                        <a class="btn_pay">{{ data.product.0.get_order_state_display }}</a>
+                                    </div>
+                                </div>
+                            </div>
+
+                        {% endfor %}
+                    {% else %}
+                        <p class="nobody">暂时没有数据</p>
+                    {% endif %}
+                </div>
+            </div>
+            <div id="tab2" class="weui-tab__bd-item">
+                <div class="content_progress">
+                    {% if orderState_dict.1 > 0 %}
+                        {% for order_code,data in order_dict.items %}
+                            {% if data.status == 0 %}
+                                <div class="weui-cells" style="margin-top: 10px;">
+                                    <div class="single_pro">
+                                        <div class="weui-cell" style="padding: 10px 15px 0 15px">
+                                            <div class="weui-cell__bd">
+                                                <p class="proname_text">
+                                                    {% if num == 1 %}{{ data.product.0.product_name }}{% else %}
+                                                        必备套餐{% endif %}</p>
+                                            </div>
+                                            <div class="weui-cell__ft">
+                                                <span class="title_type">{% if num == 1 %}
+                                                    {{ data.product.0.get_order_state_display }}{% else %}
+                                                    {{ data.product.0.get_order_state_display }}{% endif %}</span>
+                                            </div>
+                                        </div>
+                                        {% for p in data.product %}
+                                            <div class="pro_serprovider" style="padding: 8px 15px">
+                                                <p class="item_msg">
+                                                    <span class="msg_area">北京-朝阳区</span>
+                                                    <span class="msg_price">{{ p.cprice }}元</span>
+                                                    <span class="msg_num">×{{ p.number }}</span>
+                                                </p>
+
+                                            </div>
+                                            <div class="item_price" style="padding: 8px 15px">
+                                                <div class="serprovider_msg-normal">
+                                                    <p class="coupon">优惠{{ p.coupon }}元</p>
+                                                </div>
+                                                <p class="serprovider_price-normal">实付：<span
+                                                        class="total_price">{{ p.total_price }}元</span>
+                                                </p>
+                                            </div>
+                                        {% endfor %}
+                                        <div class="single_btn">
+                                            <a class="btn_cancel">取消订单</a>
+                                            <a class="btn_pay">{{ data.product.0.get_order_state_display }}</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endif %}
+                        {% endfor %}
+                    {% else %}
+                        <div class="content_progress" style="text-align: center">
+                            <p class="nobody">暂时没有数据</p>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+            <div id="tab3" class="weui-tab__bd-item ">
+                {% if orderState_dict.2 > 0 %}
+                    {% for order_code,data in order_dict.items %}
+                        <div class="weui-cells"
+                             style="margin-top: 10px;{% if forloop.revcounter0 == 0 %}margin-bottom: 60px" {% endif %}>
+
+                            <div class="single_pro">
+                                {% if data.status == 1 or data.status == 2 or data.status == 5 %}
+
+                                    {% if num == 1 %}
+                                        <div class="weui-cell" style="padding: 10px 15px 0 15px">
+                                            <div class="weui-cell__bd">
+                                                <p class="proname_text">{{ data.product.0.product_name }}</p>
+                                            </div>
+                                            <div class="weui-cell__ft">
+                                                <span class="title_type">{{ data.product.0.get_order_state_display }}</span>
+                                            </div>
+                                        </div>
+                                    {% else %}
+                                        <div class="weui-cell" style="padding: 10px 15px 0 15px">
+                                            <div class="weui-cell__bd">
+                                                <p class="proname_text">必备套餐</p>
+                                            </div>
+                                            <div class="weui-cell__ft">
+                                                <span class="title_type">{{ data.product.0.get_order_state_display }}</span>
+                                            </div>
+                                        </div>
+                                    {% endif %}
+                                    {% for p in data.product %}
+                                        <div class="pro_serprovider" style="padding: 8px 15px">
+                                            <p class="item_msg">
+                                                <span class="msg_area">北京-朝阳区</span>
+                                                <span class="msg_price">{{ p.cprice }}元</span>
+                                                <span class="msg_num">×{{ p.number }}</span>
+                                            </p>
+
+                                        </div>
+                                        <div class="item_price" style="padding: 8px 15px">
+                                            <div class="serprovider_msg-normal">
+                                                <p class="coupon">优惠{{ p.coupon }}元</p>
+                                            </div>
+                                            <p class="serprovider_price-normal">实付：<span
+                                                    class="total_price">{{ p.total_price }}元</span>
+                                            </p>
+                                        </div>
+                                    {% endfor %}
+                                    <div class="single_btn">
+                                        <a class="btn_cancel">取消订单</a>
+                                        <a class="btn_pay">{{ data.product.0.get_order_state_display }}</a>
+                                    </div>
+                                    </div>
+                                    </div>
+                                {% endif %}
+                    {% endfor %}
+                {% else %}
+                    <div class="content_progress" style="text-align: center">
+                        <p class="nobody">暂时没有数据</p>
+                    </div>
+                {% endif %}
+            </div>
+            <div id="tab4" class="weui-tab__bd-item">
+                {% if orderState_dict.2 > 0 %}
+                    {% for order_code,data in order_dict.items %}
+
+                        <div class="weui-cells"
+                             style="margin-top: 10px;{% if forloop.revcounter0 == 0 %}margin-bottom: 60px" {% endif %}>
+
+
+                            <div class="single_pro">
+                                {% if data.status == 4 %}
+
+                                    {% if num == 1 %}
+                                        <div class="weui-cell" style="padding: 10px 15px 0 15px">
+                                            <div class="weui-cell__bd">
+                                                <p class="proname_text">{{ data.product.0.product_name }}</p>
+                                            </div>
+                                            <div class="weui-cell__ft">
+                                                <span class="title_type">{{ data.product.0.get_order_state_display }}</span>
+                                            </div>
+                                        </div>
+                                    {% else %}
+                                        <div class="weui-cell" style="padding: 10px 15px 0 15px">
+                                            <div class="weui-cell__bd">
+                                                <p class="proname_text">必备套餐</p>
+                                            </div>
+                                            <div class="weui-cell__ft">
+                                                <span class="title_type">{{ data.product.0.get_order_state_display }}</span>
+                                            </div>
+                                        </div>
+                                    {% endif %}
+                                    {% for p in data.product %}
+                                        <div class="pro_serprovider" style="padding: 8px 15px">
+                                            <p class="item_msg">
+                                                <span class="msg_area">北京-朝阳区</span>
+                                                <span class="msg_price">{{ p.cprice }}元</span>
+                                                <span class="msg_num">×{{ p.number }}</span>
+                                            </p>
+
+                                        </div>
+                                        <div class="item_price" style="padding: 8px 15px">
+                                            <div class="serprovider_msg-normal">
+                                                <p class="coupon">优惠{{ p.coupon }}元</p>
+                                            </div>
+                                            <p class="serprovider_price-normal">实付：<span
+                                                    class="total_price">{{ p.total_price }}元</span>
+                                            </p>
+                                        </div>
+                                    {% endfor %}
+                                    <div class="single_btn">
+                                        <a class="btn_cancel">取消订单</a>
+                                        <a class="btn_pay">{{ data.product.0.get_order_state_display }}</a>
+                                    </div>
+                                    </div>
+                                    </div>
+                                {% endif %}
+                    {% endfor %}
+                {% else %}
+                    <div class="content_progress" style="text-align: center">
+                        <p class="nobody">暂时没有数据</p>
+                    </div>
+                {% endif %}
+            </div>
+            {% include 'wap/base/__footer.html' %}
+        </div>
+
+    </div>
+
+
+
+
+{% endblock %}

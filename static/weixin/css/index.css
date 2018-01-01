@@ -1,0 +1,70 @@
+
+.mycenter_head {
+    background-size: cover;
+    background-repeat: no-repeat;
+    text-align: center;
+    overflow: hidden;
+    background-color: #00c9ff;
+    border-bottom: 1.1px solid #d9d9d9;
+    height: 150px;
+}
+
+.mycenter_head .head-unlog {
+    margin: 60px auto;
+    width: 120px;
+    display: block;
+    border: 1px solid white;
+}
+
+.mycenter_head .head-unlog p {
+    color: #fff;
+    display: inline-block;
+    font-weight: 400;
+}
+
+.mycenter_head .head-unlog span {
+    width: .02667rem;
+    height: .37333rem;
+    display: inline-block;
+    background-color: #fff;
+    margin: 0 .22667rem;
+    vertical-align: middle;
+}
+
+.qifeng_p {
+    padding-left: 15px;
+    padding-right: 15px;
+    font-size: 14px;
+    margin: 10px 0px;
+}
+
+.login_logo {
+    margin-top: 20px;
+    text-align: center;
+    margin-bottom: 50px;
+}
+
+.login_logo img {
+    max-width: 50%;
+}
+
+.findpass_head {
+    width: 100%;
+    text-align: center;
+    margin-top: 5px;
+    margin-bottom: 10px;
+}
+
+.findpass_head img {
+    max-width: 98%;
+    height: auto;
+}
+
+.placeholder {
+    margin: 5px;
+    padding: 0 10px;
+    height: 2.3em;
+    line-height: 2.3em;
+    text-align: center;
+    color: #00c9ff;
+}

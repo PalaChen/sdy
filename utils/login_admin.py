@@ -3,6 +3,7 @@ from django.urls import reverse
 from utils.menu import MenuHelper
 import functools
 
+
 # @functools.wraps
 def login_required(func):
     def inner(request, *args, **kwargs):
@@ -16,13 +17,14 @@ def login_required(func):
 
     return inner
 
+
 # @functools.wraps
 def permission(func):
     def inner(request, *args, **kwargs):
         user_info = request.session.get('user_info')
         if not user_info:
             return redirect('admin_login')
-        obj = MenuHelper(request, user_info['email'])
+        obj = MenuHelper(request, user_info.get('email'))
         action_list = obj.actions()
         if not action_list:
             return HttpResponse('无权访问')

@@ -83,6 +83,10 @@ function bindShowModalGenernal() {
             $("#Model_UploadEditInfo").modal('show');
             get_Modal_Info($(this), type)
         }
+        else if(type=='banner_edit'){
+            $("#Model_UploadEditInfo").modal('show');
+            get_Modal_Info($(this), type)
+        }
         else if (type == 'p_category_edit') {
             var model = '#Model_EditInfo';
             $(model).modal('show');
@@ -270,6 +274,7 @@ function bindOnlyClick() {
     // glyphicon-pencil my_task中修改具体业务步骤
 
 };
+
 // 输入框点击按钮发送请求信息
 function bindOnlyInputBtnClick() {
     // 输入框点击按钮发送修改请求信息
@@ -391,16 +396,22 @@ function bindUploadSave(modal, type) {
             });
             var v1 = $(modal + ' .modal-body').find("input[name='status']:checked").val();
             var csrf = $(modal + ' .modal-body').find("input[name='csrfmiddlewaretoken']").val();
+            var position = $(modal + ' .modal-body').find("select[name='position']").val();
             data.append('csrfmiddlewaretoken', csrf);
             data.append('status', v1);
             data.append('img', file_obj);
+            data.append('position', position);
 
             if (type == 'bxslider_add') {
                 var url = '/admin/site/bxslider_add.html';
             }
             else if (type == 'bxslider_edit') {
                 var url = '/admin/site/bxslider_edit.html';
-
+            }
+            else if (type == 'banner_add') {
+                var url = '/admin/site/banner_add.html';
+            } else if (type == 'banner_edit') {
+                var url = '/admin/site/banner_edit.html';
             }
             setTimeout(send_Add_Ajax_Info(url, data, modal), 5000);
         }
@@ -425,6 +436,9 @@ function send_Add_Ajax_Info(url, data, modal) {
                 alert(arg['message'])
             }
             clickState = 0
+        },
+        error:function (arg) {
+            clickState=0
         }
     });
 

@@ -1,0 +1,63 @@
+{% extends 'wap/base/base_weui.html' %}
+
+{% block css %}
+    <style>
+        .progress_loading {
+            display: inline-block;
+            vertical-align: middle;
+        }
+
+        .ng-binding {
+            background-color: #f3f6f6;
+            text-align: center;
+            font-size: 12px;
+            line-height: .8rem;
+        }
+
+        .saveBtn {
+            line-height: 30px;
+            width: 98%;
+
+            font-size: 12px;
+            color: #fff;
+            text-align: center;
+            background-color: #01baf8;
+        }
+    </style>
+{% endblock %}
+
+{% block content %}
+    <div class="weui-tab">
+        <div class="weui-navbar">
+            <a class="weui-navbar__item weui-bar__item--on" href="#tab1">
+                选择代金卷
+            </a>
+            <a class="weui-navbar__item" href="#tab2">
+                输入代金卷
+            </a>
+        </div>
+        <div class="weui-tab__bd">
+            <div id="tab1" class="weui-tab__bd-item weui-tab__bd-item--active">
+                <div class="progress_loading">
+
+                </div>
+                <p class="ng-binding" style="margin-top: 20px;color: #999">暂时没有数据</p>
+            </div>
+            <div id="tab2" class="weui-tab__bd-item">
+                <div class="weui-cells" style="margin-top: 10px">
+                    <div class="weui-cell">
+                        <div class="weui-cell__bd">
+                            <input class="weui-input" placeholder="请输入代金卷" type="text" style="font-size: 12px">
+                        </div>
+                    </div>
+                    <div class="weui-cell">
+                        <div class="weui-cell__bd">
+                            <p class="saveBtn">确认使用</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+{% endblock %}

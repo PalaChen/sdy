@@ -191,10 +191,10 @@
                         </div>
                     </div>
                     <div class="btn" style="">
-                        <a class="payment btn_buy"
-                           onclick="bugProduct('/product/buy.html?pid={{ product_obj.id }}','buy')">购买</a>
-{#                        <a class="consult"#}
-{#                           onclick="bugProduct('/product/buy.html?pid={{ product_obj.id }}','cart')">放入购物车</a>#}
+                        <input type="hidden" value="{{ product_obj.id }}" name="product_id">
+                        <a id="product_bug" class="payment btn_buy" onclick="bugProduct()">购买</a>
+                        {#                        <a class="consult"#}
+                        {#                           onclick="bugProduct('/product/buy.html?pid={{ product_obj.id }}','cart')">放入购物车</a>#}
                     </div>
 
                 </div>
@@ -267,7 +267,7 @@
                                         <a class="forget-pass" href="{% url 'forgetpass' %}" target="_blank">忘记密码？</a>
                                     </div>
                                     <div class="register-li register-li-line">
-                                        <a id="loginButton" class="reg-now">登录</a>
+                                        <a id="loginButton" class="reg-now" style="line-height:34px">登录</a>
                                     </div>
                                 </div>
                             </form>
@@ -309,180 +309,16 @@
     <script type="text/javascript" src="/static/js/cityJson.js"></script>
     <script type="text/javascript" src="/static/js/citySet.js"></script>
     <script type="text/javascript" src="/static/js/Popt.js"></script>
+    <script type="text/javascript" src="/static/js/api.js"></script>
+    <script type="text/javascript" src="/static/js/product.js"></script>
     <script src="/static/plugins/bootstrap/js/bootstrap.js"></script>
-    {# 获取产品对应的城市信息 #}
+
+
+
     <script>
-        $(function () {
-            url = window.location.href;
-            var num = url.match(/\d+/g).pop();
-            $.ajax({
-                url: 'product_city.html' + '?nid=' + num,
-                type: 'GET',
-                success: function (arg) {
-                    //console.log(arg);
-                    if (arg['status'] == 200) {
-                        //console.log(arg['message']);
-                        city_dict = arg['message'];
-                        $('#city').val(city_dict['city'] + '-' + city_dict['area'])
-                    }
-                }
-            })
-        })
-    </script>
-    <script>
-        $(function () {
-            bindOnlyClick();
-            bindCategoryShow();
-        });
         $("#city").click(function (e) {
             SelCity(this, e);
         });
-        function bugProduct(url, type) {
-            clickState_1 = 0;
-            if (clickState_1 == 1) {
-            }
-            else {
-                clickState_1 = 1;
-                $.ajax({
-                    url: url,
-                    type: 'GET',
-                    data: '',
-                    dataType: "json",
-                    success: function (arg) {
-                        //console.log(arg);
-                        if (arg['status'] == 200) {
-                            if (type == 'buy') {
-                                //console.log(arg['data']);
-                                if (arg['data']) {
-                                    //console.log(arg['url']);
-                                    $('#iframeid').attr('src', arg['url']);
-                                    $('#Modal_Package').modal('show');
-                                }
-                                else {
-                                    window.location.replace(arg['url'])
-                                }
-                            }
-                            else if (type == 'cart') {
-                                window.location.replace(arg['url'])
-                            }
-                            clickState_1 = 0
-                        }
-                        else {
-                            $('#Modal_Login').modal('show');
-                            clickState_1 = 0
-                        }
-                    }
-                });
-            }
-
-        }
-        var clickState = 1;
-        // 模态框
-        function bindOnlyClick() {
-            $('#loginButton').click(function () {
-                var data = $('#fm_body');
-                var url = '/login_ajax.html';
-                var modal = 'Modal_Login';
-                //console.log(url);
-                send_Ajan_Info(url, data, modal)
-            });
-            $('#user_getcode').click(function () {
-                if (clickState == 1) {
-                }
-                else {
-                    clickState = 1;
-                    var phone = $('#Modal_Register input[name="phone"]').val();
-                    var url = "user/get_verify_code.html?" + "phone=" + phone;
-                    setTimeout(Send_Ajax_VerifyCode(url, this), 60000);
-                }
-            });
-        }
-        function send_Ajan_Info(url, data, modal) {
-            $.ajax({
-                url: url,
-                type: 'POST',
-                data: $(data).serialize(),
-                success: function (arg) {
-                    //console.log(arg);
-                    if (arg['status']) {
-                        window.location.reload();
-                        {#                        $(modal).modal('hide');#}
-                    } else {
-                        //console.log(arg['message']);
-                        $('.login_error').text(arg['message'])
-                    }
-                    clickState = 0;
-                }
-            });
-        }
-        function Send_Ajax_VerifyCode(url, ths) {
-            $.ajax({
-                url: url,
-                type: 'GET',
-                success: function (arg) {
-                    if (arg) {
-                        $(ths).parent().append('<span class="verCodePrompt">已发送，1分钟后可重新获取。</span>')
-                        curCount = count;
-                        $("#user_getcode").text(curCount + "秒后重发");
-                        InterValObj = window.setInterval(SetRemainTime, 1000);
-                    }
-                    clickState = 0
-                }
-            });
-        }
-
-        // 产品分类显示和隐藏
-        function bindCategoryShow() {
-            $('dl dt b').click(function () {
-                class_value = $(this).attr('class');
-                if (class_value == 'active') {
-                    $(this).removeClass('active');
-                    $(this).parent().next().removeClass('show')
-                }
-                else {
-                    $(this).addClass('active');
-                    $(this).parent().next().addClass('show')
-                }
-            })
-        }
     </script>
-    {# 获取类型对应的产品信息 #}
-    <script>
-        function openProduct(ths) {
-            nid = $(ths).attr('for');
-            $.ajax({
-                url: '/get_cat_product.html?nid=' + nid,
-                type: 'GET',
-                success: function (arg) {
-                    //console.log(arg['status']);
-                    if (arg['status'] == 200) {
-                        //console.log(arg['data']);
-                        url = '/product/' + arg['data'] + '.html';
-                        window.location.href = url;
-                    }
-                }
-            })
-        }
-    </script>
-    {# 监控地区被点击时更新产品信息 #}
-    <script>
-        function MonitorInput(ths) {
-            var p_service_id = $('.item-type').find('.active a').attr('for');
-            var area = $(ths).attr('data-id');
-            $.ajax({
-                url: 'get_product.html?nid=' + p_service_id + '&area=' + area,
-                type: 'GET',
-                success: function (arg) {
-                    if (arg['status'] == 200) {
-                        console.log(arg['data']);
-                        url = '/product/' + arg['data'] + '.html';
-                        window.location.href = url;
-                    }
-                }
-            })
-        }
-
-    </script>
-    {# 获取产品是否有套餐 #}
 
 {% endblock %}

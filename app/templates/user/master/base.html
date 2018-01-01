@@ -1,8 +1,10 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>{{ title }} - 盛德业</title>
     {% block head %}{% endblock %}
+    {% block css %}{% endblock %}
     {% include 'user/master/_head.html' %}
 </head>
 <body>
@@ -15,6 +17,5 @@
         {% include 'news/master/_footer.html' %}
     </div>
 </body>
-{% block scripts %}
-{% endblock %}
+{% block scripts %}{% endblock %}
 </html>

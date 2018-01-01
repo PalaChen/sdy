@@ -1,3 +1,4 @@
+import platform
 from django.shortcuts import render, redirect, reverse, HttpResponse
 from django.http import JsonResponse
 from backend.forms.forms_site import BxsilderForm
@@ -64,7 +65,7 @@ def author_add(request):
         else:
             error = '改名字已被使用'
     info_dict = {'title': title,
-                 'error': error,}
+                 'error': error, }
     return render(request, 'articles/author_add.html', info_dict)
 
 
@@ -130,7 +131,9 @@ def article_edit(req, article_id, *args, **kwargs):
     error = None
     if req.method == 'POST':
         if form.is_valid():
-            content, article_info = article_model(req, form)
+            employee_id = req.session.get('user_info')['employee_id']
+            author_obj = models.Author.objects.filter(employee_id=employee_id).first()
+            content, article_info = article_model(req, form, author_obj)
             models.Articles.objects.filter(id=article_id).update(**article_info)
             models.ArticlesDetails.objects.filter(article_id=article_id).update(content=content)
             return redirect('articles_all')
@@ -140,7 +143,7 @@ def article_edit(req, article_id, *args, **kwargs):
                                                       'error': error,
                                                       'menu_string': menu_string,
                                                       'article_info': article_info,
-                                                      'title': web_title['article_edit'],})
+                                                      'title': web_title['article_edit'], })
 
 
 @login_required
@@ -156,14 +159,22 @@ def article_image(request):
     if request.method == 'POST':
         files = ImageForm(request.POST, request.FILES)
         if files.is_valid():
-            img = request.FILES.get('img')
+            img = request.FILES.get('imgFile')
             data = save_image(img)
             if data:
                 data['ul_employee_id'] = request.session.get('user_info')['employee_id']
                 image_obj = models.ArticlesCoverImage.objects.create(**data)
-                res_dict['data'] = data['ul_url']
                 res_dict['message'] = image_obj.id
+                res_dict['error'] = 0
+                if platform.system() == 'Windows':
+                    url = r'\{}'.format(data['ul_url'])
+                    url = url.replace('\\', '/')
+                    res_dict['url'] = url
+                elif platform.system() == 'Linux':
+                    res_dict['url'] = r'/{}'.format(data['ul_url'])
                 return JsonResponse(res_dict)
+        else:
+            result_dict['message'] = list(files.errors.values())[0][0]
     res_dict['status'] = False
     return JsonResponse(res_dict)
 

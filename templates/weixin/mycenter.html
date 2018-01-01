@@ -1,0 +1,79 @@
+{% extends 'wap/base/base.html' %}
+
+
+
+{% block content %}
+
+
+
+    <div class="mycenter_head">
+        <a href="{% url 'wap_login' %}" class="head-unlog ng-scope">
+            <p>注册</p>
+            <span></span>
+            <p>登陆</p>
+        </a>
+    </div>
+
+    <div class="weui-grids">
+        <a href="" class="weui-grid js_grid">
+            <div class="weui-grid__icon">
+                <img src="/static/wap/images/coupon.png" alt="">
+            </div>
+            <p class="weui-grid__label">
+                我的代金卷
+            </p>
+        </a>
+        <a href="" class="weui-grid js_grid">
+            <div class="weui-grid__icon">
+                <img src="/static/wap/images/fapiao.png" alt="">
+            </div>
+            <p class="weui-grid__label">
+                我的发票
+            </p>
+        </a>
+        <a href="" class="weui-grid js_grid">
+            <div class="weui-grid__icon">
+                <img src="/static/wap/images/shop.png" alt="">
+            </div>
+            <p class="weui-grid__label">
+                购物车
+            </p>
+        </a>
+    </div>
+
+    <div class="weui-cells">
+        <a class="weui-cell weui-cell_access" href="javascript:;">
+            <div class="weui-cell__bd">
+                <p>常见问题</p>
+            </div>
+            <div class="weui-cell__ft">
+            </div>
+        </a>
+        <a class="weui-cell weui-cell_access" href="javascript:;">
+            <div class="weui-cell__bd">
+                <p>关于我们</p>
+            </div>
+            <div class="weui-cell__ft">
+            </div>
+        </a>
+        <a class="weui-cell weui-cell_access" href="javascript:;">
+            <div class="weui-cell__bd">
+                <p>在线客服</p>
+            </div>
+            <div class="weui-cell__ft">
+            </div>
+        </a>
+    </div>
+
+    <div class="weui-flex">
+        <div class="weui-flex__item">
+            <div class="placeholder">
+                <a>客服热线:400-6683-666</a>
+            </div>
+        </div>
+    </div>
+
+
+    {% include 'wap/base/__footer.html' %}
+
+{% endblock %}

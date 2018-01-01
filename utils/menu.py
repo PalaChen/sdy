@@ -35,16 +35,18 @@ def get_cate_list():
     return cate_list
 
 
-def shop_number(request):
+def user_info(request):
     user_info = request.session.get('user_info')
     shop_list = request.session.get('shop_list')
+    # print ('shop_list-->',shop_list)
+    # 用户信息不存在
     if not user_info:
-        user_info = {}
+        return
 
     if not shop_list:
         user_info['shop_number'] = 0
     else:
-        user_info['shop_number'] = len(shop_list)
+        user_info['shop_number'] = len(shop_list['product'])
     return user_info
 
 

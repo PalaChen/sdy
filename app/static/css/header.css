@@ -1295,7 +1295,7 @@ div.register-li-1 {
     display: inline-block;
     font-size: 14px;
     height: 36px;
-    line-height: 34px;
+    /*line-height: 34px;*/
     text-align: center;
     width: 254px;
 }

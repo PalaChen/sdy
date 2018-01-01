@@ -1,0 +1,162 @@
+{% extends 'wap/base/base_weui.html' %}
+{% load wap_tags %}
+{% block css %}
+    <style>
+        .weui-tab {
+            background-color: white;
+        }
+
+        .other_marks {
+            background: #00baf8;
+            width: .15rem;
+            height: .9rem;
+            display: inline-block;
+            vertical-align: middle;
+        }
+
+        .other_title {
+            font-size: .7rem;
+            margin-left: .1rem;
+            margin-bottom: .05rem;
+            width: 75%;
+            display: inline-block;
+            vertical-align: middle;
+            color: #333;
+            font-weight: 700;
+        }
+
+        .other_price {
+            color: #f9444e;
+            font-size: .6rem;
+            margin: .53333rem .29333rem .26667rem;
+            vertical-align: middle;
+            width: 1.48rem;
+            text-align: right;
+            display: inline-block;
+        }
+
+        .weui-tab {
+            height: auto;
+        }
+
+        .weui-tab__bd {
+            display: inline-block;
+            height: auto;
+        }
+
+        .weui-tab__bd .weui-tab__bd-item.weui-tab__bd-item--active {
+            display: inline;
+        }
+
+        .weui-tab__bd-item weui-tab__bd-item--active other_price {
+            display: inline;
+        }
+
+        .weui-navbar {
+            position: static;
+            margin-top: 5px;
+            background-color: white;
+            display: inherit;
+        }
+
+        .weui-media-box__desc {
+            margin-left: 10px
+        }
+
+        .weui-tab__bd .weui-tab__bd-item {
+            height: auto;
+            display: none;
+        }
+
+        .weui-navbar__item {
+            text-align: center;
+            color: #666;
+            flex: initial;
+            font-size: .6rem;
+            border: 1.1px solid #999;
+            display: inline-block;
+            padding: 0 .6rem;
+            line-height: 1.1rem;
+            margin: .3rem 0 0 .5rem
+
+        }
+
+        .order_need {
+            color: #666;
+            width: 100%;
+            height: 4rem;
+            font-size: .55rem;
+            margin-top: 5px;
+            padding: .36667rem;
+            border: 1.1px solid #d9d9d9;
+            resize: none;
+            -webkit-appearance: none;
+        }
+
+        #total_price {
+            color: red;
+            margin-right: 10px
+        }
+
+    </style>
+{% endblock %}
+{% block content %}
+    <div class="weui-cells" style="margin-top:0;background-color: #f3f6f6">
+        <div class="weui-cell">
+            <div class="weui-cell__bd">
+                <p style="font-size: .6rem;">您可能需要更多服务</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="weui-panel__bd">
+        <input type="hidden" id="nid" value="{{ product_obj.id }}">
+        <input type="hidden" id="price" value="{{ product_obj.p_price }}">
+        {% csrf_token %}
+        {% for pp in pp_obj %}
+            <div class="weui-tab">
+                <div class="weui-media-box weui-media-box_text">
+                    <div style="height: auto">
+                        <span class="other_marks"></span>
+                        <p class="other_title">{{ pp.pp_name }}</p>
+                        <div class="weui-tab__bd">{% wap_package_price pp2p_dict pp forloop.counter %}</div>
+                        <p class="weui-media-box__desc">{{ pp.pp_description }}</p>
+                    </div>
+
+                    <div class="weui-navbar">
+                        {% wap_package_info pp2p_dict pp forloop.counter %}
+                    </div>
+                </div>
+                <p></p>
+            </div>
+        {% endfor %}
+        <div class="weui-tab">
+            <div class="weui-media-box weui-media-box_text">
+                <div style="height: auto">
+                    <span class="other_marks"></span>
+                    <p class="other_title">需求描述</p>
+                    <textarea class="order_need" placeholder="还有什么其他需求"></textarea>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="weui-tabbar">
+        <div href="javascript:;" class="weui-tabbar__item" style="padding-top: 0;background-color: #fff">
+            <div style="float:right;line-height: 2.2rem;font-size: .55rem;">
+                <span>应付</span>
+                <span id="total_price">元</span>
+            </div>
+        </div>
+        <a href="javascript:;" id="bugProduct" class="weui-tabbar__item tabbar__item_right">
+            <p class="weui-tabbar__label tabbar__item_font">去购物车</p>
+        </a>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    <script src="/static/wap/js/api.js"></script>
+    <script src="/static/wap/plugins/layer_mobile/layer.js"></script>
+    <script src="/static/wap/js/serinfverify.js"></script>
+
+{% endblock %}

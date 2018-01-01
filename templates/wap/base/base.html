@@ -1,0 +1,34 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    <title>{% block title %}{% endblock %}</title>
+    <meta name="keyword" content="{% block keyword %}{% endblock %}">
+    <meta name="description" content="{% block description %}{% endblock %}">
+    {% block css %}{% endblock %}
+    {% block javascript %}{% endblock %}
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="VUM - An UI Framework for build mobile apps with vue.js">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <link href="/static/wap/css/index.css" rel="stylesheet">
+    <link href="/static/wap/plugins/vum/css/app.css" rel="stylesheet">
+
+    <link rel="stylesheet" href="//cdn.bootcss.com/weui/1.1.1/style/weui.min.css">
+    <link rel="stylesheet" href="//cdn.bootcss.com/jquery-weui/1.0.1/css/jquery-weui.min.css">
+
+</head>
+<body>
+<div class="page">
+    {% block content %}{% endblock %}
+</div>
+<script src="/static/wap/plugins/vum/js/manifest.js"></script>
+<script src="/static/wap/plugins/vum/js/vendor.js"></script>
+<script src="/static/wap/plugins/vum/js/app.js"></script>
+
+<script src="//cdn.bootcss.com/jquery/1.11.0/jquery.min.js"></script>
+<script src="//cdn.bootcss.com/jquery-weui/1.0.1/js/jquery-weui.min.js"></script>
+</body>
+</html>

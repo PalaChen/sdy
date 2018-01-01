@@ -1,0 +1,190 @@
+{% extends 'wap/base/base_weui.html' %}
+
+{% block css %}
+    <style>
+        .comquestion_qlist {
+            background-color: rgb(255, 255, 255);
+            width: 100%;
+        }
+
+        .comquestion_qlist .qlist_cell {
+            background-color: rgb(255, 255, 255);
+            padding-top: 0.53333rem;
+            overflow: hidden;
+        }
+
+        .comquestion_qlist .qlist_cell .cell_question {
+            margin-left: 0.29333rem;
+            width: 15rem;
+            font-size: 0px;
+        }
+
+        .comquestion_qlist .qlist_cell .cell_question img {
+            display: inline-block;
+            vertical-align: top;
+            margin-top: 0.05333rem;
+            width: 0.5rem;
+            height: 0.5rem;
+            margin-right: 0.29333rem;
+        }
+
+        .cell_question p {
+            display: inline-block;
+            vertical-align: top;
+            line-height: 140%;
+            color: rgb(51, 51, 51);
+            font-size: 0.5rem;
+            width: 14rem;
+        }
+
+        .cell_answer {
+            margin-left: 0.29333rem;
+            margin-top: 0.26667rem;
+            width: 15rem;
+            font-size: 0px;
+        }
+
+        .cell_answer img {
+            display: inline-block;
+            vertical-align: top;
+            margin-top: 0.05333rem;
+            width: 0.5rem;
+            height: 0.5rem;
+            margin-right: 0.29333rem;
+        }
+
+        .cell_answer p {
+            display: inline-block;
+            vertical-align: top;
+            color: rgb(153, 153, 153);
+            line-height: 140%;
+            font-size: 0.5rem;
+            width: 14rem;
+        }
+
+        .cell_hr {
+            height: 0.02667rem;
+            background-color: rgb(217, 217, 217);
+            border-width: 0px;
+            border-style: solid;
+            border-color: rgb(217, 217, 217);
+            border-image: initial;
+            margin-left: 0.90667rem;
+            margin-top: 0.53333rem;
+            margin-bottom: 0px;
+            width: 90%;
+        }
+
+    </style>
+
+{% endblock %}
+
+{% block content %}
+    <div class="comquestion_qlist">
+        <div class="comquestion_qlist">
+            <div class="qlist_cell">
+                <div class="cell_question">
+                    <img src="/static/wap/images/comquestion_q.png" alt="pic">
+                    <p>如何使用手机注册账号？</p>
+                </div>
+                <div class="cell_answer">
+                    <img src="/static/wap/images/comquestion_a.png" alt="pic">
+                    <p>
+                        在登录页面，点击页面下方的“注册”。然后填写您的常用手机（保证正确）、姓名与常用邮箱，并设置密码，即可完成注册。注册完成后，一套账号密码可以登录PC端shendeye.com，以及移动端。</p>
+                </div>
+                <hr class="cell_hr">
+            </div>
+            <div class="qlist_cell">
+                <div class="cell_question">
+                    <img src="/static/wap/images/comquestion_q.png" alt="pic">
+                    <p>如何下单？购物流程是什么？</p>
+                </div>
+                <div class="cell_answer">
+                    <img src="/static/wap/images/comquestion_a.png" alt="pic">
+                    <p>
+                        在每个产品页面下方，都会有醒目的“立即购买”按钮。点击按钮，界面会引导您先行咨询客服。客服会引导您移步PC端访问shendeye.com完成下单支付。移动端暂不支持下单支付功能，请期待后续更新。</p>
+                </div>
+                <hr class="cell_hr">
+            </div>
+            <div class="qlist_cell">
+                <div class="cell_question">
+                    <img src="/static/wap/images/comquestion_q.png" alt="pic">
+                    <p>我有疑问应该问谁？</p>
+                </div>
+                <div class="cell_answer">
+                    <img src="/static/wap/images/comquestion_a.png" alt="pic">
+                    <p>您有任何疑问，都可以直接拨打我们的客服专线 400-6683-666，我们会尽力解答您的疑问。</p>
+                </div>
+                <hr class="cell_hr">
+            </div>
+            <div class="qlist_cell">
+                <div class="cell_question">
+                    <img src="/static/wap/images/comquestion_q.png" alt="pic">
+                    <p>购买之后盛德业如何提供服务？</p>
+                </div>
+                <div class="cell_answer">
+                    <img src="/static/wap/images/comquestion_a.png" alt="pic">
+                    <p>当您完成付款操作之后，我们会立即安排专人与您联系，提供一对一的专项服务。</p>
+                </div>
+                <hr class="cell_hr">
+            </div>
+            <div class="qlist_cell">
+                <div class="cell_question">
+                    <img src="/static/wap/images/comquestion_q.png" alt="pic">
+                    <p>我需要一个法律服务，但是在网站上找不到对应的产品，怎么办？</p>
+                </div>
+                <div class="cell_answer">
+                    <img src="/static/wap/images/comquestion_a.png" alt="pic">
+                    <p>目前网站上提供的是标准化的产品服务，如果您需要其他服务，只要与法律或企业的工商财税方面相关，都可以拨打我们的客服专线
+                        400-6683-666进行咨询，我们会针对您的具体需求，提供个性化的服务。</p>
+                </div>
+                <hr class="cell_hr">
+            </div>
+            <div class="qlist_cell">
+                <div class="cell_question">
+                    <img src="/static/wap/images/comquestion_q.png" alt="pic">
+                    <p>盛德业能够服务哪些城市？</p>
+                </div>
+                <div class="cell_answer">
+                    <img src="/static/wap/images/comquestion_a.png" alt="pic">
+                    <p>详情可以在每个产品的详情页面醒目位置查询到。</p>
+                </div>
+                <hr class="cell_hr">
+            </div>
+            <div class="qlist_cell">
+                <div class="cell_question">
+                    <img src="/static/wap/images/comquestion_q.png" alt="pic">
+                    <p>盛德业的营业时间？</p>
+                </div>
+                <div class="cell_answer">
+                    <img src="/static/wap/images/comquestion_a.png" alt="pic">
+                    <p>盛德业客服6×12小时接听客户任何服务咨询与反馈。</p>
+                </div>
+                <hr class="cell_hr">
+            </div>
+            <div class="qlist_cell">
+                <div class="cell_question">
+                    <img src="/static/wap/images/comquestion_q.png" alt="pic">
+                    <p>代金券怎么用？</p>
+                </div>
+                <div class="cell_answer">
+                    <img src="/static/wap/images/comquestion_a.png" alt="pic">
+                    <p>购买产品服务时在下单页面，可以使用代金券支付抵扣相应的费用。代金券有有效期，请在有效期之内使用，每次使用仅限1张。</p>
+                </div>
+                <hr class="cell_hr">
+            </div>
+            <div class="qlist_cell">
+                <div class="cell_question">
+                    <img src="/static/wap/images/comquestion_q.png" alt="pic">
+                    <p>我购买的服务出现了问题，怎么办？</p>
+                </div>
+                <div class="cell_answer">
+                    <img src="/static/wap/images/comquestion_a.png" alt="pic">
+                    <p>服务中出现任何问题，都可以马上拨打我们的客服专线 400-6683-666，我们会马上安排专人即时解决并马上反馈结果。盛德业保证对每个服务问题即时解决并负责到底。</p>
+                </div>
+                <hr class="cell_hr">
+            </div>
+        </div>
+    </div>
+{% endblock %}
+

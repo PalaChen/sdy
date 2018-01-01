@@ -1,0 +1,111 @@
+{% extends 'master_b/layout.html' %}
+{% load staticfiles %}
+{% block css %}
+    <link rel="stylesheet" type="text/css" href="{% static 'js/jquery-ui/jquery-ui.css' %}">
+{% endblock %}
+
+{% block page_content %}
+    <form class="form-horizontal" method="post">
+        {% csrf_token %}
+        <div class="form-group">
+            <label class="col-sm-1 control-label">优惠卷名称</label>
+            <div class="col-sm-5">
+                <input type="text" value="{{ coupon_obj.name }}" class="form-control" name="name" placeholder="优惠卷名称"
+                       required="">
+            </div>
+        </div>
+        {#        <div class="form-group">#}
+        {#            <label class="col-sm-1 control-label">优惠卷类型</label>#}
+        {#            <div class="col-sm-5 ">#}
+        {#                <input type="radio" value="0" name="type" checked="">#}
+        {#                代金卷#}
+        {#            </div>#}
+        {#        </div>#}
+        <div class="form-group">
+            <label class="col-sm-1 control-label">优惠卷状态</label>
+            <div class="col-sm-5">
+                {% if coupon_obj.status == 1 %}
+                    <input type="radio" value="1" name="status" checked>正常
+                    <input type="radio" value="0" name="status">冻结
+                {% else %}
+                    <input type="radio" value="1" name="status">正常
+                    <input type="radio" value="0" name="status" checked>冻结
+                {% endif %}
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-1 control-label">优惠卷金额</label>
+            <div class="col-sm-5">
+                <input type="text" name="price" class="form-control" placeholder="优惠卷金额" required=""
+                       value="{{ coupon_obj.price }}">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-1 control-label">使用门槛</label>
+            <div class="col-sm-4">
+                {% if coupon_obj.type == 0 %}
+                    <input type="radio" value="0" name="type" checked>不设门槛
+                    <input type="radio" value="1" name="type">满
+                    <input type="text" name="price_reduction" style="width: 50px">元可用
+                {% else %}
+                    <input type="radio" value="0" name="type">不设门槛
+                    <input type="radio" value="1" name="type" checked>满
+                    <input type="text" name="price_reduction" style="width: 50px" value="{{ coupon_obj.price_reduction }}">元可用
+                {% endif %}
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-1 control-label">优惠卷数量</label>
+            <div class="col-sm-5">
+                <input type="text" name="number" class="form-control" placeholder="优惠卷数量" required=""
+                       value="{{ coupon_obj.number }}">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-1 control-label">有效日期</label>
+
+            <div class="col-sm-2">
+                <input type="text" name="start_time" class="form-control date" placeholder="开始日期" required=""
+                       value="{{ coupon_obj.start_time|date:'Y-m-d' }}">
+            </div>
+            <div class="col-sm-2">
+                <input type="text" name="end_time" class="form-control date" placeholder="结束日期" required=""
+                       value="{{ coupon_obj.end_time|date:'Y-m-d' }}">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-1 control-label">说明</label>
+            <div class="col-sm-5">
+                <textarea class="form-control" name="description">{{ coupon_obj.description }}</textarea>
+            </div>
+        </div>
+        {% if error %}
+            <div class="form-group">
+                <div class="alert alert-danger col-sm-6" role="alert">
+                    <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+                    <span class="sr-only">Error:</span>
+                    {{ error }}
+                </div>
+            </div>
+        {% endif %}
+        <div class="form-group col-sm-5">
+            <a type="submit" class="btn btn-default" href="{% url 'coupon' %}">取消</a>
+            <button type="submit" class="btn btn-primary">修改优惠卷</button>
+        </div>
+    </form>
+
+
+{% endblock %}
+
+{% block scripts %}
+    <script src="/static/js/jquery-ui/jquery-ui.js"></script>
+    <script src="/static/js/jquery-ui/datapicker-zh.js"></script>
+    <script>
+        $(function () {
+            $(".date").datepicker({
+                showOtherMonths: true,
+                selectOtherMonths: true
+            });
+        });
+    </script>
+{% endblock %}

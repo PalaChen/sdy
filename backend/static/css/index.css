@@ -146,9 +146,10 @@
     left: 148px;
     right: 10px;
     bottom: 0;
-    min-height: 550px;
+    min-height: 600px;
     position: absolute;
-    overflow: auto;
+    overflow-y: auto;
+    overflow-x: auto;
 
 }
 
@@ -360,6 +361,7 @@ ul li {
     left: 50px;
     font-size: 100px;
     width: 138px;
+    overflow-x: hidden;
 }
 .a_upload_image{
     opacity: 0;
@@ -370,8 +372,8 @@ ul li {
 }
 
 .pro_image {
-    height: 220px;
-    width: 220px;
+    height: 200px;
+    width: 200px;
 }
 .art_image {
     height: 170px;
@@ -415,4 +417,8 @@ ul li {
     border-left: 1px solid #b5b4b3;
     border-bottom: 1px solid white;
     margin-bottom: 0;
+}
+
+.margin-top-8{
+    margin-top: 8px;
 }

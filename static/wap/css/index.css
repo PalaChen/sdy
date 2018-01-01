@@ -1,0 +1,237 @@
+.home_bar1_sel {
+    background-image: url("/static/wap/images/home_bar1_sel.png");
+    background-size: 100%;
+}
+
+.home_bar2_no {
+    background-image: url("/static/wap/images/home_bar2_no.png");
+    background-size: 100%;
+}
+
+.home_bar3_no {
+    background-image: url("/static/wap/images/home_bar3_no.png");
+    background-size: 100%;
+}
+
+.home_bar4_no {
+    background-image: url("/static/wap/images/home_bar4_no.png");
+    background-size: 100%;
+}
+
+.mycenter_head {
+    background-size: cover;
+    background-repeat: no-repeat;
+    text-align: center;
+    overflow: hidden;
+    background-color: #00c9ff;
+    border-bottom: 1.1px solid #d9d9d9;
+    height: 150px;
+}
+
+.mycenter_head .head-unlog {
+    margin: 60px auto;
+    width: 120px;
+    display: block;
+    border: 1px solid white;
+}
+
+.mycenter_head .head-unlog p {
+    color: #fff;
+    display: inline-block;
+    font-weight: 400;
+}
+
+.mycenter_head .head-unlog span {
+    width: .02667rem;
+    height: .37333rem;
+    display: inline-block;
+    background-color: #fff;
+    margin: 0 .22667rem;
+    vertical-align: middle;
+}
+
+.qifeng_p {
+    padding-left: 15px;
+    padding-right: 15px;
+    font-size: 14px;
+    margin: 10px 0px;
+}
+
+.login_logo {
+    margin-top: 20px;
+    text-align: center;
+    margin-bottom: 50px;
+}
+
+.login_logo img {
+    max-width: 50%;
+}
+
+.findpass_head {
+    width: 100%;
+    text-align: center;
+    margin-top: 5px;
+    margin-bottom: 10px;
+}
+
+.findpass_head img {
+    max-width: 98%;
+    height: auto;
+}
+
+.placeholder {
+    margin: 5px;
+    padding: 0 10px;
+    height: 2.3em;
+    line-height: 2.3em;
+    text-align: center;
+    color: #00c9ff;
+}
+
+.prdctinfo_top {
+    height: 150px;
+    width: 100%;
+    overflow: hidden;
+    margin-bottom: 10px;
+}
+
+.prdctinfo_top img {
+    text-align: center;
+}
+
+.product-category {
+    line-height: 2.3em;
+    text-align: center;
+    color: #999;
+    border: 1.1px solid #999;
+    margin: 0 5px;
+}
+
+#click-category {
+    color: #fa444e;
+    border: 1.1px solid #fa444e;
+}
+
+.comment-category {
+    line-height: 2.3em;
+    text-align: center;
+    color: #999;
+    border: 1.1px solid #ff9e14;
+    margin: 5px 5px;
+}
+
+.example_seeall {
+    margin: auto;
+    width: 100px;
+    height: 1.5em;
+    line-height: 1.5em;
+    font-size: 13px;
+    text-align: center;
+    color: #00c9ff;
+    border: 1.1px solid #00c9ff;
+}
+
+.prdctinfo_swich {
+    text-align: center;
+    background-color: #fff;
+    font-size: 0;
+
+}
+
+.swich_item-sel {
+    color: #999;
+    text-align: center;
+    display: inline-block;
+    border: 0
+}
+
+#switch-iteml {
+    border-bottom: 4px solid #00baf8;
+    color: #00baf8;
+}
+
+.weui-cell {
+    display: -webkit-box;
+    padding: 10px 15px;
+    -webkit-box-align: center;
+    -webkit-align-items: center;
+}
+
+.weui-media-box:before {
+    content: " ";
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    height: 1px;
+    color: #e5e5e5;
+    border-top: none;
+    -webkit-transform-origin: 0 0;
+    transform-origin: 0 0;
+    -webkit-transform: scaleY(.5);
+    transform: scaleY(.5);
+
+}
+
+.control_item {
+    font-size: .6rem;
+}
+
+.comment-phone {
+    color: #666;
+    font-size: .6rem;
+    display: inline-block;
+}
+
+.comment-time {
+    font-size: .6rem;
+    color: #999;
+    display: inline-block;
+    text-align: right;
+    width: 3rem;
+}
+
+.item-category {
+    background-color: #f3f6f6;
+    overflow-y: auto;
+    display: inline-block;
+    width: 130px;
+}
+
+.content_progress {
+    background-color: #f3f6f6;
+    height: 100%;
+}
+
+.package-category {
+    line-height: 1.3em;
+    text-align: center;
+    color: #999;
+    border: 1.1px solid #d9d9d9;
+    margin: 5px 5px;
+}
+
+.package-cell {
+    padding: 2px 15px;
+    position: static;
+    font-size: 13px
+}
+
+.tabbar__item_right {
+    padding-top: 0;
+    background-color: #fa444e;
+}
+
+.tabbar__item_left {
+    padding-top: 0;
+    background-color: #999;
+}
+
+.tabbar__item_font {
+    color: white;
+    line-height: 2.2rem;
+    font-size: .65rem;
+}
+.weui-tabbar__item.weui-bar__item--on .weui-tabbar__label{
+    color: #00baf8;
+}

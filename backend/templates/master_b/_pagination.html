@@ -1,25 +1,27 @@
-<nav aria-label="Page navigation">
-    <ul class="pagination">
-        {% if posts.has_previous %}
-            <li>
-                <a href="?p={{ posts.previous_page_number }}" aria-label="Previous">
-                    <span aria-hidden="true">&laquo;</span>
-                </a>
-            </li>
-        {% endif %}
-        {% for i in posts.paginator.pager_num_range %}
-            {% if i == posts.number %}
-                <li class="active"><a href="?p={{ i }}">{{ i }}</a></li>
-            {% else %}
-                <li><a href="?p={{ i }}">{{ i }}</a></li>
+{% if posts %}
+    <nav aria-label="Page navigation">
+        <ul class="pagination">
+            {% if posts.has_previous %}
+                <li>
+                    <a href="?p={{ posts.previous_page_number }}" aria-label="Previous">
+                        <span aria-hidden="true">&laquo;</span>
+                    </a>
+                </li>
             {% endif %}
-        {% endfor %}
-        {% if posts.has_next %}
-            <li>
-                <a href="?p={{ posts.next_page_number }}" aria-label="Next">
-                    <span aria-hidden="true">&raquo;</span>
-                </a>
-            </li>
-        {% endif %}
-    </ul>
-</nav>
+            {% for i in posts.paginator.pager_num_range %}
+                {% if i == posts.number %}
+                    <li class="active"><a href="?p={{ i }}">{{ i }}</a></li>
+                {% else %}
+                    <li><a href="?p={{ i }}">{{ i }}</a></li>
+                {% endif %}
+            {% endfor %}
+            {% if posts.has_next %}
+                <li>
+                    <a href="?p={{ posts.next_page_number }}" aria-label="Next">
+                        <span aria-hidden="true">&raquo;</span>
+                    </a>
+                </li>
+            {% endif %}
+        </ul>
+    </nav>
+{% endif %}

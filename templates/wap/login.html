@@ -1,0 +1,76 @@
+{% extends 'wap/base/base_weui.html' %}
+
+{% block css %}
+    <style>
+        .weui-btn_primary {
+            background-color: #00cafa;
+        }
+
+        .weui-btn_default {
+            background-color: white;
+        }
+
+        .weui-input {
+            font-size: 0.7em;
+        }
+
+        .weui-btn {
+            font-size: 13px;
+        }
+    </style>
+{% endblock %}
+
+
+{% block content %}
+    <div class="login_logo">
+        <img src="">
+    </div>
+    <form method="post" data-url="/login" id="formlogin">
+        <div class="weui-cells weui-cells_form">
+            {% csrf_token %}
+            <div class="weui-cell">
+                <div class="weui-cell__hd">
+                    <input class="weui-input" type="text" placeholder="请输入手机号" name="phone" value="">
+                </div>
+            </div>
+            <div class="weui-cell">
+                <div class="weui-cell__hd">
+                    <input class="weui-input" placeholder="请输入密码" type="password" name="password"
+                           value="">
+                </div>
+            </div>
+
+        </div>
+    </form>
+    <div class="weui-btn-area">
+        <a class="weui-btn weui-btn_primary" href="javascript:" id="showTooltips">登陆</a>
+        <a class="weui-btn weui-btn_default" href="{% url 'wap_register' %}" id="showTooltips">注册</a>
+    </div>
+    <div class="qifeng_p"><a href="{% url 'wap_findpass' %}" style="float:right;color: black;font-size: 0.8em">忘记密码？</a>
+    </div>
+
+    {% include 'wap/base/__footer.html' %}
+{% endblock %}
+
+{% block javascripts %}
+    <script src="/static/wap/js/api.js"></script>
+    <script>
+        $(function () {
+            bindClickLogin();
+        });
+        function bindClickLogin() {
+            $('#showTooltips').click(function () {
+                data = $('#formlogin').serialize();
+                api.login(data, response)
+            })
+        }
+
+        function response(data) {
+            if (data.code == 1) {
+                window.location.href = '/wap/mycenter.html'
+            } else {
+                alert(data.msg)
+            }
+        }
+    </script>
+{% endblock %}

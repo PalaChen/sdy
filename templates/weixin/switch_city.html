@@ -1,0 +1,43 @@
+{% extends 'wap/base/base.html' %}
+
+{% block title %}{% endblock %}
+{% block keyword %}{% endblock %}
+{% block description %}{% endblock %}
+
+{% block content %}
+    <div class="content">
+        <div class="content-padded">
+            <div class="row">
+
+                <div class="content-block-title">已定位城市</div>
+                <div class="list-block">
+                    <ul>
+                        <li>
+                            <div class="item-media"><i class="icon icon-f7"></i></div>
+                            <div class="item-inner">
+                                <div class="item-title">
+                                    无定位
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <div class="content-block-title">热门城市</div>
+                <div class="list-block">
+                    <ul>
+                        {% for city in city_obj %}
+                            <li>
+                                <div class="item-media"><i class="icon icon-f7"></i></div>
+                                <div class="item-inner">
+                                    <div class="item-title">
+                                        {{ city.name }}
+                                    </div>
+                                </div>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
